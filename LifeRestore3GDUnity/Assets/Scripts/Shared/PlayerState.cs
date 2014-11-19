@@ -1,0 +1,44 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class PlayerState : MonoBehaviour {
+
+	public bool v_isLinked, v_isPlayerLinked;
+	private float _linkingTimer;
+	public float v_myHP;
+
+	// Use this for initialization
+	void Start () {
+		v_myHP=500f;
+		_linkingTimer=5f;
+		v_isLinked=true;
+		v_isPlayerLinked=false;
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		Debug.Log("My HP is:" + v_myHP);
+		if(v_myHP<=0){
+			Debug.Log("I'm dead!");
+		}
+
+		if(v_myHP>=500){
+			v_myHP=500;
+		}
+
+		if(v_isLinked==false){
+			_linkingTimer -= Time.deltaTime;
+		}
+
+		if(_linkingTimer<=0){
+			_linkingTimer=5;
+			v_isLinked=true;
+
+		}
+
+		if(v_isPlayerLinked==true){
+			v_myHP+=5f;
+		
+		}
+	}
+}
