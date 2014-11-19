@@ -6,7 +6,7 @@ using XInputDotNetPure;
 public class MovementScript : MonoBehaviour {
 
 	bool playerIndexSet = false;
-	PlayerIndex playerIndex;
+	public PlayerIndex playerIndex;
 	GamePadState state;
 	GamePadState prevState;
 
