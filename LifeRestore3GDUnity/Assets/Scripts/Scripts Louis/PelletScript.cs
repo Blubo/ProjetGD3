@@ -5,8 +5,12 @@ public class PelletScript : MonoBehaviour {
 
 	private float _lifeTime=3f;
 
+	[HideInInspector]
+	public GameObject v_whoShotMe;
+
 	// Use this for initialization
 	void Start () {
+
 
 	}
 	
