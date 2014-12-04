@@ -26,7 +26,6 @@ public class LifeRestore : MonoBehaviour {
 
 	void Awake(){
 		_myPlayerState = GetComponent<PlayerState>();
-	
 	}
 
 	// Use this for initialization
@@ -127,7 +126,13 @@ public class LifeRestore : MonoBehaviour {
 					//on stocke DE QUI VIENT LA BALLE
 					_theShooterThatShotMe=collided.transform.GetComponent<PelletScript>().v_whoShotMe;
 					//on ajoute AUTANT DE FOIS QU IL NOUS TIRE DESSUS, ATTENTION!! le joueur qui nous a tiré dessus dans _myPlayerState._whoLinkedMe
-					_myPlayerState._whoLinkedMe.Add(_theShooterThatShotMe);
+					//_myPlayerState._whoLinkedMe.Add(_theShooterThatShotMe);
+
+					if(_myPlayerState._whoLinkedMe.Contains(_theShooterThatShotMe)){
+						
+					}else{
+						_myPlayerState._whoLinkedMe.Add(_theShooterThatShotMe);
+					}
 				}
 			}
 		}

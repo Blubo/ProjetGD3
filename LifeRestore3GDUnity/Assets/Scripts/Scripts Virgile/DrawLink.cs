@@ -4,10 +4,15 @@ using System.Collections;
 public class DrawLink : MonoBehaviour {
 
 	//Script pour dessiner une ligne (pour les nuls)
-
-	private Color _Red = Color.red;
+	private Color _Red = Color.green;
 	private Color _blue = Color.blue;
-	public GameObject _Player;
+
+	PlayerState _Playerlinked;
+
+
+	void Awake(){
+		_Playerlinked = GetComponent<PlayerState> ();
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -18,22 +23,34 @@ public class DrawLink : MonoBehaviour {
 		_link.material = new Material (Shader.Find ("Particles/Additive"));
 		//On peut définir les couleurs, eh oui "les"
 		//Une pour le début de la ligne et une pour la fin (sur chaque segment)
-		_link.SetColors (_Red, _blue);
+		_link.SetColors (_Red, _Red);
 		//Largeur de la ligne, moyen de la changer en gametime, neat!
-		_link.SetWidth (0.2f, 0.2f);
+		_link.SetWidth (0.5f, 0.5f);
 		//Ca c'est le nombre de vertexs par lequels la ligne va passer
 		//Dans notre cas on veut entre deux objets donc A>B = 2 vertexs. on pourra ajouter des vertexs pour "relier" d'autres objets (Array)
-		_link.SetVertexCount (2);
+		_link.SetVertexCount (0);
 		//(sais pas pourquoi cette ligne mais on fait avec)
-		_link =  gameObject.AddComponent<LineRenderer> ();
+		//_link =  gameObject.AddComponent<LineRenderer> ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	 void Update(){
 		LineRenderer _link = GetComponent<LineRenderer> ();
-		//On ne peut pas définir le point d'arrivée et de fin de la ligne à la place de ça on signal où se situe chaque point de la ligne
+
+		_link.SetVertexCount (_Playerlinked._whoLinkedMe.Count+1);
+
+		if (_Playerlinked._whoLinkedMe.Count != 0) {
+			for (int i = 0; i < _Playerlinked._whoLinkedMe.Count ; i++) {
+				if( _Playerlinked._whoLinkedMe[i] != null){
+					_link.SetPosition(i, _Playerlinked._whoLinkedMe[i].transform.position);
+				}
+				_link.SetPosition(1,gameObject.transform.position );
+			}
+		}
+
+
+	/*	//On ne peut pas définir le point d'arrivée et de fin de la ligne à la place de ça on signal où se situe chaque point de la ligne
 		//Surement moyen de faire un tableau ou un truc pour automatiser la chose
-		_link.SetPosition (0, gameObject.transform.position);
-		_link.SetPosition (1, _Player.transform.position);
+		_link.SetPosition (0, Shooter.transform.position);
+		_link.SetPosition (1, Receiver.transform.position);*/
 	}
 }

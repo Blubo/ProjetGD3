@@ -20,6 +20,8 @@ public class MovementScript : MonoBehaviour {
 	private float _DashCD;
 	private bool _StopDash;
 
+	private int _AtkDash;
+
 
 	//Delegate pour enlever et remettre 
 	//delegate void Mydelegate();
@@ -34,6 +36,8 @@ public class MovementScript : MonoBehaviour {
 		_DashCD = 0.5f;
 		_DashTimerCD = _DashCD;
 		_StopDash = false;
+
+		_AtkDash = 100;
 	}
 	
 	// Update is called once per frame
@@ -93,7 +97,18 @@ public class MovementScript : MonoBehaviour {
 		//possibilité de changer la hitbox pour faciliter le renre dedans
 		gameObject.rigidbody.mass = 500.0f;
 		gameObject.rigidbody.AddForce (new Vector3(state.ThumbSticks.Left.X * _movementSpeed , 0.0f, state.ThumbSticks.Left.Y * _movementSpeed)*1000.0f, ForceMode.Impulse);
+
 		_StopDash = true;
 		_DashTimer = _DashDuree;
+	}
+	void OnCollisionEnter (Collision _collider){
+		//Si le dash touche quelque chose alors on inflige des dommages
+		if(_StopDash == true){
+			if(_collider.gameObject.tag == "Boss"){
+				Debug.Log("atk on boss");
+				//
+				_collider.gameObject.SendMessage("TakeDamage", _AtkDash);
+			}
+		}
 	}
 }
