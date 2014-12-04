@@ -5,6 +5,7 @@ public class PelletScript : MonoBehaviour {
 
 	private float _lifeTime=3f;
 
+	//Qui a tiré cette bullet, modifié dans LifeRestore
 	[HideInInspector]
 	public GameObject v_whoShotMe;
 

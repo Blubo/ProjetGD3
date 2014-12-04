@@ -22,6 +22,7 @@ public class PlayerState : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		//Debug.Log("My HP is:" + v_myHP);
 		if(v_myHP<=0){
 			Debug.Log("I'm dead!");
