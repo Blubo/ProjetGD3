@@ -7,11 +7,10 @@ public class DrawLink : MonoBehaviour {
 	private Color _Red = Color.green;
 	private Color _blue = Color.blue;
 
-	PlayerState _Playerlinked;
-
+	private Shoot _shooter;
 
 	void Awake(){
-		_Playerlinked = GetComponent<PlayerState> ();
+		_shooter = GetComponent<Shoot> ();
 	}
 
 	// Use this for initialization
@@ -28,7 +27,7 @@ public class DrawLink : MonoBehaviour {
 		_link.SetWidth (0.5f, 0.5f);
 		//Ca c'est le nombre de vertexs par lequels la ligne va passer
 		//Dans notre cas on veut entre deux objets donc A>B = 2 vertexs. on pourra ajouter des vertexs pour "relier" d'autres objets (Array)
-		_link.SetVertexCount (0);
+		_link.SetVertexCount (2);
 		//(sais pas pourquoi cette ligne mais on fait avec)
 		//_link =  gameObject.AddComponent<LineRenderer> ();
 	}
@@ -36,21 +35,9 @@ public class DrawLink : MonoBehaviour {
 	 void Update(){
 		LineRenderer _link = GetComponent<LineRenderer> ();
 
-		_link.SetVertexCount (_Playerlinked._whoLinkedMe.Count+1);
-
-		if (_Playerlinked._whoLinkedMe.Count != 0) {
-			for (int i = 0; i < _Playerlinked._whoLinkedMe.Count ; i++) {
-				if( _Playerlinked._whoLinkedMe[i] != null){
-					_link.SetPosition(i, _Playerlinked._whoLinkedMe[i].transform.position);
-				}
-				_link.SetPosition(1,gameObject.transform.position );
-			}
-		}
-
-
-	/*	//On ne peut pas définir le point d'arrivée et de fin de la ligne à la place de ça on signal où se situe chaque point de la ligne
+		//On ne peut pas définir le point d'arrivée et de fin de la ligne à la place de ça on signal où se situe chaque point de la ligne
 		//Surement moyen de faire un tableau ou un truc pour automatiser la chose
-		_link.SetPosition (0, Shooter.transform.position);
-		_link.SetPosition (1, Receiver.transform.position);*/
+		_link.SetPosition (0, transform.position);
+		_link.SetPosition (1, _shooter._target.transform.position);
 	}
 }
