@@ -17,6 +17,7 @@ public class BossBehavior : MonoBehaviour {
 		_playstate = GetComponent<Boss_Playstate> ();
 		_animator = GetComponent<Animator> ();
 		//_Agent = GetComponent<NavMeshAgent> ();
+		//_playstate._allChildrenRenderer=_playstate.GetComponentsInChildren<Renderer>();
 	}
 	
 	// Update is called once per frame
@@ -40,9 +41,19 @@ public class BossBehavior : MonoBehaviour {
 	}
 
 	IEnumerator Rougissement(){
+//		foreach(Renderer rEenderer in _playstate._allChildrenRenderer){
+//			rEenderer.material.color =new Color(1f, 0f, 0f, 1f);
+//			//renderer.material.color =new Color(1f, 0f, 0f, 1f);
+//			yield return new WaitForSeconds(0.2f);
+//			rEenderer.material.color  =new Color(1f, 1f, 1f, 1f);
+//			//renderer.material.color  =new Color(1f, 1f, 1f, 1f);
+//			yield return 0;
+//		}
 		renderer.material.color =new Color(1f, 0f, 0f, 1f);
+		//renderer.material.color =new Color(1f, 0f, 0f, 1f);
 		yield return new WaitForSeconds(0.2f);
 		renderer.material.color  =new Color(1f, 1f, 1f, 1f);
+		//renderer.material.color  =new Color(1f, 1f, 1f, 1f);
 		yield return 0;
 	}
 

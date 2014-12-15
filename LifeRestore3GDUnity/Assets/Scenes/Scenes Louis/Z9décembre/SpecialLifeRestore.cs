@@ -4,7 +4,7 @@ using XInputDotNetPure;
 
 //l'idée: je tire une pilule sur qqch. si c'est un autre joueur, ca crée lien
 
-public class LifeRestore : MonoBehaviour {
+public class SpecialLifeRestore : MonoBehaviour {
 	
 	bool playerIndexSet = false;
 	public PlayerIndex playerIndex;
@@ -43,18 +43,9 @@ public class LifeRestore : MonoBehaviour {
 
 		if(_timer>=1.5f){
 			if(state.ThumbSticks.Right.X >0.5 || state.ThumbSticks.Right.X <-0.5||state.ThumbSticks.Right.Y >0.5||state.ThumbSticks.Right.Y<-0.5){
-//				if(prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed){
-//					Shoot();
-//				}
-
-				if(prevState.Buttons.RightShoulder == ButtonState.Released && state.Buttons.RightShoulder == ButtonState.Pressed){
+				if(prevState.Triggers.Right== 0 && state.Triggers.Right != 0){
 					Shoot();
 				}
-
-//				if(prevState.Triggers.Right== 0 && state.Triggers.Right != 0){
-//					Shoot();
-//
-//				}
 			}
 		}
 
@@ -106,7 +97,7 @@ public class LifeRestore : MonoBehaviour {
 			Rigidbody rb = newBullet.GetComponent<Rigidbody>();
 			
 			//on stocke dans la bullet meme quel objet l'a tirée
-			newBullet.GetComponent<PelletScript>().v_whoShotMe=gameObject;
+			newBullet.GetComponent<SpecialPelletScript>().v_whoShotMe=gameObject;
 			
 			if (rb != null){
 				rb.AddForce(_temp*_SpeedBullet);

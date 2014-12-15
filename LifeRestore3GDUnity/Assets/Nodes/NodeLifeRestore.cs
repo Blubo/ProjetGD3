@@ -4,7 +4,7 @@ using XInputDotNetPure;
 
 //l'idée: je tire une pilule sur qqch. si c'est un autre joueur, ca crée lien
 
-public class LifeRestore : MonoBehaviour {
+public class NodeLifeRestore : MonoBehaviour {
 	
 	bool playerIndexSet = false;
 	public PlayerIndex playerIndex;

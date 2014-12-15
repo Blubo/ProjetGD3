@@ -8,7 +8,7 @@ public class ArrowFollow : MonoBehaviour {
 	public float v_movementSpeed;
 	private float _rightStickX, _rightStickY;
 	private Vector3 previousVectorMov, previousVectorRot;
-	private Quaternion _oldRot;
+	private Color _flecheColor;
 
 
 	public PlayerIndex playerIndex;
@@ -18,12 +18,17 @@ public class ArrowFollow : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		_oldRot=this.transform.rotation;
+		_flecheColor=Color.blue;
+
+		_flecheColor.a= 0.1f;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
+		gameObject.GetComponentInChildren<Renderer>().material.color=_flecheColor;
+
 		prevState = state;
 		state = GamePad.GetState(playerIndex);
 
@@ -36,14 +41,15 @@ public class ArrowFollow : MonoBehaviour {
 	
 //		si je vise pas
 //		if(state.ThumbSticks.Right.X==0 && state.ThumbSticks.Right.Y==0){
-//			this.transform.rotation = _oldRot;
 //		}
-		if(state.ThumbSticks.Right.X!=0 && state.ThumbSticks.Right.Y!=0){
-			Vector3 player_pos = Camera.main.WorldToScreenPoint(this.transform.position);
-
+		if(state.ThumbSticks.Right.X!=0 || state.ThumbSticks.Right.Y!=0){
+		//if(state.ThumbSticks.Right.X!=0 && state.ThumbSticks.Right.Y!=0){
+			//Vector3 player_pos = Camera.main.WorldToScreenPoint(this.transform.position);
+			_flecheColor.a=1f;
 			float angle = Mathf.Atan2 (_rightStickY, _rightStickX) * Mathf.Rad2Deg;
 			this.transform.rotation = Quaternion.Euler (new Vector3(0, -angle, 0));
-			//_oldRot = this.transform.rotation;
+		}else{
+			_flecheColor.a=0.1f;
 		}
 
 	}

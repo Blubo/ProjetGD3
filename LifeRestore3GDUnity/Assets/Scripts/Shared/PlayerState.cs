@@ -6,7 +6,7 @@ public class PlayerState : MonoBehaviour {
 
 	public bool v_isLinked, v_isPlayerLinked;
 	private float _linkingTimer;
-	public float v_myHP;
+	public float v_myHP, v_myPoints, v_myVisibleHP;
 
 	[HideInInspector]
 	//public GameObject[] _whoILinked, _whoLinkedMe;
@@ -47,7 +47,8 @@ public class PlayerState : MonoBehaviour {
 
 		if(v_isPlayerLinked==true){
 			v_myHP+=5*Time.deltaTime;
-		
 		}
+
+		v_myVisibleHP=Mathf.CeilToInt(v_myHP);
 	}
 }
