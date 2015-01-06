@@ -2,67 +2,92 @@
 using System.Collections;
 using XInputDotNetPure;
 
-
-public class MovementScript : MonoBehaviour {
+public class MovementScript5Janv : MonoBehaviour {
 
 	bool playerIndexSet = false;
 	public PlayerIndex playerIndex;
 	GamePadState state;
 	GamePadState prevState;
-
+	
 	public float v_movementSpeed, v_dashConstant;
-
+	
 	//Dash 
 	private float _DashTimer;
 	private float _DashTimerCD;
 
+	//rotation
+	private float _rightStickX, _rightStickY;
+	private Vector3 previousVectorMov, previousVectorRot;
+	
 	private float _DashDuree;
 	private float _DashCD;
 	private bool _StopDash;
-
+	
 	private int _AtkDash;
-
-
+	
+	
 	//Delegate pour enlever et remettre 
 	//delegate void Mydelegate();
 	//Mydelegate Actions ;
-
+	
 	// Use this for initialization
 	void Start () {
 		//_movementSpeed=10f;
-
+		
 		_DashDuree = 0.3f;
 		_DashTimer = _DashDuree;
 		_DashCD = 0.5f;
 		_DashTimerCD = _DashCD;
 		_StopDash = false;
-
+		
 		_AtkDash = 100;
 	}
 	
 	// Update is called once per frame
+	void Update () {
+		prevState = state;
+		state = GamePad.GetState(playerIndex);
+		
+		Vector3 _temp = new Vector3(state.ThumbSticks.Right.X, 0 ,state.ThumbSticks.Right.Y);
+		
+		_rightStickX=state.ThumbSticks.Right.X;
+		_rightStickY=state.ThumbSticks.Right.Y;
+		
+		//http://blog.rastating.com/creating-a-2d-rotating-aim-assist-in-unity/
+		
+		//		si je vise pas
+		//		if(state.ThumbSticks.Right.X==0 && state.ThumbSticks.Right.Y==0){
+		//		}
+		if(state.ThumbSticks.Right.X!=0 || state.ThumbSticks.Right.Y!=0){
+			//if(state.ThumbSticks.Right.X!=0 && state.ThumbSticks.Right.Y!=0){
+			//Vector3 player_pos = Camera.main.WorldToScreenPoint(this.transform.position);
+			float angle = Mathf.Atan2 (_rightStickY, _rightStickX) * Mathf.Rad2Deg;
+			this.transform.rotation = Quaternion.Euler (new Vector3(0, -angle, 0));
+		}
+	}
+
 	void FixedUpdate () {
 		//Timer du CD du dash qui décroit 
 		if(_DashTimer> -1.0f){_DashTimer -= 1.0f*Time.deltaTime;}
 		if(_DashTimerCD> -1.0f){_DashTimerCD -= 1.0f*Time.deltaTime;}
-
-//		if (!playerIndexSet || !prevState.IsConnected)
-//		{
-//			for (int i = 0; i < 4; ++i)
-//			{
-//				PlayerIndex testPlayerIndex = (PlayerIndex)i;
-//				GamePadState testState = GamePad.GetState(testPlayerIndex);
-//				if (testState.IsConnected)
-//				{
-//					Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
-//					playerIndex = testPlayerIndex;
-//					playerIndexSet = true;
-//				}
-//			}
-//		}
+		
+		//		if (!playerIndexSet || !prevState.IsConnected)
+		//		{
+		//			for (int i = 0; i < 4; ++i)
+		//			{
+		//				PlayerIndex testPlayerIndex = (PlayerIndex)i;
+		//				GamePadState testState = GamePad.GetState(testPlayerIndex);
+		//				if (testState.IsConnected)
+		//				{
+		//					Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
+		//					playerIndex = testPlayerIndex;
+		//					playerIndexSet = true;
+		//				}
+		//			}
+		//		}
 		prevState = state;
 		state = GamePad.GetState(playerIndex);
-
+		
 		//Ajout d'un rigidbody
 		if(rigidbody == null){
 			gameObject.AddComponent<Rigidbody>();
@@ -92,16 +117,17 @@ public class MovementScript : MonoBehaviour {
 		
 		Vector3 movement = new Vector3(state.ThumbSticks.Left.X * v_movementSpeed * Time.deltaTime, 0.0f, state.ThumbSticks.Left.Y * v_movementSpeed * Time.deltaTime );
 		transform.localPosition += movement;
-		
-		transform.eulerAngles=new Vector3(0,0,transform.eulerAngles.z);
-	}
 
+		//ligne mise en commentaire pour pas niquer l'orientation par rapport au stick droit
+		//transform.eulerAngles=new Vector3(0,0,transform.eulerAngles.z);
+	}
+	
 	//Action de dash 
 	void Dash(){
 		//possibilité de changer la hitbox pour faciliter le renre dedans
 		gameObject.rigidbody.mass = 500.0f;
 		gameObject.rigidbody.AddForce (new Vector3(state.ThumbSticks.Left.X * v_movementSpeed , 0.0f, state.ThumbSticks.Left.Y * v_movementSpeed)*v_dashConstant, ForceMode.Impulse);
-
+		
 		_StopDash = true;
 		_DashTimer = _DashDuree;
 	}
