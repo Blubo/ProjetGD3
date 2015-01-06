@@ -37,7 +37,9 @@ public class DrawLink : MonoBehaviour {
 
 		//On ne peut pas définir le point d'arrivée et de fin de la ligne à la place de ça on signal où se situe chaque point de la ligne
 		//Surement moyen de faire un tableau ou un truc pour automatiser la chose
-		_link.SetPosition (0, transform.position);
-		_link.SetPosition (1, _shooter._target.transform.position);
+		if(_shooter._target != null){
+			_link.SetPosition (0, transform.position);
+			_link.SetPosition (1, _shooter._target.transform.position);
+		}
 	}
 }
