@@ -2,6 +2,7 @@
 using System.Collections;
 using XInputDotNetPure;
 
+
 public class MovementScript5Janv : MonoBehaviour {
 
 	bool playerIndexSet = false;
@@ -15,16 +16,15 @@ public class MovementScript5Janv : MonoBehaviour {
 	private float _DashTimer;
 	private float _DashTimerCD;
 
-	//rotation
-	private float _rightStickX, _rightStickY;
-	private Vector3 previousVectorMov, previousVectorRot;
-	
 	private float _DashDuree;
 	private float _DashCD;
 	private bool _StopDash;
 	
 	private int _AtkDash;
-	
+
+	//rotation
+	private float _rightStickX, _rightStickY;
+	private Vector3 previousVectorMov, previousVectorRot;
 	
 	//Delegate pour enlever et remettre 
 	//delegate void Mydelegate();
@@ -47,7 +47,8 @@ public class MovementScript5Janv : MonoBehaviour {
 	void Update () {
 		prevState = state;
 		state = GamePad.GetState(playerIndex);
-		
+
+		//orientation
 		Vector3 _temp = new Vector3(state.ThumbSticks.Right.X, 0 ,state.ThumbSticks.Right.Y);
 		
 		_rightStickX=state.ThumbSticks.Right.X;
@@ -62,7 +63,7 @@ public class MovementScript5Janv : MonoBehaviour {
 			//if(state.ThumbSticks.Right.X!=0 && state.ThumbSticks.Right.Y!=0){
 			//Vector3 player_pos = Camera.main.WorldToScreenPoint(this.transform.position);
 			float angle = Mathf.Atan2 (_rightStickY, _rightStickX) * Mathf.Rad2Deg;
-			this.transform.rotation = Quaternion.Euler (new Vector3(0, -angle, 0));
+			this.transform.rotation = Quaternion.Euler (new Vector3(0, -angle+90, 0));
 		}
 	}
 
@@ -92,6 +93,7 @@ public class MovementScript5Janv : MonoBehaviour {
 		if(rigidbody == null){
 			gameObject.AddComponent<Rigidbody>();
 			gameObject.rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX|RigidbodyConstraints.FreezeRotationZ;
+//			gameObject.rigidbody.isKinematic=true;
 			gameObject.rigidbody.drag=3.0f;
 			//gameObject.rigidbody.collisionDetectionMode=CollisionDetectionMode.Continuous;
 		}

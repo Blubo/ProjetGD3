@@ -12,6 +12,6 @@ public class LinkStrenght : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (_LinkCommited);
+		Debug.Log ("link commited "+ _LinkCommited);
 	}
 }

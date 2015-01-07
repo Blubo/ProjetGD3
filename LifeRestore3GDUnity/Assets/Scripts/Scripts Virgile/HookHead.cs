@@ -18,6 +18,7 @@ public class HookHead : MonoBehaviour {
 			if(_Collided.gameObject.tag == "Player"){
 				LinkStrenght _Linkcommited = _Collided.gameObject.GetComponent<LinkStrenght>();
 				_Linkcommited._LinkCommited += 1;
+				Debug.Log("why??");
 			}
 			_HaveChild = true;
 		}

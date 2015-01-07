@@ -11,13 +11,9 @@ public class GrappleComebackLouis5Janv : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
 		if(_myShooter!=null){
 			_myShooterInitPos=_myShooter.transform.position;
-
 		}
-		//gameObject.transform.Find("Maillon8").GetComponent<SpringJoint>().connectedBody=_myShooter.rigidbody;
-
 	}
 	
 	// Update is called once per frame
@@ -37,11 +33,6 @@ public class GrappleComebackLouis5Janv : MonoBehaviour {
 				gameObject.rigidbody.AddForce((_myShooterPos-gameObject.transform.position)*_myShooter.GetComponent<ShootHookLouis5Janv>()._SpeedBullet*v_returnSpeedConst);
 			}
 
-	//		if(gameObject.transform.position==_myShooterPos && shouldIReturn==true){
-	//			Debug.Log("im here");
-	//			Destroy(gameObject);
-	//		}
-
 			//ce 5 est rentré en dur, et correspond au rayon de l'avatar, soit quand détruire le lien quand il revient.
 			if(Vector3.Distance(gameObject.transform.position, _myShooterPos)<=4f && shouldIReturn==true){
 				Destroy(gameObject.transform.Find("B 5Janv"));
@@ -50,19 +41,11 @@ public class GrappleComebackLouis5Janv : MonoBehaviour {
 		}
 	}
 
-//	void OnCollisionEnter(Collision collision){
-//		shouldIReturn=true;
-////		if(collision.gameObject==_myShooter){
-////			Destroy(gameObject);
-////		}
-//	}
-
-//	void OnTriggerEnter(Collider collision){
-//		if(collision.gameObject!=_myShooter){
-//			Debug.Log("heyyy");
-//			shouldIReturn=true;
-//		}
-//	}
+	void OnTriggerEnter(Collider collider){
+		if(collider.gameObject != _myShooter){
+			Debug.Log("touched something");
+		}
+	}
 
 	void OnCollisionEnter(Collision collision){
 		if(collision.gameObject==_myShooter){

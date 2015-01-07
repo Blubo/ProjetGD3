@@ -9,9 +9,9 @@ public class InTheMiddle5Janv : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-//		if(v_C.GetComponent<GrappleComebackLouis5Janv>()._myShooter!=null){
-			v_A=v_C.GetComponent<GrappleComebackLouis5Janv>()._myShooter;
-//		}
+//		v_A=v_C.GetComponent<GrappleComebackLouis5Janv>()._myShooter;
+		v_A=v_C.GetComponent<NewHookHead>()._myShooter;
+
 	}
 	
 	// Update is called once per frame
@@ -20,19 +20,19 @@ public class InTheMiddle5Janv : MonoBehaviour {
 		Vector3 anchorOnCircle = v_C.transform.position-v_A.transform.position;
 		anchorOnCircle.Normalize();
 		anchorOnCircle = v_A.transform.position + anchorOnCircle*4f;
+
 		Debug.DrawRay(anchorOnCircle, Vector3.up);
 
-//		gameObject.transform.position = (v_A.transform.position+ v_C.transform.position)/2;
-		gameObject.transform.position = (anchorOnCircle+ v_C.transform.position)/2;
+		//SWITCH THE COMMENTS ON THE TWO NEXT LINES FOR MANAGING THE WIDTH OF THE AVATAR
+		gameObject.transform.position = (v_A.transform.position+ v_C.transform.position)/2;
+//		gameObject.transform.position = (anchorOnCircle+ v_C.transform.position)/2;
 
 		gameObject.transform.LookAt(v_C.transform);
-//		_scale = new Vector3(gameObject.transform.localScale.x, gameObject.transform.localScale.y, Vector3.Distance(v_A.transform.position, v_C.transform.position));
-		_scale = new Vector3(gameObject.transform.localScale.x, gameObject.transform.localScale.y, Vector3.Distance(anchorOnCircle, v_C.transform.position));
 
-//		_scale = new Vector3(Vector3.Distance(v_A.transform.position, v_C.transform.position), Vector3.Distance(v_A.transform.position, v_C.transform.position), Vector3.Distance(v_A.transform.position, v_C.transform.position));
-//		_scale = new Vector3(Vector3.Distance(v_A.transform.position, v_C.transform.position), gameObject.transform.localScale.y, Vector3.Distance(v_A.transform.position, v_C.transform.position));
+		//SWITCH THE COMMENTS ON THE TWO NEXT LINES FOR MANAGING THE WIDTH OF THE AVATAR
+		_scale = new Vector3(gameObject.transform.localScale.x, gameObject.transform.localScale.y, Vector3.Distance(v_A.transform.position, v_C.transform.position)/2);
+//		_scale = new Vector3(gameObject.transform.localScale.x, gameObject.transform.localScale.y, Vector3.Distance(anchorOnCircle, v_C.transform.position));
 
 		gameObject.transform.localScale=_scale;
-		//gameObject.transform.localScale.z = Vector3.Distance(v_A.transform.position, v_C.transform.position);
 	}
 }
