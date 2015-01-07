@@ -76,7 +76,7 @@ public class MovementScript : MonoBehaviour {
 			Movement ();
 			gameObject.rigidbody.mass = 1.0f;
 		}
-		if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed) {
+		/*if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed) {
 			if(_DashTimerCD <= 0.0f){
 				//Durant le dash on peut faire des tests colliders pour envoyer les gens plus loin, arreter le dash avant son intérgité etc.
 				Dash ();
@@ -85,7 +85,7 @@ public class MovementScript : MonoBehaviour {
 			}else {
 				//Debug.Log("dash non dispo");
 			}
-		}
+		}*/
 	}
 	//Movement de Base avec joystick
 	void Movement(){
