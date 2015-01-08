@@ -3,6 +3,7 @@ using System.Collections;
 
 public class LinkStrenght : MonoBehaviour {
 
+	[HideInInspector]
 	public int _LinkCommited;
 
 	// Use this for initialization
@@ -12,6 +13,6 @@ public class LinkStrenght : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log ("link commited "+ _LinkCommited);
+//		Debug.Log ("link commited "+ _LinkCommited);
 	}
 }

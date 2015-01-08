@@ -33,7 +33,10 @@ public class NewHookHead : MonoBehaviour {
 
 			if (_HaveChild == false){
 				gameObject.rigidbody.velocity = Vector3.zero;
-				_myShooter.GetComponent<NewShoot>()._Hookheadplaced=true;
+				//_myShooter.GetComponent<NewShoot>()._Hookheadplaced=true;
+//				if(howWasIShot==1)_myShooter.GetComponent<NewShoot>()._target=_Collided.gameObject;
+//				if(howWasIShot==2)_myShooter.GetComponent<NewShoot>()._target1=_Collided.gameObject;
+
 				_myShooter.GetComponent<NewShoot>()._target=_Collided.gameObject;
 				GrappedTo = _Collided.gameObject;
 				if(_Collided.gameObject.tag == "Player"){

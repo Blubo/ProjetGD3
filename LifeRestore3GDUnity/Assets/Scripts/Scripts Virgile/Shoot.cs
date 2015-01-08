@@ -144,7 +144,7 @@ public class Shoot : MonoBehaviour {
 	void DetachLink(int _Todestroy){
 		//Grappin 1
 		if(_Todestroy == 0){
-			Destroy(_target);
+			if(_target != null)Destroy(_target);
 			if(_HookHeadbehavior.GrappedTo.gameObject.tag != "Player"){
 				Destroy (_HookHeadbehavior.GrappedTo.gameObject.rigidbody);
 			}
@@ -154,7 +154,7 @@ public class Shoot : MonoBehaviour {
 		}
 		//grappin 2
 		if(_Todestroy == 1){
-			Destroy(_target1);
+			if(_target1 != null)Destroy(_target1);
 			if(_HookHeadbehavior.GrappedTo.gameObject.tag != "Player"){
 				Destroy (_HookHeadbehavior.GrappedTo.gameObject.rigidbody);
 			}
@@ -164,8 +164,8 @@ public class Shoot : MonoBehaviour {
 		}
 		//Tous grappins
 		if(_Todestroy == 2){
-			Destroy(_target);
-			Destroy(_target1);
+			if(_target != null)Destroy(_target);
+			if(_target1 != null)Destroy(_target1);
 			if(_HookHeadbehavior.GrappedTo.gameObject.tag != "Player"){
 				Destroy (_HookHeadbehavior.GrappedTo.gameObject.rigidbody);
 			}

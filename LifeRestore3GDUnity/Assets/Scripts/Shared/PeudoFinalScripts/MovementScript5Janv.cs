@@ -42,31 +42,8 @@ public class MovementScript5Janv : MonoBehaviour {
 		
 		_AtkDash = 100;
 	}
-	
+
 	// Update is called once per frame
-	void Update () {
-		prevState = state;
-		state = GamePad.GetState(playerIndex);
-
-		//orientation
-		Vector3 _temp = new Vector3(state.ThumbSticks.Right.X, 0 ,state.ThumbSticks.Right.Y);
-		
-		_rightStickX=state.ThumbSticks.Right.X;
-		_rightStickY=state.ThumbSticks.Right.Y;
-		
-		//http://blog.rastating.com/creating-a-2d-rotating-aim-assist-in-unity/
-		
-		//		si je vise pas
-		//		if(state.ThumbSticks.Right.X==0 && state.ThumbSticks.Right.Y==0){
-		//		}
-		if(state.ThumbSticks.Right.X!=0 || state.ThumbSticks.Right.Y!=0){
-			//if(state.ThumbSticks.Right.X!=0 && state.ThumbSticks.Right.Y!=0){
-			//Vector3 player_pos = Camera.main.WorldToScreenPoint(this.transform.position);
-			float angle = Mathf.Atan2 (_rightStickY, _rightStickX) * Mathf.Rad2Deg;
-			this.transform.rotation = Quaternion.Euler (new Vector3(0, -angle+90, 0));
-		}
-	}
-
 	void FixedUpdate () {
 		//Timer du CD du dash qui décroit 
 		if(_DashTimer> -1.0f){_DashTimer -= 1.0f*Time.deltaTime;}
@@ -92,8 +69,9 @@ public class MovementScript5Janv : MonoBehaviour {
 		//Ajout d'un rigidbody
 		if(rigidbody == null){
 			gameObject.AddComponent<Rigidbody>();
-			gameObject.rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX|RigidbodyConstraints.FreezeRotationZ;
-//			gameObject.rigidbody.isKinematic=true;
+//			gameObject.rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX|RigidbodyConstraints.FreezeRotationZ;
+			gameObject.rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+
 			gameObject.rigidbody.drag=3.0f;
 			//gameObject.rigidbody.collisionDetectionMode=CollisionDetectionMode.Continuous;
 		}
@@ -103,20 +81,45 @@ public class MovementScript5Janv : MonoBehaviour {
 			Movement ();
 			gameObject.rigidbody.mass = 1.0f;
 		}
-		if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed) {
-			if(_DashTimerCD <= 0.0f){
-				//Durant le dash on peut faire des tests colliders pour envoyer les gens plus loin, arreter le dash avant son intérgité etc.
-				Dash ();
-				//AR = (state.ThumbSticks.Left.X * _movementSpeed , 0.0f, state.ThumbSticks.Left.Y * _movementSpeed );
-				_DashTimerCD =_DashCD;
-			}else {
-				//Debug.Log("dash non dispo");
-			}
+//		if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed) {
+//			if(_DashTimerCD <= 0.0f){
+//				//Durant le dash on peut faire des tests colliders pour envoyer les gens plus loin, arreter le dash avant son intérgité etc.
+//				Dash ();
+//				//AR = (state.ThumbSticks.Left.X * _movementSpeed , 0.0f, state.ThumbSticks.Left.Y * _movementSpeed );
+//				_DashTimerCD =_DashCD;
+//			}else {
+//				//Debug.Log("dash non dispo");
+//			}
+//		}
+	}
+
+	// Update is called once per frame
+	void Update () {
+		prevState = state;
+		state = GamePad.GetState(playerIndex);
+		
+		//orientation
+		Vector3 _temp = new Vector3(state.ThumbSticks.Right.X, 0 ,state.ThumbSticks.Right.Y);
+		
+		_rightStickX=state.ThumbSticks.Right.X;
+		_rightStickY=state.ThumbSticks.Right.Y;
+		
+		//http://blog.rastating.com/creating-a-2d-rotating-aim-assist-in-unity/
+		
+		//		si je vise pas
+		//		if(state.ThumbSticks.Right.X==0 && state.ThumbSticks.Right.Y==0){
+		//		}
+		if(state.ThumbSticks.Right.X!=0 || state.ThumbSticks.Right.Y!=0){
+			//if(state.ThumbSticks.Right.X!=0 && state.ThumbSticks.Right.Y!=0){
+			//Vector3 player_pos = Camera.main.WorldToScreenPoint(this.transform.position);
+			float angle = Mathf.Atan2 (_rightStickY, _rightStickX) * Mathf.Rad2Deg;
+			this.transform.rotation = Quaternion.Euler (new Vector3(0, -angle+90, 0));
 		}
 	}
+
 	//Movement de Base avec joystick
 	void Movement(){
-		
+		//un joueur attiré peut se déplacer librement vu que ces déplacement ne dépendent pas de la force
 		Vector3 movement = new Vector3(state.ThumbSticks.Left.X * v_movementSpeed * Time.deltaTime, 0.0f, state.ThumbSticks.Left.Y * v_movementSpeed * Time.deltaTime );
 		transform.localPosition += movement;
 

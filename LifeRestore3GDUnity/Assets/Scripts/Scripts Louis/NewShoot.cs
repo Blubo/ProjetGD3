@@ -21,7 +21,7 @@ public class NewShoot : MonoBehaviour {
 	public  GameObject _target, _target1;
 	//Bool pour permettre déplacement towards
 	[HideInInspector]
-	public bool _Hookheadplaced;
+	//public bool _Hookheadplaced;
 	private bool _Dashing;
 	private MovementScript _movement;
 	private DrawLink _link;
@@ -32,7 +32,7 @@ public class NewShoot : MonoBehaviour {
 
 	void Awake(){
 		_myPlayerState = GetComponent<PlayerState>();
-		_Hookheadplaced = false;
+		//_Hookheadplaced = false;
 		_Dashing = false;
 		_movement = GetComponent<MovementScript> ();
 		_link = GetComponent<DrawLink>();
@@ -51,31 +51,29 @@ public class NewShoot : MonoBehaviour {
 		}
 
 		//si la tete de grappin posée alors
-		if (_Hookheadplaced) {
-			if (_renderer !=null){
-				_renderer.enabled = true;
-			}
-			CreateHook();
-			
-			//Attirer
+//		if (_Hookheadplaced) {
+//			if (_renderer !=null){
+//				_renderer.enabled = true;
+//			}
+//			CreateHook();
+//			
+//			//Attirer
 			if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
 				PullTowardsPlayer(_target);
 			}
-		}else{
-			_link.enabled = false;
-			if (_renderer !=null && _target == null){
-				_renderer.enabled = false;
-				_link.enabled = false;
-			}
-		}
+//		}else{
+//			_link.enabled = false;
+//			if (_renderer !=null && _target == null){
+//				_renderer.enabled = false;
+//				_link.enabled = false;
+//			}
+//		}
 	}
 	// Update is called once per frame
 	void Update () {
 		if(prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed){
 			Destroy(_myHook);
 		}
-
-		Debug.Log("my target is "+_target);
 		prevState = state;
 		state = GamePad.GetState(playerIndex);
 
@@ -115,7 +113,7 @@ public class NewShoot : MonoBehaviour {
 //		}
 
 		if(_target == null){
-			_Hookheadplaced = false;
+			//_Hookheadplaced = false;
 		}
 	}
 
@@ -170,7 +168,7 @@ public class NewShoot : MonoBehaviour {
 			//on enlève l'enfant et détruis le grappin 
 			DetachChildren();
 			//Moyen d'en faire une fonction pour randre ça plus propre
-			_Hookheadplaced = false;
+			//_Hookheadplaced = false;
 			_renderer.enabled = false;
 			_movement.enabled = true;
 		}
@@ -181,10 +179,11 @@ public class NewShoot : MonoBehaviour {
 //		_myHook.transform.position = Vector3.MoveTowards (_target.transform.position,transform.position,(_Force)*Time.deltaTime);
 		_target.transform.position = Vector3.MoveTowards (_target.transform.position,transform.position,(_thisForce)*Time.deltaTime);
 		_myHook.transform.position = Vector3.MoveTowards (_myHook.transform.position,transform.position,(_thisForce)*Time.deltaTime);
+
 		if(Vector3.Distance(transform.position, _target.transform.position)<1.0f){
 			DetachChildren();
 			//Moyen d'en faire une fonction pour randre ça plus propre
-			_Hookheadplaced = false;
+			//_Hookheadplaced = false;
 			_renderer.enabled = false;
 			_movement.enabled = true;
 		}
