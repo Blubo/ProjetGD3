@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class HookHeadF : MonoBehaviour {
@@ -46,8 +46,10 @@ public class HookHeadF : MonoBehaviour {
 	} 
 	
 	void OnTriggerEnter(Collider _Collided){
-		if(_Collided.gameObject != _myShooter && _Collided.gameObject.name!="NewHookhead(Clone)" && _Collided.gameObject.name!="B 5Janv"){
+		if(_Collided.gameObject != _myShooter && _Collided.gameObject!= _myShooter.transform.Find("ApparenceAvatar").gameObject && _Collided.gameObject.name!="NewHookhead(Clone)" && _Collided.gameObject.name!="B 5Janv"){
 //		if(_Collided.gameObject != _myShooter && _Collided.gameObject.name!="Tete(Clone)" && _Collided.gameObject.name!="Lien"){
+
+			Debug.Log("son nom est "+_Collided.name);
 
 			if (GrappedTo == null){
 				GrappedTo = _Collided.gameObject;
@@ -75,7 +77,7 @@ public class HookHeadF : MonoBehaviour {
 
 				if(_Collided.gameObject.tag == "Player"){
 					//ET SI CE N EST PAS MOI
-					LinkStrenght _Linkcommited = _Collided.gameObject.GetComponent<LinkStrenght>();
+					LinkStrenght _Linkcommited = _Collided.gameObject.transform.parent.gameObject.GetComponent<LinkStrenght>();
 					_Linkcommited._LinkCommited += 1;
 					
 				}
@@ -142,7 +144,7 @@ public class HookHeadF : MonoBehaviour {
 					Vector3 whereShouldIGo = _myShooterPos-gameObject.transform.position;
 					whereShouldIGo.Normalize();
 					//					gameObject.rigidbody.AddForce((_myShooterPos-gameObject.transform.position)*_myShooter.GetComponent<ShootF>()._SpeedBullet*v_returnSpeedConst);
-					gameObject.rigidbody.AddForce(whereShouldIGo*_myShooter.GetComponent<ShootF>()._SpeedBullet*v_returnSpeedConst);
+					gameObject.rigidbody.AddForce(whereShouldIGo*_myShooter.GetComponent<ShootF>().v_SpeedBullet*v_returnSpeedConst);
 					
 				}
 			}

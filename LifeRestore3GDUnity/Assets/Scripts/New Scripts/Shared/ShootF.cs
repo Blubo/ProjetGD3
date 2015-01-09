@@ -14,11 +14,13 @@ public class ShootF : MonoBehaviour {
 	private HookHead _HookHeadbehavior,_HookHeadbehavior1;
 
 	private float _timer = 1.5f, _timer1 = 1.5f;
-	public float _SpeedBullet;
+	public float v_SpeedBullet, v_coolDown;
 
 	//tete du grappin
-	public GameObject _HookHead, _myHook, _myHook1;
-	public  GameObject _target, _target1;
+	public GameObject _HookHead;
+
+	[HideInInspector]
+	public  GameObject _target, _target1, _myHook, _myHook1;
 	//Bool pour permettre déplacement towards
 	private bool _Dashing;
 
@@ -54,7 +56,7 @@ public class ShootF : MonoBehaviour {
 		//décrémenter
 		//tir droit 
 		_timer += 1 *Time.deltaTime;
-		if(_timer>=1.5f){
+		if(_timer>=v_coolDown){
 			if(state.ThumbSticks.Right.X >0.5 || state.ThumbSticks.Right.X <-0.5||state.ThumbSticks.Right.Y >0.5||state.ThumbSticks.Right.Y<-0.5){
 				if(prevState.Triggers.Right == 0 && state.Triggers.Right != 0){
 					if(_target != null){
@@ -67,7 +69,7 @@ public class ShootF : MonoBehaviour {
 
 		//tir gauche
 		_timer1 += 1 *Time.deltaTime;
-		if(_timer1>=1.5f){
+		if(_timer1>=v_coolDown){
 			if(state.ThumbSticks.Right.X >0.5 || state.ThumbSticks.Right.X <-0.5||state.ThumbSticks.Right.Y >0.5||state.ThumbSticks.Right.Y<-0.5){
 				if(prevState.Triggers.Left == 0 && state.Triggers.Left != 0){
 					if(_target1 != null){
@@ -79,7 +81,7 @@ public class ShootF : MonoBehaviour {
 		}
 		//Annluation des liens 
 //		if(prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed && _target != null){
-		if(state.Buttons.A == ButtonState.Pressed && _target != null){
+		if(state.Buttons.A == ButtonState.Pressed && (_target != null || _target1 != null)){
 			DetachLink(2);
 		}
 
@@ -112,7 +114,7 @@ public class ShootF : MonoBehaviour {
 		//droite
 		_myHook = Instantiate(_HookHead, transform.TransformPoint(0f,0f,0f), transform.rotation) as GameObject;
 		Rigidbody rb = _myHook.GetComponent<Rigidbody>();
-		if (rb != null)	rb.AddForce(gameObject.transform.forward* _SpeedBullet);
+		if (rb != null)	rb.AddForce(gameObject.transform.forward* v_SpeedBullet);
 		_myHook.GetComponent<HookHeadF>()._myShooter=gameObject;
 		_myHook.GetComponent<HookHeadF>().howWasIShot=1;
 		_timer = 0;
@@ -122,7 +124,7 @@ public class ShootF : MonoBehaviour {
 		//gauche
 		_myHook1 = Instantiate(_HookHead, transform.TransformPoint(0f,0f,0f), transform.rotation) as GameObject;
 		Rigidbody rb = _myHook1.GetComponent<Rigidbody>();
-		if (rb != null)	rb.AddForce(gameObject.transform.forward* _SpeedBullet);
+		if (rb != null)	rb.AddForce(gameObject.transform.forward* v_SpeedBullet);
 		_myHook1.GetComponent<HookHeadF>()._myShooter=gameObject;
 		_myHook1.GetComponent<HookHeadF>().howWasIShot=2;
 		_timer1 = 0;
@@ -141,6 +143,9 @@ public class ShootF : MonoBehaviour {
 		whereShouldIGo.Normalize();
 //		_target.rigidbody.AddForce ((transform.position - _target.transform.position) * _thisForce/ 10);
 		_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce);
+		if(_target.tag=="Player"){
+			_target.transform.parent.rigidbody.AddForce ((whereShouldIGo) * _thisForce);
+		}
 
 	}
 	
