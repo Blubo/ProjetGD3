@@ -5,7 +5,7 @@ public class DrawLink : MonoBehaviour {
 
 	//Script pour dessiner une ligne (pour les nuls)
 	private Color _Red = Color.green;
-	private Color _blue = Color.blue;
+	//private Color _blue = Color.blue;
 
 	private Shoot _shooter;
 

@@ -3,9 +3,14 @@ using System.Collections;
 
 public class InTheMiddle5Janv : MonoBehaviour {
 
-	public GameObject v_A, v_C;
 	//v_C=mon parent
+	public GameObject v_A, v_C;
 	private Vector3 _scale;
+
+	[HideInInspector]
+	public Vector3 _whereIsItShot;
+
+//	public float v_sizeRatio;
 
 	// Use this for initialization
 	void Start () {
@@ -21,7 +26,12 @@ public class InTheMiddle5Janv : MonoBehaviour {
 		//anchorOnCircle est l'intersection du cercle de l'avatar (le rayon 5) et du vecteur v_A;v_C
 		Vector3 anchorOnCircle = v_C.transform.position-v_A.transform.position;
 		anchorOnCircle.Normalize();
-		anchorOnCircle = v_A.transform.position + anchorOnCircle*1.75f;
+
+//		anchorOnCircle = v_A.transform.position + anchorOnCircle*v_sizeRatio;
+
+		anchorOnCircle = v_A.transform.position + anchorOnCircle*v_C.GetComponent<HookHeadF>()._myShooter.GetComponent<ShootF>().v_sizeRatio;
+//		Debug.Log("v_C.GetComponent<HookHeadF>()._myShooter.GetComponent<ShootF>().v_sizeRatio is "+v_C.GetComponent<HookHeadF>()._myShooter.GetComponent<ShootF>().v_sizeRatio);
+		_whereIsItShot=anchorOnCircle;
 
 		Debug.DrawRay(anchorOnCircle, Vector3.up);
 

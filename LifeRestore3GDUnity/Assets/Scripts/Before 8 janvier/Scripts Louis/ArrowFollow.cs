@@ -32,7 +32,7 @@ public class ArrowFollow : MonoBehaviour {
 		prevState = state;
 		state = GamePad.GetState(playerIndex);
 
-		Vector3 _temp = new Vector3(state.ThumbSticks.Right.X, 0 ,state.ThumbSticks.Right.Y);
+//		Vector3 _temp = new Vector3(state.ThumbSticks.Right.X, 0 ,state.ThumbSticks.Right.Y);
 
 		_rightStickX=state.ThumbSticks.Right.X;
 		_rightStickY=state.ThumbSticks.Right.Y;

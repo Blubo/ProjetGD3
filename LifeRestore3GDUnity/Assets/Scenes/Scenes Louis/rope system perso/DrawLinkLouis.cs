@@ -53,7 +53,7 @@ public class DrawLinkLouis : MonoBehaviour {
 
 			for (int i = 0; i < v_chainSize; i++) {
 				GameObject newMaillon = Instantiate(v_maillon, _nextPosArray[i] , transform.rotation) as GameObject;
-				Rigidbody rb = newMaillon.GetComponent<Rigidbody>();
+				//Rigidbody rb = newMaillon.GetComponent<Rigidbody>();
 				newMaillon.name = "Capsule "+i;
 				_nextPosArray.Add( newMaillon.transform.Find("AncreArriere").transform.position);
 				_nextPosArray[i]=newMaillon.transform.Find("AncreArriere").transform.position;

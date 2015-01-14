@@ -5,7 +5,8 @@ public class AoEScript : MonoBehaviour {
 
 	//le GO collidé est stocké là-dedans
 	private GameObject _collided;
-	private float _variation = 0.01f, _stayingTime=3f;
+	//private float _variation = 0.01f;
+	private float _stayingTime=3f;
 	private Vector3 _RandomPos;
 
 	// Use this for initialization
