@@ -32,10 +32,18 @@ public class BreakableBlock : MonoBehaviour {
 
 //			if (CalculateForce() >= MinForceToBreak){
 				if(_collision.gameObject.GetComponent<ShootF>()._myHook!=null){
-					Destroy(_collision.gameObject.GetComponent<ShootF>()._myHook);
+					if(_collision.gameObject.GetComponent<ShootF>()._myHook.GetComponent<HookHeadF>().GrappedTo!=null){
+						if(_collision.gameObject.GetComponent<ShootF>()._myHook.GetComponent<HookHeadF>().GrappedTo==gameObject){
+							Destroy(_collision.gameObject.GetComponent<ShootF>()._myHook);
+						}
+					}
 				}
 				if(_collision.gameObject.GetComponent<ShootF>()._myHook1!=null){
-					Destroy(_collision.gameObject.GetComponent<ShootF>()._myHook1);
+					if(_collision.gameObject.GetComponent<ShootF>()._myHook1.GetComponent<HookHeadF>().GrappedTo!=null){
+						if(_collision.gameObject.GetComponent<ShootF>()._myHook1.GetComponent<HookHeadF>().GrappedTo==gameObject){
+							Destroy(_collision.gameObject.GetComponent<ShootF>()._myHook1);
+						}
+					}
 				}
 				Destroy(gameObject);
 			}

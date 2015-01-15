@@ -29,10 +29,11 @@ public class ShootF : MonoBehaviour {
 	public  GameObject _target, _target1, _myHook, _myHook1;
 	//Bool pour permettre déplacement towards
 	[HideInInspector]
-	public bool _Dashing;
+	public bool _Dashing, _DashingTest;
 
 	public float _Force;
 	private float _thisForce;	
+	private float _dashingDistance;
 
 	private Vector3 _ThingGrapped;
 
@@ -43,24 +44,65 @@ public class ShootF : MonoBehaviour {
 		_initSizeRatio = v_sizeRatio;
 		_myPlayerState = GetComponent<PlayerState>();
 		_Dashing = false;
+		_DashingTest = false;
 	}
 
 	void FixedUpdate(){
-		//Dash vers 1
-		if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
-			MovetowardsHook(_target);
+//		if(gameObject.name.Equals("Jaune")){
+//			Debug.Log("jaune's velocity is "+gameObject.rigidbody.velocity.magnitude);
+//		}
+
+		//DASH
+		//SI ON DECIDE D INTERCHANGER DES LES DASHS, IL FAUT ALLER CHANGER DASHING/DASHINGTEST DANS HookDetection!!!
+		//DASHINGTEST EST GERE DANS UPDATE
+		//dash alternatif vers 1
+		if(prevState.Buttons.RightShoulder == ButtonState.Released && state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
+			MovetowardsHookTest(_target);
 		}
+
+		//dash alternatif vers 2
+		if(prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
+			MovetowardsHookTest(_target1);
+		}
+
+		//ancien dash
+		//Dash vers 1
+//		if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
+//			MovetowardsHook(_target);
+//		}
 
 		//dash vers 2
-		if(state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
-			MovetowardsHook(_target1);
-		}
+//		if(state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
+//			MovetowardsHook(_target1);
+//		}
 
-		if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null || state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
-			_Dashing = true;
-		}else {
-			_Dashing = false;
+//		if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null || state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
+//			_Dashing = true;
+//		}else {
+//			_Dashing = false;
+//		}
+
+		//PULL TOWARDS
+		if(state.Buttons.B == ButtonState.Pressed && _target != null){
+			PullTowardsPlayer(_target);
+			PullTowardsPlayerTest(_target);
+
 		}
+		
+		if(state.Buttons.X == ButtonState.Pressed && _target1 != null){
+			PullTowardsPlayer(_target1);
+			PullTowardsPlayerTest(_target);
+
+		}
+//		if(prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed && _target != null){
+//			PullTowardsPlayerTest(_target);
+//			
+//		}
+//		
+//		if(prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed && _target1 != null){
+//			PullTowardsPlayerTest(_target);
+//			
+//		}
 
 		//*******************************************************************INPUTS (sauf dash qui est dans le fixed upadte)
 
@@ -93,13 +135,6 @@ public class ShootF : MonoBehaviour {
 		if(state.Buttons.A == ButtonState.Pressed && (_target != null || _target1 != null)){
 			DetachLink(2);
 		}
-		if(state.Buttons.B == ButtonState.Pressed && _target != null){
-			PullTowardsPlayer(_target);
-		}
-
-		if(state.Buttons.X == ButtonState.Pressed && _target1 != null){
-			PullTowardsPlayer(_target1);
-		}
 	}
 
 	// Update is called once per frame
@@ -109,15 +144,8 @@ public class ShootF : MonoBehaviour {
 		state = GamePad.GetState(playerIndex);
 		_LinksBehavior = GetComponent<LinkStrenght> ();
 
-		Vector3 growth = new Vector3(0.1f,0.1f,0.1f);
-		if(state.Buttons.Start == ButtonState.Pressed){
-			gameObject.transform.localScale+=growth;
-			v_sizeRatio+=v_sizeGrowth;
-		}
-		
-		if(state.Buttons.Back == ButtonState.Pressed){
-			gameObject.transform.localScale-=growth;
-			v_sizeRatio-=v_sizeGrowth;
+		if(gameObject.rigidbody.velocity.magnitude <= 45f){
+			_DashingTest = false;
 		}
 
 		_thisForce = (_LinksBehavior._LinkCommited+1) *_Force;
@@ -149,39 +177,117 @@ public class ShootF : MonoBehaviour {
 	void MovetowardsHook(GameObject _target){
 		Vector3 thisCible = new Vector3(_target.transform.position.x,gameObject.transform.position.y, _target.transform.position.z);
 		//CE RATIO SERT A REPRESENTER LA PUISSANCE PLUS GRANDE SI JE SUIS LOIN DE L OBJET AUQUEL JE SUIS ATTACHE
-		float ratio = Vector3.Distance(_target.transform.position, gameObject.transform.position)/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
+		_dashingDistance=Vector3.Distance(_target.transform.position, gameObject.transform.position);
+		float ratio = _dashingDistance/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
 		transform.LookAt(thisCible);
 		if(_target.tag!="Player"){
-			//possibilité d'augmenter le ratio artificiellement ? concretement, avec cette formule, on est OBLIGE de ralentir en dashant vers un bloc!
-			//c'est pas "si je COMMENCE à dasher à cet endroit alors je vais dasher à tant de vitesse", c'est plutot
-			//"ma vitesse de dash va décroitre régulierement tant que je m'approche de ma cible"...
-			//soit changer de formule
-			//(par exemple, tenter de stocker ce ratio à l'instant t et l'appliquer jusqu'à ce que dash soit faux ?
-			//soit changer l'addForce (cf cahier des charges) pour voir les interactions d'une force "plus breve" et de ce truc
-			rigidbody.AddForce (transform.forward*_thisForce*ratio);
+			rigidbody.AddForce (transform.forward*_thisForce*(0.5f/ratio));
 		}
 
 		if(_target.tag=="Player"){
 			if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
 				//LE RATIO EST PRESENT ICI AUSSI
-				rigidbody.AddForce (transform.forward*_thisForce*ratio);
+				rigidbody.AddForce (transform.forward*_thisForce*(0.5f/ratio));
 			}
 		}
+	}
+
+	void MovetowardsHookTest(GameObject _target){
+		Vector3 thisCible = new Vector3(_target.transform.position.x,gameObject.transform.position.y, _target.transform.position.z);
+		//CE RATIO SERT A REPRESENTER LA PUISSANCE PLUS GRANDE SI JE SUIS LOIN DE L OBJET AUQUEL JE SUIS ATTACHE
+		_dashingDistance=Vector3.Distance(_target.transform.position, gameObject.transform.position);
+		float ratio = _dashingDistance/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
+		transform.LookAt(thisCible);
+		if(_target.tag!="Player"){
+			//ce *1.5f est mis juste pour pondérer, à la louche
+			//des modifications de force sous-entendent sans doute qu'on devra le retoucher
+			rigidbody.AddForce(transform.forward*_thisForce*ratio/1.5f, ForceMode.Impulse);
+		}
+		
+		if(_target.tag=="Player"){
+			if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
+				//LE RATIO EST PRESENT ICI AUSSI
+				rigidbody.AddForce (transform.forward*_thisForce*ratio/1.5f, ForceMode.Impulse);
+			}
+		}
+
+		_DashingTest=true;
+
 	}
 
 	void PullTowardsPlayer(GameObject _target){
+//		Vector3 whereShouldIGo = transform.position - _target.transform.position;
+//		whereShouldIGo.Normalize();
+//		if(_target.tag!="Player"){
+//			_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce);
+//		}
+//
+//		if(_target.tag=="Player"){
+//			if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
+//				_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce);
+//			}
+//		}
+	}
+
+	void PullTowardsPlayerTest(GameObject _target){
 		Vector3 whereShouldIGo = transform.position - _target.transform.position;
 		whereShouldIGo.Normalize();
-		if(_target.tag!="Player"){
-			_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce);
-		}
+		_dashingDistance=Vector3.Distance(_target.transform.position, gameObject.transform.position);
+		float ratio = _dashingDistance/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
+		Debug.Log("ratio is "+ratio);
 
-		if(_target.tag=="Player"){
-			if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
-				_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce);
+		if(ratio<0.7f){
+			if(_target.tag!="Player"){
+				_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*2);
+			}
+			
+			if(_target.tag=="Player"){
+				if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
+					_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*2);
+				}
+			}
+		}else{
+			if(_target.tag!="Player"){
+				_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*ratio*6);
+			}
+			
+			if(_target.tag=="Player"){
+				if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
+					_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*ratio*6);
+				}
 			}
 		}
 	}
+
+//	void PullTowardsPlayerTest(GameObject _target){
+//		Vector3 whereShouldIGo = transform.position - _target.transform.position;
+//		whereShouldIGo.Normalize();
+//		_dashingDistance=Vector3.Distance(_target.transform.position, gameObject.transform.position);
+//		float ratio = _dashingDistance/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
+//		Debug.Log("ratio is "+ratio);
+//		
+//		if(ratio<0.7f){
+//			if(_target.tag!="Player"){
+//				_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*0.5f, ForceMode.Impulse);
+//			}
+//			
+//			if(_target.tag=="Player"){
+//				if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
+//					_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*0.5f, ForceMode.Impulse);
+//				}
+//			}
+//		}else{
+//			if(_target.tag!="Player"){
+//				_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*ratio*3, ForceMode.Impulse);
+//			}
+//			
+//			if(_target.tag=="Player"){
+//				if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
+//					_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*ratio*3, ForceMode.Impulse);
+//				}
+//			}
+//		}
+//	}
 
 	//detache le(s) liens
 	public void DetachLink(int _Todestroy){

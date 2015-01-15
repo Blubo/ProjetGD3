@@ -62,7 +62,8 @@ public class HookHeadF : MonoBehaviour {
 		//ni le graphisme de mon shooter
 		//ni une autre tete de tir
 		//ni un lien
-		if(_Collided.gameObject != _myShooter && _Collided.gameObject!= _myShooter.transform.Find("ApparenceAvatar").gameObject && _Collided.gameObject.name!="NewHookhead(Clone)" && _Collided.gameObject.name!="B 5Janv"){
+		//ni un trigger de changement de slide dans le cadre de la présentation du 14 janvier
+		if(_Collided.gameObject != _myShooter && _Collided.gameObject!= _myShooter.transform.Find("ApparenceAvatar").gameObject && _Collided.gameObject.name!="NewHookhead(Clone)" && _Collided.gameObject.name!="B 5Janv" && _Collided.gameObject.tag!=("Respawn")){
 //			Debug.Log("son nom est "+_Collided.name);
 
 			if (GrappedTo == null){
@@ -207,13 +208,11 @@ public class HookHeadF : MonoBehaviour {
 		if(_myShooter!=null){
 			_myShooterPos=_myShooter.transform.position;
 			
-			//15
 			//on n'enclenche/ne permet le retour que si la tete du grappin n'est pas posée
 			if (GrappedTo == null) {
 				//si j'ai rien choppé
 				//				if(Vector3.Distance(gameObject.transform.position, _myShooterInitPos)>=v_returnDistance){
 				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_returnDistance){
-					
 					shouldIReturn=true;
 				}
 				
