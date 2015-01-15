@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using XInputDotNetPure;
 
 public class ShootF : MonoBehaviour {
@@ -38,8 +39,11 @@ public class ShootF : MonoBehaviour {
 	private Vector3 _ThingGrapped;
 
 	public AudioClip v_linkShot, v_linkBroken;
+	public List<AudioClip> v_linkShotList = new List<AudioClip>();
+	private int _whatSoundToPlay;
 
 	void Awake(){
+		_whatSoundToPlay=0;
 		v_sizeRatio=1.75f;
 		_initSizeRatio = v_sizeRatio;
 		_myPlayerState = GetComponent<PlayerState>();
@@ -91,7 +95,7 @@ public class ShootF : MonoBehaviour {
 		
 		if(state.Buttons.X == ButtonState.Pressed && _target1 != null){
 			PullTowardsPlayer(_target1);
-			PullTowardsPlayerTest(_target);
+			PullTowardsPlayerTest(_target1);
 
 		}
 //		if(prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed && _target != null){
@@ -153,7 +157,12 @@ public class ShootF : MonoBehaviour {
 
 	// Grappin 1 
 	void Hook(){
-		audio.PlayOneShot(v_linkShot);
+//		audio.PlayOneShot(v_linkShot);
+		_whatSoundToPlay = Random.Range(0, v_linkShotList.Count);
+//		Debug.Log(_whatSoundToPlay);
+//		Debug.Log("nom du son "+ v_linkShotList[_whatSoundToPlay].name);
+		audio.PlayOneShot(v_linkShotList[_whatSoundToPlay]);
+
 		//droite
 		_myHook = Instantiate(_HookHead, v_instantiateur.transform.position, transform.rotation) as GameObject;
 		Rigidbody rb = _myHook.GetComponent<Rigidbody>();
@@ -164,7 +173,12 @@ public class ShootF : MonoBehaviour {
 	}
 
 	void Hook1(){
-		audio.PlayOneShot(v_linkShot);
+//		audio.PlayOneShot(v_linkShot);
+		_whatSoundToPlay = Random.Range(0, v_linkShotList.Count);
+//		Debug.Log(_whatSoundToPlay);
+//		Debug.Log("nom du son "+ v_linkShotList[_whatSoundToPlay].name);
+		audio.PlayOneShot(v_linkShotList[_whatSoundToPlay]);
+
 		//gauche
 		_myHook1 = Instantiate(_HookHead, v_instantiateur.transform.position, transform.rotation) as GameObject;
 		Rigidbody rb = _myHook1.GetComponent<Rigidbody>();
@@ -234,7 +248,7 @@ public class ShootF : MonoBehaviour {
 		whereShouldIGo.Normalize();
 		_dashingDistance=Vector3.Distance(_target.transform.position, gameObject.transform.position);
 		float ratio = _dashingDistance/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
-		Debug.Log("ratio is "+ratio);
+//		Debug.Log("ratio is "+ratio);
 
 		if(ratio<0.7f){
 			if(_target.tag!="Player"){
@@ -292,6 +306,7 @@ public class ShootF : MonoBehaviour {
 	//detache le(s) liens
 	public void DetachLink(int _Todestroy){
 		audio.PlayOneShot(v_linkBroken);
+
 		//Grappin 1
 		if(_Todestroy == 0){
 
