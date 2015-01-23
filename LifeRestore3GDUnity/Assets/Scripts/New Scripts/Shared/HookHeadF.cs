@@ -59,11 +59,10 @@ public class HookHeadF : MonoBehaviour {
 	void OnTriggerEnter(Collider _Collided){
 		//si on touche qqch qui n'est:
 		//ni mon shooter
-		//ni le graphisme de mon shooter
 		//ni une autre tete de tir
 		//ni un lien
 		//ni un trigger de changement de slide dans le cadre de la présentation du 14 janvier
-		if(_Collided.gameObject != _myShooter && _Collided.gameObject!= _myShooter.transform.Find("ApparenceAvatar").gameObject && _Collided.gameObject.name!="NewHookhead(Clone)" && _Collided.gameObject.name!="B 5Janv" && _Collided.gameObject.tag!=("Respawn")){
+		if(_Collided.gameObject != _myShooter && _Collided.gameObject.name!="NewHookhead(Clone)" && _Collided.gameObject.name!="B 5Janv" && _Collided.gameObject.tag!=("Respawn")){
 //			Debug.Log("son nom est "+_Collided.name);
 
 			if (GrappedTo == null){
@@ -116,29 +115,9 @@ public class HookHeadF : MonoBehaviour {
 		//si la tete revient sur son tireur
 		if(_Collided.gameObject==_myShooter){
 			if(shouldIReturn==true){
-//				Debug.Log("contact?");
+				Debug.Log("contact?");
 				if(howWasIShot==1) Destroy(_myShooter.GetComponent<ShootF>()._myHook);
 				if(howWasIShot==2) Destroy(_myShooter.GetComponent<ShootF>()._myHook1);
-			}
-		}
-	}
-	
-	void Update (){
-		//si le grappin est attaché à un objet, il suit ses mvts
-		if(GrappedTo != null){
-//			if(_diffPosition!=null){
-			//**
-			_PlayerPosition = GrappedTo.transform.position;
-//			transform.position = _PlayerPosition;
-
-			Vector3 temp = new Vector3(_PlayerPosition.x, _myShooter.transform.position.y, _PlayerPosition.z);
-			gameObject.transform.position = temp;
-
-			//ceci brise un lien lorsqu'il est trop grand
-			//aucun feedback
-			//aussi, vu que pour l'instant la tete du lien se met au centre (et donc bouge!) alors si on se connecte à la distance max, le lien se détruit automatiquement!
-			if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_BreakDistance){
-				_myShooter.GetComponent<ShootF>().DetachLink(howWasIShot - 1);
 			}
 		}
 	}
@@ -204,25 +183,62 @@ public class HookHeadF : MonoBehaviour {
 //		}
 //	}
 
-	void FixedUpdate (){
+	void Update (){
+		//si le grappin est attaché à un objet, il suit ses mvts
+		if(GrappedTo != null){
+			//			if(_diffPosition!=null){
+			_PlayerPosition = GrappedTo.transform.position;
+			
+			Vector3 temp = new Vector3(_PlayerPosition.x, _myShooter.transform.position.y, _PlayerPosition.z);
+			gameObject.transform.position = temp;
+			
+			//			gameObject.transform.position = _PlayerPosition;
+			
+			//ceci brise un lien lorsqu'il est trop grand
+			//aucun feedback
+			//aussi, vu que pour l'instant la tete du lien se met au centre (et donc bouge!) alors si on se connecte à la distance max, le lien se détruit automatiquement!
+			if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_BreakDistance){
+				_myShooter.GetComponent<ShootF>().DetachLink(howWasIShot - 1);
+			}
+		}
+
+		//CECI ETAIT DANS LE FIXED UPDATE
 		if(_myShooter!=null){
 			_myShooterPos=_myShooter.transform.position;
-			
+
+			//AU DESSUS: IF GRAPPED TO EST DIFF DE NULL
+			//AU DESSOUS: IF GRAPPED TO EST NULL
+			//wut?
+
 			//on n'enclenche/ne permet le retour que si la tete du grappin n'est pas posée
 			if (GrappedTo == null) {
 				//si j'ai rien choppé
-				//				if(Vector3.Distance(gameObject.transform.position, _myShooterInitPos)>=v_returnDistance){
+				//if(Vector3.Distance(gameObject.transform.position, _myShooterInitPos)>=v_returnDistance){
 				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_returnDistance){
 					shouldIReturn=true;
 				}
 				
 				if(shouldIReturn==true){
 					if(Vector3.Distance(gameObject.transform.position, gameObject.transform.Find("B 5Janv").GetComponent<InTheMiddle5Janv>()._whereIsItShot)<=v_allowedProximity){
+						Debug.Log("death?");
 						if(howWasIShot==1) Destroy(_myShooter.GetComponent<ShootF>()._myHook);
 						if(howWasIShot==2) Destroy(_myShooter.GetComponent<ShootF>()._myHook1);
 					}
 					//shouldIReturn=false;
 					//gameObject.rigidbody.velocity = Vector3.zero;
+//					Vector3 whereShouldIGo = _myShooterPos-gameObject.transform.position;
+//					whereShouldIGo.Normalize();
+//					gameObject.rigidbody.AddForce(whereShouldIGo*_myShooter.GetComponent<ShootF>().v_SpeedBullet*v_returnSpeedConst);
+				}
+			}
+		}
+	}
+
+	void FixedUpdate (){
+		if(_myShooter!=null){
+			//on n'enclenche/ne permet le retour que si la tete du grappin n'est pas posée
+			if (GrappedTo == null) {
+				if(shouldIReturn==true){
 					Vector3 whereShouldIGo = _myShooterPos-gameObject.transform.position;
 					whereShouldIGo.Normalize();
 					gameObject.rigidbody.AddForce(whereShouldIGo*_myShooter.GetComponent<ShootF>().v_SpeedBullet*v_returnSpeedConst);
@@ -230,5 +246,4 @@ public class HookHeadF : MonoBehaviour {
 			}
 		}
 	}
-
 }

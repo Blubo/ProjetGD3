@@ -23,8 +23,8 @@ public class ShootF : MonoBehaviour {
 	//tete du grappin
 	public GameObject _HookHead, v_instantiateur;
 
-	[HideInInspector]
-	public Vector3 _instantiatePos;
+//	[HideInInspector]
+//	public Vector3 _instantiatePos;
 
 	[HideInInspector]
 	public  GameObject _target, _target1, _myHook, _myHook1;
@@ -60,31 +60,29 @@ public class ShootF : MonoBehaviour {
 		//SI ON DECIDE D INTERCHANGER DES LES DASHS, IL FAUT ALLER CHANGER DASHING/DASHINGTEST DANS HookDetection!!!
 		//DASHINGTEST EST GERE DANS UPDATE
 		//dash alternatif vers 1
-		if(prevState.Buttons.RightShoulder == ButtonState.Released && state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
-			MovetowardsHookTest(_target);
-		}
-
-		//dash alternatif vers 2
-		if(prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
-			MovetowardsHookTest(_target1);
-		}
+//		if(prevState.Buttons.RightShoulder == ButtonState.Released && state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
+//			MovetowardsHookTest(_target);
+//		}
+//
+//		//dash alternatif vers 2
+//		if(prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
+//			MovetowardsHookTest(_target1);
+//		}
 
 		//ancien dash
 		//Dash vers 1
-//		if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
-//			MovetowardsHook(_target);
-//		}
-
-		//dash vers 2
-//		if(state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
-//			MovetowardsHook(_target1);
-//		}
-
-//		if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null || state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
-//			_Dashing = true;
-//		}else {
-//			_Dashing = false;
-//		}
+		if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
+			MovetowardsHook(_target);
+		}
+//		dash vers 2
+		if(state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
+			MovetowardsHook(_target1);
+		}
+		if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null || state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
+			_Dashing = true;
+		}else {
+			_Dashing = false;
+		}
 
 		//PULL TOWARDS
 		if(state.Buttons.B == ButtonState.Pressed && _target != null){
@@ -112,8 +110,37 @@ public class ShootF : MonoBehaviour {
 
 		//DECREMENTER LA PATATE DES JOUEURS LIES
 
+//		//tir droit 
+//		_timer += Time.deltaTime;
+//		if(_timer>=v_coolDown){
+//			if(prevState.Triggers.Right == 0 && state.Triggers.Right != 0){
+//				if(_target != null){
+//					DetachLink(0);
+//				}
+//				Hook();
+//			}
+//		}
+//
+//		//tir gauche
+//		_timer1 += Time.deltaTime;
+//		if(_timer1>=v_coolDown){
+//			if(prevState.Triggers.Left == 0 && state.Triggers.Left != 0){
+//				if(_target1 != null){
+//					DetachLink(1);
+//				}
+//				Hook1();
+//			}
+//		}
+
+
+	}
+
+	// Update is called once per frame
+	void Update () {
+//		Debug.Log("la force de "+gameObject.name+ " est "+ gameObject.GetComponent<LinkStrenght>()._LinkCommited);
+
 		//tir droit 
-		_timer += 1 *Time.deltaTime;
+		_timer += Time.deltaTime;
 		if(_timer>=v_coolDown){
 			if(prevState.Triggers.Right == 0 && state.Triggers.Right != 0){
 				if(_target != null){
@@ -122,9 +149,9 @@ public class ShootF : MonoBehaviour {
 				Hook();
 			}
 		}
-
+		
 		//tir gauche
-		_timer1 += 1 *Time.deltaTime;
+		_timer1 += Time.deltaTime;
 		if(_timer1>=v_coolDown){
 			if(prevState.Triggers.Left == 0 && state.Triggers.Left != 0){
 				if(_target1 != null){
@@ -134,16 +161,6 @@ public class ShootF : MonoBehaviour {
 			}
 		}
 
-		//Annluation des liens 
-//		if(prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed && _target != null){
-		if(state.Buttons.A == ButtonState.Pressed && (_target != null || _target1 != null)){
-			DetachLink(2);
-		}
-	}
-
-	// Update is called once per frame
-	void Update () {
-//		Debug.Log("la force de "+gameObject.name+ " est "+ gameObject.GetComponent<LinkStrenght>()._LinkCommited);
 		prevState = state;
 		state = GamePad.GetState(playerIndex);
 		_LinksBehavior = GetComponent<LinkStrenght> ();
@@ -153,6 +170,12 @@ public class ShootF : MonoBehaviour {
 		}
 
 		_thisForce = (_LinksBehavior._LinkCommited+1) *_Force;
+
+		//Annluation des liens 
+		//		if(prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed && _target != null){
+		if(state.Buttons.A == ButtonState.Pressed && (_target != null || _target1 != null)){
+			DetachLink(2);
+		}
 	}
 
 	// Grappin 1 
@@ -364,7 +387,7 @@ public class ShootF : MonoBehaviour {
 		//Tous grappins
 		if(_Todestroy == 2){
 			if(_target != null){
-				Destroy(_myHook);
+
 				if(Vector3.Distance(gameObject.transform.position, _target.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
 					Vector3 direction = _myHook.GetComponent<HookHeadF>().GrappedTo.transform.position-gameObject.transform.position;
 					direction.Normalize();
@@ -382,10 +405,11 @@ public class ShootF : MonoBehaviour {
 						_target.gameObject.GetComponent<Sticky>().v_numberOfLinks-=1;
 					}
 				}
+				Destroy(_myHook);
 			}
 
 			if(_target1 != null){ 
-				Destroy(_myHook1);
+
 				if(Vector3.Distance(gameObject.transform.position, _target1.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
 					Vector3 direction = _myHook1.GetComponent<HookHeadF>().GrappedTo.transform.position-gameObject.transform.position;
 					direction.Normalize();
@@ -403,6 +427,7 @@ public class ShootF : MonoBehaviour {
 						_target1.gameObject.GetComponent<Sticky>().v_numberOfLinks-=1;
 					}
 				}
+				Destroy(_myHook1);
 			}
 
 			_target=null;
@@ -417,6 +442,7 @@ public class ShootF : MonoBehaviour {
 			if (_Collision.gameObject.transform.Find("ApparenceAvatar").tag == "Player" && _Collision.gameObject != gameObject ) {
 				//Supprimer tous les liens du joueurs
 				if (_Dashing){
+//				if (_DashingTest){
 					ShootF _PlayerTarget = _Collision.gameObject.GetComponent<ShootF>();
 					if(_PlayerTarget != null){
 						_Collision.gameObject.GetComponent<ShootF>().SendMessage("DetachLink", 2);

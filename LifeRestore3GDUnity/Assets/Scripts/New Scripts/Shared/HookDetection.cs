@@ -27,10 +27,9 @@ public class HookDetection : MonoBehaviour {
 	void OnTriggerEnter(Collider _collider){
 //		Debug.Log ("Ce qui coupe le fil est" + _collider.name);		//vérification de l'objet qui cut le lien
 
-//		if(_collider.gameObject.tag == "Player" && _collider.GetComponent<ShootF>()._Dashing == true && _collider!=transform.parent.gameObject.GetComponent<HookHeadF>()._myShooter){			//Si c'est le joueur qui dash 
-//			testing = _collider;
-		if(_collider.gameObject.tag == "Player" && _collider.GetComponent<ShootF>()._DashingTest == true && _collider!=transform.parent.gameObject.GetComponent<HookHeadF>()._myShooter){			//Si c'est le joueur qui dash 
-
+		if(_collider.gameObject.tag == "Player" && _collider.GetComponent<ShootF>()._Dashing == true && _collider!=gameObject.transform.parent.gameObject.GetComponent<HookHeadF>()._myShooter){			//Si c'est le joueur qui dash 
+//		if(_collider.gameObject.tag == "Player" && _collider.GetComponent<ShootF>()._DashingTest == true && _collider!=transform.parent.gameObject.GetComponent<HookHeadF>()._myShooter){			//Si c'est le joueur qui dash 
+			Debug.Log("collided is "+_collider);
 			testing = transform.parent.gameObject.GetComponent<HookHeadF>()._myShooter;
 
 			Test();

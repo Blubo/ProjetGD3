@@ -12,6 +12,7 @@ public class CameraManager : MonoBehaviour {
 	public float v_cameraSpeedTranslate;
 	public int _CurrentSlide;
 	public Transform[] v_myCameras;
+	public AudioSource sonSandbox;
 	//public Transform v_PlacementCameras;
 
 	// Use this for initialization
@@ -35,6 +36,15 @@ public class CameraManager : MonoBehaviour {
 			_CurrentSlide -=1 ;
 			transform.position = Camera.main.transform.position- new Vector3(100f,85f);;
 		}
+
+		if (_CurrentSlide ==14) {
+			if (sonSandbox.isPlaying == false) {
+				sonSandbox.Play ();
+			}
+		} else {
+			sonSandbox.Pause ();
+		}
+
 	}
 
 	void OnTriggerEnter(Collider _collider) {

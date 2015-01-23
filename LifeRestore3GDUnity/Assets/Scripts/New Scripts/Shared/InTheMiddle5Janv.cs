@@ -9,6 +9,8 @@ public class InTheMiddle5Janv : MonoBehaviour {
 
 	[HideInInspector]
 	public Vector3 _whereIsItShot;
+	private Color _myColor;
+	private float _blinkTimer;
 
 //	public float v_sizeRatio;
 
@@ -17,7 +19,8 @@ public class InTheMiddle5Janv : MonoBehaviour {
 //		v_A=v_C.GetComponent<GrappleComebackLouis5Janv>()._myShooter;
 //		v_A=v_C.GetComponent<NewHookHead>()._myShooter;
 		v_A=v_C.GetComponent<HookHeadF>()._myShooter;
-
+		_myColor = gameObject.renderer.material.color;
+		_blinkTimer=0f;
 
 	}
 	
@@ -46,5 +49,20 @@ public class InTheMiddle5Janv : MonoBehaviour {
 		_scale = new Vector3(gameObject.transform.localScale.x, gameObject.transform.localScale.y, Vector3.Distance(anchorOnCircle, v_C.transform.position)/2);
 
 		gameObject.transform.localScale=_scale;
+
+		if(v_C.GetComponent<HookHeadF>().GrappedTo!=null){
+//			if(Vector3.Distance(v_A.transform.position, v_C.transform.position)>=0.85f*Vector3.Distance(v_A.transform.position, v_C.GetComponent<HookHeadF>().GrappedTo.transform.position)){
+			if(Vector3.Distance(v_A.transform.position, v_C.transform.position)>=0.70f*v_C.GetComponent<HookHeadF>().v_BreakDistance){
+				_blinkTimer+=Time.deltaTime;
+				if(_blinkTimer>0.2f){
+					gameObject.renderer.material.color=Color.white;
+					_blinkTimer=0f;
+				}else{
+					gameObject.renderer.material.color=_myColor;
+				}
+			}else{
+				gameObject.renderer.material.color=_myColor;
+			}
+		}
 	}
 }

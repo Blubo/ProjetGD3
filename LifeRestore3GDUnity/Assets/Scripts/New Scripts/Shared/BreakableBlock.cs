@@ -25,8 +25,11 @@ public class BreakableBlock : MonoBehaviour {
 			_veloMagCollided = _collision.rigidbody.velocity.magnitude;
 
 			float vFinal = _collision.rigidbody.mass * _collision.relativeVelocity.magnitude / (rigidbody.mass + _collision.rigidbody.mass);
+			//interchangez les deux lignes suivantes si on veut effectivement casser les blocks selon sa propre énergie cinétique et non selon le poids du block
 			float impulse = vFinal * rigidbody.mass;
+//			float impulse = vFinal * _collision.rigidbody.mass;
 
+			Debug.Log("impulse is now "+ impulse);
 //			Debug.Log("impulse is "+ impulse);
 			if (impulse >= MinForceToBreak){
 
