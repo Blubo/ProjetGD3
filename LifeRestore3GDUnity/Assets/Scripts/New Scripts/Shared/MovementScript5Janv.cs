@@ -50,7 +50,9 @@ public class MovementScript5Janv : MonoBehaviour {
 		if(rigidbody == null){
 			gameObject.AddComponent<Rigidbody>();
 			gameObject.rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-			gameObject.rigidbody.drag=5.0f;
+//			gameObject.rigidbody.drag=5.0f;
+			gameObject.rigidbody.drag=4.5f;
+
 		}
 
 		Movement();
@@ -59,6 +61,7 @@ public class MovementScript5Janv : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
 		prevState = state;
 		state = GamePad.GetState(playerIndex);
 		

@@ -52,7 +52,7 @@ public class InTheMiddle5Janv : MonoBehaviour {
 
 		if(v_C.GetComponent<HookHeadF>().GrappedTo!=null){
 //			if(Vector3.Distance(v_A.transform.position, v_C.transform.position)>=0.85f*Vector3.Distance(v_A.transform.position, v_C.GetComponent<HookHeadF>().GrappedTo.transform.position)){
-			if(Vector3.Distance(v_A.transform.position, v_C.transform.position)>=0.70f*v_C.GetComponent<HookHeadF>().v_BreakDistance){
+			if(Vector3.Distance(v_A.transform.position, v_C.transform.position)>=gameObject.transform.parent.GetComponent<HookHeadF>()._myShooter.GetComponent<ElasticScript>().v_tensionLessDistanceRatio*v_C.GetComponent<HookHeadF>().v_BreakDistance){
 				_blinkTimer+=Time.deltaTime;
 				if(_blinkTimer>0.2f){
 					gameObject.renderer.material.color=Color.white;

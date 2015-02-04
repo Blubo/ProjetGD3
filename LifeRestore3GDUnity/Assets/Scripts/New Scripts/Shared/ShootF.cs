@@ -15,7 +15,8 @@ public class ShootF : MonoBehaviour {
 	private HookHead _HookHeadbehavior,_HookHeadbehavior1;
 
 	private float _timer = 1.5f, _timer1 = 1.5f;
-	public float v_SpeedBullet, v_coolDown, v_sizeRatio, v_sizeGrowth;
+	//v_oldDashingForce = une variable rajoutée le 2 dévrier qui commence à 1 de base et qui détermine la force de dash du joueur via input continu
+	public float v_SpeedBullet, v_coolDown, v_sizeRatio, v_sizeGrowth, v_oldDashingForce;
 
 	[HideInInspector]
 	public float _initSizeRatio;
@@ -189,7 +190,7 @@ public class ShootF : MonoBehaviour {
 		//droite
 		_myHook = Instantiate(_HookHead, v_instantiateur.transform.position, transform.rotation) as GameObject;
 		Rigidbody rb = _myHook.GetComponent<Rigidbody>();
-		if (rb != null)	rb.AddForce(gameObject.transform.forward* v_SpeedBullet);
+		if (rb != null)	rb.AddForce(gameObject.transform.forward* v_SpeedBullet * 1000);
 		_myHook.GetComponent<HookHeadF>()._myShooter=gameObject;
 		_myHook.GetComponent<HookHeadF>().howWasIShot=1;
 		_timer = 0;
@@ -205,7 +206,7 @@ public class ShootF : MonoBehaviour {
 		//gauche
 		_myHook1 = Instantiate(_HookHead, v_instantiateur.transform.position, transform.rotation) as GameObject;
 		Rigidbody rb = _myHook1.GetComponent<Rigidbody>();
-		if (rb != null)	rb.AddForce(gameObject.transform.forward* v_SpeedBullet);
+		if (rb != null)	rb.AddForce(gameObject.transform.forward* v_SpeedBullet * 1000);
 		_myHook1.GetComponent<HookHeadF>()._myShooter=gameObject;
 		_myHook1.GetComponent<HookHeadF>().howWasIShot=2;
 		_timer1 = 0;
@@ -218,11 +219,11 @@ public class ShootF : MonoBehaviour {
 		float ratio = _dashingDistance/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
 		transform.LookAt(thisCible);
 		if(_target.tag!="Player"){
-			rigidbody.AddForce (transform.forward*_thisForce*(0.5f/ratio));
+			rigidbody.AddForce (transform.forward*_thisForce*(0.5f/ratio)*v_oldDashingForce);
 		}
 
 		if(_target.tag=="Player"){
-			if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
+			if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=15f){
 				//LE RATIO EST PRESENT ICI AUSSI
 				rigidbody.AddForce (transform.forward*_thisForce*(0.5f/ratio));
 			}

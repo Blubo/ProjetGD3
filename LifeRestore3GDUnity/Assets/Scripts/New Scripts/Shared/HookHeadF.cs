@@ -57,6 +57,8 @@ public class HookHeadF : MonoBehaviour {
 
 	//ce que touche la tete:
 	void OnTriggerEnter(Collider _Collided){
+//		Debug.Log("i am " + gameObject.name);
+
 		//si on touche qqch qui n'est:
 		//ni mon shooter
 		//ni une autre tete de tir
@@ -113,13 +115,14 @@ public class HookHeadF : MonoBehaviour {
 		}
 
 		//si la tete revient sur son tireur
-		if(_Collided.gameObject==_myShooter){
-			if(shouldIReturn==true){
-				Debug.Log("contact?");
-				if(howWasIShot==1) Destroy(_myShooter.GetComponent<ShootF>()._myHook);
-				if(howWasIShot==2) Destroy(_myShooter.GetComponent<ShootF>()._myHook1);
-			}
-		}
+//		if(_Collided.gameObject==_myShooter){
+//			Debug.Log("touched 'my shooter' ");
+//			if(shouldIReturn==true){
+//				Debug.Log("contact?");
+//				if(howWasIShot==1) Destroy(_myShooter.GetComponent<ShootF>()._myHook);
+//				if(howWasIShot==2) Destroy(_myShooter.GetComponent<ShootF>()._myHook1);
+//			}
+//		}
 	}
 
 //	void OnCollisionEnter(Collision _Collided){
@@ -241,7 +244,7 @@ public class HookHeadF : MonoBehaviour {
 				if(shouldIReturn==true){
 					Vector3 whereShouldIGo = _myShooterPos-gameObject.transform.position;
 					whereShouldIGo.Normalize();
-					gameObject.rigidbody.AddForce(whereShouldIGo*_myShooter.GetComponent<ShootF>().v_SpeedBullet*v_returnSpeedConst);
+					gameObject.rigidbody.AddForce(whereShouldIGo*_myShooter.GetComponent<ShootF>().v_SpeedBullet*v_returnSpeedConst*1000);
 				}
 			}
 		}
