@@ -12,6 +12,7 @@ public class Dash : MonoBehaviour {
 	private bool _IsDashing;
 	private Vector3 _Direction;
 	private Vector3 _PositionInit;
+	private float _DistanceParcourue;
 
 	//Les valeurs que les autres peuvent voir 
 	public float _VitesseInitiale;
@@ -45,11 +46,14 @@ public class Dash : MonoBehaviour {
 
 	void Dash_Movement(){
 		gameObject.rigidbody.AddForce (_Direction * _VitesseInitiale, ForceMode.Impulse);
-		float _DistanceParcourue = Vector3.Distance (_PositionInit, gameObject.transform.position);
 
+		_DistanceParcourue += 1.0f * Time.deltaTime;
+		Debug.Log("distance"+ _DistanceParcourue);
 		if(_DistanceParcourue>= _Distance){
+			Debug.Log("1");
 				gameObject.rigidbody.velocity = Vector3.zero;
 				_IsDashing = false;
+				_DistanceParcourue = 0.0f;
 		}
 	}
 }
