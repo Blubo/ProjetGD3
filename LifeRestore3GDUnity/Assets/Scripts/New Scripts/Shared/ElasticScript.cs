@@ -75,13 +75,14 @@ public class ElasticScript : MonoBehaviour {
 				if(Vector3.Distance(gameObject.transform.position, _hook1.GetComponent<HookHeadF>().GrappedTo.transform.position)>=_hook1.GetComponent<HookHeadF>().v_returnDistance*v_tensionLessDistanceRatio){
 					//on ajoute la tension sur le joueur
 					gameObject.rigidbody.AddForce(_direction1*_tensionStrenght*_howDeep1);
+
 					//on ajoute la tension sur l'objet tracté
 					//ICI
 					//v_blockAttractionForce = une constante pour mieux gérer la traction via elasticité
 					//rajouter un coefficient qui grandit avec le nombre de liens recus!
 					//*gameObject.GetComponent<LinkStrenght>()._LinkCommited ceci est ce coefficient, il doit peut etre etre modulé pour un niveau de granularité plus fin
-					_hook1.GetComponent<HookHeadF>().GrappedTo.rigidbody.AddForce(-_direction1*_tensionStrenght*_howDeep1*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1));
-
+//					_hook1.GetComponent<HookHeadF>().GrappedTo.rigidbody.AddForce(-_direction1*_tensionStrenght*_howDeep1*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1));
+					_hook1.GetComponent<HookHeadF>().GrappedTo.rigidbody.AddForceAtPosition(-_direction1*_tensionStrenght*_howDeep1*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1), _hook1.GetComponent<HookHeadF>()._localPos);
 					//si le joueur et le bloc sont trop loin
 					if(Vector3.Distance(gameObject.transform.position, _hook1.GetComponent<HookHeadF>().GrappedTo.transform.position)>=_hook1.GetComponent<HookHeadF>().v_BreakDistance){
 						if(_breaking1==false){

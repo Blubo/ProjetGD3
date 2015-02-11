@@ -16,7 +16,7 @@ public class ShootF : MonoBehaviour {
 
 	private float _timer = 1.5f, _timer1 = 1.5f;
 	//v_oldDashingForce = une variable rajoutée le 2 dévrier qui commence à 1 de base et qui détermine la force de dash du joueur via input continu
-	public float v_SpeedBullet, v_coolDown, v_sizeRatio, v_sizeGrowth, v_oldDashingForce;
+	public float v_SpeedBullet, v_coolDown, v_sizeRatio, v_sizeGrowth, v_oldDashingForce, v_NewDashingForce;
 
 	[HideInInspector]
 	public float _initSizeRatio;
@@ -60,7 +60,7 @@ public class ShootF : MonoBehaviour {
 		//DASH
 		//SI ON DECIDE D INTERCHANGER DES LES DASHS, IL FAUT ALLER CHANGER DASHING/DASHINGTEST DANS HookDetection!!!
 		//DASHINGTEST EST GERE DANS UPDATE
-		//dash alternatif vers 1
+//		dash alternatif vers 1
 //		if(prevState.Buttons.RightShoulder == ButtonState.Released && state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
 //			MovetowardsHookTest(_target);
 //		}
@@ -239,13 +239,13 @@ public class ShootF : MonoBehaviour {
 		if(_target.tag!="Player"){
 			//ce *1.5f est mis juste pour pondérer, à la louche
 			//des modifications de force sous-entendent sans doute qu'on devra le retoucher
-			rigidbody.AddForce(transform.forward*_thisForce*ratio/1.5f, ForceMode.Impulse);
+			rigidbody.AddForce(transform.forward*v_NewDashingForce*_thisForce*ratio/1.5f, ForceMode.Impulse);
 		}
 		
 		if(_target.tag=="Player"){
 			if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
 				//LE RATIO EST PRESENT ICI AUSSI
-				rigidbody.AddForce (transform.forward*_thisForce*ratio/1.5f, ForceMode.Impulse);
+				rigidbody.AddForce (transform.forward*v_NewDashingForce*_thisForce*ratio/1.5f, ForceMode.Impulse);
 			}
 		}
 

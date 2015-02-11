@@ -28,6 +28,11 @@ public class HookHeadF : MonoBehaviour {
 
 	public AudioClip v_linkedToAnObject, v_linkedToAPlayer;
 
+	//ces variables utilisées
+	private ContactPoint _firstContactPoint;
+	[HideInInspector]
+	public Vector3 _localPos;
+
 	void Start(){
 		if(_myShooter!=null){
 			_myShooterInitPos=_myShooter.transform.position;
@@ -68,7 +73,8 @@ public class HookHeadF : MonoBehaviour {
 //			Debug.Log("son nom est "+_Collided.name);
 
 			if (GrappedTo == null){
-
+				_localPos = _Collided.transform.InverseTransformPoint(gameObject.transform.position);
+				Debug.Log("local pos is "+_localPos);
 				GrappedTo = _Collided.gameObject;
 				if(GrappedTo.GetComponent<Sticky>()!=null){
 					GrappedTo.GetComponent<Sticky>().v_numberOfLinks+=1;
@@ -87,7 +93,7 @@ public class HookHeadF : MonoBehaviour {
 //
 //					//On va garder la position exact de l'impact par rapport au centre de la structure
 //					//_diffPosition = _Collided.transform.position - _PlayerPosition;
-//				}
+	//				}
 
 				//gameObject.rigidbody.velocity = Vector3.zero;
 				if(howWasIShot==1)_myShooter.GetComponent<ShootF>()._target=_Collided.gameObject;
@@ -105,6 +111,7 @@ public class HookHeadF : MonoBehaviour {
 						_LinkcommitedToMe._LinkCommited += 1;
 
 						//audio joué quand on connect un joueur
+						//shame
 						audio.PlayOneShot(v_linkedToAPlayer);
 					}	
 				}else{
@@ -114,7 +121,7 @@ public class HookHeadF : MonoBehaviour {
 			}
 		}
 
-		//si la tete revient sur son tireur
+//		si la tete revient sur son tireur
 //		if(_Collided.gameObject==_myShooter){
 //			Debug.Log("touched 'my shooter' ");
 //			if(shouldIReturn==true){
@@ -131,9 +138,10 @@ public class HookHeadF : MonoBehaviour {
 //		//ni le graphisme de mon shooter
 //		//ni une autre tete de tir
 //		//ni un lien
-//		if(_Collided.gameObject != _myShooter && _Collided.gameObject!= _myShooter.transform.Find("ApparenceAvatar").gameObject && _Collided.gameObject.name!="NewHookhead(Clone)" && _Collided.gameObject.name!="B 5Janv"){
+//		if(_Collided.gameObject != _myShooter && _Collided.gameObject.name!="NewHookhead(Clone)" && _Collided.gameObject.name!="B 5Janv" && _Collided.gameObject.tag!=("Respawn")){
+////		if(_Collided.gameObject != _myShooter && _Collided.gameObject!= _myShooter.transform.Find("ApparenceAvatar").gameObject && _Collided.gameObject.name!="NewHookhead(Clone)" && _Collided.gameObject.name!="B 5Janv"){
 //			Debug.Log("son nom est "+_Collided.gameObject.name);
-//			gameObject.rigidbody.freezeRotation=true;
+////			gameObject.rigidbody.freezeRotation=true;
 //
 //			if (GrappedTo == null){
 //				GrappedTo = _Collided.gameObject;
@@ -150,10 +158,21 @@ public class HookHeadF : MonoBehaviour {
 //					if(_Collided.gameObject.transform.Find("ApparenceAvatar").gameObject.tag == "Player"){
 //						//ET SI CE N EST PAS MOI
 //						LinkStrenght _Linkcommited = _Collided.gameObject.GetComponent<LinkStrenght>();
-//						_Linkcommited._LinkCommited += 1;	
+//						_Linkcommited._LinkCommited += 1;
+//						LinkStrenght _LinkcommitedToMe = _myShooter.GetComponent<LinkStrenght>();
+//						_LinkcommitedToMe._LinkCommited += 1;
+//						audio.PlayOneShot(v_linkedToAPlayer);
 //					}	
+//				}else{
+//					audio.PlayOneShot(v_linkedToAnObject);
 //				}
 //			}
+//
+//			Debug.Log("contact "+ _Collided.contacts[0].point);
+//			_firstContactPoint = _Collided.contacts[0];
+//			gameObject.transform.position = _firstContactPoint.point;
+//			_anchorPoint=_firstContactPoint.point;
+//
 //		}
 //		
 //		//si la tete revient sur son tireur
@@ -179,10 +198,12 @@ public class HookHeadF : MonoBehaviour {
 //					//break;
 //				//}
 //			//}
-//			Debug.Log("contact "+ _Collided.contacts[0].point);
-//			ContactPoint contact = _Collided.contacts[0];
-//			gameObject.transform.position = contact.point;
-//			_anchorPoint=contact.point;
+////			Debug.Log("contact "+ _Collided.contacts[0].point);
+////			ContactPoint contact = _Collided.contacts[0];
+////			gameObject.transform.position = contact.point;
+//			_anchorPoint=_firstContactPoint.point;
+//			gameObject.transform.position = _anchorPoint;
+//			Debug.Log("_anchorPoint is "+ _anchorPoint);
 //		}
 //	}
 
@@ -193,10 +214,13 @@ public class HookHeadF : MonoBehaviour {
 			_PlayerPosition = GrappedTo.transform.position;
 			
 			Vector3 temp = new Vector3(_PlayerPosition.x, _myShooter.transform.position.y, _PlayerPosition.z);
-			gameObject.transform.position = temp;
+			//uncomment below for non-contact points spacialization
+//			gameObject.transform.position = temp;
 			
-			//			gameObject.transform.position = _PlayerPosition;
-			
+//			gameObject.transform.position = _PlayerPosition;
+
+			gameObject.transform.position = GrappedTo.transform.TransformPoint(_localPos);
+
 			//ceci brise un lien lorsqu'il est trop grand
 			//aucun feedback
 			//aussi, vu que pour l'instant la tete du lien se met au centre (et donc bouge!) alors si on se connecte à la distance max, le lien se détruit automatiquement!
@@ -223,7 +247,7 @@ public class HookHeadF : MonoBehaviour {
 				
 				if(shouldIReturn==true){
 					if(Vector3.Distance(gameObject.transform.position, gameObject.transform.Find("B 5Janv").GetComponent<InTheMiddle5Janv>()._whereIsItShot)<=v_allowedProximity){
-						Debug.Log("death?");
+//						Debug.Log("death?");
 						if(howWasIShot==1) Destroy(_myShooter.GetComponent<ShootF>()._myHook);
 						if(howWasIShot==2) Destroy(_myShooter.GetComponent<ShootF>()._myHook1);
 					}
