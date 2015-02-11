@@ -22,8 +22,13 @@ public class MovementScript5Janv : MonoBehaviour {
 
 	public AudioClip v_playerCollision;
 
+	[Tooltip("Check to change aiming system")]
+	[SerializeField]
+	private bool _alternateAiming, _strafe;
 	// Use this for initialization
 	void Start () {
+		_alternateAiming=false;
+		_strafe=false;
 		//_movementSpeed=10f;
 	}
 
@@ -70,7 +75,25 @@ public class MovementScript5Janv : MonoBehaviour {
 		
 		_rightStickX=state.ThumbSticks.Right.X;
 		_rightStickY=state.ThumbSticks.Right.Y;
-		
+
+		//Louis prépare un strafe à la hammerwatch!!
+		if(_strafe==true){
+			if(state.Buttons.LeftShoulder==ButtonState.Pressed){
+				_alternateAiming=false;
+			}else{
+				_alternateAiming=true;
+			}
+		}
+
+		if(_alternateAiming==true){
+			if(state.ThumbSticks.Left.X!=0 || state.ThumbSticks.Left.Y!=0){
+				//if(state.ThumbSticks.Right.X!=0 && state.ThumbSticks.Right.Y!=0){
+				//Vector3 player_pos = Camera.main.WorldToScreenPoint(this.transform.position);
+				float angle = Mathf.Atan2 (state.ThumbSticks.Left.Y, state.ThumbSticks.Left.X) * Mathf.Rad2Deg;
+				this.transform.rotation = Quaternion.Euler (new Vector3(0, -angle+90, 0));
+			}
+		}
+
 		//http://blog.rastating.com/creating-a-2d-rotating-aim-assist-in-unity/
 		//		si je vise pas
 		//		if(state.ThumbSticks.Right.X==0 && state.ThumbSticks.Right.Y==0){

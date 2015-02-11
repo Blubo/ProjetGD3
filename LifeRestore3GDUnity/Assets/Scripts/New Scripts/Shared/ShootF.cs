@@ -16,7 +16,7 @@ public class ShootF : MonoBehaviour {
 
 	private float _timer = 1.5f, _timer1 = 1.5f;
 	//v_oldDashingForce = une variable rajoutée le 2 dévrier qui commence à 1 de base et qui détermine la force de dash du joueur via input continu
-	public float v_SpeedBullet, v_coolDown, v_sizeRatio, v_sizeGrowth, v_oldDashingForce, v_NewDashingForce;
+	public float v_SpeedBullet, v_coolDown, v_sizeRatio, v_sizeGrowth;
 
 	[HideInInspector]
 	public float _initSizeRatio;
@@ -43,7 +43,18 @@ public class ShootF : MonoBehaviour {
 	public List<AudioClip> v_linkShotList = new List<AudioClip>();
 	private int _whatSoundToPlay;
 
+	[Space(15)]
+	[Header("Dash")]
+	[Tooltip("Check to change dashing system")]
+	public bool _alternateDash;
+
+	[Tooltip("change old dashing force")]
+	public float v_oldDashingForce;
+	[Tooltip("change new dashing force")]
+	public float v_NewDashingForce;
+
 	void Awake(){
+		_alternateDash=false;
 		_whatSoundToPlay=0;
 		v_sizeRatio=1.75f;
 		_initSizeRatio = v_sizeRatio;
@@ -53,93 +64,50 @@ public class ShootF : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-//		if(gameObject.name.Equals("Jaune")){
-//			Debug.Log("jaune's velocity is "+gameObject.rigidbody.velocity.magnitude);
-//		}
-
 		//DASH
 		//SI ON DECIDE D INTERCHANGER DES LES DASHS, IL FAUT ALLER CHANGER DASHING/DASHINGTEST DANS HookDetection!!!
 		//DASHINGTEST EST GERE DANS UPDATE
 //		dash alternatif vers 1
-//		if(prevState.Buttons.RightShoulder == ButtonState.Released && state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
-//			MovetowardsHookTest(_target);
-//		}
-//
-//		//dash alternatif vers 2
-//		if(prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
-//			MovetowardsHookTest(_target1);
-//		}
+		if(_alternateDash==true){
+			if(prevState.Buttons.RightShoulder == ButtonState.Released && state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
+				MovetowardsHookTest(_target, _myHook);
+			}
+
+			//dash alternatif vers 2
+			if(prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
+				MovetowardsHookTest(_target1, _myHook1);
+			}
+		}
 
 		//ancien dash
 		//Dash vers 1
-		if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
-			MovetowardsHook(_target);
-		}
-//		dash vers 2
-		if(state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
-			MovetowardsHook(_target1);
-		}
-		if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null || state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
-			_Dashing = true;
-		}else {
-			_Dashing = false;
+		if(_alternateDash==false){
+			if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null){
+				MovetowardsHook(_target, _myHook);
+			}
+	//		dash vers 2
+			if(state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
+				MovetowardsHook(_target1, _myHook1);
+			}
+			if(state.Buttons.RightShoulder == ButtonState.Pressed && _target != null || state.Buttons.LeftShoulder == ButtonState.Pressed && _target1 != null){
+				_Dashing = true;
+			}else {
+				_Dashing = false;
+			}
 		}
 
 		//PULL TOWARDS
 		if(state.Buttons.B == ButtonState.Pressed && _target != null){
-			PullTowardsPlayer(_target);
-			PullTowardsPlayerTest(_target);
-
+			PullTowardsPlayer(_target, _myHook);
 		}
 		
 		if(state.Buttons.X == ButtonState.Pressed && _target1 != null){
-			PullTowardsPlayer(_target1);
-			PullTowardsPlayerTest(_target1);
-
+			PullTowardsPlayer(_target1, _myHook1);
 		}
-//		if(prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed && _target != null){
-//			PullTowardsPlayerTest(_target);
-//			
-//		}
-//		
-//		if(prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed && _target1 != null){
-//			PullTowardsPlayerTest(_target);
-//			
-//		}
-
-		//*******************************************************************INPUTS (sauf dash qui est dans le fixed upadte)
-
-		//DECREMENTER LA PATATE DES JOUEURS LIES
-
-//		//tir droit 
-//		_timer += Time.deltaTime;
-//		if(_timer>=v_coolDown){
-//			if(prevState.Triggers.Right == 0 && state.Triggers.Right != 0){
-//				if(_target != null){
-//					DetachLink(0);
-//				}
-//				Hook();
-//			}
-//		}
-//
-//		//tir gauche
-//		_timer1 += Time.deltaTime;
-//		if(_timer1>=v_coolDown){
-//			if(prevState.Triggers.Left == 0 && state.Triggers.Left != 0){
-//				if(_target1 != null){
-//					DetachLink(1);
-//				}
-//				Hook1();
-//			}
-//		}
-
-
 	}
 
 	// Update is called once per frame
 	void Update () {
-//		Debug.Log("la force de "+gameObject.name+ " est "+ gameObject.GetComponent<LinkStrenght>()._LinkCommited);
-
 		//tir droit 
 		_timer += Time.deltaTime;
 		if(_timer>=v_coolDown){
@@ -212,143 +180,110 @@ public class ShootF : MonoBehaviour {
 		_timer1 = 0;
 	}
 
-	void MovetowardsHook(GameObject _target){
-		Vector3 thisCible = new Vector3(_target.transform.position.x,gameObject.transform.position.y, _target.transform.position.z);
-		//CE RATIO SERT A REPRESENTER LA PUISSANCE PLUS GRANDE SI JE SUIS LOIN DE L OBJET AUQUEL JE SUIS ATTACHE
-		_dashingDistance=Vector3.Distance(_target.transform.position, gameObject.transform.position);
-		float ratio = _dashingDistance/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
+	void MovetowardsHook(GameObject _target, GameObject Hook){
+//		Vector3 thisCible = new Vector3(_target.transform.position.x,gameObject.transform.position.y, _target.transform.position.z);
+		Vector3 thisCible = new Vector3(Hook.transform.position.x, gameObject.transform.position.y, Hook.transform.position.z);
 		transform.LookAt(thisCible);
+
+		//CE RATIO SERT A REPRESENTER LA PUISSANCE PLUS GRANDE SI JE SUIS LOIN DE L OBJET AUQUEL JE SUIS ATTACHE
+//		_dashingDistance=Vector3.Distance(_target.transform.position, gameObject.transform.position);
+		_dashingDistance=Vector3.Distance(Hook.transform.position, gameObject.transform.position);
+
+		float ratio = _dashingDistance/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
 		if(_target.tag!="Player"){
 			rigidbody.AddForce (transform.forward*_thisForce*(0.5f/ratio)*v_oldDashingForce);
 		}
 
 		if(_target.tag=="Player"){
-			if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=15f){
+			if(Vector3.Distance(Hook.transform.position, gameObject.transform.position)>=15f){
 				//LE RATIO EST PRESENT ICI AUSSI
-				rigidbody.AddForce (transform.forward*_thisForce*(0.5f/ratio));
+				rigidbody.AddForce (transform.forward*_thisForce*(0.5f/ratio)*v_oldDashingForce);
 			}
 		}
 	}
 
-	void MovetowardsHookTest(GameObject _target){
-		Vector3 thisCible = new Vector3(_target.transform.position.x,gameObject.transform.position.y, _target.transform.position.z);
-		//CE RATIO SERT A REPRESENTER LA PUISSANCE PLUS GRANDE SI JE SUIS LOIN DE L OBJET AUQUEL JE SUIS ATTACHE
-		_dashingDistance=Vector3.Distance(_target.transform.position, gameObject.transform.position);
-		float ratio = _dashingDistance/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
+	void MovetowardsHookTest(GameObject _target, GameObject Hook){
+//		Vector3 thisCible = new Vector3(_target.transform.position.x,gameObject.transform.position.y, _target.transform.position.z);
+		Vector3 thisCible = new Vector3(Hook.transform.position.x, gameObject.transform.position.y, Hook.transform.position.z);
 		transform.LookAt(thisCible);
+
+		//CE RATIO SERT A REPRESENTER LA PUISSANCE PLUS GRANDE SI JE SUIS LOIN DE L OBJET AUQUEL JE SUIS ATTACHE
+//		_dashingDistance=Vector3.Distance(_target.transform.position, gameObject.transform.position);
+		_dashingDistance=Vector3.Distance(Hook.transform.position, gameObject.transform.position);
+
+		float ratio = _dashingDistance/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
 		if(_target.tag!="Player"){
 			//ce *1.5f est mis juste pour pondérer, à la louche
 			//des modifications de force sous-entendent sans doute qu'on devra le retoucher
-			rigidbody.AddForce(transform.forward*v_NewDashingForce*_thisForce*ratio/1.5f, ForceMode.Impulse);
+			rigidbody.AddForce(transform.forward*_thisForce*ratio/1.5f*v_NewDashingForce, ForceMode.Impulse);
 		}
 		
 		if(_target.tag=="Player"){
 			if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
 				//LE RATIO EST PRESENT ICI AUSSI
-				rigidbody.AddForce (transform.forward*v_NewDashingForce*_thisForce*ratio/1.5f, ForceMode.Impulse);
+				rigidbody.AddForce (transform.forward*_thisForce*ratio/1.5f*v_NewDashingForce, ForceMode.Impulse);
 			}
 		}
-
 		_DashingTest=true;
-
 	}
 
-	void PullTowardsPlayer(GameObject _target){
+	void PullTowardsPlayer(GameObject _target, GameObject Hook){
 //		Vector3 whereShouldIGo = transform.position - _target.transform.position;
-//		whereShouldIGo.Normalize();
-//		if(_target.tag!="Player"){
-//			_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce);
-//		}
-//
-//		if(_target.tag=="Player"){
-//			if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
-//				_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce);
-//			}
-//		}
-	}
+		Vector3 whereShouldIGo = transform.position - Hook.transform.position;
 
-	void PullTowardsPlayerTest(GameObject _target){
-		Vector3 whereShouldIGo = transform.position - _target.transform.position;
 		whereShouldIGo.Normalize();
-		_dashingDistance=Vector3.Distance(_target.transform.position, gameObject.transform.position);
+//		_dashingDistance=Vector3.Distance(_target.transform.position, gameObject.transform.position);
+		_dashingDistance=Vector3.Distance(Hook.transform.position, gameObject.transform.position);
 		float ratio = _dashingDistance/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
 //		Debug.Log("ratio is "+ratio);
 
+
+		//dans tous ces tests ci dessous, j'ai ajouté AtPosition au moment de la localisation du lien sur la surface des blocs
 		if(ratio<0.7f){
 			if(_target.tag!="Player"){
-				_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*2);
+				_target.rigidbody.AddForceAtPosition ((whereShouldIGo) * _thisForce*2, Hook.transform.position);
 			}
 			
 			if(_target.tag=="Player"){
-				if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
-					_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*2);
+				if(Vector3.Distance(Hook.transform.position, gameObject.transform.position)>=8f){
+					_target.rigidbody.AddForceAtPosition ((whereShouldIGo) * _thisForce*2, Hook.transform.position);
 				}
 			}
 		}else{
 			if(_target.tag!="Player"){
-				_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*ratio*6);
+				_target.rigidbody.AddForceAtPosition ((whereShouldIGo) * _thisForce*ratio*6, Hook.transform.position);
 			}
 			
 			if(_target.tag=="Player"){
-				if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
-					_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*ratio*6);
+				if(Vector3.Distance(Hook.transform.position, gameObject.transform.position)>=8f){
+					_target.rigidbody.AddForceAtPosition ((whereShouldIGo) * _thisForce*ratio*6, Hook.transform.position);
 				}
 			}
 		}
 	}
 
-//	void PullTowardsPlayerTest(GameObject _target){
-//		Vector3 whereShouldIGo = transform.position - _target.transform.position;
-//		whereShouldIGo.Normalize();
-//		_dashingDistance=Vector3.Distance(_target.transform.position, gameObject.transform.position);
-//		float ratio = _dashingDistance/ _HookHead.GetComponent<HookHeadF>().v_returnDistance;
-//		Debug.Log("ratio is "+ratio);
-//		
-//		if(ratio<0.7f){
-//			if(_target.tag!="Player"){
-//				_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*0.5f, ForceMode.Impulse);
-//			}
-//			
-//			if(_target.tag=="Player"){
-//				if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
-//					_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*0.5f, ForceMode.Impulse);
-//				}
-//			}
-//		}else{
-//			if(_target.tag!="Player"){
-//				_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*ratio*3, ForceMode.Impulse);
-//			}
-//			
-//			if(_target.tag=="Player"){
-//				if(Vector3.Distance(_target.transform.position, gameObject.transform.position)>=8f){
-//					_target.rigidbody.AddForce ((whereShouldIGo) * _thisForce*ratio*3, ForceMode.Impulse);
-//				}
-//			}
-//		}
-//	}
-
 	//detache le(s) liens
 	public void DetachLink(int _Todestroy){
 		audio.PlayOneShot(v_linkBroken);
-
+		
 		//Grappin 1
 		if(_Todestroy == 0){
-
+			
 			if(_target != null){
-				if(Vector3.Distance(gameObject.transform.position, _target.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
-					Vector3 direction = _myHook.GetComponent<HookHeadF>().GrappedTo.transform.position-gameObject.transform.position;
+				if(Vector3.Distance(gameObject.transform.position, _myHook.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
+					Vector3 direction = _myHook.transform.position-gameObject.transform.position;
 					direction.Normalize();
 					gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking1);
 				}
 				Destroy(_myHook);
 			}
-
+			
 			if(_target.gameObject.tag!="Player"){
 				if(_target.gameObject.GetComponent<Sticky>()!=null){
 					_target.gameObject.GetComponent<Sticky>().v_numberOfLinks-=1;
 				}
 			}
-
+			
 			if(_target.gameObject.tag=="Player"){
 				if(_target.gameObject.GetComponent<LinkStrenght>()!=null){
 					_target.gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
@@ -357,25 +292,25 @@ public class ShootF : MonoBehaviour {
 			}
 			_target=null;
 		}
-
+		
 		//grappin 2
 		if(_Todestroy == 1){
-//			Destroy(_target1);
+			//			Destroy(_target1);
 			if(_target1 != null){
-				if(Vector3.Distance(gameObject.transform.position, _target1.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
-					Vector3 direction = _myHook1.GetComponent<HookHeadF>().GrappedTo.transform.position-gameObject.transform.position;
+				if(Vector3.Distance(gameObject.transform.position, _myHook1.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
+					Vector3 direction = _myHook1.transform.position-gameObject.transform.position;
 					direction.Normalize();
 					gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking2);
 				}
 				Destroy(_myHook1);
 			}
-
+			
 			if(_target1.gameObject.tag!="Player"){
 				if(_target1.gameObject.GetComponent<Sticky>()!=null){
 					_target1.gameObject.GetComponent<Sticky>().v_numberOfLinks-=1;
 				}
 			}
-
+			
 			if(_target1.gameObject.tag=="Player"){
 				if(_target1.gameObject.GetComponent<LinkStrenght>()!=null){
 					_target1.gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
@@ -384,13 +319,13 @@ public class ShootF : MonoBehaviour {
 			}
 			_target1=null;
 		}
-
+		
 		//Tous grappins
 		if(_Todestroy == 2){
 			if(_target != null){
-
-				if(Vector3.Distance(gameObject.transform.position, _target.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
-					Vector3 direction = _myHook.GetComponent<HookHeadF>().GrappedTo.transform.position-gameObject.transform.position;
+				
+				if(Vector3.Distance(gameObject.transform.position, _myHook.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
+					Vector3 direction = _myHook.transform.position-gameObject.transform.position;
 					direction.Normalize();
 					gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking1);
 				}
@@ -398,7 +333,7 @@ public class ShootF : MonoBehaviour {
 					if(_target.gameObject.GetComponent<LinkStrenght>()!=null){
 						_target.gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
 						gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
-
+						
 					}
 				}
 				if(_target.gameObject.tag!="Player"){
@@ -408,11 +343,11 @@ public class ShootF : MonoBehaviour {
 				}
 				Destroy(_myHook);
 			}
-
+			
 			if(_target1 != null){ 
-
-				if(Vector3.Distance(gameObject.transform.position, _target1.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
-					Vector3 direction = _myHook1.GetComponent<HookHeadF>().GrappedTo.transform.position-gameObject.transform.position;
+				
+				if(Vector3.Distance(gameObject.transform.position, _myHook1.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
+					Vector3 direction = _myHook1.transform.position-gameObject.transform.position;
 					direction.Normalize();
 					gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking2);
 				}
@@ -420,7 +355,7 @@ public class ShootF : MonoBehaviour {
 					if(_target1.gameObject.GetComponent<LinkStrenght>()!=null){
 						_target1.gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
 						gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
-
+						
 					}
 				}
 				if(_target1.gameObject.tag!="Player"){
@@ -430,11 +365,121 @@ public class ShootF : MonoBehaviour {
 				}
 				Destroy(_myHook1);
 			}
-
+			
 			_target=null;
 			_target1=null;
 		}
 	}
+
+//	//detache le(s) liens
+//	public void DetachLink(int _Todestroy){
+//		audio.PlayOneShot(v_linkBroken);
+//
+//		//Grappin 1
+//		if(_Todestroy == 0){
+//
+//			if(_target != null){
+//				if(Vector3.Distance(gameObject.transform.position, _target.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
+//					Vector3 direction = _myHook.GetComponent<HookHeadF>().GrappedTo.transform.position-gameObject.transform.position;
+//					direction.Normalize();
+//					gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking1);
+//				}
+//				Destroy(_myHook);
+//			}
+//
+//			if(_target.gameObject.tag!="Player"){
+//				if(_target.gameObject.GetComponent<Sticky>()!=null){
+//					_target.gameObject.GetComponent<Sticky>().v_numberOfLinks-=1;
+//				}
+//			}
+//
+//			if(_target.gameObject.tag=="Player"){
+//				if(_target.gameObject.GetComponent<LinkStrenght>()!=null){
+//					_target.gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
+//					gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
+//				}
+//			}
+//			_target=null;
+//		}
+//
+//		//grappin 2
+//		if(_Todestroy == 1){
+////			Destroy(_target1);
+//			if(_target1 != null){
+//				if(Vector3.Distance(gameObject.transform.position, _target1.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
+//					Vector3 direction = _myHook1.GetComponent<HookHeadF>().GrappedTo.transform.position-gameObject.transform.position;
+//					direction.Normalize();
+//					gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking2);
+//				}
+//				Destroy(_myHook1);
+//			}
+//
+//			if(_target1.gameObject.tag!="Player"){
+//				if(_target1.gameObject.GetComponent<Sticky>()!=null){
+//					_target1.gameObject.GetComponent<Sticky>().v_numberOfLinks-=1;
+//				}
+//			}
+//
+//			if(_target1.gameObject.tag=="Player"){
+//				if(_target1.gameObject.GetComponent<LinkStrenght>()!=null){
+//					_target1.gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
+//					gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
+//				}
+//			}
+//			_target1=null;
+//		}
+//
+//		//Tous grappins
+//		if(_Todestroy == 2){
+//			if(_target != null){
+//
+//				if(Vector3.Distance(gameObject.transform.position, _target.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
+//					Vector3 direction = _myHook.GetComponent<HookHeadF>().GrappedTo.transform.position-gameObject.transform.position;
+//					direction.Normalize();
+//					gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking1);
+//				}
+//				if(_target.gameObject.tag=="Player"){
+//					if(_target.gameObject.GetComponent<LinkStrenght>()!=null){
+//						_target.gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
+//						gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
+//
+//					}
+//				}
+//				if(_target.gameObject.tag!="Player"){
+//					if(_target.gameObject.GetComponent<Sticky>()!=null){
+//						_target.gameObject.GetComponent<Sticky>().v_numberOfLinks-=1;
+//					}
+//				}
+//				Destroy(_myHook);
+//			}
+//
+//			if(_target1 != null){ 
+//
+//				if(Vector3.Distance(gameObject.transform.position, _target1.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionlessDistance){
+//					Vector3 direction = _myHook1.GetComponent<HookHeadF>().GrappedTo.transform.position-gameObject.transform.position;
+//					direction.Normalize();
+//					gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking2);
+//				}
+//				if(_target1.gameObject.tag=="Player"){
+//					if(_target1.gameObject.GetComponent<LinkStrenght>()!=null){
+//						_target1.gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
+//						gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
+//
+//					}
+//				}
+//				if(_target1.gameObject.tag!="Player"){
+//					if(_target1.gameObject.GetComponent<Sticky>()!=null){
+//						_target1.gameObject.GetComponent<Sticky>().v_numberOfLinks-=1;
+//					}
+//				}
+//				Destroy(_myHook1);
+//			}
+//
+//			_target=null;
+//			_target1=null;
+//		}
+//	}
+	
 
 	//élément pour le dash 
 	void OnCollisionEnter(Collision _Collision){

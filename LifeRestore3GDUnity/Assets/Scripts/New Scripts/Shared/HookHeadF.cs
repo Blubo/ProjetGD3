@@ -74,7 +74,6 @@ public class HookHeadF : MonoBehaviour {
 
 			if (GrappedTo == null){
 				_localPos = _Collided.transform.InverseTransformPoint(gameObject.transform.position);
-				Debug.Log("local pos is "+_localPos);
 				GrappedTo = _Collided.gameObject;
 				if(GrappedTo.GetComponent<Sticky>()!=null){
 					GrappedTo.GetComponent<Sticky>().v_numberOfLinks+=1;
