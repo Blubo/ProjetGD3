@@ -118,7 +118,15 @@ public class ShootF : MonoBehaviour {
 				Hook();
 			}
 		}
-		
+
+		if (prevState.Triggers.Right != 0 && state.Triggers.Right != 0 ) {
+
+		} else {
+			if(_target != null){
+				DetachLink(0);
+			}
+		}
+
 		//tir gauche
 		_timer1 += Time.deltaTime;
 		if(_timer1>=v_coolDown){
@@ -127,6 +135,14 @@ public class ShootF : MonoBehaviour {
 					DetachLink(1);
 				}
 				Hook1();
+			}
+		}
+
+		if (prevState.Triggers.Left != 0 && state.Triggers.Left != 0 ) {
+			Debug.Log ("yeah?");
+		} else {
+			if(_target1 != null){
+				DetachLink(1);
 			}
 		}
 
