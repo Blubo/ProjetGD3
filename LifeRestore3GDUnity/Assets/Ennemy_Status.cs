@@ -11,7 +11,7 @@ public class Ennemy_Status : MonoBehaviour {
 
     void Update() { 
         if(PV <= 0){
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 }

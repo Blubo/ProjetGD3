@@ -28,7 +28,7 @@ public class Dash : MonoBehaviour {
 		prevState = state;
 		state = GamePad.GetState(playerIndex);
 
-		Debug.Log(_IsDashing);
+		//Debug.Log(_IsDashing);
 		//Debug.Log(_Distance);
 
 		if (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed) {
