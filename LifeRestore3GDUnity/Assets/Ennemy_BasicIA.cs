@@ -21,7 +21,7 @@ public class Ennemy_BasicIA : MonoBehaviour {
         transform.position = Vector3.MoveTowards(transform.position, _Target.transform.position, _step);
 	}
 
-    void OnCollisionEnter(Collider _coll) {
+    void OnCollisionEnter(Collision _coll) {
         if (_coll.gameObject.tag == "Weapon") {
             _Status.PV -= 1;
         }
