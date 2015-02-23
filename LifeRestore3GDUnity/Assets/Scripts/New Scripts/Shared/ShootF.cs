@@ -139,7 +139,6 @@ public class ShootF : MonoBehaviour {
 		}
 
 		if (prevState.Triggers.Left != 0 && state.Triggers.Left != 0 ) {
-			Debug.Log ("yeah?");
 		} else {
 			if(_target1 != null){
 				DetachLink(1);
