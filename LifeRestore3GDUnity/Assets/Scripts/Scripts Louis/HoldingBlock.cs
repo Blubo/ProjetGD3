@@ -31,8 +31,6 @@ public class HoldingBlock : MonoBehaviour {
 
 		//FIRST LOUIS
 		if(_blocs.v_numberOfLinks != 0){
-		
-
 			lerp += Time.deltaTime*_blocs.v_numberOfLinks;
 			gameObject.GetComponent<Renderer>().material.Lerp(gameObject.GetComponent<Renderer>().material, _endMat, lerp/colorSpeed);
 		}else{

@@ -31,7 +31,9 @@ public class Dash : MonoBehaviour {
 		//Debug.Log(_IsDashing);
 		//Debug.Log(_Distance);
 
-		if (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed) {
+//		if (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed) {
+		if(prevState.Triggers.Left == 0 && state.Triggers.Left != 0){
+
 			if(!_IsDashing){
 				_Direction = gameObject.transform.forward ;
 				_PositionInit = gameObject.transform.position;

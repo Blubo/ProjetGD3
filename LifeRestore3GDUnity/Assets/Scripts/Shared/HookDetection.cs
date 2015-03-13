@@ -20,20 +20,16 @@ public class HookDetection : MonoBehaviour {
 	// On peut utiliser un layer pour pouvoir éviter les triggers non physiques
 	void OnTriggerEnter(Collider _collider){
 		if(_collider.gameObject.tag == "Player" && _collider!=gameObject.transform.parent.gameObject.GetComponent<HookHeadF>()._myShooter){
-			if(_collider.GetComponent<ShootF>()._alternateDash==false){
-				if(_collider.GetComponent<ShootF>()._Dashing == true){
-					testing = transform.parent.gameObject.GetComponent<HookHeadF>()._myShooter;
-					Test();
-				}
-			}else{
-				if(_collider.GetComponent<ShootF>()._DashingTest == true){
-					testing = transform.parent.gameObject.GetComponent<HookHeadF>()._myShooter;
-					Test();
-				}
-			}
+			/*
+			 * si le gars que je collide était en dash
+			 * testing = mon shooter
+			 * et on execute Brise sur lui
+			*/
 		}
 	}
-	void Test(){
-		testing.GetComponent<ShootF>().DetachLink(_LinkToDetach);
+	void Brise(GameObject targetToUnlink, int linkToDetach){
+		if(targetToUnlink.GetComponent<ShootF>()!=null){
+			targetToUnlink.GetComponent<ShootF>().DetachLink(linkToDetach);
+		}
 	}
 }

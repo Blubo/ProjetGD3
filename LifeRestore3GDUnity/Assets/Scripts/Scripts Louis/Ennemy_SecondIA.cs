@@ -14,12 +14,6 @@ public class Ennemy_SecondIA : MonoBehaviour {
 	void Awake () {
         _Status = GetComponent<Ennemy_Status>();
 	}
-	
-	void Update () {
-        //déplacement vers la cible
-        float _step = _Speed * Time.deltaTime;
-//        transform.position = Vector3.MoveTowards(transform.position, _Target.transform.position, _step);
-	}
 
     void OnCollisionEnter(Collision _coll) {
         if (_coll.gameObject.tag == "Weapon") {

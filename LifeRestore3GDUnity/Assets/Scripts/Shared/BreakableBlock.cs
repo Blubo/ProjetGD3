@@ -41,13 +41,6 @@ public class BreakableBlock : MonoBehaviour {
 						}
 					}
 				}
-				if(_collision.gameObject.GetComponent<ShootF>()._myHook1!=null){
-					if(_collision.gameObject.GetComponent<ShootF>()._myHook1.GetComponent<HookHeadF>().GrappedTo!=null){
-						if(_collision.gameObject.GetComponent<ShootF>()._myHook1.GetComponent<HookHeadF>().GrappedTo==gameObject){
-							Destroy(_collision.gameObject.GetComponent<ShootF>()._myHook1);
-						}
-					}
-				}
 				Destroy(gameObject);
 			}
 		}
