@@ -104,20 +104,20 @@ public class HookHeadF : MonoBehaviour {
 		//si un raycast touche qqch de layer 11 (Blocks) !!! alors
 		//on récupère la position relative du hit par rapport à l'objet qu'on a hit, et on la stocke dans where2
 		//suite de where2 
-		if(_hitSmth==false){
-			RaycastHit hit;
-			if (Physics.Raycast(transform.position, transform.forward, out hit, v_detectionRadius)||Physics.Raycast(transform.position, -transform.forward, out hit, v_detectionRadius)||Physics.Raycast(transform.position, transform.right, out hit, v_detectionRadius)||Physics.Raycast(transform.position, -transform.right, out hit, v_detectionRadius)){
-				//if(hit.collider.gameObject.layer == 11){
-					Debug.Log("hit!");
-					_hitSmth=true;
-					where2 = hit.collider.gameObject.transform.InverseTransformPoint(hit.point);
-				//}
-			}
-			Debug.DrawRay(transform.position, transform.forward.normalized*v_detectionRadius, Color.red);
-			Debug.DrawRay(transform.position, -transform.forward.normalized*v_detectionRadius, Color.red);
-			Debug.DrawRay(transform.position, transform.right.normalized*v_detectionRadius, Color.red);
-			Debug.DrawRay(transform.position, -transform.right.normalized*v_detectionRadius, Color.red);
-		}
+//		if(_hitSmth==false){
+//			RaycastHit hit;
+//			if (Physics.Raycast(transform.position, transform.forward, out hit, v_detectionRadius)||Physics.Raycast(transform.position, -transform.forward, out hit, v_detectionRadius)||Physics.Raycast(transform.position, transform.right, out hit, v_detectionRadius)||Physics.Raycast(transform.position, -transform.right, out hit, v_detectionRadius)){
+//				//if(hit.collider.gameObject.layer == 11){
+//					Debug.Log("hit!");
+//					_hitSmth=true;
+//					where2 = hit.collider.gameObject.transform.InverseTransformPoint(hit.point);
+//				//}
+//			}
+//			Debug.DrawRay(transform.position, transform.forward.normalized*v_detectionRadius, Color.red);
+//			Debug.DrawRay(transform.position, -transform.forward.normalized*v_detectionRadius, Color.red);
+//			Debug.DrawRay(transform.position, transform.right.normalized*v_detectionRadius, Color.red);
+//			Debug.DrawRay(transform.position, -transform.right.normalized*v_detectionRadius, Color.red);
+//		}
 
 		//si le grappin est attaché à un objet, il suit ses mvts
 		if(GrappedTo != null){
@@ -127,7 +127,7 @@ public class HookHeadF : MonoBehaviour {
 			gameObject.transform.position = GrappedTo.transform.TransformPoint(_localPos);
 
 			//localisation ameliorée
-			gameObject.transform.position = GrappedTo.transform.TransformPoint(where2);
+//			gameObject.transform.position = GrappedTo.transform.TransformPoint(where2);
 
 			//ceci brise un lien lorsqu'il est trop grand
 			//aucun feedback
