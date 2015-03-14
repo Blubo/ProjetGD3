@@ -41,8 +41,8 @@ public class CameraFollow : MonoBehaviour {
 			}
 		}
 
-		_playerEcartement=Vector2.Distance(_farthestOne.transform.position, _farthestTwo.transform.position);
-		Debug.Log("écartement "+ _playerEcartement);
+		_playerEcartement=Vector3.Distance(_farthestOne.transform.position, _farthestTwo.transform.position);
+//		Debug.Log("écartement "+ _playerEcartement);
 		float height = _playerEcartement + above - bottom;
 		height = Mathf.Max(height, minView);
 		height = Mathf.Min(height, maxView);

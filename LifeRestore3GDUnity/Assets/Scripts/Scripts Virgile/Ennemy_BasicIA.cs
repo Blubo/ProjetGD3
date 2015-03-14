@@ -13,6 +13,7 @@ public class Ennemy_BasicIA : MonoBehaviour {
 
 	void Awake () {
         _Status = GetComponent<Ennemy_Status>();
+		_Target = GameObject.Find("Idole");
 	}
 	
 	void Update () {

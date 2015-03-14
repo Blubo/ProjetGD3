@@ -14,7 +14,7 @@ public class Spawner : MonoBehaviour {
     private int _NumberToSpawn;
 
     [SerializeField]
-    private bool _Activated;
+    private bool _Activated, _needAura;
 
 	// Use this for initialization
 	void Start () {
@@ -25,12 +25,20 @@ public class Spawner : MonoBehaviour {
 	void Update () {
         _Timer -= 1.0f * Time.deltaTime;
 
-        if (_Timer <= 0.0f && _Activated)
-        {
-            Spawn();
-            _Timer = _TimeToSpawn;
-            _Activated = false;
-        }
+		if(_needAura == true){
+	        if (_Timer <= 0.0f && _Activated)
+	        {
+	            Spawn();
+	            _Timer = _TimeToSpawn;
+	            _Activated = false;
+	        }
+		}else{
+			if (_Timer <= 0.0f)
+			{
+				Spawn();
+				_Timer = _TimeToSpawn;
+			}
+		}
 	}
 
     void Spawn()
