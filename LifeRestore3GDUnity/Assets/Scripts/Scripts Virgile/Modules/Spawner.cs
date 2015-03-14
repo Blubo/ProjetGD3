@@ -32,7 +32,7 @@ public class Spawner : MonoBehaviour {
 	            _Timer = _TimeToSpawn;
 	            _Activated = false;
 	        }
-		}else{
+		}else if(_needAura == false){
 			if (_Timer <= 0.0f)
 			{
 				Spawn();
