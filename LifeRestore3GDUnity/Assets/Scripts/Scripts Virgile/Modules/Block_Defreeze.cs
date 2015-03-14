@@ -20,6 +20,9 @@ public class Block_Defreeze : MonoBehaviour {
         {
             gameObject.GetComponent<Renderer>().material.color = Color.green;
             gameObject.AddComponent<Rigidbody>();
+            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+            rb.mass = 10.0f;
+
             gameObject.layer = LayerMask.NameToLayer("CanBreak");
 
         }

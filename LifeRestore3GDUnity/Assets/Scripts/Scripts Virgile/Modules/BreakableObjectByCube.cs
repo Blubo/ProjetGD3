@@ -28,6 +28,7 @@ public class BreakableObjectByCube : MonoBehaviour {
             if(_DestroyOnlyBySpecial){
                if (_collision.gameObject.tag == "Special"){
                    _WillBreakIn -= 1;
+                   Destroy(_collision.gameObject);
                }
             }
             else if (!_DestroyOnlyBySpecial) { _WillBreakIn -= 1; }
