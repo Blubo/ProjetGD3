@@ -19,7 +19,7 @@ public class LinkStrenght : MonoBehaviour {
 		if (_LinkCommited != 0) {
 			gameObject.layer=13;
 		} else {
-			gameObject.layer=0;
+			gameObject.layer= LayerMask.NameToLayer("Usable");
 		}
 
 

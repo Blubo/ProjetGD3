@@ -16,12 +16,24 @@ public class Idole_Status : MonoBehaviour {
         if (_Life <= 0){
             Death();
         }
+        if (_LinkOnit.v_numberOfLinks >= 1)
+        {
+           Transform _Child =  transform.FindChild("Aura");
+           _Child.GetComponent<SphereCollider>().enabled = true;
+        }
+        else if (_LinkOnit.v_numberOfLinks <= 0)
+        {
+            Transform _Child = transform.FindChild("Aura");
+            if (_Child.GetComponent<SphereCollider>() != null)
+            {
+                _Child.GetComponent<SphereCollider>().enabled = false;
+            }
+        }
 	}
 
     void OnTriggerStay(Collider _other) {
-
-        if(_LinkOnit.v_numberOfLinks >= 1){
             //Si l'objet dans la zone de l'idole peut interagir avec, alors elle le fait
+        if(GetComponentInChildren<SphereCollider>().enabled == true){
             if (_other.gameObject.layer == LayerMask.NameToLayer("Usable"))
             {
                 _other.SendMessage("InAura");
