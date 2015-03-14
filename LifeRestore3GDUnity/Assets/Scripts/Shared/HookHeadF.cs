@@ -107,11 +107,11 @@ public class HookHeadF : MonoBehaviour {
 		if(_hitSmth==false){
 			RaycastHit hit;
 			if (Physics.Raycast(transform.position, transform.forward, out hit, v_detectionRadius)||Physics.Raycast(transform.position, -transform.forward, out hit, v_detectionRadius)||Physics.Raycast(transform.position, transform.right, out hit, v_detectionRadius)||Physics.Raycast(transform.position, -transform.right, out hit, v_detectionRadius)){
-				if(hit.collider.gameObject.layer == 11){
+				//if(hit.collider.gameObject.layer == 11){
 					Debug.Log("hit!");
 					_hitSmth=true;
 					where2 = hit.collider.gameObject.transform.InverseTransformPoint(hit.point);
-				}
+				//}
 			}
 			Debug.DrawRay(transform.position, transform.forward.normalized*v_detectionRadius, Color.red);
 			Debug.DrawRay(transform.position, -transform.forward.normalized*v_detectionRadius, Color.red);

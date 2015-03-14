@@ -21,6 +21,8 @@ public class Ennemy_BasicIA : MonoBehaviour {
         transform.position = Vector3.MoveTowards(transform.position, _Target.transform.position, _step);
 	}
 
+	//this is old and unused
+	//actual death is in BreakableObjectByCube
     void OnCollisionEnter(Collision _coll) {
         if (_coll.gameObject.tag == "Weapon") {
             _Status.PV -= 1;
