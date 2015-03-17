@@ -50,7 +50,6 @@ public class Dash : MonoBehaviour {
 		gameObject.GetComponent<Rigidbody>().AddForce (_Direction * _VitesseInitiale, ForceMode.Impulse);
 
 		_DistanceParcourue += 1.0f * Time.deltaTime;
-		Debug.Log("distance"+ _DistanceParcourue);
 		if(_DistanceParcourue>= _Distance){
 			Debug.Log("1");
 				gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;

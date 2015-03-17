@@ -4,7 +4,7 @@ using System.Collections;
 public class Idole_Status : MonoBehaviour {
 
     [SerializeField]
-    private int _Life;
+    public int _Life;
 
     private Sticky _LinkOnit;
 
@@ -43,5 +43,6 @@ public class Idole_Status : MonoBehaviour {
 
     void Death() { 
         //si les points de vies de l'aura tombent à zero on lance le game Over
+        Debug.Log("Game Over");
     }
 }

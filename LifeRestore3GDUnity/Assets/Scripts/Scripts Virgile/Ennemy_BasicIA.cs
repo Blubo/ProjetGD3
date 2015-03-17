@@ -28,5 +28,15 @@ public class Ennemy_BasicIA : MonoBehaviour {
         if (_coll.gameObject.tag == "Weapon") {
             _Status.PV -= 1;
         }
+        //Atk sur le joueur
+        if (_coll.gameObject.tag == "Player")
+        {
+            _coll.gameObject.GetComponent<Player_Status>()._Life -= _Status.ATK;
+        }
+        //Atk sur l'idole
+        if (_coll.gameObject.tag == "Idole")
+        {
+            _coll.gameObject.GetComponent<Idole_Status>()._Life -=(int) _Status.ATK;
+        }
     }
 }
