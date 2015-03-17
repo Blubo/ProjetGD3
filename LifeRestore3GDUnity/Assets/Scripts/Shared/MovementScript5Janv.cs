@@ -10,7 +10,7 @@ public class MovementScript5Janv : MonoBehaviour {
 	GamePadState state;
 	GamePadState prevState;
 	
-	public float v_movementSpeed, v_dashConstant;
+	public float v_movementSpeed;
 
 	//rotation
 	private float _rightStickX, _rightStickY;
@@ -25,6 +25,11 @@ public class MovementScript5Janv : MonoBehaviour {
 	[Tooltip("Check to change aiming system")]
 	[SerializeField]
 	private bool _alternateAiming, _strafe;
+
+	//Tentative for traction, used in elasticScript
+	[HideInInspector]
+	public Vector3 _inputDirectionNormalized;
+
 	// Use this for initialization
 	void Start () {
 //		_alternateAiming=false;
@@ -117,7 +122,7 @@ public class MovementScript5Janv : MonoBehaviour {
 		direction.y=0;
 		direction.z=( state.ThumbSticks.Left.Y);
 		direction.Normalize();
-
+		_inputDirectionNormalized = direction;
 		_movement = direction*v_movementSpeed;
 		GetComponent<Rigidbody>().AddForce(_movement);
 

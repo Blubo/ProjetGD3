@@ -18,7 +18,7 @@ public class HookHeadF : MonoBehaviour {
 	public int howWasIShot;
 
 	private Vector3 _myShooterPos;
-	public float v_returnDistance, v_returnSpeedConst, v_allowedProximity, v_BreakDistance;
+	public float v_returnSpeedConst, v_allowedProximity, v_BreakDistance;
 	private bool shouldIReturn=false;
 
 	public AudioClip v_linkedToAnObject, v_linkedToAPlayer;
@@ -144,7 +144,7 @@ public class HookHeadF : MonoBehaviour {
 			//on n'enclenche/ne permet le retour que si la tete du grappin n'est pas posée
 			if (GrappedTo == null) {
 				//si j'ai rien choppé
-				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_returnDistance){
+				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_BreakDistance){
 					shouldIReturn=true;
 				}
 				

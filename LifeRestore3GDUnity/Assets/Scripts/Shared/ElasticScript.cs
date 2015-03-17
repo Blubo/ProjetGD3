@@ -18,7 +18,7 @@ public class ElasticScript : MonoBehaviour {
 	//cette variable en dessous désigne à quelle pourcentage de la distnce max du lien on aura l'elasticité
 	[Range(0,1)]
 	public float v_tensionLessDistanceRatio;
-	private float _tensionStrenght, _howDeep1;
+	private float _tensionStrenght, _howDeep1, _distanceAtTime;
 
 	//gère les booléennes "break"
 	//ne peut casser un lien que s'il n'est pas déjà cassé (pour empecher que ElasticBreak ne soit appellé 2 fois
@@ -27,8 +27,24 @@ public class ElasticScript : MonoBehaviour {
 	public bool _breaking1, _Laisse;
 
 	private Vector3 _direction1;
-
 	private GameObject _hook1;
+	
+	[Tooltip("Check to make elasticity higher if player is farther away from the hookhead")]
+	[SerializeField]
+	private bool v_distanceAmplificator;
+
+	[Tooltip("Check to disable traction on player")]
+	[SerializeField]
+	private bool v_applyTensionOnPlayer = true;
+
+	[Space(10)]
+	[Header("New attempt at traction")]
+
+	[Tooltip("Check to enable and test a traction force not dependent on movement speed")]
+	[SerializeField]
+	private bool _newAttemptAtTractionForce;
+	[SerializeField]
+	private float v_newTractionForce;
 
 	// Use this for initialization
 	void Start () {
@@ -64,31 +80,38 @@ public class ElasticScript : MonoBehaviour {
 				_direction1=(_hook1.transform.position-gameObject.transform.position);
 				_direction1.Normalize();
 
+				Vector3 direction = new Vector3(0,0,0);
+				direction.x=(state.ThumbSticks.Right.X);
+				direction.y=0;
+				direction.z=( state.ThumbSticks.Right.Y);
+				direction.Normalize();                       
+
 				//on donne comme tension la force max de déplacement pour l'instant
-				_tensionStrenght = gameObject.GetComponent<MovementScript5Janv>().v_movementSpeed*v_tensionRatio;
+				if(_newAttemptAtTractionForce == false){
+					_tensionStrenght = gameObject.GetComponent<MovementScript5Janv>().v_movementSpeed*v_tensionRatio;
+				}else{
+					_tensionStrenght = v_newTractionForce;
+				}
 
                 //Si l'on appuie sur la laisse pour la bloquer/débloquer et que l'on est pas dans la zone de tension
-                if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed && Vector3.Distance(gameObject.transform.position, _hook1.transform.position) <= _hook1.GetComponent<HookHeadF>().v_returnDistance * v_tensionLessDistanceRatio)
+				if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed && Vector3.Distance(gameObject.transform.position, _hook1.transform.position) <= _hook1.GetComponent<HookHeadF>().v_BreakDistance * v_tensionLessDistanceRatio)
                 {
                     Debug.Log(Vector3.Distance(gameObject.transform.position, _hook1.transform.position));
                   
                     if (!_Laisse) { 
-                        //On prend en sauvegarde les valeurs de base de break et distance
+                        //On prend en sauvegarde la valeur de base de break
                         temp_Break = _hook1.GetComponent<HookHeadF>().v_BreakDistance;
-                        temp_Return = _hook1.GetComponent<HookHeadF>().v_returnDistance;
-                        //On les remplace par le positionnement !!actuel!! du joueur
-                        _hook1.GetComponent<HookHeadF>().v_returnDistance = Vector3.Distance(gameObject.transform.position, _hook1.transform.position) / v_tensionLessDistanceRatio;
+                        //On la remplace par le positionnement !!actuel!! du joueur
                         _hook1.GetComponent<HookHeadF>().v_BreakDistance = Vector3.Distance(gameObject.transform.position, _hook1.transform.position) / v_tensionLessDistanceRatio;
 
                         _Laisse = true;
                     }
                     else if (_Laisse)
                     {
-                        // On relache, on rend ses valeurs de base à break et distance
+                        // On relache, on rend sa valeur de base à break
                         _hook1.GetComponent<HookHeadF>().v_BreakDistance = temp_Break;
-                        _hook1.GetComponent<HookHeadF>().v_returnDistance = temp_Return;
                         _Laisse = false;
-                        // !! A NOTER !! il faut aussi remettre les valeurs de bases de break et distance au moment du cassage du lien
+                        // !! A NOTER !! il faut aussi remettre la valeur de base de break au moment du cassage du lien
                     }
                 }
 
@@ -98,17 +121,28 @@ public class ElasticScript : MonoBehaviour {
 
 				//si le joueur est au dela de la zone sans tension
                 //if(Vector3.Distance(gameObject.transform.position, _hook1.GetComponent<HookHeadF>().GrappedTo.transform.position)>=v_tensionlessDistance){
-				if(Vector3.Distance(gameObject.transform.position, _hook1.transform.position)>=_hook1.GetComponent<HookHeadF>().v_returnDistance*v_tensionLessDistanceRatio){
-					//on ajoute la tension sur le joueur
-					gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght*_howDeep1);
+				if(Vector3.Distance(gameObject.transform.position, _hook1.transform.position)>=_hook1.GetComponent<HookHeadF>().v_BreakDistance*v_tensionLessDistanceRatio){
+					//si amplificator= true (public)
+					//make elasticity higher if player is farther away from the hookhead
+					//sinon, indépendant de cela
+					if(v_distanceAmplificator==true){
+						//on ajoute la tension sur le joueur
+						if(v_applyTensionOnPlayer==true){
+							gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght*_howDeep1);
+						}
+						//on ajoute la tension sur l'objet tracté
+						//ICI
+						//v_blockAttractionForce = une constante pour mieux gérer la traction via elasticité
+						//rajouter un coefficient qui grandit avec le nombre de liens recus!
+						//*gameObject.GetComponent<LinkStrenght>()._LinkCommited ceci est ce coefficient, il doit peut etre etre modulé pour un niveau de granularité plus fin
+						_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1*_tensionStrenght*_howDeep1*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1), _hook1.gameObject.transform.position);
 
-					//on ajoute la tension sur l'objet tracté
-					//ICI
-					//v_blockAttractionForce = une constante pour mieux gérer la traction via elasticité
-					//rajouter un coefficient qui grandit avec le nombre de liens recus!
-					//*gameObject.GetComponent<LinkStrenght>()._LinkCommited ceci est ce coefficient, il doit peut etre etre modulé pour un niveau de granularité plus fin
-
-					_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1*_tensionStrenght*_howDeep1*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1), _hook1.gameObject.transform.position);
+					}else{
+						if(v_applyTensionOnPlayer==true){
+							gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght);
+						}
+						_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1*_tensionStrenght*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1), _hook1.gameObject.transform.position);
+					}
 
 					//si le joueur et le bloc sont trop loin
 					if(Vector3.Distance(gameObject.transform.position, _hook1.transform.position)>=_hook1.GetComponent<HookHeadF>().v_BreakDistance){
@@ -124,6 +158,7 @@ public class ElasticScript : MonoBehaviour {
 	public void ElasticBreak(Vector3 direction, bool breaking){
 		breaking=true;
         _Laisse = false;
+		_distanceAtTime = 0f;
 		GetComponent<Rigidbody>().AddForce(-direction*v_expulsionStrenght);
 	}
 
