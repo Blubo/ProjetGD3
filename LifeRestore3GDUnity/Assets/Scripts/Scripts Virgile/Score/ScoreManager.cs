@@ -3,13 +3,13 @@ using System.Collections;
 
 public class ScoreManager : MonoBehaviour {
 
-    public float Score_Jaune, Score_Bleu, Score_Rouge, Score_Vert;
+    public int Score_Jaune, Score_Bleu, Score_Rouge, Score_Vert;
 
 	void Start () {
-	  Score_Jaune = 0.0f;
-      Score_Bleu = 0.0f;
-      Score_Rouge = 0.0f;
-      Score_Vert = 0.0f;
+	  Score_Jaune = 0;
+      Score_Bleu = 0;
+      Score_Rouge = 0;
+      Score_Vert = 0;
 	}
 	
 
@@ -17,7 +17,7 @@ public class ScoreManager : MonoBehaviour {
 	
 	}
 
-    public void Increase_score(string _Player, float _value){
+    public void Increase_score(string _Player, int _value){
         switch (_Player)
         {
             case "Jaune":

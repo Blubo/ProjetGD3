@@ -43,6 +43,5 @@ public class Idole_Status : MonoBehaviour {
 
     void Death() { 
         //si les points de vies de l'aura tombent à zero on lance le game Over
-        Debug.Log("Game Over");
     }
 }
