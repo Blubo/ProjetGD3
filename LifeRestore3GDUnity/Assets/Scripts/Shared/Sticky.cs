@@ -9,17 +9,57 @@ public class Sticky : MonoBehaviour {
 	[HideInInspector]
 	public int v_numberOfLinks;
 	private float _myInitMass;
+  [SerializeField]
+  private float _MaxTimerMass;
+
+  private float _TimerMass;
 
 	// Use this for initialization
 	void Start () {
+    _TimerMass = _MaxTimerMass;
 		v_numberOfLinks=0;
-		_myInitMass=gameObject.GetComponent<Rigidbody>().mass;
+    if (gameObject.GetComponent<Rigidbody>() != null)
+    {
+      _myInitMass = gameObject.GetComponent<Rigidbody>().mass;
+    }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		//gérer le rigidoby des items auxquels on se connecte ici: si lien=! 0, alors rigidbody, si lien = 0 alors destroy/disable rigidbody
+    /*
+    if(v_numberOfLinks ==0){
+      if (_TimerMass <= 0.0f)
+      {
+        gameObject.GetComponent<Rigidbody>().mass = _myInitMass / 3.0f;
+      }else if (_TimerMass > 0.0f){
+        _TimerMass -= Time.deltaTime;
+      }
+
+    }
+    else if (v_numberOfLinks >= 1.0f)
+    {
+       gameObject.GetComponent<Rigidbody>().mass = _myInitMass;
+       _TimerMass = _MaxTimerMass;
+    }*/
 	}
+
+  
+  void OnTriggerEnter(Collider col){
+    if (v_numberOfLinks != 0){
+	  	if(col.gameObject.GetComponent<Sticky>()!=null){
+				col.gameObject.GetComponent<Rigidbody>().mass =1f;
+			}
+		}
+	}
+
+  void OnTriggerExit(Collider col) {
+    if (v_numberOfLinks != 0){
+      if (col.gameObject.GetComponent<Sticky>() != null){
+        col.gameObject.GetComponent<Rigidbody>().mass = 20f;
+      }
+    }
+  }
+   
 
 //	void OnCollisionEnter(Collision col){
 //		if(col.gameObject.GetComponent<Sticky>()!=null){

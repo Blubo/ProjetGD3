@@ -22,7 +22,7 @@ public class ElasticScript : MonoBehaviour {
 
 	//gère les booléennes "break"
 	//ne peut casser un lien que s'il n'est pas déjà cassé (pour empecher que ElasticBreak ne soit appellé 2 fois
-	private float _timer1, temp_Return, temp_Break;
+	private float _timer1, temp_Return, temp_Break, temp_TensionRatio;
 	[HideInInspector]
 	public bool _breaking1, _Laisse;
 
@@ -95,15 +95,21 @@ public class ElasticScript : MonoBehaviour {
                     if (!_Laisse) { 
                         //On prend en sauvegarde la valeur de base de break
                         temp_Break = _hook1.GetComponent<HookHeadF>().v_BreakDistance;
+                        temp_TensionRatio = v_tensionRatio;
                         //On la remplace par le positionnement !!actuel!! du joueur
-                        _hook1.GetComponent<HookHeadF>().v_BreakDistance = Vector3.Distance(gameObject.transform.position, _hook1.transform.position) / v_tensionLessDistanceRatio;
+  //                      _hook1.GetComponent<HookHeadF>().v_BreakDistance = Vector3.Distance(gameObject.transform.position, _hook1.transform.position)/v_tensionLessDistanceRatio;
+                        //_hook1.GetComponent<HookHeadF>().v_BreakDistance = Vector3.Distance(gameObject.transform.position, _hook1.transform.position) + (gameObject.GetComponent<Collider>().bounds.extents.magnitude+ _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Collider>().bounds.size.magnitude)*3.0f;
+                        _hook1.GetComponent<HookHeadF>().v_BreakDistance = Vector3.Distance(gameObject.transform.position, _hook1.transform.position) * 3.0f;
 
+                        float ratio = _hook1.GetComponent<HookHeadF>().v_BreakDistance / temp_Break;
+                        v_tensionRatio = v_tensionRatio / ratio;
                         _Laisse = true;
                     }
                     else if (_Laisse)
                     {
                         // On relache, on rend sa valeur de base à break
                         _hook1.GetComponent<HookHeadF>().v_BreakDistance = temp_Break;
+                        v_tensionRatio = temp_TensionRatio;
                         _Laisse = false;
                         // !! A NOTER !! il faut aussi remettre la valeur de base de break au moment du cassage du lien
                     }
@@ -115,6 +121,9 @@ public class ElasticScript : MonoBehaviour {
 
 				//si le joueur est au dela de la zone sans tension
                 //if(Vector3.Distance(gameObject.transform.position, _hook1.GetComponent<HookHeadF>().GrappedTo.transform.position)>=v_tensionlessDistance){
+        if (Vector3.Distance(gameObject.transform.position, _hook1.transform.position) >= 2f)
+        {
+
 				if(Vector3.Distance(gameObject.transform.position, _hook1.transform.position)>=_hook1.GetComponent<HookHeadF>().v_BreakDistance*v_tensionLessDistanceRatio){
 					//si amplificator= true (public)
 					//make elasticity higher if player is farther away from the hookhead
@@ -145,6 +154,7 @@ public class ElasticScript : MonoBehaviour {
 						}
 					}
 				}
+      }
 //
 //				if(Vector3.Distance(gameObject.transform.position, _hook1.GetComponent<HookHeadF>().GrappedTo.transform.position)>5f){
 //					Vector3 directionPlayerBloc = _hook1.GetComponent<HookHeadF>().GrappedTo.transform.position - gameObject.transform.position;
@@ -159,6 +169,10 @@ public class ElasticScript : MonoBehaviour {
 	}
 
 	public void ElasticBreak(Vector3 direction, bool breaking){
+    if (_Laisse == true) {
+      v_tensionRatio = temp_TensionRatio;
+    }
+
 		breaking=true;
         _Laisse = false;
 		_distanceAtTime = 0f;
