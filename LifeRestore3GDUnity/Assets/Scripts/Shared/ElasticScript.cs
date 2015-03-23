@@ -80,12 +80,6 @@ public class ElasticScript : MonoBehaviour {
 				_direction1=(_hook1.transform.position-gameObject.transform.position);
 				_direction1.Normalize();
 
-				Vector3 direction = new Vector3(0,0,0);
-				direction.x=(state.ThumbSticks.Right.X);
-				direction.y=0;
-				direction.z=( state.ThumbSticks.Right.Y);
-				direction.Normalize();                       
-
 				//on donne comme tension la force max de déplacement pour l'instant
 				if(_newAttemptAtTractionForce == false){
 					_tensionStrenght = gameObject.GetComponent<MovementScript5Janv>().v_movementSpeed*v_tensionRatio;
@@ -151,6 +145,15 @@ public class ElasticScript : MonoBehaviour {
 						}
 					}
 				}
+//
+//				if(Vector3.Distance(gameObject.transform.position, _hook1.GetComponent<HookHeadF>().GrappedTo.transform.position)>5f){
+//					Vector3 directionPlayerBloc = _hook1.GetComponent<HookHeadF>().GrappedTo.transform.position - gameObject.transform.position;
+////					Vector3.Lerp(_hook1.GetComponent<HookHeadF>().GrappedTo.transform.position, gameObject.transform.position + directionPlayerBloc * 0.5f, 1f);
+////					_hook1.GetComponent<HookHeadF>().GrappedTo.transform.position = Vector3.Lerp(_hook1.GetComponent<HookHeadF>().GrappedTo.transform.position, gameObject.transform.position + directionPlayerBloc * 0.7f, 0.8f);
+//					_hook1.GetComponent<HookHeadF>().GrappedTo.transform.position = Vector3.MoveTowards(_hook1.GetComponent<HookHeadF>().GrappedTo.transform.position, gameObject.transform.position + directionPlayerBloc * 0.7f, 0.5f*Time.deltaTime);
+//					Debug.DrawRay(gameObject.transform.position + directionPlayerBloc * 0.7f, Vector3.up);
+//					//				_hook1.GetComponent<HookHeadF>().GrappedTo.transform.position = gameObject.transform.position + directionPlayerBloc * 0.8f;
+//				}
 			}
 		}
 	}

@@ -50,74 +50,85 @@ public class HookHeadF : MonoBehaviour {
 			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=Color.blue;
 			gameObject.GetComponent<Renderer>().material.color=Color.blue;
 		}
-		
 	} 
 
 	//ce que touche la tete:
-	void OnTriggerEnter(Collider _Collided){
-//		Debug.Log("i am " + gameObject.name);
+//	void OnTriggerEnter(Collider _Collided){
+////		Debug.Log("i am " + gameObject.name);
+//
+//		//si on touche qqch qui n'est:
+//		//ni mon shooter
+//		//ni une autre tete de tir
+//		//ni un lien
+//		//ni un trigger de changement de slide dans le cadre de la présentation du 14 janvier
+//		if(_Collided.gameObject != _myShooter && _Collided.gameObject.name!="NewHookhead(Clone)" && _Collided.gameObject.name!="B 5Janv" && _Collided.gameObject.tag!=("Respawn")){
+////			Debug.Log("son nom est "+_Collided.name);
+//
+//			if (GrappedTo == null){
+//				//ON UTILISE PLUS LOCALPOS?
+//				_localPos = _Collided.transform.InverseTransformPoint(gameObject.transform.position);
+//				GrappedTo = _Collided.gameObject;
+//				if(GrappedTo.GetComponent<Sticky>()!=null){
+//					GrappedTo.GetComponent<Sticky>().v_numberOfLinks+=1;
+//				}
+//
+//				//gameObject.rigidbody.velocity = Vector3.zero;
+//				if(howWasIShot==1)_myShooter.GetComponent<ShootF>()._target=_Collided.gameObject;
+//
+//				//si on touche un autre joueur
+//				if(_Collided.gameObject.transform.Find("ApparenceAvatar")!=null){
+//					if(_Collided.gameObject.transform.Find("ApparenceAvatar").gameObject.tag == "Player"){
+//						//ET SI CE N EST PAS MOI
+//						LinkStrenght _Linkcommited = _Collided.gameObject.GetComponent<LinkStrenght>();
+//						_Linkcommited._LinkCommited += 1;
+//
+//						LinkStrenght _LinkcommitedToMe = _myShooter.GetComponent<LinkStrenght>();
+//						_LinkcommitedToMe._LinkCommited += 1;
+//
+//						//audio joué quand on connect un joueur
+//						GetComponent<AudioSource>().PlayOneShot(v_linkedToAPlayer);
+//					}	
+//				}else{
+//					//audio joué quand on connect un block
+//					GetComponent<AudioSource>().PlayOneShot(v_linkedToAnObject);
+//				}
+//			}
+//		}
+//	}
 
-		//si on touche qqch qui n'est:
-		//ni mon shooter
-		//ni une autre tete de tir
-		//ni un lien
-		//ni un trigger de changement de slide dans le cadre de la présentation du 14 janvier
-		if(_Collided.gameObject != _myShooter && _Collided.gameObject.name!="NewHookhead(Clone)" && _Collided.gameObject.name!="B 5Janv" && _Collided.gameObject.tag!=("Respawn")){
-//			Debug.Log("son nom est "+_Collided.name);
+	void Update (){
+		//collisions affinées
+		//idée: on balance un raycast dans diverses directions (de base, juste en face) autour de la tete de lien
+		//raycast de longueur choisir V_detectionRadius
+		//on récupère la position relative du hit par rapport à l'objet qu'on a hit, et on la stocke dans where2
+		//suite de where2 
+		if(GrappedTo==null){
+			if(_hitSmth==false){
+				for (int j = 1; j < 9; j++) {
+					//8 raycasts, 360 degrés, 360/8=45, appliqué sur un cercle trigonométrique et une conversion de degrés ° vers radia
+					//6 raycasts, 360 degrés, 360/6=60, appliqué sur un cercle trigonométrique et une conversion de degrés ° vers radia
 
-			if (GrappedTo == null){
-				//ON UTILISE PLUS LOCALPOS?
-				_localPos = _Collided.transform.InverseTransformPoint(gameObject.transform.position);
-				GrappedTo = _Collided.gameObject;
-				if(GrappedTo.GetComponent<Sticky>()!=null){
-					GrappedTo.GetComponent<Sticky>().v_numberOfLinks+=1;
-				}
+					RaycastHit hit;
+//					if(Physics.Raycast(transform.position, new Vector3(Mathf.Cos(j*45f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*45f*Mathf.Deg2Rad)), out hit, v_detectionRadius) && hit.collider.gameObject != _myShooter && hit.collider.gameObject.name!="NewHookhead(Clone)" && hit.collider.gameObject.name != "B 5Janv"){
+					if(Physics.Raycast(transform.position, new Vector3(Mathf.Cos(j*60f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*60f*Mathf.Deg2Rad)), out hit, v_detectionRadius) && hit.collider.gameObject != _myShooter && hit.collider.gameObject.name!="NewHookhead(Clone)" && hit.collider.gameObject.name != "B 5Janv"){
 
-				//gameObject.rigidbody.velocity = Vector3.zero;
-				if(howWasIShot==1)_myShooter.GetComponent<ShootF>()._target=_Collided.gameObject;
+						_hitSmth=true;
+						GrappedTo=hit.collider.gameObject;
+						if(GrappedTo.GetComponent<Sticky>()!=null){
+							GrappedTo.GetComponent<Sticky>().v_numberOfLinks+=1;
+						}
+						if(howWasIShot==1)_myShooter.GetComponent<ShootF>()._target=GrappedTo;
 
-				//si on touche un autre joueur
-				if(_Collided.gameObject.transform.Find("ApparenceAvatar")!=null){
-					if(_Collided.gameObject.transform.Find("ApparenceAvatar").gameObject.tag == "Player"){
-						//ET SI CE N EST PAS MOI
-						LinkStrenght _Linkcommited = _Collided.gameObject.GetComponent<LinkStrenght>();
-						_Linkcommited._LinkCommited += 1;
+//						Debug.Log("i hit "+ hit.collider.gameObject.name);
+						where2 = hit.collider.gameObject.transform.InverseTransformPoint(hit.point);
+						break;
+					}
+//					Debug.DrawRay(transform.position, new Vector3(Mathf.Cos(j*45f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*45f*Mathf.Deg2Rad)).normalized*v_detectionRadius, Color.red);
 
-						LinkStrenght _LinkcommitedToMe = _myShooter.GetComponent<LinkStrenght>();
-						_LinkcommitedToMe._LinkCommited += 1;
-
-						//audio joué quand on connect un joueur
-						GetComponent<AudioSource>().PlayOneShot(v_linkedToAPlayer);
-					}	
-				}else{
-					//audio joué quand on connect un block
-					GetComponent<AudioSource>().PlayOneShot(v_linkedToAnObject);
+					Debug.DrawRay(transform.position, new Vector3(Mathf.Cos(j*60f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*60f*Mathf.Deg2Rad)).normalized*v_detectionRadius, Color.red);
 				}
 			}
 		}
-	}
-
-	void Update (){
-		//collisions affinées lol
-		//idée: on balance un raycast dans diverses directions (de base, juste en face) autour de la tete de lien
-		//raycast de longueur choisir V_detectionRadius
-		//si un raycast touche qqch de layer 11 (Blocks) !!! alors
-		//on récupère la position relative du hit par rapport à l'objet qu'on a hit, et on la stocke dans where2
-		//suite de where2 
-//		if(_hitSmth==false){
-//			RaycastHit hit;
-//			if (Physics.Raycast(transform.position, transform.forward, out hit, v_detectionRadius)||Physics.Raycast(transform.position, -transform.forward, out hit, v_detectionRadius)||Physics.Raycast(transform.position, transform.right, out hit, v_detectionRadius)||Physics.Raycast(transform.position, -transform.right, out hit, v_detectionRadius)){
-//				//if(hit.collider.gameObject.layer == 11){
-//					Debug.Log("hit!");
-//					_hitSmth=true;
-//					where2 = hit.collider.gameObject.transform.InverseTransformPoint(hit.point);
-//				//}
-//			}
-//			Debug.DrawRay(transform.position, transform.forward.normalized*v_detectionRadius, Color.red);
-//			Debug.DrawRay(transform.position, -transform.forward.normalized*v_detectionRadius, Color.red);
-//			Debug.DrawRay(transform.position, transform.right.normalized*v_detectionRadius, Color.red);
-//			Debug.DrawRay(transform.position, -transform.right.normalized*v_detectionRadius, Color.red);
-//		}
 
 		//si le grappin est attaché à un objet, il suit ses mvts
 		if(GrappedTo != null){
@@ -127,7 +138,7 @@ public class HookHeadF : MonoBehaviour {
 			gameObject.transform.position = GrappedTo.transform.TransformPoint(_localPos);
 
 			//localisation ameliorée
-//			gameObject.transform.position = GrappedTo.transform.TransformPoint(where2);
+			gameObject.transform.position = GrappedTo.transform.TransformPoint(where2);
 
 			//ceci brise un lien lorsqu'il est trop grand
 			//aucun feedback
