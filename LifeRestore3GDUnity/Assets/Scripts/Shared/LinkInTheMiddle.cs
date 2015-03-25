@@ -52,16 +52,30 @@ public class LinkInTheMiddle : MonoBehaviour {
 
 		if(v_C.GetComponent<HookHeadF>().GrappedTo!=null){
 //			if(Vector3.Distance(v_A.transform.position, v_C.transform.position)>=0.85f*Vector3.Distance(v_A.transform.position, v_C.GetComponent<HookHeadF>().GrappedTo.transform.position)){
-			if(Vector3.Distance(v_A.transform.position, v_C.transform.position)>=gameObject.transform.parent.GetComponent<HookHeadF>()._myShooter.GetComponent<ElasticScript>().v_tensionLessDistanceRatio*v_C.GetComponent<HookHeadF>().v_BreakDistance){
-				_blinkTimer+=Time.deltaTime;
-				if(_blinkTimer>0.2f){
-					gameObject.GetComponent<Renderer>().material.color=Color.white;
-					_blinkTimer=0f;
+			if(gameObject.transform.parent.GetComponent<HookHeadF>().newLinkSystem == false){
+				if(Vector3.Distance(v_A.transform.position, v_C.transform.position)>=gameObject.transform.parent.GetComponent<HookHeadF>()._myShooter.GetComponent<ElasticScript>().v_tensionLessDistanceRatio*v_C.GetComponent<HookHeadF>().v_BreakDistance){
+					_blinkTimer+=Time.deltaTime;
+					if(_blinkTimer>0.2f){
+						gameObject.GetComponent<Renderer>().material.color=Color.white;
+						_blinkTimer=0f;
+					}else{
+						gameObject.GetComponent<Renderer>().material.color=_myColor;
+					}
 				}else{
 					gameObject.GetComponent<Renderer>().material.color=_myColor;
 				}
 			}else{
-				gameObject.GetComponent<Renderer>().material.color=_myColor;
+				if(Vector3.Distance(v_A.transform.position, v_C.transform.position)>=gameObject.transform.parent.GetComponent<HookHeadF>().newTensionLessDistance){
+					_blinkTimer+=Time.deltaTime;
+					if(_blinkTimer>0.2f){
+						gameObject.GetComponent<Renderer>().material.color=Color.white;
+						_blinkTimer=0f;
+					}else{
+						gameObject.GetComponent<Renderer>().material.color=_myColor;
+					}
+				}else{
+					gameObject.GetComponent<Renderer>().material.color=_myColor;
+				}
 			}
 		}
 	}

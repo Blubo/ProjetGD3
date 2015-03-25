@@ -9,19 +9,18 @@ public class Sticky : MonoBehaviour {
 	[HideInInspector]
 	public int v_numberOfLinks;
 	private float _myInitMass;
-  [SerializeField]
-  private float _MaxTimerMass;
-
-  private float _TimerMass;
+	[SerializeField]
+	private float _MaxTimerMass;
+	private float _TimerMass;
 
 	// Use this for initialization
 	void Start () {
     _TimerMass = _MaxTimerMass;
 		v_numberOfLinks=0;
-    if (gameObject.GetComponent<Rigidbody>() != null)
-    {
-      _myInitMass = gameObject.GetComponent<Rigidbody>().mass;
-    }
+	    if (gameObject.GetComponent<Rigidbody>() != null)
+	    {
+	      _myInitMass = gameObject.GetComponent<Rigidbody>().mass;
+	    }
 	}
 	
 	// Update is called once per frame
@@ -42,23 +41,28 @@ public class Sticky : MonoBehaviour {
        _TimerMass = _MaxTimerMass;
     }*/
 	}
-
-  
-  void OnTriggerEnter(Collider col){
+	
+	//si je suis lié
+	//tous les éléments possèdant sticky qui se trouvent dans mon trigger
+	//voient leur poids changer (2nd test: divisé par 10)
+	//selon leur type?
+	void OnTriggerEnter(Collider col){
+		//si lien!=0
+		//tester si le block a une force
     if (v_numberOfLinks != 0){
 	  	if(col.gameObject.GetComponent<Sticky>()!=null){
-				col.gameObject.GetComponent<Rigidbody>().mass =1f;
+				col.gameObject.GetComponent<Rigidbody>().mass = col.gameObject.GetComponent<Sticky>()._myInitMass*0.1f;;
 			}
 		}
 	}
-
-  void OnTriggerExit(Collider col) {
-    if (v_numberOfLinks != 0){
-      if (col.gameObject.GetComponent<Sticky>() != null){
-        col.gameObject.GetComponent<Rigidbody>().mass = 20f;
-      }
-    }
-  }
+	
+	void OnTriggerExit(Collider col) {
+	    if (v_numberOfLinks != 0){
+		    if (col.gameObject.GetComponent<Sticky>() != null){
+				col.gameObject.GetComponent<Rigidbody>().mass = col.gameObject.GetComponent<Sticky>()._myInitMass;
+		    }
+	    }
+	}
    
 
 //	void OnCollisionEnter(Collision col){

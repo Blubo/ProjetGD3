@@ -32,6 +32,21 @@ public class HookHeadF : MonoBehaviour {
 	private bool _hitSmth = false;
 	private Vector3 where2;
 
+	//24mars
+	//attempt at new link
+	[Space(10)]
+	[Header("New Link System")]
+	[TooltipAttribute("Check to use the new link system")]
+	public bool newLinkSystem;
+	[HideInInspector]
+	public float newTensionLessDistance;
+	[TooltipAttribute("Break distance = this% de tensionLessD")]
+	[SerializeField]
+	[Range(0,100)]
+	private float breakDistanceRatio;
+	[HideInInspector]
+	public float newBreakDistance;
+
 	void Start(){
 		if(_myShooter.GetComponent<ShootF>().playerIndex==XInputDotNetPure.PlayerIndex.One){
 			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=Color.yellow;
@@ -104,13 +119,13 @@ public class HookHeadF : MonoBehaviour {
 		//suite de where2 
 		if(GrappedTo==null){
 			if(_hitSmth==false){
-				for (int j = 1; j < 9; j++) {
+				for (int j = 1; j < 7; j++) {
 					//8 raycasts, 360 degrés, 360/8=45, appliqué sur un cercle trigonométrique et une conversion de degrés ° vers radia
 					//6 raycasts, 360 degrés, 360/6=60, appliqué sur un cercle trigonométrique et une conversion de degrés ° vers radia
 
 					RaycastHit hit;
 //					if(Physics.Raycast(transform.position, new Vector3(Mathf.Cos(j*45f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*45f*Mathf.Deg2Rad)), out hit, v_detectionRadius) && hit.collider.gameObject != _myShooter && hit.collider.gameObject.name!="NewHookhead(Clone)" && hit.collider.gameObject.name != "B 5Janv"){
-					if(Physics.Raycast(transform.position, new Vector3(Mathf.Cos(j*60f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*60f*Mathf.Deg2Rad)), out hit, v_detectionRadius) && hit.collider.gameObject != _myShooter && hit.collider.gameObject.name!="NewHookhead(Clone)" && hit.collider.gameObject.name != "B 5Janv"){
+					if(Physics.Raycast(transform.position, new Vector3(Mathf.Cos(j*60f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*60f*Mathf.Deg2Rad)), out hit, v_detectionRadius) && hit.collider.gameObject != _myShooter && hit.collider.gameObject.name!="NewHookhead(Clone)" && hit.collider.gameObject.name != "B 5Janv" && hit.collider.gameObject.name != "BlocTriggerZone"){
 
 						_hitSmth=true;
 						GrappedTo=hit.collider.gameObject;
@@ -121,6 +136,11 @@ public class HookHeadF : MonoBehaviour {
 
 //						Debug.Log("i hit "+ hit.collider.gameObject.name);
 						where2 = hit.collider.gameObject.transform.InverseTransformPoint(hit.point);
+//						newTensionLessDistance = Vector3.Distance(where2, _myShooterPos);
+						newTensionLessDistance = Vector3.Distance(gameObject.transform.position, _myShooterPos);
+
+						//newtensionlessdistance = "breakdistanceRatio" de newBreakDistance 
+						newBreakDistance = newTensionLessDistance*100/breakDistanceRatio;
 						break;
 					}
 //					Debug.DrawRay(transform.position, new Vector3(Mathf.Cos(j*45f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*45f*Mathf.Deg2Rad)).normalized*v_detectionRadius, Color.red);
@@ -143,8 +163,14 @@ public class HookHeadF : MonoBehaviour {
 			//ceci brise un lien lorsqu'il est trop grand
 			//aucun feedback
 			//aussi, vu que pour l'instant la tete du lien se met au centre (et donc bouge!) alors si on se connecte à la distance max, le lien se détruit automatiquement!
-			if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_BreakDistance){
-				_myShooter.GetComponent<ShootF>().DetachLink(howWasIShot - 1);
+			if(newLinkSystem==false){
+				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_BreakDistance){
+					_myShooter.GetComponent<ShootF>().DetachLink(howWasIShot - 1);
+				}
+			}else{
+				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=newBreakDistance){
+					_myShooter.GetComponent<ShootF>().DetachLink(howWasIShot - 1);
+				}
 			}
 		}
 
@@ -155,9 +181,18 @@ public class HookHeadF : MonoBehaviour {
 			//on n'enclenche/ne permet le retour que si la tete du grappin n'est pas posée
 			if (GrappedTo == null) {
 				//si j'ai rien choppé
-				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_BreakDistance){
-					shouldIReturn=true;
-				}
+				//if(newLinkSystem==false){
+					if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_BreakDistance){
+						shouldIReturn=true;
+
+					}
+				//}
+				/*else{
+					if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=newBreakDistance){
+						shouldIReturn=true;
+
+					}
+				}*/
 				
 				if(shouldIReturn==true){
 					if(Vector3.Distance(gameObject.transform.position, gameObject.transform.Find("B 5Janv").GetComponent<LinkInTheMiddle>()._whereIsItShot)<=v_allowedProximity){
