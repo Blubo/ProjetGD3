@@ -51,7 +51,7 @@ public class Sticky : MonoBehaviour {
 		//tester si le block a une force
     if (v_numberOfLinks != 0){
 	  	if(col.gameObject.GetComponent<Sticky>()!=null){
-				col.gameObject.GetComponent<Rigidbody>().mass = col.gameObject.GetComponent<Sticky>()._myInitMass*0.1f;;
+				col.gameObject.GetComponent<Rigidbody>().mass = col.gameObject.GetComponent<Sticky>()._myInitMass*0.1f;
 			}
 		}
 	}

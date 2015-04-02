@@ -89,7 +89,7 @@ public class ElasticScript : MonoBehaviour {
 
 				//LAISSE
                 //Si l'on appuie sur la laisse pour la bloquer/débloquer et que l'on est pas dans la zone de tension
-				if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed && Vector3.Distance(gameObject.transform.position, _hook1.transform.position) <= _hook1.GetComponent<HookHeadF>().v_BreakDistance * v_tensionLessDistanceRatio)
+				/*if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed && Vector3.Distance(gameObject.transform.position, _hook1.transform.position) <= _hook1.GetComponent<HookHeadF>().v_BreakDistance * v_tensionLessDistanceRatio)
                 {
                     Debug.Log(Vector3.Distance(gameObject.transform.position, _hook1.transform.position));
                   
@@ -114,7 +114,18 @@ public class ElasticScript : MonoBehaviour {
                         _Laisse = false;
                         // !! A NOTER !! il faut aussi remettre la valeur de base de break au moment du cassage du lien
                     }
-                }
+                }*/
+        if(state.Buttons.X == ButtonState.Pressed){
+          //On empêche les forces élastiques d'agir
+          _hook1.GetComponent<HookHeadF>().newTensionLessDistance = 10.0f;
+        }
+        if (state.Buttons.X == ButtonState.Released && prevState.Buttons.X == ButtonState.Pressed)
+        {
+          //On met à jour la taille du lien
+          _hook1.GetComponent<HookHeadF>().newTensionLessDistance = _hook1.GetComponent<HookHeadF>()._actualDistance;
+          _hook1.GetComponent<HookHeadF>().newBreakDistance = _hook1.GetComponent<HookHeadF>().newTensionLessDistance * 100 / _hook1.GetComponent<HookHeadF>().breakDistanceRatio;
+
+        }
 
 				//on cherche à quel point le gars est dans le kk
 				//à savoir le ratio entre son écartement à sa cible divisé par la distance max autorisée
