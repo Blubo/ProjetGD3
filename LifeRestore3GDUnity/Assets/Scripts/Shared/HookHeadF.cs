@@ -125,7 +125,13 @@ public class HookHeadF : MonoBehaviour {
 
 					RaycastHit hit;
 //					if(Physics.Raycast(transform.position, new Vector3(Mathf.Cos(j*45f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*45f*Mathf.Deg2Rad)), out hit, v_detectionRadius) && hit.collider.gameObject != _myShooter && hit.collider.gameObject.name!="NewHookhead(Clone)" && hit.collider.gameObject.name != "B 5Janv"){
-					if(Physics.Raycast(transform.position, new Vector3(Mathf.Cos(j*60f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*60f*Mathf.Deg2Rad)), out hit, v_detectionRadius) && hit.collider.gameObject != _myShooter && hit.collider.gameObject.name!="NewHookhead(Clone)" && hit.collider.gameObject.name != "B 5Janv" && hit.collider.gameObject.name != "BlocTriggerZone"){
+					if(Physics.Raycast(transform.position, new Vector3(Mathf.Cos(j*60f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*60f*Mathf.Deg2Rad)), out hit, v_detectionRadius)
+					   && hit.collider.gameObject != _myShooter
+					   && hit.collider.gameObject.name!="NewHookhead(Clone)"
+					   && hit.collider.gameObject.name != "B 5Janv"
+					   && hit.collider.gameObject.name != "BlocTriggerZone"
+					   && hit.collider.gameObject.name != "ReceptacleCollider"
+					   && hit.collider.gameObject.name != "SupportReceptacle"){
 
 						_hitSmth=true;
 						GrappedTo=hit.collider.gameObject;

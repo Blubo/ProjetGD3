@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: c182bf17475520346b1d72affe3741a4
+labels:
+- 3d
+- Prop
+- Modeling
+- Uv
+- Mesh
+- Edit
+- Vertex
+PluginImporter:
+  serializedVersion: 1
+  iconMap: {}
+  executionOrder: {}
+  isPreloaded: 0
+  platformData:
+    Any:
+      enabled: 1
+      settings: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
