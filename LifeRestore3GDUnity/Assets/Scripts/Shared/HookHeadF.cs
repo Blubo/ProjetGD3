@@ -39,11 +39,11 @@ public class HookHeadF : MonoBehaviour {
 	[TooltipAttribute("Check to use the new link system")]
 	public bool newLinkSystem;
 	[HideInInspector]
-	public float newTensionLessDistance;
+  public float newTensionLessDistance, _actualDistance;
 	[TooltipAttribute("Break distance = this% de tensionLessD")]
 	[SerializeField]
 	[Range(0,100)]
-	private float breakDistanceRatio;
+	public float breakDistanceRatio;
 	[HideInInspector]
 	public float newBreakDistance;
 
@@ -112,6 +112,41 @@ public class HookHeadF : MonoBehaviour {
 //	}
 
 	void Update (){
+    _actualDistance = Vector3.Distance(gameObject.transform.position, _myShooterPos);
+    //CECI ETAIT DANS LE FIXED UPDATE
+    if (_myShooter != null)
+    {
+      _myShooterPos = _myShooter.transform.position;
+
+      //on n'enclenche/ne permet le retour que si la tete du grappin n'est pas posée
+      if (GrappedTo == null)
+      {
+        //si j'ai rien choppé
+        //if(newLinkSystem==false){
+        if (Vector3.Distance(gameObject.transform.position, _myShooterPos) >= v_BreakDistance)
+        {
+          shouldIReturn = true;
+
+        }
+        //}
+        /*else{
+          if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=newBreakDistance){
+            shouldIReturn=true;
+
+          }
+        }*/
+
+        if (shouldIReturn == true)
+        {
+          if (Vector3.Distance(gameObject.transform.position, gameObject.transform.Find("B 5Janv").GetComponent<LinkInTheMiddle>()._whereIsItShot) <= v_allowedProximity)
+          {
+            //						Debug.Log("death?");
+            if (howWasIShot == 1) Destroy(_myShooter.GetComponent<ShootF>()._myHook);
+          }
+        }
+      }
+    }
+
 		//collisions affinées
 		//idée: on balance un raycast dans diverses directions (de base, juste en face) autour de la tete de lien
 		//raycast de longueur choisir V_detectionRadius
@@ -161,7 +196,14 @@ public class HookHeadF : MonoBehaviour {
 
 			//uncomment below for non-contact points spacialization
 			//ON UTILISE PLUS??
-			gameObject.transform.position = GrappedTo.transform.TransformPoint(_localPos);
+			//gameObject.transform.position = GrappedTo.transform.TransformPoint(_localPos);
+    // if (gameObject.GetComponent<HingeJoint>() == null)
+     // {
+      //  Debug.Log("azrt");
+      //  gameObject.AddComponent<HingeJoint>();
+    //    gameObject.GetComponent<HingeJoint>().connectedBody = GrappedTo.GetComponent<Rigidbody>();
+    // }
+
 
 			//localisation ameliorée
 			gameObject.transform.position = GrappedTo.transform.TransformPoint(where2);
@@ -169,7 +211,7 @@ public class HookHeadF : MonoBehaviour {
 			//ceci brise un lien lorsqu'il est trop grand
 			//aucun feedback
 			//aussi, vu que pour l'instant la tete du lien se met au centre (et donc bouge!) alors si on se connecte à la distance max, le lien se détruit automatiquement!
-			if(newLinkSystem==false){
+			/*if(newLinkSystem==false){
 				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_BreakDistance){
 					_myShooter.GetComponent<ShootF>().DetachLink(howWasIShot - 1);
 				}
@@ -177,37 +219,10 @@ public class HookHeadF : MonoBehaviour {
 				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=newBreakDistance){
 					_myShooter.GetComponent<ShootF>().DetachLink(howWasIShot - 1);
 				}
-			}
+			}*/
 		}
 
-		//CECI ETAIT DANS LE FIXED UPDATE
-		if(_myShooter!=null){
-			_myShooterPos=_myShooter.transform.position;
 
-			//on n'enclenche/ne permet le retour que si la tete du grappin n'est pas posée
-			if (GrappedTo == null) {
-				//si j'ai rien choppé
-				//if(newLinkSystem==false){
-					if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_BreakDistance){
-						shouldIReturn=true;
-
-					}
-				//}
-				/*else{
-					if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=newBreakDistance){
-						shouldIReturn=true;
-
-					}
-				}*/
-				
-				if(shouldIReturn==true){
-					if(Vector3.Distance(gameObject.transform.position, gameObject.transform.Find("B 5Janv").GetComponent<LinkInTheMiddle>()._whereIsItShot)<=v_allowedProximity){
-//						Debug.Log("death?");
-						if(howWasIShot==1) Destroy(_myShooter.GetComponent<ShootF>()._myHook);
-					}
-				}
-			}
-		}
 	}
 
 	void FixedUpdate (){

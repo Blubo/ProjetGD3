@@ -123,7 +123,7 @@ public class ElasticScript : MonoBehaviour {
         {
           //On met à jour la taille du lien
           _hook1.GetComponent<HookHeadF>().newTensionLessDistance = _hook1.GetComponent<HookHeadF>()._actualDistance;
-          _hook1.GetComponent<HookHeadF>().newBreakDistance = _hook1.GetComponent<HookHeadF>().newTensionLessDistance * 100 / _hook1.GetComponent<HookHeadF>().breakDistanceRatio;
+         // _hook1.GetComponent<HookHeadF>().newBreakDistance = _hook1.GetComponent<HookHeadF>().newTensionLessDistance * 100 / _hook1.GetComponent<HookHeadF>().breakDistanceRatio;
 
         }
 
@@ -154,8 +154,7 @@ public class ElasticScript : MonoBehaviour {
 								//rajouter un coefficient qui grandit avec le nombre de liens recus!
 								//*gameObject.GetComponent<LinkStrenght>()._LinkCommited ceci est ce coefficient, il doit peut etre etre modulé pour un niveau de granularité plus fin
 								_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1*_tensionStrenght*_howDeep1*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1), _hook1.gameObject.transform.position);
-
-							}else{
+              }else{
 								if(v_applyTensionOnPlayer==true){
 									gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght);
 								}
@@ -163,15 +162,15 @@ public class ElasticScript : MonoBehaviour {
 							}
 
 							//si le joueur et le bloc sont trop loin
-							if(Vector3.Distance(gameObject.transform.position, _hook1.transform.position)>=_hook1.GetComponent<HookHeadF>().v_BreakDistance){
+						/*	if(Vector3.Distance(gameObject.transform.position, _hook1.transform.position)>=_hook1.GetComponent<HookHeadF>().v_BreakDistance){
 								if(_breaking1==false){
 									ElasticBreak(_direction1, _breaking1);
 								}
-							}
+							}*/
 						}
      				}
 				}else{
-					if(Vector3.Distance(gameObject.transform.position, _hook1.transform.position)>=_hook1.GetComponent<HookHeadF>().newTensionLessDistance){
+					if(Vector3.Distance(gameObject.transform.position, _hook1.transform.position)>_hook1.GetComponent<HookHeadF>().newTensionLessDistance + 1.0f){
 						//si amplificator= true (public)
 						//make elasticity higher if player is farther away from the hookhead
 						//sinon, indépendant de cela
@@ -185,21 +184,32 @@ public class ElasticScript : MonoBehaviour {
 							//v_blockAttractionForce = une constante pour mieux gérer la traction via elasticité
 							//rajouter un coefficient qui grandit avec le nombre de liens recus!
 							//*gameObject.GetComponent<LinkStrenght>()._LinkCommited ceci est ce coefficient, il doit peut etre etre modulé pour un niveau de granularité plus fin
-							_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1*_tensionStrenght*_howDeep1*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1), _hook1.gameObject.transform.position);
-							
-						}else{
+              
+							//_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1*_tensionStrenght*_howDeep1*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1), _hook1.gameObject.transform.position);
+            }else{
 							if(v_applyTensionOnPlayer==true){
 								gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght);
 							}
-							_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1*_tensionStrenght*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1), _hook1.gameObject.transform.position);
-						}
+              float distance = Vector3.Distance(gameObject.transform.position, _hook1.transform.position) - _hook1.GetComponent<HookHeadF>().newTensionLessDistance;
+             // _hook1.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1 * _tensionStrenght * (v_blockAttractionForce) * (gameObject.GetComponent<LinkStrenght>()._LinkCommited + 1), _hook1.gameObject.transform.position);
+              if (_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity.magnitude >10.0f)
+              {
+                _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1 * _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity.magnitude*50, _hook1.gameObject.transform.position);
+              }
+              else
+              {
+                //_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForce(-_direction1 * _tensionStrenght * (v_blockAttractionForce*_howDeep1) * (gameObject.GetComponent<LinkStrenght>()._LinkCommited + 1));
+
+               _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1 * _tensionStrenght * (v_blockAttractionForce*_howDeep1) * (gameObject.GetComponent<LinkStrenght>()._LinkCommited + 1), _hook1.gameObject.transform.position);
+              }
+            }
 						
 						//si le joueur et le bloc sont trop loin
-						if(Vector3.Distance(gameObject.transform.position, _hook1.transform.position)>=_hook1.GetComponent<HookHeadF>().newBreakDistance){
+					/*	if(Vector3.Distance(gameObject.transform.position, _hook1.transform.position)>=_hook1.GetComponent<HookHeadF>().newBreakDistance){
 							if(_breaking1==false){
 								ElasticBreak(_direction1, _breaking1);
 							}
-						}
+						}*/
 					}
 				}
 

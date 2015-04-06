@@ -119,7 +119,7 @@ public class ShootF : MonoBehaviour {
 			//	if(Vector3.Distance(gameObject.transform.position, _myHook.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionLessDistanceRatio*_myHook.GetComponent<HookHeadF>().v_BreakDistance){
           Vector3 direction = _myHook.transform.position-gameObject.transform.position;
 					direction.Normalize();
-					gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking1);
+					//gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking1);
 			//	}
 				Destroy(_myHook);
 			}
