@@ -36,6 +36,7 @@ public class CameraFocus : MonoBehaviour {
 		
 		//positionne le focus sur le barycentre
 		//gameObject.transform.position=_barycenter;
+		//ATTENTION, FAUT PTET METTRE UN T.DELTATIME
 		gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, _barycenter, 0.1f);
 
 	}

@@ -112,6 +112,39 @@ public class HookHeadF : MonoBehaviour {
 //	}
 
 	void Update (){
+
+		//si le grappin est attaché à un objet, il suit ses mvts
+		if(GrappedTo != null){
+
+			if(gameObject.GetComponent<Rigidbody>().isKinematic==true){
+				gameObject.GetComponent<Rigidbody>().isKinematic=false;
+
+			}
+
+			//uncomment below for non-contact points spacialization
+			//ON UTILISE PLUS??
+			//			gameObject.transform.position = GrappedTo.transform.TransformPoint(_localPos);
+			
+			//			Debug.DrawRay(GrappedTo.transform.TransformPoint(where2), Vector3.up);
+			//			Debug.DrawRay(gameObject.transform.position, Vector3.up);
+			//localisation ameliorée
+			gameObject.transform.position = GrappedTo.transform.TransformPoint(where2);
+			
+			//ceci brise un lien lorsqu'il est trop grand
+			//aucun feedback
+			//aussi, vu que pour l'instant la tete du lien se met au centre (et donc bouge!) alors si on se connecte à la distance max, le lien se détruit automatiquement!
+			if(newLinkSystem==false){
+				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_BreakDistance){
+					_myShooter.GetComponent<ShootF>().DetachLink(howWasIShot - 1);
+				}
+			}else{
+				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=newBreakDistance){
+					_myShooter.GetComponent<ShootF>().DetachLink(howWasIShot - 1);
+				}
+			}
+		}
+		Debug.DrawRay(gameObject.transform.position, Vector3.up);
+
 		//collisions affinées
 		//idée: on balance un raycast dans diverses directions (de base, juste en face) autour de la tete de lien
 		//raycast de longueur choisir V_detectionRadius
@@ -119,13 +152,14 @@ public class HookHeadF : MonoBehaviour {
 		//suite de where2 
 		if(GrappedTo==null){
 			if(_hitSmth==false){
-				for (int j = 1; j < 7; j++) {
+//				for (int j = 1; j < 7; j++) {
+				for (int j = 1; j < 9; j++) {
 					//8 raycasts, 360 degrés, 360/8=45, appliqué sur un cercle trigonométrique et une conversion de degrés ° vers radia
 					//6 raycasts, 360 degrés, 360/6=60, appliqué sur un cercle trigonométrique et une conversion de degrés ° vers radia
 
 					RaycastHit hit;
-//					if(Physics.Raycast(transform.position, new Vector3(Mathf.Cos(j*45f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*45f*Mathf.Deg2Rad)), out hit, v_detectionRadius) && hit.collider.gameObject != _myShooter && hit.collider.gameObject.name!="NewHookhead(Clone)" && hit.collider.gameObject.name != "B 5Janv"){
-					if(Physics.Raycast(transform.position, new Vector3(Mathf.Cos(j*60f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*60f*Mathf.Deg2Rad)), out hit, v_detectionRadius)
+					if(Physics.Raycast(transform.position, new Vector3(Mathf.Cos(j*45f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*45f*Mathf.Deg2Rad)), out hit, v_detectionRadius) 
+//					if(Physics.Raycast(transform.position, new Vector3(Mathf.Cos(j*60f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*60f*Mathf.Deg2Rad)), out hit, v_detectionRadius)
 					   && hit.collider.gameObject != _myShooter
 					   && hit.collider.gameObject.name!="NewHookhead(Clone)"
 					   && hit.collider.gameObject.name != "B 5Janv"
@@ -147,35 +181,11 @@ public class HookHeadF : MonoBehaviour {
 
 						//newtensionlessdistance = "breakdistanceRatio" de newBreakDistance 
 						newBreakDistance = newTensionLessDistance*100/breakDistanceRatio;
+						gameObject.GetComponent<Rigidbody>().isKinematic=true;
 						break;
 					}
-//					Debug.DrawRay(transform.position, new Vector3(Mathf.Cos(j*45f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*45f*Mathf.Deg2Rad)).normalized*v_detectionRadius, Color.red);
-
-					Debug.DrawRay(transform.position, new Vector3(Mathf.Cos(j*60f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*60f*Mathf.Deg2Rad)).normalized*v_detectionRadius, Color.red);
-				}
-			}
-		}
-
-		//si le grappin est attaché à un objet, il suit ses mvts
-		if(GrappedTo != null){
-
-			//uncomment below for non-contact points spacialization
-			//ON UTILISE PLUS??
-			gameObject.transform.position = GrappedTo.transform.TransformPoint(_localPos);
-
-			//localisation ameliorée
-			gameObject.transform.position = GrappedTo.transform.TransformPoint(where2);
-
-			//ceci brise un lien lorsqu'il est trop grand
-			//aucun feedback
-			//aussi, vu que pour l'instant la tete du lien se met au centre (et donc bouge!) alors si on se connecte à la distance max, le lien se détruit automatiquement!
-			if(newLinkSystem==false){
-				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=v_BreakDistance){
-					_myShooter.GetComponent<ShootF>().DetachLink(howWasIShot - 1);
-				}
-			}else{
-				if(Vector3.Distance(gameObject.transform.position, _myShooterPos)>=newBreakDistance){
-					_myShooter.GetComponent<ShootF>().DetachLink(howWasIShot - 1);
+					Debug.DrawRay(transform.position, new Vector3(Mathf.Cos(j*45f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*45f*Mathf.Deg2Rad)).normalized*v_detectionRadius, Color.red);
+//					Debug.DrawRay(transform.position, new Vector3(Mathf.Cos(j*60f*Mathf.Deg2Rad), 0f, Mathf.Sin(j*60f*Mathf.Deg2Rad)).normalized*v_detectionRadius, Color.red);
 				}
 			}
 		}

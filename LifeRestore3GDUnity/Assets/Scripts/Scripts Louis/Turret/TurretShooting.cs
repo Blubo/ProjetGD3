@@ -3,12 +3,19 @@ using System.Collections;
 
 public class TurretShooting : MonoBehaviour {
 
+	[Header("Standard turret system")]
 	[SerializeField]
 	private float _shootCooldown,_shootForce;
 	private float _shootTimer;
 
 	[SerializeField]
 	private GameObject _projectile, _instantiateur;
+
+	[Space(15f)]
+
+	[Header("Canon system")]
+	[Tooltip("Check to make it a canon")]
+	public bool isCanon;
 
 	// Use this for initialization
 	void Start () {
@@ -17,16 +24,18 @@ public class TurretShooting : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		_shootTimer+=Time.deltaTime;
-		if(_shootTimer>=_shootCooldown){
-			Shoot();
+		if(isCanon==false){
+			_shootTimer+=Time.deltaTime;
+			if(_shootTimer>=_shootCooldown){
+				Shoot();
+			}
 		}
 	}
 
 	void Shoot(){
 //		GameObject newProj = Instantiate(_projectile, _instantiateur.transform.position, Quaternion.identity) as GameObject;
 		GameObject newProj = Instantiate (_projectile, _instantiateur.transform.position, Quaternion.identity) as GameObject;
-		newProj.GetComponent<Rigidbody>().AddForce(gameObject.transform.up*_shootForce);
+		newProj.GetComponent<Rigidbody>().AddForce(_instantiateur.transform.forward*_shootForce);
 
 		newProj.GetComponent<TurretProjectile>().v_whoShotMe = gameObject;
 		_shootTimer=0f;

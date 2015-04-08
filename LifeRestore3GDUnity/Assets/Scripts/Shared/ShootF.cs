@@ -12,8 +12,7 @@ public class ShootF : MonoBehaviour {
 	
 	private PlayerState _myPlayerState;
 	private LinkStrenght _LinksBehavior;
-	private HookHead _HookHeadbehavior,_HookHeadbehavior1;
-	
+
 	private float _timer = 1.5f;
 	//v_oldDashingForce = une variable rajoutée le 2 dévrier qui commence à 1 de base et qui détermine la force de dash du joueur via input continu
 	public float v_SpeedBullet, v_coolDown, v_sizeRatio, v_sizeGrowth;
