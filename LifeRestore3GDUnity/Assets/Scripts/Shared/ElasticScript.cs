@@ -132,7 +132,7 @@ public class ElasticScript : MonoBehaviour {
 				if(_hook1.GetComponent<HookHeadF>().newLinkSystem == false){
 					_howDeep1=Vector3.Distance(gameObject.transform.position, _hook1.transform.position)/_hook1.GetComponent<HookHeadF>().v_BreakDistance;
 				}else{
-					_howDeep1=Vector3.Distance(gameObject.transform.position, _hook1.transform.position)/_hook1.GetComponent<HookHeadF>().newBreakDistance;
+          _howDeep1 = (Vector3.Distance(gameObject.transform.position, _hook1.transform.position) / _hook1.GetComponent<HookHeadF>().newBreakDistance);
 				}
 				//si le joueur est au dela de la zone sans tension
                 //if(Vector3.Distance(gameObject.transform.position, _hook1.GetComponent<HookHeadF>().GrappedTo.transform.position)>=v_tensionlessDistance){
@@ -199,8 +199,8 @@ public class ElasticScript : MonoBehaviour {
               else
               {
                 //_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForce(-_direction1 * _tensionStrenght * (v_blockAttractionForce*_howDeep1) * (gameObject.GetComponent<LinkStrenght>()._LinkCommited + 1));
-
-               _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1 * _tensionStrenght * (v_blockAttractionForce*_howDeep1) * (gameObject.GetComponent<LinkStrenght>()._LinkCommited + 1), _hook1.gameObject.transform.position);
+               
+               // _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1 * _tensionStrenght * (v_blockAttractionForce) * (gameObject.GetComponent<LinkStrenght>()._LinkCommited + 1), _hook1.gameObject.transform.position, ForceMode.Impulse);
               }
             }
 						
