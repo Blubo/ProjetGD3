@@ -8,7 +8,7 @@ public class Sticky : MonoBehaviour {
 	//(et si le script existe déjà, alors juste v_number+1)
 	[HideInInspector]
 	public int v_numberOfLinks;
-	private float _myInitMass;
+	private float _myInitMass, _Velocity;
 	[SerializeField]
 	private float _MaxTimerMass;
 	private float _TimerMass;
@@ -19,7 +19,7 @@ public class Sticky : MonoBehaviour {
 		v_numberOfLinks=0;
 	    if (gameObject.GetComponent<Rigidbody>() != null)
 	    {
-	      _myInitMass = gameObject.GetComponent<Rigidbody>().mass;
+        _myInitMass = gameObject.GetComponent<Rigidbody>().mass;
 	    }
 	}
 	
