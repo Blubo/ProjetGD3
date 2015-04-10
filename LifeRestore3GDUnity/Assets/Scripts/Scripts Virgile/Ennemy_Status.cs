@@ -13,6 +13,7 @@ public class Ennemy_Status : MonoBehaviour {
 
     void Update() { 
         if(PV <= 0){
+			gameObject.GetComponent<EnemyPointer>().MyEnemiesManager.GetComponent<EnemiesManager>().enemiesCount-=1;
             Destroy(gameObject);
         }
     }

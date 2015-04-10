@@ -16,6 +16,9 @@ public class Spawner : MonoBehaviour {
     [SerializeField]
     private bool _Activated, _needAura;
 
+	[Tooltip("This spawner EnemiesManager")]
+	public GameObject EnemiesManager;
+
 	// Use this for initialization
 	void Start () {
         _Timer = _TimeToSpawn;
@@ -45,7 +48,10 @@ public class Spawner : MonoBehaviour {
     {
         for (int i = 0; i < _NumberToSpawn; i++)
         {
-            Instantiate(_ToSpawn, transform.position+ new Vector3(Random.Range(2.0f, 6.0f), 0.0f, Random.Range(-3.0f, 3.0f)), Quaternion.identity);
+            GameObject spawned = Instantiate(_ToSpawn, transform.position+ new Vector3(Random.Range(2.0f, 6.0f), 0.0f, Random.Range(-3.0f, 3.0f)), Quaternion.identity) as GameObject;
+			if(_ToSpawn.GetComponent<EnemyPointer>()!=null){
+				spawned.GetComponent<EnemyPointer>().MyEnemiesManager = EnemiesManager;
+			}
         }
     }
 
