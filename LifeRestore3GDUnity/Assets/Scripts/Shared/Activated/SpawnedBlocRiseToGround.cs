@@ -8,8 +8,7 @@ public class SpawnedBlocRiseToGround : MonoBehaviour {
 
 	[Tooltip("The height at which our spawned bloc will rise when created")]
 	[Range(0,Mathf.Infinity)]
-	[SerializeField]
-	private float altitude;
+	public float altitude;
 
 	// Use this for initialization
 	void Start () {

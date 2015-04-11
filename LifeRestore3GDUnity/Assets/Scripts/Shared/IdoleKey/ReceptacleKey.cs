@@ -43,6 +43,7 @@ public class ReceptacleKey : MonoBehaviour {
 	[SerializeField]
 	private bool OneUseOnly;
 
+	//on accède à stillUsable dans ActivatedSpawnByRéceptacle
 	[HideInInspector]
 	public bool stillUsable=true;
 

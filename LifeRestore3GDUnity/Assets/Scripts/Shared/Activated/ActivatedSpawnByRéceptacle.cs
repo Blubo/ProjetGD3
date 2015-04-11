@@ -23,6 +23,10 @@ public class ActivatedSpawnByRéceptacle : MonoBehaviour {
 	//the number of times this has been activated
 	private int activatedCounter;
 
+	[Tooltip("Will the objects spawned rise from the ground")]
+	[SerializeField]
+	private bool willThisRiseFromTheGround;
+
 	// Use this for initialization
 	void Start () {
 		activatedCounter = 0;
@@ -39,16 +43,31 @@ public class ActivatedSpawnByRéceptacle : MonoBehaviour {
 				if(activatedCounter<=itemsPoolSize){
 					spawn = false;
 					GameObject spawnedItem = Instantiate(itemToSpawn, gameObject.transform.position, transform.rotation) as GameObject;
+					if(willThisRiseFromTheGround==true){
+						spawnedItem.AddComponent<SpawnedBlocRiseToGround>();
+						spawnedItem.GetComponent<SpawnedBlocRiseToGround>().altitude = 10;
+						spawnedItem.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;
+
+					}
 				}
 			}else{
 				spawn = false;
 				GameObject spawnedItem = Instantiate(itemToSpawn, gameObject.transform.position, transform.rotation) as GameObject;
+				if(willThisRiseFromTheGround==true){
+					spawnedItem.AddComponent<SpawnedBlocRiseToGround>();
+					spawnedItem.GetComponent<SpawnedBlocRiseToGround>().altitude = 10;
+					spawnedItem.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+					spawnedItem.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX;
+					spawnedItem.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ;
+				}
 			}
 		}
 
-		if(activatedCounter>=itemsPoolSize){
-			if(myLinkedReceptacle.GetComponent<ReceptacleKey>().stillUsable==true){
-				myLinkedReceptacle.GetComponent<ReceptacleKey>().stillUsable=false;
+		if(limitedPool==true){
+			if(activatedCounter>=itemsPoolSize){
+				if(myLinkedReceptacle.GetComponent<ReceptacleKey>().stillUsable==true){
+					myLinkedReceptacle.GetComponent<ReceptacleKey>().stillUsable=false;
+				}
 			}
 		}
 	}
