@@ -20,10 +20,14 @@ public class SpawnedBlocRiseToGround : MonoBehaviour {
 	void Update () {
 		if(needToMoveToSpawn==true){
 			gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, target, 0.1f);
+			gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+			gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
 		}
 		
 		if(gameObject.transform.position == target){
 			needToMoveToSpawn=false;
+			gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+			gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
 		}
 	}
 }

@@ -27,6 +27,10 @@ public class ActivatedSpawnByRéceptacle : MonoBehaviour {
 	[SerializeField]
 	private bool willThisRiseFromTheGround;
 
+	[Tooltip("How high compared to this item will the spawned rise?")]
+	[SerializeField]
+	private float altitude;
+
 	// Use this for initialization
 	void Start () {
 		activatedCounter = 0;
@@ -45,8 +49,7 @@ public class ActivatedSpawnByRéceptacle : MonoBehaviour {
 					GameObject spawnedItem = Instantiate(itemToSpawn, gameObject.transform.position, transform.rotation) as GameObject;
 					if(willThisRiseFromTheGround==true){
 						spawnedItem.AddComponent<SpawnedBlocRiseToGround>();
-						spawnedItem.GetComponent<SpawnedBlocRiseToGround>().altitude = 10;
-						spawnedItem.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;
+						spawnedItem.GetComponent<SpawnedBlocRiseToGround>().altitude = altitude;
 
 					}
 				}
@@ -55,10 +58,9 @@ public class ActivatedSpawnByRéceptacle : MonoBehaviour {
 				GameObject spawnedItem = Instantiate(itemToSpawn, gameObject.transform.position, transform.rotation) as GameObject;
 				if(willThisRiseFromTheGround==true){
 					spawnedItem.AddComponent<SpawnedBlocRiseToGround>();
-					spawnedItem.GetComponent<SpawnedBlocRiseToGround>().altitude = 10;
-					spawnedItem.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-					spawnedItem.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX;
-					spawnedItem.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ;
+					spawnedItem.GetComponent<SpawnedBlocRiseToGround>().altitude = altitude;
+
+
 				}
 			}
 		}
