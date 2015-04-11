@@ -11,7 +11,7 @@ public class Score_Collectible : MonoBehaviour {
     void Awake()
     {
         _ScoreManager = Camera.main.GetComponent<ScoreManager>();
-        gameObject.transform.localScale = new Vector3(_Multiplicator, _Multiplicator, _Multiplicator);
+        gameObject.transform.localScale = gameObject.transform.localScale+new Vector3(_Multiplicator, _Multiplicator, _Multiplicator);
 
     }
 
