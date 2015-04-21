@@ -95,9 +95,13 @@ public class ShootF : MonoBehaviour {
 	
 	// Grappin 1 
 	void Hook(){
-		_whatSoundToPlay = Random.Range(0, v_linkShotList.Count);
-		GetComponent<AudioSource>().PlayOneShot(v_linkShotList[_whatSoundToPlay]);
-		
+		//ANCIEN AUDIO SANS FMOD
+//		_whatSoundToPlay = Random.Range(0, v_linkShotList.Count);
+//		GetComponent<AudioSource>().PlayOneShot(v_linkShotList[_whatSoundToPlay]);
+
+		//ON JOUE LE SON FMOD ICI POUR LE TIR DU LIEN 
+
+
 		//droite
 		_myHook = Instantiate(_HookHead, v_instantiateur.transform.position, transform.rotation) as GameObject;
 		Rigidbody rb = _myHook.GetComponent<Rigidbody>();

@@ -42,6 +42,9 @@ public class RéceptacleBlocNormal : MonoBehaviour {
 
 			if((limitedUses==true && activatedCounter<numberLimitedUses)||limitedUses==false){
 //				Debug.Log("activated");
+				//PLAY ONE SHOT FMOD ICI POUR REUSSIR A METTRE UN BLOC DANS UN RECEPTACLE NORMAL
+
+
 				activatedCounter+=1;
 				activatedItem.SendMessage("Activated");
 			}

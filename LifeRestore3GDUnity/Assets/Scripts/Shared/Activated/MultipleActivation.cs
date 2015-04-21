@@ -38,6 +38,9 @@ public class MultipleActivation : MonoBehaviour {
 		if(hasActivatedTarget==false && gotActivatedCounter == howManyActivationForEffect){
 			activatedCounter+=1;
 			hasActivatedTarget=true;
+			//PLAY ONE SHOT FMOD ICI POUR REUSSIR A ACTIVER UN MECANISME EN PLUSIEURS INTERRUPTEURS
+
+
 			activatedItem.SendMessage("Activated");
 		}
 	}

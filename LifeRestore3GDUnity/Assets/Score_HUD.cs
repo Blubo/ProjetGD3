@@ -15,10 +15,10 @@ public class Score_HUD : MonoBehaviour {
         _ThisScore = gameObject.name;
         _ScoreManager = Camera.main.GetComponent<ScoreManager>();
 
-                _Jaune = Jaune.GetComponent<Text>();
-                _Rouge = Rouge.GetComponent<Text>();
-                _Vert = Vert.GetComponent<Text>();
-                _Bleu = Bleu.GetComponent<Text>();
+		_Jaune = Jaune.GetComponent<Text>();
+		_Rouge = Rouge.GetComponent<Text>();
+		_Vert = Vert.GetComponent<Text>();
+		_Bleu = Bleu.GetComponent<Text>();
 	}
 	
 	// Update is called once per frame

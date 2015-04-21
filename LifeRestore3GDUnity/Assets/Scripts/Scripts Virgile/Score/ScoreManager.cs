@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ScoreManager : MonoBehaviour {
 
+	[HideInInspector]
     public int Score_Jaune, Score_Bleu, Score_Rouge, Score_Vert;
 
 	void Start () {
@@ -24,16 +25,17 @@ public class ScoreManager : MonoBehaviour {
                 Score_Jaune += _value;
                 break;
 
+			case "Rouge":
+				Score_Rouge += _value;
+				break;
+
+
+			case "Vert":
+				Score_Vert += _value;
+				break;
+
             case "Bleu":
                 Score_Bleu += _value;
-                break;
-
-            case "Vert":
-                Score_Vert += _value;
-                break;
-
-            case "Rouge":
-                Score_Rouge += _value;
                 break;
         }
     }

@@ -8,7 +8,11 @@ public class Block_SpawnCollectible : MonoBehaviour {
     [SerializeField]
     private int _NumberLittle, _NumberMedium, _NumberBig;
 
-	void OnEnable () {
+	void OnDestroy(){
+		SpawnCollectible();
+	}
+
+	public void SpawnCollectible () {
         for (int i = 0; i < _NumberLittle; i++)
         {
             Instantiate(_Little, gameObject.transform.position +new Vector3(Random.Range(-2.0f, 2.0f), 0.0f, Random.Range(-2.0f, 2.0f)), Quaternion.identity );

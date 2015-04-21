@@ -33,6 +33,9 @@ public class OpenTheDoor : MonoBehaviour {
 	}
 
 	void PleaseOpenDoor(){
+		//SON FMOD ICI POUR L OUVERTURE DE LA PORTE
+
+
 		gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, _openedLocation.transform.position, Time.deltaTime*doorSpeed);
 		if(gameObject.transform.position == _openedLocation.transform.position){
 			openedAlready = true;

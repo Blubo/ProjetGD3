@@ -41,6 +41,8 @@ public class ElevateFormGround : MonoBehaviour {
 
   void Activated()
   {
+		//METTRE ICI LE FMOD POUR SPAWN D OBJET
+
     _moved = true;
   }
 }
