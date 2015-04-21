@@ -195,6 +195,10 @@ public class ElasticScript : MonoBehaviour {
               if (_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity.magnitude >10.0f)
               {
                 _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1 * _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity.magnitude*50, _hook1.gameObject.transform.position);
+                if (_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity.magnitude > 20.0f)
+                {
+                  _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForce (-_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity*2.0f);
+                }
               }
               else
               {
