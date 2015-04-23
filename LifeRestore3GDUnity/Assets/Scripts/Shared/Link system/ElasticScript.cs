@@ -177,7 +177,7 @@ public class ElasticScript : MonoBehaviour {
 						if(v_distanceAmplificator==true){
 							//on ajoute la tension sur le joueur
 							if(v_applyTensionOnPlayer==true){
-								gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght*_howDeep1);
+								gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght*(_howDeep1*5));
 							}
 							//on ajoute la tension sur l'objet tracté
 							//ICI
@@ -188,7 +188,7 @@ public class ElasticScript : MonoBehaviour {
 							//_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1*_tensionStrenght*_howDeep1*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1), _hook1.gameObject.transform.position);
             }else{
 							if(v_applyTensionOnPlayer==true){
-								gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght);
+								gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght*_howDeep1);
 							}
               float distance = Vector3.Distance(gameObject.transform.position, _hook1.transform.position) - _hook1.GetComponent<HookHeadF>().newTensionLessDistance;
              // _hook1.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1 * _tensionStrenght * (v_blockAttractionForce) * (gameObject.GetComponent<LinkStrenght>()._LinkCommited + 1), _hook1.gameObject.transform.position);
