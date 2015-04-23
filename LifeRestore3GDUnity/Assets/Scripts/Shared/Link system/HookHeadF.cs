@@ -55,6 +55,12 @@ public class HookHeadF : MonoBehaviour {
 	//on stocke la position de l'objet à chaque frame jusqu'à la derniere frame avant qu'il touche qqch
 	private Vector3 myLastNonColPos;
 
+	//ce layerMask est à compléter dans l'inspecteur: mettre "tout" et enlever les objets qu'on ne souhaite pas capter
+	//ou ne mettre que les objets qu'on souhaite, au choix
+	//hookhead a son propre layer!
+	[SerializeField]
+	private LayerMask layermaskForLocalisation;
+
 	void Start(){
 		if(_myShooter.GetComponent<ShootF>().playerIndex==XInputDotNetPure.PlayerIndex.One){
 			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=Color.yellow;
@@ -87,7 +93,7 @@ public class HookHeadF : MonoBehaviour {
 //		if(_Collided.gameObject != _myShooter && _Collided.gameObject.name!="NewHookhead(Clone)" && _Collided.gameObject.name!="B 5Janv" && _Collided.gameObject.tag!=("Respawn")){
 
 		//si je touche qqch qui a le script Sticky
-		if(_Collided.gameObject.GetComponent<Sticky>() != null){
+		if(_Collided.gameObject.GetComponent<Sticky>() != null && _Collided.gameObject.tag.Equals("Unlinkable")==false){
 		
 //			Debug.Log("son nom est "+_Collided.name);
 
@@ -136,8 +142,6 @@ public class HookHeadF : MonoBehaviour {
 			//ON UTILISE PLUS??
 
 			if(shotRaycast==false){
-				//il faut ici mettre le layer "linkable"
-				int layerMaskMoi = 1<< 17;
 				RaycastHit hit;
 
 				//si distance entre shooter et moi avant la collision plus petite que entre shooter et objet collidé
@@ -154,12 +158,13 @@ public class HookHeadF : MonoBehaviour {
 //						gameObject.transform.position= GrappedTo.transform.TransformPoint(_localPos);
 //					}
 //				}else{
-					if(Physics.Raycast(_myShooterPos, GrappedTo.transform.TransformPoint(_localPos)-_myShooterPos, out hit, Mathf.Infinity, layerMaskMoi)){
-						shotRaycast = true;
+				if(Physics.Raycast(_myShooterPos, GrappedTo.transform.TransformPoint(_localPos)-_myShooterPos, out hit, Mathf.Infinity, layermaskForLocalisation)){
+
+					shotRaycast = true;
 						positionDetermined = hit.collider.gameObject.transform.InverseTransformPoint(hit.point);
 
-						Debug.Log("hit : "+hit.collider.gameObject.name);
-						Debug.DrawRay(positionDetermined, -Vector3.up*10);
+//						Debug.Log("hit : "+hit.collider.gameObject.name);
+//						Debug.DrawRay(positionDetermined, -Vector3.up*10);
 						gameObject.transform.position= GrappedTo.transform.TransformPoint(_localPos);
 					}
 //				}
@@ -217,6 +222,12 @@ public class HookHeadF : MonoBehaviour {
 					}
 				}
 			}
+		}
+
+		//if faut gérer la destruction de l'objet auquel je me suis lié
+		//genre jme connecte à un truc et qqn d'autre le pète: paf detachLink
+		if(_hitSmth==true && GrappedTo ==null){
+			_myShooter.GetComponent<ShootF>().DetachLink(0);
 		}
 
 		//collisions affinées

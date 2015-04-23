@@ -47,6 +47,10 @@ public class RéceptacleBlocNormal : MonoBehaviour {
 
 				activatedCounter+=1;
 				activatedItem.SendMessage("Activated");
+				if(activatedItem.GetComponent<MultipleActivation>()==null){
+					Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Interrupteur activer");
+				}
+
 			}
 		}
 	}

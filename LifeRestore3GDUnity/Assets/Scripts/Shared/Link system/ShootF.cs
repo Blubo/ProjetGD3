@@ -51,7 +51,7 @@ public class ShootF : MonoBehaviour {
 	public float v_oldDashingForce;
 	[Tooltip("change new dashing force")]
 	public float v_NewDashingForce;
-	
+
 	void Awake(){
 		_alternateDash=false;
 		_whatSoundToPlay=0;
@@ -100,7 +100,7 @@ public class ShootF : MonoBehaviour {
 //		GetComponent<AudioSource>().PlayOneShot(v_linkShotList[_whatSoundToPlay]);
 
 		//ON JOUE LE SON FMOD ICI POUR LE TIR DU LIEN 
-
+		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Ouglou tir");
 
 		//droite
 		_myHook = Instantiate(_HookHead, v_instantiateur.transform.position, transform.rotation) as GameObject;
@@ -113,33 +113,37 @@ public class ShootF : MonoBehaviour {
 	
 	//detache le(s) liens
 	public void DetachLink(int _Todestroy){
-		GetComponent<AudioSource>().PlayOneShot(v_linkBroken);
+//		GetComponent<AudioSource>().PlayOneShot(v_linkBroken);
 		
 		//Grappin 1
 		if(_Todestroy == 0){
 			
 			if(_target != null){
 			//	if(Vector3.Distance(gameObject.transform.position, _myHook.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionLessDistanceRatio*_myHook.GetComponent<HookHeadF>().v_BreakDistance){
-          Vector3 direction = _myHook.transform.position-gameObject.transform.position;
-					direction.Normalize();
-					//gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking1);
+         		Vector3 direction = _myHook.transform.position-gameObject.transform.position;
+				direction.Normalize();
+				//gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking1);
 			//	}
 				Destroy(_myHook);
-			}
-			
-			if(_target.gameObject.tag!="Player"){
-				if(_target.gameObject.GetComponent<Sticky>()!=null){
-					_target.gameObject.GetComponent<Sticky>().v_numberOfLinks-=1;
+
+				if(_target.gameObject.tag!="Player"){
+					if(_target.gameObject.GetComponent<Sticky>()!=null){
+						_target.gameObject.GetComponent<Sticky>().v_numberOfLinks-=1;
+					}
 				}
-			}
-			
-			if(_target.gameObject.tag=="Player"){
-				if(_target.gameObject.GetComponent<LinkStrenght>()!=null){
-					_target.gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
-					gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
+				
+				if(_target.gameObject.tag=="Player"){
+					if(_target.gameObject.GetComponent<LinkStrenght>()!=null){
+						_target.gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
+						gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
+					}
 				}
+				_target=null;
+
+			}else{
+				Destroy(_myHook);
+
 			}
-			_target=null;
 		}
 	}
 	

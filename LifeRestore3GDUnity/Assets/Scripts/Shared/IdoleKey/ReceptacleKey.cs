@@ -111,6 +111,7 @@ public class ReceptacleKey : MonoBehaviour {
 				//SI L IDOLE TOUCHE 
 				if(col.gameObject.tag.Equals("Idole")){
 					//ON JOUE LE SON FMOD DE SNAP DE L IDOLE SUR LE RECEPTACLE IDOLE
+					Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Interrupteur snap");
 
 
 					idole=col.gameObject;

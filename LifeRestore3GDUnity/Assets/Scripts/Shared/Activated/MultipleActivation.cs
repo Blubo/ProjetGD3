@@ -39,6 +39,7 @@ public class MultipleActivation : MonoBehaviour {
 			activatedCounter+=1;
 			hasActivatedTarget=true;
 			//PLAY ONE SHOT FMOD ICI POUR REUSSIR A ACTIVER UN MECANISME EN PLUSIEURS INTERRUPTEURS
+			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Interrupteur activer");
 
 
 			activatedItem.SendMessage("Activated");
