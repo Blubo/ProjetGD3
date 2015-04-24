@@ -49,6 +49,7 @@ public class Spawner : MonoBehaviour {
         for (int i = 0; i < _NumberToSpawn; i++)
         {
             GameObject spawned = Instantiate(_ToSpawn, transform.position+ new Vector3(Random.Range(2.0f, 6.0f), 0.0f, Random.Range(-3.0f, 3.0f)), Quaternion.identity) as GameObject;
+			//on assigne à ces nouveaux ennemis le pointer d'ennemis de la salle/zone où ils se trouvent
 			if(_ToSpawn.GetComponent<EnemyPointer>()!=null){
 				spawned.GetComponent<EnemyPointer>().MyEnemiesManager = EnemiesManager;
 			}

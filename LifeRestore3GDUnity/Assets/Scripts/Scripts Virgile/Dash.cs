@@ -51,7 +51,6 @@ public class Dash : MonoBehaviour {
 
 		_DistanceParcourue += 1.0f * Time.deltaTime;
 		if(_DistanceParcourue>= _Distance){
-			Debug.Log("1");
 				gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
 				_IsDashing = false;
 				_DistanceParcourue = 0.0f;

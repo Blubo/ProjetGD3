@@ -24,9 +24,9 @@ public class ElasticScript : MonoBehaviour {
 	//ne peut casser un lien que s'il n'est pas déjà cassé (pour empecher que ElasticBreak ne soit appellé 2 fois
 	private float _timer1, temp_Return, temp_Break, temp_TensionRatio;
 	[HideInInspector]
-	public bool _breaking1, _Laisse;
+	public bool _breaking1, _Laisse, _Block;
 
-	private Vector3 _direction1;
+	private Vector3 _direction1, _Blockvit;
 	private GameObject _hook1;
 	
 	[Tooltip("Check to make elasticity higher if player is farther away from the hookhead")]
@@ -52,6 +52,7 @@ public class ElasticScript : MonoBehaviour {
 		_timer1 =0f;
         //La laisse est désactivé par défaut
         _Laisse = false;
+        _Block = false;
 	}
 	
 	// Update is called once per frame
@@ -177,7 +178,7 @@ public class ElasticScript : MonoBehaviour {
 						if(v_distanceAmplificator==true){
 							//on ajoute la tension sur le joueur
 							if(v_applyTensionOnPlayer==true){
-								gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght*_howDeep1);
+								gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght*(_howDeep1*5.0f));
 							}
 							//on ajoute la tension sur l'objet tracté
 							//ICI
@@ -188,13 +189,30 @@ public class ElasticScript : MonoBehaviour {
 							//_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1*_tensionStrenght*_howDeep1*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1), _hook1.gameObject.transform.position);
             }else{
 							if(v_applyTensionOnPlayer==true){
-								gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght);
+								gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght*_howDeep1);
 							}
               float distance = Vector3.Distance(gameObject.transform.position, _hook1.transform.position) - _hook1.GetComponent<HookHeadF>().newTensionLessDistance;
              // _hook1.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1 * _tensionStrenght * (v_blockAttractionForce) * (gameObject.GetComponent<LinkStrenght>()._LinkCommited + 1), _hook1.gameObject.transform.position);
               if (_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity.magnitude >10.0f)
               {
+                
                 _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1 * _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity.magnitude*50, _hook1.gameObject.transform.position);
+                if (_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity.magnitude > 20.0f)
+                {
+                  _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForce (-_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity*2.0f);
+                }
+                /* if (_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity.magnitude > 90.0f)
+                {
+                   if(_Block == false){
+                     _Blockvit = _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity;
+                     _Block = true;
+                   }
+                   _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity = _Blockvit;
+                }
+                 else
+                 {
+                   _Block = false;
+                 }*/
               }
               else
               {

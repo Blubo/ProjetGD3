@@ -8,14 +8,28 @@ public class Sticky : MonoBehaviour {
 	//(et si le script existe déjà, alors juste v_number+1)
 	[HideInInspector]
 	public int v_numberOfLinks;
-	private float _myInitMass, _Velocity;
+	private float _myInitMass;
+
+	[HideInInspector]
+	public float _Velocity;
+
 	[SerializeField]
-	private float _MaxTimerMass;
-	private float _TimerMass;
+	private float _necessaryVelocity;
+
+//	[SerializeField]
+//	private float _MaxTimerMass;
+//	private float _TimerMass;
+
+	public bool destructible, fronde;
+
+	private ObjectStats myStats;
+	private Rigidbody myRB;
 
 	// Use this for initialization
 	void Start () {
-    _TimerMass = _MaxTimerMass;
+		if(gameObject.GetComponent<Rigidbody>()!=null) myRB = gameObject.GetComponent<Rigidbody>();
+		if(gameObject.GetComponent<ObjectStats>()!= null) myStats = gameObject.GetComponent<ObjectStats>();
+
 		v_numberOfLinks=0;
 	    if (gameObject.GetComponent<Rigidbody>() != null)
 	    {
@@ -25,21 +39,7 @@ public class Sticky : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-    /*
-    if(v_numberOfLinks ==0){
-      if (_TimerMass <= 0.0f)
-      {
-        gameObject.GetComponent<Rigidbody>().mass = _myInitMass / 3.0f;
-      }else if (_TimerMass > 0.0f){
-        _TimerMass -= Time.deltaTime;
-      }
-
-    }
-    else if (v_numberOfLinks >= 1.0f)
-    {
-       gameObject.GetComponent<Rigidbody>().mass = _myInitMass;
-       _TimerMass = _MaxTimerMass;
-    }*/
+		_Velocity = myRB.velocity.magnitude;
 	}
 	
 	//si je suis lié
@@ -57,13 +57,35 @@ public class Sticky : MonoBehaviour {
 	}
 	
 	void OnTriggerExit(Collider col) {
-	    if (v_numberOfLinks != 0){
-		    if (col.gameObject.GetComponent<Sticky>() != null){
+		if (v_numberOfLinks != 0){
+			if (col.gameObject.GetComponent<Sticky>() != null){
 				col.gameObject.GetComponent<Rigidbody>().mass = col.gameObject.GetComponent<Sticky>()._myInitMass;
 		    }
-	    }
+		}
 	}
-   
+
+	void OnCollisionEnter(Collision col){
+		if(col.gameObject.GetComponent<Sticky>()!=null){
+			Sticky stickyCollided = col.gameObject.GetComponent<Sticky>();
+
+			//si l'objet collidé est lié par qqch ou si je le suis?
+			//that lign below won't do, need to add something like "linked in the last few seconds"
+			if(stickyCollided.v_numberOfLinks!=0 || v_numberOfLinks!=0){
+				if(stickyCollided._Velocity >= _necessaryVelocity){
+					//si l'autre que je collide est une fronde alors
+					if(stickyCollided.fronde == true){
+						//rajouter une condition de vitesse sur la fronde?
+						//différencier la valeur de ce takeDamage, en fonction de quoi?
+						if(myStats!=null){
+							if(destructible == true){
+								myStats.TakeDamage(1f);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
 //	void OnCollisionEnter(Collision col){
 //		if(col.gameObject.GetComponent<Sticky>()!=null){

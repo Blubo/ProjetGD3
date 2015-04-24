@@ -108,7 +108,12 @@ public class ReceptacleKey : MonoBehaviour {
 //		Debug.Log("rotation complete is "+rotationComplete);
 		if(stillUsable==true){
 			if(OneUseOnly == false || (OneUseOnly==true && rotationComplete==false)){
+				//SI L IDOLE TOUCHE 
 				if(col.gameObject.tag.Equals("Idole")){
+					//ON JOUE LE SON FMOD DE SNAP DE L IDOLE SUR LE RECEPTACLE IDOLE
+					Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Interrupteur snap");
+
+
 					idole=col.gameObject;
 					idoleInRec = true;
 					//on stocke la rotation de l'idole au moment où
@@ -165,6 +170,9 @@ public class ReceptacleKey : MonoBehaviour {
 
 							rotationComplete=true;
 							activatedItem.SendMessage("Activated");
+
+							//METTRE PLAY ONE SHOT FMOD ICI POUR RECEPTACLE IDOLE ROTATIONNE ENTIEREMENT
+
 
 							//AVEC L AJOUT DE ONEUSEONLY, on teste si rotation est complete, et si oui, on ne refait pas le TriggerStay donc on ne reset jamais les valeurs ci-dessous de la maniere élégante
 							//(maniere élégante = timer>allowedTimer)

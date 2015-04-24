@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: c05f7d6e064f5764fb5edd6df343bcc6
+timeCreated: 1429796342
+=======
 guid: d6c9f8e4723bd364ebca0800747c55de
 timeCreated: 1428626433
+>>>>>>> origin/VirgileBrancheFinal
 licenseType: Free
 DefaultImporter:
   userData: 

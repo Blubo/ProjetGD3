@@ -33,9 +33,12 @@ public class TurretShooting : MonoBehaviour {
 	}
 
 	void Shoot(){
+		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Canon tir");
+
 //		GameObject newProj = Instantiate(_projectile, _instantiateur.transform.position, Quaternion.identity) as GameObject;
 		GameObject newProj = Instantiate (_projectile, _instantiateur.transform.position, Quaternion.identity) as GameObject;
 		newProj.GetComponent<Rigidbody>().AddForce(_instantiateur.transform.forward*_shootForce);
+		newProj.GetComponent<Rigidbody>().AddTorque(new Vector3(Random.Range(-1000,1000), Random.Range(-1000,1000), Random.Range(-1000,1000)));
 
 		newProj.GetComponent<TurretProjectile>().v_whoShotMe = gameObject;
 		_shootTimer=0f;
