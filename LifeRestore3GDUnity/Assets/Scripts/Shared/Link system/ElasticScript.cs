@@ -201,7 +201,7 @@ public class ElasticScript : MonoBehaviour {
                 {
                   _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForce (-_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity*2.0f);
                 }
-                /* if (_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity.magnitude > 90.0f)
+               /*  if (_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity.magnitude > 40.0f)
                 {
                    if(_Block == false){
                      _Blockvit = _hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().velocity;
