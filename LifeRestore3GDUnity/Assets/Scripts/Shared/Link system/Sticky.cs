@@ -13,6 +13,7 @@ public class Sticky : MonoBehaviour {
 	[HideInInspector]
 	public float _Velocity;
 
+	//la vitesse nécessaire pour péter un fdp
 	[SerializeField]
 	private float _necessaryVelocity;
 
@@ -24,6 +25,10 @@ public class Sticky : MonoBehaviour {
 
 	private ObjectStats myStats;
 	private Rigidbody myRB;
+
+	private float internalTimer;
+	[HideInInspector]
+	public bool wasLinkedNotLongAgo, linked = false, linkedLastFrame = false;
 
 	// Use this for initialization
 	void Start () {
@@ -40,6 +45,34 @@ public class Sticky : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		_Velocity = myRB.velocity.magnitude;
+
+		if(v_numberOfLinks != 0){
+			linked =true;
+		}else{
+			linked = false;
+		}
+
+		if(linked == false && linkedLastFrame == true){
+			internalTimer += Time.deltaTime;
+			wasLinkedNotLongAgo = true;
+
+			if(internalTimer>=1){
+				wasLinkedNotLongAgo=false;
+				internalTimer=0f;
+			}
+		}else{
+			wasLinkedNotLongAgo=false;
+			linkedLastFrame = linked;
+		}
+
+		if(Input.GetKeyUp(KeyCode.A)){
+			Debug.Log("name is "+ gameObject.name);
+		}
+
+		if(Input.GetKeyUp(KeyCode.Space)  && gameObject.name.Equals("FrondeIce")){
+			Debug.Log("velocity magnitude is " + _Velocity);
+		}
+
 	}
 	
 	//si je suis lié
@@ -70,8 +103,8 @@ public class Sticky : MonoBehaviour {
 
 			//si l'objet collidé est lié par qqch ou si je le suis?
 			//that lign below won't do, need to add something like "linked in the last few seconds"
-			if(stickyCollided.v_numberOfLinks!=0 || v_numberOfLinks!=0){
-				if(stickyCollided._Velocity >= _necessaryVelocity){
+			if(stickyCollided.v_numberOfLinks!=0 || v_numberOfLinks!=0||wasLinkedNotLongAgo==true){
+				if(stickyCollided._Velocity >= _necessaryVelocity || _Velocity >=_necessaryVelocity ){
 					//si l'autre que je collide est une fronde alors
 					if(stickyCollided.fronde == true){
 						//rajouter une condition de vitesse sur la fronde?
