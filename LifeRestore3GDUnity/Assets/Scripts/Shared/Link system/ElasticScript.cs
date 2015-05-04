@@ -171,7 +171,7 @@ public class ElasticScript : MonoBehaviour {
 						}
      				}
 				}else{
-					if(Vector3.Distance(gameObject.transform.position, _hook1.transform.position)>_hook1.GetComponent<HookHeadF>().newTensionLessDistance + 1.0f){
+					if(Vector3.Distance(gameObject.transform.position, _hook1.transform.position)>_hook1.GetComponent<HookHeadF>().newTensionLessDistance){ // changer +1.0f
 						//si amplificator= true (public)
 						//make elasticity higher if player is farther away from the hookhead
 						//sinon, indépendant de cela
@@ -189,7 +189,7 @@ public class ElasticScript : MonoBehaviour {
 							//_hook1.GetComponent<HookHeadF>().GrappedTo.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1*_tensionStrenght*_howDeep1*v_blockAttractionForce*(gameObject.GetComponent<LinkStrenght>()._LinkCommited+1), _hook1.gameObject.transform.position);
             }else{
 							if(v_applyTensionOnPlayer==true){
-								gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght*_howDeep1);
+								gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght*(_howDeep1*3.5f));
 							}
               float distance = Vector3.Distance(gameObject.transform.position, _hook1.transform.position) - _hook1.GetComponent<HookHeadF>().newTensionLessDistance;
              // _hook1.GetComponent<Rigidbody>().AddForceAtPosition(-_direction1 * _tensionStrenght * (v_blockAttractionForce) * (gameObject.GetComponent<LinkStrenght>()._LinkCommited + 1), _hook1.gameObject.transform.position);
