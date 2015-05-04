@@ -15,7 +15,7 @@ public class Sticky : MonoBehaviour {
 
 	//la vitesse nécessaire pour péter un fdp
 	[SerializeField]
-	private float _necessaryVelocity;
+	private float _necessaryVelocity, _maxVelocity;
 
 //	[SerializeField]
 //	private float _MaxTimerMass;
@@ -46,6 +46,11 @@ public class Sticky : MonoBehaviour {
 	void Update () {
 		_Velocity = myRB.velocity.magnitude;
 
+		if(_Velocity>=_maxVelocity){
+			Vector3 actualVelocity = myRB.velocity;
+			myRB.velocity = actualVelocity.normalized*_maxVelocity;
+		
+		}
 		if(v_numberOfLinks != 0){
 			linked =true;
 		}else{
@@ -69,7 +74,7 @@ public class Sticky : MonoBehaviour {
 			Debug.Log("name is "+ gameObject.name);
 		}
 
-		if(Input.GetKeyUp(KeyCode.Space)  && gameObject.name.Equals("FrondeIce")){
+		if(Input.GetKeyUp(KeyCode.Space)  && gameObject.name.Equals("FrondeEx")){
 			Debug.Log("velocity magnitude is " + _Velocity);
 		}
 
