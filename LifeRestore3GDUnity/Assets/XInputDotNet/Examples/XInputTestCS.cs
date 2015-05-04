@@ -23,6 +23,7 @@ public class XInputTestCS : MonoBehaviour
         {
             for (int i = 0; i < 4; ++i)
             {
+				//cast de l'int en PlayerIndex
                 PlayerIndex testPlayerIndex = (PlayerIndex)i;
                 GamePadState testState = GamePad.GetState(testPlayerIndex);
                 if (testState.IsConnected)

@@ -8,7 +8,7 @@ public class CameraFollow : MonoBehaviour {
 	public List<GameObject>players= new List<GameObject>();
 	private List<float>distances = new List<float>();
 
-	public GameObject v_player1, v_player2, v_player3, v_player4, v_cameraFocus;
+	public GameObject v_cameraFocus;
 	public float bottom;  // Bottom edge seen by the camera
 	public float lead; // amount to lead the target
 	public float above; // amount above the target pivot to see
@@ -17,7 +17,7 @@ public class CameraFollow : MonoBehaviour {
 	private GameObject _farthestOne, _farthestTwo;
 	public float cameraAltitude;
 
-	void LateUpdate() {
+	void Update() {
 		/*float height = v_player1.position.y + above - bottom;
 		height = Mathf.Max(height, minView);
 		height /= 2.0f;
@@ -42,7 +42,7 @@ public class CameraFollow : MonoBehaviour {
 		}
 
 		_playerEcartement=Vector3.Distance(_farthestOne.transform.position, _farthestTwo.transform.position);
-//		Debug.Log("écartement "+ _playerEcartement);
+		Debug.Log("écartement "+ _playerEcartement);
 		float height = _playerEcartement + above - bottom;
 		height = Mathf.Max(height, minView);
 		height = Mathf.Min(height, maxView);
