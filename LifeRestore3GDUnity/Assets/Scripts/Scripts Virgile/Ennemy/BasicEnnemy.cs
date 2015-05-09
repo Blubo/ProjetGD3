@@ -8,48 +8,66 @@ public class BasicEnnemy : MonoBehaviour {
   public float WalkSpeed;
   public float RushSpeed;
   public int AttackValue;
-  public bool IsLeader;
-  public float DistanceAllowed;
-  public float RangeAttack;
+  public bool IsLeader, IsAttacking;
+  public float DistanceAllowed, ZoneDanger;
+  public float RangeAttack, AtkSphereRange;
+  public int _DelaiAtk, CDAtk;
 
   public List<Collider> _potentialTargets, _Targets, _CloseTargets;
   public float TimerCheckTarget;
   [HideInInspector]
   public float timerTemp;
 
+  public Block_SpawnCollectible _SpawnerCollectible;
+  public GameObject _Ragdoll;
+
   public Transform Target;
   public NavMeshAgent _Nav;
 
+  //Only for ingé 
+  int Progression = -1;
+  public GameObject _Bombe, _Prefab;
+  public Transform _BombePlacement;
+  //[HideInInspector]
+  public Vector3 _targetposition;
+
   public void Initiation()
   {
+    _SpawnerCollectible = gameObject.GetComponent<Block_SpawnCollectible>();
+
     if (gameObject.GetComponent<NavMeshAgent>() == null)
     {
       gameObject.AddComponent<NavMeshAgent>();
       _Nav = gameObject.GetComponent<NavMeshAgent>();
     }
+
+    IsAttacking = false;
   }
 
   //Lorsque l'ennemi se prend des dommages
-  public void TakeDamage(){
-    Health -= 1;
+  public void TakeDamage(int ValueDamageTaken){
+    Health -= ValueDamageTaken;
   }
 
   //A la mort de l'ennemi
   public void Death()
   {
-   //Désactive les renderers etc 
+    //Désactiver ce qu'il faut
+    gameObject.GetComponent<BoxCollider>().enabled = false;
+    gameObject.GetComponent<Renderer>().enabled = false;
+   //Faire les effets FX etc
 
     //Fait droper les collectibles
-
-    //Active le ragdoll ? 
-
+    DropCollectible();
+    //Fait pop l'objet Ragdoll/Cadavre
+   // Instantiate(_Ragdoll, transform.position, Quaternion.identity);
     //Si l'ennemy est dans un groupe alors le retire de ce groupe( par parent)
     if (gameObject.transform.parent != null)
     {
       Transform Parent =  gameObject.transform.parent;
       Parent.GetComponent<Group_AI>()._Composition.Remove(this);
-      Parent.GetComponent<Group_AI>().ChooseLeader();
     }
+    //Enfin on détruit l'objet
     Destroy(gameObject);
   }
 
@@ -57,16 +75,15 @@ public class BasicEnnemy : MonoBehaviour {
   private void DropCollectible()
   {
     //Drop les collectibles 
-
-    //Détruit le gameobject ? 
+    _SpawnerCollectible.SpawnCollectible();
   }
 
   //Attaque de base 
   public IEnumerator Attack(int Value)
   {
-    Collider[] Attacked = Physics.OverlapSphere(transform.position + transform.forward , 1.0f);
+    Collider[] Attacked = Physics.OverlapSphere(transform.position + transform.forward, AtkSphereRange);
     //Faire les effets et toussa
-    yield return new WaitForSeconds(2);
+    yield return new WaitForSeconds(_DelaiAtk);
     //On laisse le temps au joueur de réagir
     //L'attaque se passe
     for (int i = 0; i < Attacked.Length; i++)
@@ -74,14 +91,51 @@ public class BasicEnnemy : MonoBehaviour {
       if (Attacked[i].gameObject.tag == "Player")
       {
         Debug.Log("Player receive damage");
+        Attacked[i].gameObject.SendMessage("TakeDamage");
       }
 
       if (Attacked[i].gameObject.tag == "Idole")
       {
-        Debug.Log("Idole Receive Damage");
+       // Debug.Log("Idole Receive Damage");
+        Attacked[i].gameObject.SendMessage("TakeDamage", Value);
       }
     }
     StopCoroutine("Attack");
+  }
+
+  public IEnumerator AttackInge(GameObject Bombe)
+  {
+    //Position de la target à viser 
+    Transform LandingPoint = Target;
+    //Position du point entre les deux 
+    Vector3 MidPoint = new Vector3((_targetposition.x + transform.position.x) / 2.0f, (_targetposition.y + transform.position.y) / 2.0f, (_targetposition.z + transform.position.z) / 2.0f);
+    MidPoint += Vector3.up * 8.0f;
+    //Lancement de la Bombe entre les points
+    if (Vector3.Distance(Bombe.transform.position, transform.position) < 1.0f)
+    {
+      Progression = 0;
+    }
+    if (Progression == 0)
+    {
+      //Point A>B 
+      Bombe.transform.position = Vector3.MoveTowards(Bombe.transform.position, MidPoint, 0.3f);
+      if (Vector3.Distance(Bombe.transform.position, MidPoint) < 1.0f)
+      {
+        Progression = 1;
+      }
+    }else if (Progression == 1)
+    {
+      //Point B>C
+      Bombe.transform.position = Vector3.MoveTowards(Bombe.transform.position, _targetposition, 0.3f);
+    }
+
+    if(Vector3.Distance(Bombe.transform.position, _targetposition)<1.0f){
+      _Bombe = null;
+      Bombe.GetComponent<Rigidbody>().useGravity = enabled;
+      yield return new WaitForSeconds(_DelaiAtk);
+      StopCoroutine("AttackInge");
+    }
+    
   }
 
   private void OnDrawGizmos(){

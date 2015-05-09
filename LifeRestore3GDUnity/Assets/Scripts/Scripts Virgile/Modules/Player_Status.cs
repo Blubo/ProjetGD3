@@ -70,6 +70,11 @@ public class Player_Status : MonoBehaviour {
         _Desactivated = false;
     }
 
+    void TakeDamage()
+    {
+
+    }
+
     void Respawn() { 
         //Disparition du joueur 
         gameObject.GetComponentInChildren<Renderer>().enabled = false;

@@ -15,6 +15,11 @@ public class Group_AI : MonoBehaviour {
   }
 
 	void Update () {
+    if (_Leader == null)
+    {
+      ChooseLeader();
+    }
+
     if (_Leader._Targets.Count > 0)
     {
       FindTarget();
