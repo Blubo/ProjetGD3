@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class EnnemyB_AI : BasicEnnemy
+public class EnnemyC_Ai : BasicEnnemy
 {
 
   void Start()
@@ -17,7 +17,7 @@ public class EnnemyB_AI : BasicEnnemy
     AtkSphereRange = 1.0f;
 
 
-    TimerCheckTarget = 0.0f;
+    TimerCheckTarget = 2.0f;
     timerTemp = 2.0f;
 
     Initiation();
@@ -25,36 +25,22 @@ public class EnnemyB_AI : BasicEnnemy
 
   void Update()
   {
+    //Tentative pour trouver une target 
+    if (TimerCheckTarget > 0)
+    {
+      TimerCheckTarget -= 1.0f * Time.deltaTime;
+    }
+    else if (TimerCheckTarget <= 0)
+    {
+      CheckForTargets();
+      TimerCheckTarget = timerTemp;
+    }
+
+    UpdateTargets();
     //Mort de l'ennemi
     if (Health <= 0)
     {
       Death();
-    }
-    //Si l'ennemi est un leader 
-    if (IsLeader)
-    {
-      UpdateTargets();
-      if (TimerCheckTarget > 0)
-      {
-        TimerCheckTarget -= 1.0f * Time.deltaTime;
-      }
-      else if (TimerCheckTarget <= 0)
-      {
-        CheckForTargets();
-        TimerCheckTarget = timerTemp;
-      }
-
-    }
-
-    //Si l'ennemi n'est pas le leader
-    if (!IsLeader)
-    {
-      if (Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) >= DistanceAllowed)
-      {
-        FindLeader();
-        Target = null;
-      }
-
     }
 
     //Si la target a été retrouvé 
@@ -63,21 +49,20 @@ public class EnnemyB_AI : BasicEnnemy
       Rush(Target);
     }
     else { Wait(); }
+
+    //
+    if(_potentialTargets.Count>0){
+      Target = _potentialTargets[0].transform;
+    }
+    else { Target = null; }
   }
 
   //En attendant de trouver une target
   void Wait()
   {
-    if (IsLeader)
-    {
-      _Nav.destination = transform.position;
-    }
-    else if (!IsLeader && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) < DistanceAllowed)
-    {
-      if(Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f){
-        FindLeader();
-      }
-    }
+    //Rester sur place
+    _Nav.destination = transform.position;
+    //Jouer L'animation idle
   }
 
   //Fonce sur la target
@@ -97,6 +82,7 @@ public class EnnemyB_AI : BasicEnnemy
   void CheckForTargets()
   {
     _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 20.0f));
+    UpdateTargets();
   }
 
   void UpdateTargets()
@@ -112,12 +98,5 @@ public class EnnemyB_AI : BasicEnnemy
     {
       _Targets = _potentialTargets;
     }
-  }
-
-  //Retrouver le chemin le leader
-  void FindLeader()
-  {
-    _Nav.SetDestination(transform.parent.GetComponent<Group_AI>()._Leader.transform.position);
-    _Nav.speed = RushSpeed;
   }
 }

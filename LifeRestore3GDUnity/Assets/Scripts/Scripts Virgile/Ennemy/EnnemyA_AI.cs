@@ -8,8 +8,14 @@ public class EnnemyA_AI : BasicEnnemy {
     Health = 1;
     WalkSpeed = 5.0f;
     RushSpeed = 7.0f;
+    //distance max que à laquelle les ennemis peuvent aller depuis le leader
     DistanceAllowed = 15.0f;
+    //Zone dans laquelle le joueur est attaqué priotairement
+    ZoneDanger = 5.0f;
     RangeAttack = 2.0f;
+    _DelaiAtk = 5;
+    AtkSphereRange = 1.0f;
+
 
     TimerCheckTarget = 0.0f;
     timerTemp = 2.0f;
@@ -64,10 +70,12 @@ public class EnnemyA_AI : BasicEnnemy {
     if (IsLeader)
     {
       _Nav.destination = transform.position;
+      //Faire anim idle
     }
-    else if (!IsLeader && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) < DistanceAllowed)
+    else if (!IsLeader && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) < DistanceAllowed && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f)
     {
-      _Nav.destination = transform.parent.GetComponent<Group_AI>()._Leader.transform.position;
+      FindLeader();
+      //Anim idle
     }
   }
 
@@ -87,7 +95,6 @@ public class EnnemyA_AI : BasicEnnemy {
   void CheckForTargets()
   {
     _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 20.0f));
-
   }
 
   void UpdateTargets()
