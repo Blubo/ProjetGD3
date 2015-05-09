@@ -63,21 +63,21 @@ public class HookHeadF : MonoBehaviour {
 
 	void Start(){
 		if(_myShooter.GetComponent<ShootF>().playerIndex==XInputDotNetPure.PlayerIndex.One){
-			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=Color.yellow;
-			gameObject.GetComponent<Renderer>().material.color=Color.yellow;
+			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=new Color32(107,142,35,255);
+			gameObject.GetComponent<Renderer>().material.color=new Color32(107,142,35,255);
 		}
 		if(_myShooter.GetComponent<ShootF>().playerIndex==XInputDotNetPure.PlayerIndex.Two){
 			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=Color.red;
 			gameObject.GetComponent<Renderer>().material.color=Color.red;
 		}		
 		if(_myShooter.GetComponent<ShootF>().playerIndex==XInputDotNetPure.PlayerIndex.Three){
-			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=new Color32(107,142,35,255);
-			gameObject.GetComponent<Renderer>().material.color=new Color32(107,142,35,255);
+			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=Color.blue;
+			gameObject.GetComponent<Renderer>().material.color=Color.blue;
 
 		}		
 		if(_myShooter.GetComponent<ShootF>().playerIndex==XInputDotNetPure.PlayerIndex.Four){
-			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=Color.blue;
-			gameObject.GetComponent<Renderer>().material.color=Color.blue;
+			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=Color.yellow;
+			gameObject.GetComponent<Renderer>().material.color=Color.yellow;
 		}
 	} 
 

@@ -1,0 +1,164 @@
+fileFormatVersion: 2
+guid: 913a9b602ca090e4ca2cc6ef3d2c2468
+timeCreated: 1430693869
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Box960
+    100004: Box961
+    100006: Box962
+    100008: Box963
+    100010: Box964
+    100012: Box965
+    100014: Object030
+    100016: Pyramid1172
+    100018: Pyramid1173
+    100020: Pyramid1174
+    100022: Pyramid1175
+    100024: Pyramid1176
+    100026: Pyramid1177
+    100028: Pyramid1178
+    100030: Pyramid1179
+    100032: Pyramid1180
+    100034: Pyramid1181
+    100036: Sphere261
+    100038: Sphere262
+    400000: //RootNode
+    400002: Box960
+    400004: Box961
+    400006: Box962
+    400008: Box963
+    400010: Box964
+    400012: Box965
+    400014: Object030
+    400016: Pyramid1172
+    400018: Pyramid1173
+    400020: Pyramid1174
+    400022: Pyramid1175
+    400024: Pyramid1176
+    400026: Pyramid1177
+    400028: Pyramid1178
+    400030: Pyramid1179
+    400032: Pyramid1180
+    400034: Pyramid1181
+    400036: Sphere261
+    400038: Sphere262
+    2300000: Box960
+    2300002: Box961
+    2300004: Box962
+    2300006: Box963
+    2300008: Box964
+    2300010: Box965
+    2300012: Object030
+    2300014: Pyramid1172
+    2300016: Pyramid1173
+    2300018: Pyramid1174
+    2300020: Pyramid1175
+    2300022: Pyramid1176
+    2300024: Pyramid1177
+    2300026: Pyramid1178
+    2300028: Pyramid1179
+    2300030: Pyramid1180
+    2300032: Pyramid1181
+    2300034: Sphere261
+    2300036: Sphere262
+    3300000: Box960
+    3300002: Box961
+    3300004: Box962
+    3300006: Box963
+    3300008: Box964
+    3300010: Box965
+    3300012: Object030
+    3300014: Pyramid1172
+    3300016: Pyramid1173
+    3300018: Pyramid1174
+    3300020: Pyramid1175
+    3300022: Pyramid1176
+    3300024: Pyramid1177
+    3300026: Pyramid1178
+    3300028: Pyramid1179
+    3300030: Pyramid1180
+    3300032: Pyramid1181
+    3300034: Sphere261
+    3300036: Sphere262
+    4300000: Sphere261
+    4300002: Box960
+    4300004: Pyramid1172
+    4300006: Pyramid1173
+    4300008: Pyramid1174
+    4300010: Pyramid1175
+    4300012: Box961
+    4300014: Pyramid1176
+    4300016: Box962
+    4300018: Pyramid1177
+    4300020: Sphere262
+    4300022: Object030
+    4300024: Box963
+    4300026: Pyramid1178
+    4300028: Pyramid1179
+    4300030: Box964
+    4300032: Pyramid1180
+    4300034: Pyramid1181
+    4300036: Box965
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -36,7 +36,7 @@ public class ObjectStats : MonoBehaviour {
 			if(caserne == true){
 				mySticky.fronde = true;
 				gameObject.tag = "Untagged";
-				gameObject.transform.Find("NewCaserne").gameObject.GetComponent<Renderer>().material.color = Color.grey;
+//				gameObject.transform.Find("NewCaserne").gameObject.GetComponent<Renderer>().material.color = Color.grey;
 				myRB.constraints = RigidbodyConstraints.None;
 				if(v_itemHP<=-v_casernevideHP){
 					Destroy(gameObject);

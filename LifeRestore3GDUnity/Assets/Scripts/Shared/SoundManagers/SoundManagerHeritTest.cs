@@ -43,9 +43,9 @@ public class SoundManagerHeritTest : SoundManager {
 		case "Canon tir":
 			FMOD_StudioSystem.instance.PlayOneShot("event:/Tourelle et Canon/Canon tir", gameObject.transform.position);
 			break;
-		case "Ouglou collecte gros":
-			FMOD_StudioSystem.instance.PlayOneShot("event:/Ouglou/Ouglou collecte gros", gameObject.transform.position);
-			break;
+//		case "Ouglou collecte gros":
+//			FMOD_StudioSystem.instance.PlayOneShot("event:/Ouglou/Ouglou collecte gros", gameObject.transform.position);
+//			break;
 		case "Ennemi standart mort":
 			FMOD_StudioSystem.instance.PlayOneShot("event:/Ennemis/Ennemi standart mort", gameObject.transform.position);
 			break;

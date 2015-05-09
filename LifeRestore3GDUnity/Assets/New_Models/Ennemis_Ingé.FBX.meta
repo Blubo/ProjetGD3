@@ -1,0 +1,149 @@
+fileFormatVersion: 2
+guid: a19fb16c0c05339448eef4708b477317
+timeCreated: 1430693870
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Box628
+    100002: Box629
+    100004: Box630
+    100006: Cylinder034
+    100008: Cylinder035
+    100010: Cylinder036
+    100012: Cylinder037
+    100014: Cylinder038
+    100016: //RootNode
+    100018: Pyramid532
+    100020: Pyramid533
+    100022: Pyramid534
+    100024: Pyramid535
+    100026: Pyramid536
+    100028: Pyramid537
+    100030: Sphere228
+    100032: Sphere229
+    400000: Box628
+    400002: Box629
+    400004: Box630
+    400006: Cylinder034
+    400008: Cylinder035
+    400010: Cylinder036
+    400012: Cylinder037
+    400014: Cylinder038
+    400016: //RootNode
+    400018: Pyramid532
+    400020: Pyramid533
+    400022: Pyramid534
+    400024: Pyramid535
+    400026: Pyramid536
+    400028: Pyramid537
+    400030: Sphere228
+    400032: Sphere229
+    2300000: Box628
+    2300002: Box629
+    2300004: Box630
+    2300006: Cylinder034
+    2300008: Cylinder035
+    2300010: Cylinder036
+    2300012: Cylinder037
+    2300014: Cylinder038
+    2300016: Pyramid532
+    2300018: Pyramid533
+    2300020: Pyramid534
+    2300022: Pyramid535
+    2300024: Pyramid536
+    2300026: Pyramid537
+    2300028: Sphere228
+    2300030: Sphere229
+    3300000: Box628
+    3300002: Box629
+    3300004: Box630
+    3300006: Cylinder034
+    3300008: Cylinder035
+    3300010: Cylinder036
+    3300012: Cylinder037
+    3300014: Cylinder038
+    3300016: Pyramid532
+    3300018: Pyramid533
+    3300020: Pyramid534
+    3300022: Pyramid535
+    3300024: Pyramid536
+    3300026: Pyramid537
+    3300028: Sphere228
+    3300030: Sphere229
+    4300000: Sphere228
+    4300002: Pyramid532
+    4300004: Pyramid533
+    4300006: Cylinder034
+    4300008: Box628
+    4300010: Box629
+    4300012: Box630
+    4300014: Sphere229
+    4300016: Cylinder035
+    4300018: Cylinder036
+    4300020: Pyramid534
+    4300022: Pyramid535
+    4300024: Pyramid536
+    4300026: Pyramid537
+    4300028: Cylinder037
+    4300030: Cylinder038
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
