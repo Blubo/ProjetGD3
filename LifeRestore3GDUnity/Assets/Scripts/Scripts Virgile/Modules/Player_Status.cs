@@ -54,7 +54,7 @@ public class Player_Status : MonoBehaviour {
         //L'avatar ne peut pas bouger mais peut quand même tirer des liens (?)
         gameObject.GetComponent<MovementScript5Janv>().v_movementSpeed = 0.0f;
         //Pas de dash non plus
-        gameObject.GetComponent<Dash>().enabled = false;
+       // gameObject.GetComponent<Dash>().enabled = false;
         //Décompte jusqu'à la mort 
         _TimerDeath -= 1.0f * Time.deltaTime;
         if(_TimerDeath <=0.0f){
@@ -65,14 +65,14 @@ public class Player_Status : MonoBehaviour {
 
     void Activate(){
         gameObject.GetComponent<MovementScript5Janv>().v_movementSpeed = _OriginalMoveSpeed;
-        gameObject.GetComponent<Dash>().enabled = true;
+        //gameObject.GetComponent<Dash>().enabled = true;
         //gameObject.GetComponentInChildren<Renderer>().enabled = true;
         _Desactivated = false;
     }
 
-    void TakeDamage()
+    public void TakeDamage()
     {
-
+      StartCoroutine("Clignotement");
     }
 
     void Respawn() { 
@@ -91,11 +91,31 @@ public class Player_Status : MonoBehaviour {
 
     public IEnumerator Clignotement()
     {
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 2; i++)
         {
-            gameObject.GetComponentInChildren<Renderer>().enabled = !gameObject.GetComponentInChildren<Renderer>().enabled;
-            yield return new WaitForSeconds(0.1f);
-            gameObject.GetComponentInChildren<Renderer>().enabled = true;
+         Renderer[] renderer = gameObject.transform.Find("Avatar").GetComponentsInChildren<MeshRenderer>() ;
+       /*  foreach (Renderer rend in renderer)
+         {
+           rend.enabled = !rend.enabled;
+           yield return new WaitForSeconds(0.0f);
+           rend.enabled = true;
+         }*/
+
+         foreach (Renderer rend in renderer)
+         {
+           rend.enabled = false;
+         }
+         yield return new WaitForSeconds(0.0f);
+
+         foreach (Renderer rend in renderer)
+         {
+           rend.enabled = true;
+         }
+
+          //gameObject.GetComponentInChildren<Renderer>().enabled = !gameObject.GetComponentInChildren<Renderer>().enabled;
+          
+        //    yield return new WaitForSeconds(0.1f);
+        //    gameObject.transform.Find("Avatar").GetComponentInChildren<MeshRenderer>().enabled = true;
         }
     }
 

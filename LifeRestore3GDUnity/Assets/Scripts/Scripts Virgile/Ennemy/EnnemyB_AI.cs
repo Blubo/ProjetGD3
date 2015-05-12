@@ -7,15 +7,17 @@ public class EnnemyB_AI : BasicEnnemy
 
   void Start()
   {
-    Health = 5;
-    WalkSpeed = 2.0f;
+    Health = 3;
+    WalkSpeed = 3.0f;
     RushSpeed = 5.0f;
     //
     DistanceAllowed = 15.0f;
     RangeAttack = 2.0f;
-    _DelaiAtk = 5;
-    AtkSphereRange = 1.0f;
+    _DelaiAtk = 4;
+    AtkSphereRange = 3.0f;
 
+    //Animator 
+    _Anim = transform.GetComponentInChildren<Animator>();
 
     TimerCheckTarget = 0.0f;
     timerTemp = 2.0f;
@@ -60,6 +62,7 @@ public class EnnemyB_AI : BasicEnnemy
     //Si la target a été retrouvé 
     if (Target != null)
     {
+      transform.LookAt(Target);
       Rush(Target);
     }
     else { Wait(); }
@@ -70,12 +73,22 @@ public class EnnemyB_AI : BasicEnnemy
   {
     if (IsLeader)
     {
-      _Nav.destination = transform.position;
+      _Nav.ResetPath();
+      //Faire anim idle
+      _Anim.Play("Animation Idle Barak");
     }
-    else if (!IsLeader && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) < DistanceAllowed)
+    else if (!IsLeader && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f)
     {
-      if(Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f){
+      if (Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > DistanceAllowed && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f)
+      {
         FindLeader();
+      }
+      else
+      {
+        //Anim idle
+        _Anim.Play("Animation Idle Barak");
+        //
+        _Nav.ResetPath();
       }
     }
   }
@@ -83,12 +96,14 @@ public class EnnemyB_AI : BasicEnnemy
   //Fonce sur la target
   public void Rush(Transform Target)
   {
+    _Anim.Play("Animation Deplacement Barak");
     _Nav.destination = Target.position;
-    _Nav.speed = WalkSpeed;
+    _Nav.speed = RushSpeed;
 
     if (Vector3.Distance(transform.position, Target.position) <= RangeAttack)
     {
-      _Nav.destination = transform.position;
+      _Nav.ResetPath();
+      _Anim.Play("Animation Attaque Barak");
       StartCoroutine("Attack", AttackValue);
     }
   }
@@ -117,6 +132,8 @@ public class EnnemyB_AI : BasicEnnemy
   //Retrouver le chemin le leader
   void FindLeader()
   {
+    _Anim.Play("Animation Deplacement Barak");
+    transform.LookAt(transform.parent.GetComponent<Group_AI>()._Leader.transform);
     _Nav.SetDestination(transform.parent.GetComponent<Group_AI>()._Leader.transform.position);
     _Nav.speed = RushSpeed;
   }

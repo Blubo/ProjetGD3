@@ -23,14 +23,18 @@ public class BasicEnnemy : MonoBehaviour {
 
   public Transform Target;
   public NavMeshAgent _Nav;
+  [HideInInspector]
+  public Animator _Anim;
 
   //Only for ingé 
   int Progression = -1;
   public GameObject _Bombe, _Prefab;
   public Transform _BombePlacement;
-  //[HideInInspector]
+  [HideInInspector]
   public Vector3 _targetposition;
 
+  public bool _locked;
+  //
   public void Initiation()
   {
     _SpawnerCollectible = gameObject.GetComponent<Block_SpawnCollectible>();
@@ -54,7 +58,7 @@ public class BasicEnnemy : MonoBehaviour {
   {
     //Désactiver ce qu'il faut
     gameObject.GetComponent<BoxCollider>().enabled = false;
-    gameObject.GetComponent<Renderer>().enabled = false;
+    //gameObject.GetComponent<Renderer>().enabled = false;
    //Faire les effets FX etc
 
     //Fait droper les collectibles
@@ -62,7 +66,7 @@ public class BasicEnnemy : MonoBehaviour {
     //Fait pop l'objet Ragdoll/Cadavre
    // Instantiate(_Ragdoll, transform.position, Quaternion.identity);
     //Si l'ennemy est dans un groupe alors le retire de ce groupe( par parent)
-    if (gameObject.transform.parent != null)
+    if (gameObject.transform.parent.GetComponent<Group_AI>() != null)
     {
       Transform Parent =  gameObject.transform.parent;
       Parent.GetComponent<Group_AI>()._Composition.Remove(this);
@@ -88,9 +92,9 @@ public class BasicEnnemy : MonoBehaviour {
     //L'attaque se passe
     for (int i = 0; i < Attacked.Length; i++)
     {
-      if (Attacked[i].gameObject.tag == "Player")
+      if (Attacked[i].gameObject.tag == "Player" && Attacked[i].gameObject!= null)
       {
-        Debug.Log("Player receive damage");
+        //Debug.Log("Player receive damage");
         Attacked[i].gameObject.SendMessage("TakeDamage");
       }
 
@@ -105,13 +109,14 @@ public class BasicEnnemy : MonoBehaviour {
 
   public IEnumerator AttackInge(GameObject Bombe)
   {
+    Bombe.transform.parent = null;
     //Position de la target à viser 
     Transform LandingPoint = Target;
     //Position du point entre les deux 
     Vector3 MidPoint = new Vector3((_targetposition.x + transform.position.x) / 2.0f, (_targetposition.y + transform.position.y) / 2.0f, (_targetposition.z + transform.position.z) / 2.0f);
     MidPoint += Vector3.up * 8.0f;
     //Lancement de la Bombe entre les points
-    if (Vector3.Distance(Bombe.transform.position, transform.position) < 1.0f)
+    if (Vector3.Distance(Bombe.transform.position, transform.position) < 3.0f)
     {
       Progression = 0;
     }
@@ -132,6 +137,9 @@ public class BasicEnnemy : MonoBehaviour {
     if(Vector3.Distance(Bombe.transform.position, _targetposition)<1.0f){
       _Bombe = null;
       Bombe.GetComponent<Rigidbody>().useGravity = enabled;
+      Bombe.GetComponent<Rigidbody>().isKinematic = false;
+
+      _locked = false;
       yield return new WaitForSeconds(_DelaiAtk);
       StopCoroutine("AttackInge");
     }
@@ -141,6 +149,6 @@ public class BasicEnnemy : MonoBehaviour {
   private void OnDrawGizmos(){
       Gizmos.color = Color.red;
      //Use the same vars you use to draw your Overlap SPhere to draw your Wire Sphere.
-      Gizmos.DrawWireSphere(transform.position + transform.forward, 1.0f);
+      Gizmos.DrawWireSphere(transform.position + transform.forward, AtkSphereRange);
   }
 }

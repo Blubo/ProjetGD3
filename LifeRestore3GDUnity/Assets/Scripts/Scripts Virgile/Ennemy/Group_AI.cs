@@ -15,6 +15,11 @@ public class Group_AI : MonoBehaviour {
   }
 
 	void Update () {
+    if (_Composition.Count == 0)
+    {
+      Destroy(gameObject);
+    }
+
     if (_Leader == null)
     {
       ChooseLeader();
@@ -73,6 +78,6 @@ public class Group_AI : MonoBehaviour {
   void PrepareLeader()
   {
     _Leader.IsLeader = true;
-    _Leader.GetComponent<SphereCollider>().enabled = true;
+   // _Leader.GetComponent<SphereCollider>().enabled = true;
   }
 }

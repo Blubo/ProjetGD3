@@ -16,7 +16,7 @@ public class Idole_Status : MonoBehaviour {
         if (_Life <= 0){
             Death();
         }
-        if (_LinkOnit.v_numberOfLinks >= 1)
+       /* if (_LinkOnit.v_numberOfLinks >= 1)
         {
            Transform _Child =  transform.FindChild("Aura");
            _Child.GetComponent<SphereCollider>().enabled = true;
@@ -28,7 +28,7 @@ public class Idole_Status : MonoBehaviour {
             {
                 _Child.GetComponent<SphereCollider>().enabled = false;
             }
-        }
+        }*/
 	}
 
     void OnTriggerStay(Collider _other) {
@@ -43,10 +43,23 @@ public class Idole_Status : MonoBehaviour {
 
     void TakeDamage()
     {
-
+      Clignotement();
+      _Life -= 1;
     }
 
     void Death() { 
         //si les points de vies de l'aura tombent à zero on lance le game Over
+      Destroy(gameObject);
     }
+
+    public IEnumerator Clignotement()
+    {
+      for (int i = 0; i < 9; i++)
+      {
+        gameObject.GetComponentInChildren<Renderer>().enabled = !gameObject.GetComponentInChildren<Renderer>().enabled;
+        yield return new WaitForSeconds(0.1f);
+        gameObject.GetComponentInChildren<Renderer>().enabled = true;
+      }
+    }
+
 }

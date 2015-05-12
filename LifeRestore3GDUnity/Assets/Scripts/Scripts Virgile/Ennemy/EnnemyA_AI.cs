@@ -6,16 +6,18 @@ public class EnnemyA_AI : BasicEnnemy {
 
 	void Start () {
     Health = 1;
-    WalkSpeed = 5.0f;
-    RushSpeed = 7.0f;
+    WalkSpeed = 4.0f;
+    RushSpeed = 6.0f;
     //distance max que à laquelle les ennemis peuvent aller depuis le leader
-    DistanceAllowed = 15.0f;
+    DistanceAllowed = 5.0f;
     //Zone dans laquelle le joueur est attaqué priotairement
     ZoneDanger = 5.0f;
     RangeAttack = 2.0f;
-    _DelaiAtk = 5;
+    _DelaiAtk = 2;
     AtkSphereRange = 1.0f;
 
+    //Animator 
+    _Anim = transform.GetComponentInChildren<Animator>();
 
     TimerCheckTarget = 0.0f;
     timerTemp = 2.0f;
@@ -42,7 +44,6 @@ public class EnnemyA_AI : BasicEnnemy {
         CheckForTargets();
         TimerCheckTarget = timerTemp;
       }
-
     }
 
     //Si l'ennemi n'est pas le leader
@@ -58,6 +59,7 @@ public class EnnemyA_AI : BasicEnnemy {
     //Si la target a été retrouvé 
     if (Target != null)
     {
+      transform.LookAt(Target);
       Rush(Target);
     }
     else { Wait(); }
@@ -66,16 +68,25 @@ public class EnnemyA_AI : BasicEnnemy {
   //En attendant de trouver une target
   void Wait()
   {
-    //gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
     if (IsLeader)
     {
-      _Nav.destination = transform.position;
+      _Nav.ResetPath();
       //Faire anim idle
+      _Anim.Play("Animation Idle Crocmagnon");
     }
-    else if (!IsLeader && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) < DistanceAllowed && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f)
+    else if (!IsLeader && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f)
     {
-      FindLeader();
-      //Anim idle
+      if (Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > DistanceAllowed && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f)
+      {
+        FindLeader();
+      }
+      else
+      {    
+        //Anim idle
+        _Anim.Play("Animation Idle Crocmagnon");
+        //
+        _Nav.ResetPath();
+      }
     }
   }
 
@@ -83,10 +94,12 @@ public class EnnemyA_AI : BasicEnnemy {
   public void Rush(Transform Target)
   {
      _Nav.destination = Target.position;
-     _Nav.speed = WalkSpeed;
+     _Nav.speed = RushSpeed;
 
     if(Vector3.Distance(transform.position, Target.position)<= RangeAttack){
-      _Nav.destination = transform.position;
+      _Nav.ResetPath();
+      //
+      _Anim.Play("Animation Attaque Crocmagnon");
       StartCoroutine("Attack", AttackValue);
     }
   }
@@ -115,6 +128,10 @@ public class EnnemyA_AI : BasicEnnemy {
   //Retrouver le chemin le leader
   void FindLeader()
   {
+    //
+    _Anim.Play("Animation Deplacement Crocmagnon");
+    transform.LookAt(transform.parent.GetComponent<Group_AI>()._Leader.transform);
+
     _Nav.SetDestination(transform.parent.GetComponent<Group_AI>()._Leader.transform.position);
     _Nav.speed = RushSpeed;
   }

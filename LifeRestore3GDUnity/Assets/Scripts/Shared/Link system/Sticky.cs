@@ -123,6 +123,35 @@ public class Sticky : MonoBehaviour {
 				}
 			}
 		}
+    if (fronde)
+    {
+      if (col.gameObject.tag == "Ennemy" && linked && gameObject.GetComponent<Rigidbody>().velocity.magnitude > 2.0f)
+      {
+        Debug.Log(gameObject.GetComponent<Rigidbody>().velocity.magnitude);
+        //Faiblar
+        if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI)
+        {
+          col.gameObject.GetComponent<BasicEnnemy>().Health -= 1;
+        }
+        //barak
+        if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyB_AI)
+        {
+          col.gameObject.GetComponent<BasicEnnemy>().Health -= 1;
+          col.gameObject.GetComponent<Rigidbody>().AddForce(-col.transform.forward * 5000.0f);
+        }
+        //Coloss
+        if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyC_Ai)
+        {
+          col.gameObject.GetComponent<BasicEnnemy>().Health -= 2;
+        }
+        //Ingénieur
+        if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyD_AI)
+        {
+          col.gameObject.GetComponent<BasicEnnemy>().Health -= 1;
+        }
+
+      }
+    }
 	}
 
 //	void OnCollisionEnter(Collision col){
