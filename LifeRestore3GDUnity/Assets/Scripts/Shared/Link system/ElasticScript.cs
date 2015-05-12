@@ -78,7 +78,7 @@ public class ElasticScript : MonoBehaviour {
 				}
 
 				if(Vector3.Distance(gameObject.transform.position, _hook1.GetComponent<HookHeadF>().GrappedTo.transform.position)>=(_hook1.GetComponent<HookHeadF>().newBreakDistance*9/10)){
-					Debug.Log("now");
+//					Debug.Log("now");
 					//enregistrer la position du joueur à chaque frame, et remplacer dans ce if sa position par celle de la frame précédente (ce que j'avais tenté de faire avec les blocs, mais sur le joueur, quoi)
 					gameObject.GetComponent<Rigidbody>().AddForce(_direction1*_tensionStrenght*_howDeep1);
 

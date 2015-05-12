@@ -66,7 +66,7 @@ public class ReceptacleKey : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		myVisualInitColor=gameObject.transform.Find("VisuelReceptacle").GetComponent<Renderer>().material.color;
+//		myVisualInitColor=gameObject.transform.Find("VisuelReceptacle").GetComponent<Renderer>().material.color;
 		initReceptRot = receptacleRotate.transform.rotation;
 		initReceptPos = receptacleRotate.transform.position;
 		_blinkTimer=0;
@@ -96,7 +96,7 @@ public class ReceptacleKey : MonoBehaviour {
 
 		if(internalTimer>=reusableTimer){
 			rotationComplete=false;
-			gameObject.transform.Find("VisuelReceptacle").GetComponent<Renderer>().material.color=myVisualInitColor;
+//			gameObject.transform.Find("VisuelReceptacle").GetComponent<Renderer>().material.color=myVisualInitColor;
 			internalTimer=0f;
 		}
 
@@ -158,7 +158,7 @@ public class ReceptacleKey : MonoBehaviour {
 						//on rotate à chaque frame de la différence entre la position actuelle et la position à la frame précédente
 						rotationCounter=col.gameObject.transform.eulerAngles.y - idoleInitRot.y;
 						if(rotationCounter<360 && rotationCounter > 0){
-							receptacleRotate.transform.Rotate(Vector3.forward, col.gameObject.transform.eulerAngles.y - idoleRotAtLastFrame.y);
+							receptacleRotate.transform.Rotate(Vector3.up, col.gameObject.transform.eulerAngles.y - idoleRotAtLastFrame.y);
 						}
 
 						//ROTATION TERMINEE
@@ -194,11 +194,13 @@ public class ReceptacleKey : MonoBehaviour {
 							timer=allowedTime;
 							//arret timer et CE feedback là (clignotement de l'idole pendant le temps restant où elle est freezée une fois rotation terminée) sont évidemment pas compatibles
 							//un feedback visuel sur le réceptacle?
-							gameObject.transform.Find("VisuelReceptacle").GetComponent<Renderer>().material.color = Color.red;
+//							gameObject.transform.Find("VisuelReceptacle").GetComponent<Renderer>().material.color = Color.red;
 						}
 
 						//on stocke la rotation de l'idole à cette frame
 						idoleRotAtLastFrame = col.gameObject.transform.eulerAngles;
+
+					//si on est trop lent à faire la manip
 					}else{
 						//remettre les contraintes "normales"... du coup ca implique que l'objet est constraint en X, Y et Z par défaut
 						col.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ ;
@@ -217,7 +219,9 @@ public class ReceptacleKey : MonoBehaviour {
 						if(rotationComplete == false){
 							receptacleRotate.transform.rotation = Quaternion.Lerp(receptacleRotate.transform.rotation, initReceptRot, Time.deltaTime); 
 							if(idole!=null){
-								idole.transform.rotation = Quaternion.Lerp(idole.transform.rotation, initReceptRot, Time.deltaTime/reusableTimer);
+//								idole.transform.rotation = Quaternion.Lerp(idole.transform.rotation, initReceptRot, Time.deltaTime/reusableTimer);
+								idole.gameObject.transform.eulerAngles = new Vector3(idole.gameObject.transform.eulerAngles.x, idoleInitRot.y, idole.gameObject.transform.eulerAngles.z);
+
 							}
 						}	
 					}

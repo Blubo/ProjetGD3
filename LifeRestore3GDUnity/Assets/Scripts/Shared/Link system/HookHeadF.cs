@@ -61,21 +61,29 @@ public class HookHeadF : MonoBehaviour {
 	[SerializeField]
 	private float springValue;
 
+	private ShootF myShooterScript;
+	private ReticuleCone myShooterRetCone;
+	private Rigidbody myRigidbody;
+
 	void Start(){
-		if(_myShooter.GetComponent<ShootF>().playerIndex==XInputDotNetPure.PlayerIndex.One){
+		if(gameObject.GetComponent<Rigidbody>()!=null) myRigidbody = gameObject.GetComponent<Rigidbody>();
+		if(_myShooter.GetComponent<ShootF>()!=null) myShooterScript = _myShooter.GetComponent<ShootF>();
+		if(_myShooter.GetComponent<ReticuleCone>()!=null) myShooterRetCone = _myShooter.GetComponent<ReticuleCone>();
+
+		if(myShooterScript.playerIndex==XInputDotNetPure.PlayerIndex.One){
 			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=new Color32(107,142,35,255);
 			gameObject.GetComponent<Renderer>().material.color=new Color32(107,142,35,255);
 		}
-		if(_myShooter.GetComponent<ShootF>().playerIndex==XInputDotNetPure.PlayerIndex.Two){
+		if(myShooterScript.playerIndex==XInputDotNetPure.PlayerIndex.Two){
 			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=Color.red;
 			gameObject.GetComponent<Renderer>().material.color=Color.red;
 		}		
-		if(_myShooter.GetComponent<ShootF>().playerIndex==XInputDotNetPure.PlayerIndex.Three){
+		if(myShooterScript.playerIndex==XInputDotNetPure.PlayerIndex.Three){
 			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=Color.blue;
 			gameObject.GetComponent<Renderer>().material.color=Color.blue;
 
 		}		
-		if(_myShooter.GetComponent<ShootF>().playerIndex==XInputDotNetPure.PlayerIndex.Four){
+		if(myShooterScript.playerIndex==XInputDotNetPure.PlayerIndex.Four){
 			gameObject.transform.Find("B 5Janv").GetComponent<Renderer>().material.color=Color.yellow;
 			gameObject.GetComponent<Renderer>().material.color=Color.yellow;
 		}
@@ -92,12 +100,13 @@ public class HookHeadF : MonoBehaviour {
 					GrappedTo = _Collided.gameObject;
 					GrappedTo.GetComponent<Sticky>().v_numberOfLinks+=1;
 
-					if(howWasIShot==1)_myShooter.GetComponent<ShootF>()._target=GrappedTo;
+					if(howWasIShot==1)myShooterScript._target=GrappedTo;
 
 					_localPos = _Collided.transform.InverseTransformPoint(gameObject.transform.position);
+//					Debug.DrawRay(GrappedTo.transform.TransformPoint(_localPos), Vector3.up*10);
 					newTensionLessDistance = Vector3.Distance(gameObject.transform.position, _myShooterPos);
 					newBreakDistance = newTensionLessDistance*100/breakDistanceRatio;
-					gameObject.GetComponent<Rigidbody>().isKinematic=true;
+					myRigidbody.isKinematic=true;
 
 					//on ajoute un spring entre le joueur et grappedTo si grappedTo est une fronde, sinon on laisse juste elasticScript
 //					if(GrappedTo.gameObject.tag.Equals("Fronde")==true){
@@ -138,18 +147,19 @@ public class HookHeadF : MonoBehaviour {
 		if(GrappedTo != null){
 
 			_myShooter.transform.Find("Pointillés").gameObject.GetComponent<AimHelperReticule>().HideHelper();
-	
-			if(_myShooter.GetComponent<ReticuleCone>().numberOfThisPlayer == 1){
-				GrappedTo.GetComponent<ReticuleTarget>().LightReticuleUp(GrappedTo.GetComponent<ReticuleTarget>().YRend);
+			ReticuleTarget grappedToRetTarget = GrappedTo.GetComponent<ReticuleTarget>();
 
-			}else if(_myShooter.GetComponent<ReticuleCone>().numberOfThisPlayer == 2){
-				GrappedTo.GetComponent<ReticuleTarget>().LightReticuleUp(GrappedTo.GetComponent<ReticuleTarget>().RRend);
+			if(myShooterRetCone.numberOfThisPlayer == 1){
+				grappedToRetTarget.LightReticuleUp(grappedToRetTarget.GRend);
 
-			}else if(_myShooter.GetComponent<ReticuleCone>().numberOfThisPlayer == 3){
-				GrappedTo.GetComponent<ReticuleTarget>().LightReticuleUp(GrappedTo.GetComponent<ReticuleTarget>().GRend);
+			}else if(myShooterRetCone.numberOfThisPlayer == 2){
+				grappedToRetTarget.LightReticuleUp(grappedToRetTarget.RRend);
 
-			}else if(_myShooter.GetComponent<ReticuleCone>().numberOfThisPlayer == 4){
-				GrappedTo.GetComponent<ReticuleTarget>().LightReticuleUp(GrappedTo.GetComponent<ReticuleTarget>().BRend);
+			}else if(myShooterRetCone.numberOfThisPlayer == 3){
+				grappedToRetTarget.LightReticuleUp(grappedToRetTarget.BRend);
+
+			}else if(myShooterRetCone.numberOfThisPlayer == 4){
+				grappedToRetTarget.LightReticuleUp(grappedToRetTarget.YRend);
 			}
 
 //			if(_myShooter.GetComponent<ReticuleCone>().numberOfThisPlayer == 1){
@@ -165,7 +175,7 @@ public class HookHeadF : MonoBehaviour {
 //				GrappedTo.GetComponent<ReticuleTarget>().TurnReticuleOff(GrappedTo.GetComponent<ReticuleTarget>().BRend);
 //			}
 
-			if(gameObject.GetComponent<Rigidbody>().isKinematic==true) gameObject.GetComponent<Rigidbody>().isKinematic=false;
+			if(myRigidbody.isKinematic==true) myRigidbody.isKinematic=false;
 
 			//uncomment below for non-contact points spacialization
 			//ON UTILISE PLUS??
@@ -187,8 +197,13 @@ public class HookHeadF : MonoBehaviour {
 //						gameObject.transform.position= GrappedTo.transform.TransformPoint(_localPos);
 //					}
 //				}else{
-				if(Physics.Raycast(_myShooterPos, GrappedTo.transform.TransformPoint(_localPos)-_myShooterPos, out hit, Mathf.Infinity, layermaskForLocalisation)){
+				Vector3 shooterPosHigher = new Vector3(_myShooterPos.x, _myShooterPos.y+1f, _myShooterPos.z);
+//				Debug.DrawRay(_myShooterPos, GrappedTo.transform.TransformPoint(_localPos)-_myShooterPos);
+//				if(Physics.Raycast(_myShooterPos, GrappedTo.transform.TransformPoint(_localPos)-_myShooterPos, out hit, Mathf.Infinity, layermaskForLocalisation)){
+//				Debug.DrawRay(shooterPosHigher, GrappedTo.transform.TransformPoint(_localPos)-shooterPosHigher);
+				if(Physics.Raycast(shooterPosHigher, GrappedTo.transform.TransformPoint(_localPos)-shooterPosHigher, out hit, Mathf.Infinity, layermaskForLocalisation)){
 					shotRaycast = true;
+//					Debug.Log(hit.collider.name);
 					positionDetermined = hit.collider.gameObject.transform.InverseTransformPoint(hit.point);
 					gameObject.transform.position= GrappedTo.transform.TransformPoint(_localPos);
 //					spring.connectedAnchor = hit.collider.gameObject.transform.InverseTransformPoint(hit.point);
@@ -210,14 +225,14 @@ public class HookHeadF : MonoBehaviour {
 
 				//si j'ai rien choppé
 				if (Vector3.Distance(gameObject.transform.position, _myShooterPos) >= v_BreakDistance){
-					if(shouldIReturn == false) gameObject.GetComponent<Rigidbody>().velocity= Vector3.zero;
+					if(shouldIReturn == false) myRigidbody.velocity= Vector3.zero;
 					shouldIReturn = true;
 				}
 
 				if (shouldIReturn == true){
 					if (Vector3.Distance(gameObject.transform.position, gameObject.transform.Find("B 5Janv").GetComponent<LinkInTheMiddle>()._whereIsItShot) <= v_allowedProximity)
 					{
-						if (howWasIShot == 1) Destroy(_myShooter.GetComponent<ShootF>()._myHook);
+						if (howWasIShot == 1) Destroy(myShooterScript._myHook);
 					}
 				}
 			}
@@ -226,7 +241,7 @@ public class HookHeadF : MonoBehaviour {
 		//if faut gérer la destruction de l'objet auquel je me suis lié
 		//genre jme connecte à un truc et qqn d'autre le pète: paf detachLink
 		if(_hitSmth==true && GrappedTo ==null){
-			_myShooter.GetComponent<ShootF>().DetachLink(0);
+			myShooterScript.DetachLink(0);
 		}
 	}
 
@@ -237,7 +252,7 @@ public class HookHeadF : MonoBehaviour {
 				if(shouldIReturn==true){
 					Vector3 whereShouldIGo = _myShooterPos-gameObject.transform.position;
 					whereShouldIGo.Normalize();
-					gameObject.GetComponent<Rigidbody>().AddForce(whereShouldIGo*_myShooter.GetComponent<ShootF>().v_SpeedBullet*v_returnSpeedConst*1000);
+					myRigidbody.AddForce(whereShouldIGo*myShooterScript.v_SpeedBullet*v_returnSpeedConst*1000);
 				}
 			}
 		}

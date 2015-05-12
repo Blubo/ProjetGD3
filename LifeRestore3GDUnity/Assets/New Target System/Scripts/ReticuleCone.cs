@@ -29,7 +29,7 @@ public class ReticuleCone : MonoBehaviour {
 		if(numberOfThisPlayer == 1){
 			myLineRenderer = gameObject.AddComponent<LineRenderer>();
 			myLineRenderer.material = myMat;
-			myLineRenderer.SetColors(Color.yellow, Color.yellow);
+			myLineRenderer.SetColors(Color.green, Color.green);
 			myLineRenderer.SetWidth(0.2F, 0.2F);
 			myLineRenderer.SetVertexCount(3);
 	
@@ -77,7 +77,7 @@ public class ReticuleCone : MonoBehaviour {
 						
 						switch (numberOfThisPlayer) {
 						case 1:
-							lastSeenTargetScript.TurnReticuleOff(lastSeenTargetScript.YRend);
+							lastSeenTargetScript.TurnReticuleOff(lastSeenTargetScript.GRend);
 							HelpScript.HideHelper();
 							break;
 							
@@ -87,12 +87,12 @@ public class ReticuleCone : MonoBehaviour {
 
 							break;
 						case 3:
-							lastSeenTargetScript.TurnReticuleOff(lastSeenTargetScript.GRend);
+							lastSeenTargetScript.TurnReticuleOff(lastSeenTargetScript.BRend);
 							HelpScript.HideHelper();
 
 							break;
 						case 4:
-							lastSeenTargetScript.TurnReticuleOff(lastSeenTargetScript.BRend);
+							lastSeenTargetScript.TurnReticuleOff(lastSeenTargetScript.YRend);
 							HelpScript.HideHelper();
 
 							break;
@@ -115,7 +115,7 @@ public class ReticuleCone : MonoBehaviour {
 
 				switch (numberOfThisPlayer) {
 				case 1:
-					reticuleTarget.LightReticuleUp(reticuleTarget.YRend);
+					reticuleTarget.LightReticuleUp(reticuleTarget.GRend);
 					HelpScript.AimAtTarget(Vision());
 					break;
 
@@ -125,12 +125,12 @@ public class ReticuleCone : MonoBehaviour {
 
 					break;
 				case 3:
-					reticuleTarget.LightReticuleUp(reticuleTarget.GRend);
+					reticuleTarget.LightReticuleUp(reticuleTarget.BRend);
 					HelpScript.AimAtTarget(Vision());
 
 					break;
 				case 4:
-					reticuleTarget.LightReticuleUp(reticuleTarget.BRend);
+					reticuleTarget.LightReticuleUp(reticuleTarget.YRend);
 					HelpScript.AimAtTarget(Vision());
 
 					break;
@@ -174,8 +174,8 @@ public class ReticuleCone : MonoBehaviour {
 						left = Quaternion.Euler(0, -i,0)*left;
 						right = Quaternion.Euler(0, i,0)*right;
 
-						Ray ray1 = new Ray(transform.position, left);
-						Ray ray2 = new Ray(transform.position, right);
+						Ray ray1 = new Ray(new Vector3(transform.position.x, transform.position.y+0.2f, transform.position.z), left);
+						Ray ray2 = new Ray(new Vector3(transform.position.x, transform.position.y+0.2f, transform.position.z), right);
 						
 						RaycastHit info;
 						if(Physics.Raycast(ray1, out info, viewRange, myDetectionLayer) ||Physics.Raycast(ray2, out info, viewRange, myDetectionLayer)){
@@ -195,7 +195,7 @@ public class ReticuleCone : MonoBehaviour {
 		left = Quaternion.Euler(0, -viewAngle*0.5f,0)*left;
 		right = Quaternion.Euler(0, viewAngle*0.5f,0)*right;
 		
-		Gizmos.DrawRay(transform.position, left);
-		Gizmos.DrawRay(transform.position, right);
+		Gizmos.DrawRay(new Vector3(transform.position.x, transform.position.y+0.2f, transform.position.z), left);
+		Gizmos.DrawRay(new Vector3(transform.position.x, transform.position.y+0.2f, transform.position.z), right);
 	}
 }

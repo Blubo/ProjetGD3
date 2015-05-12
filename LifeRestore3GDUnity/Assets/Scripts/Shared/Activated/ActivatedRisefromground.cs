@@ -22,6 +22,9 @@ public class ActivatedRisefromground : MonoBehaviour {
 
 		if(gameObject.transform.position == v_target.transform.position){
 			receivedOrder=false;
+			if(gameObject.transform.Find("ReceptacleCollider")!=null){
+				gameObject.transform.Find("ReceptacleCollider").GetComponent<ReceptacleKey>().enabled=true;
+			}
 		}
 	}
 

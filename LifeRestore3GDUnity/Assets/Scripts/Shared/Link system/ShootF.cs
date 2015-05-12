@@ -173,16 +173,16 @@ public class ShootF : MonoBehaviour {
 				}
 
 				if(playerIndex == PlayerIndex.One){
-					_target.GetComponent<ReticuleTarget>().TurnReticuleOff(_target.GetComponent<ReticuleTarget>().YRend);
+					_target.GetComponent<ReticuleTarget>().TurnReticuleOff(_target.GetComponent<ReticuleTarget>().GRend);
 					
 				}else if(playerIndex == PlayerIndex.Two){
 					_target.GetComponent<ReticuleTarget>().TurnReticuleOff(_target.GetComponent<ReticuleTarget>().RRend);
 					
 				}else if(playerIndex == PlayerIndex.Three){
-					_target.GetComponent<ReticuleTarget>().TurnReticuleOff(_target.GetComponent<ReticuleTarget>().GRend);
+					_target.GetComponent<ReticuleTarget>().TurnReticuleOff(_target.GetComponent<ReticuleTarget>().BRend);
 					
 				}else if(playerIndex == PlayerIndex.Four){
-					_target.GetComponent<ReticuleTarget>().TurnReticuleOff(_target.GetComponent<ReticuleTarget>().BRend);
+					_target.GetComponent<ReticuleTarget>().TurnReticuleOff(_target.GetComponent<ReticuleTarget>().YRend);
 				}
 
 				_target=null;

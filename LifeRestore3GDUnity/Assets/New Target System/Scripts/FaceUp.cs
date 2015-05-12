@@ -10,6 +10,7 @@ public class FaceUp : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		gameObject.transform.up = Vector3.forward;
+		gameObject.transform.rotation = Camera.main.transform.rotation;
+//		gameObject.transform.up = Vector3.forward;
 	}
 }

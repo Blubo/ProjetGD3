@@ -20,16 +20,16 @@ public class AimHelperReticule : MonoBehaviour {
 		myLineRenderer.material = myMat;
 
 		if(myPlayer.transform.parent.GetComponent<ReticuleCone>().numberOfThisPlayer == 1){
-			myLineRenderer.SetColors(Color.yellow, Color.yellow);
+			myLineRenderer.SetColors(Color.green, Color.green);
 
 		}else if(myPlayer.transform.parent.GetComponent<ReticuleCone>().numberOfThisPlayer == 2){
 			myLineRenderer.SetColors(Color.red, Color.red);
 
 		}else if(myPlayer.transform.parent.GetComponent<ReticuleCone>().numberOfThisPlayer == 3){
-			myLineRenderer.SetColors(Color.green, Color.green);
+			myLineRenderer.SetColors(Color.blue, Color.blue);
 
 		}else if(myPlayer.transform.parent.GetComponent<ReticuleCone>().numberOfThisPlayer == 4){
-			myLineRenderer.SetColors(Color.blue, Color.blue);
+			myLineRenderer.SetColors(Color.yellow, Color.yellow);
 		}
 
 		myLineRenderer.SetWidth(0.2F, 0.2F);
