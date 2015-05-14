@@ -37,13 +37,14 @@ public class Group_AI : MonoBehaviour {
   //Cherche et envoie les infos sur la target que le groupe doit viser
   void FindTarget()
   {
-      for (int i = 0; i < _Composition.Count; i++)
+    //Dans la liste des targets 
+    for (int i = 0; i < _Leader._Targets.Count; i++)
+    {
+      if (_Leader._Targets[i].gameObject.tag == "Idole")
       {
-        if (_Leader._Targets[0].transform != null)
-        {
-          _Composition[i].Target = _Leader._Targets[0].transform;
-        }
+
       }
+    }
   }
 
   void ForgetTarget()
