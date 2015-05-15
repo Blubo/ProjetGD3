@@ -97,24 +97,6 @@ public class ShootF : MonoBehaviour {
 		if(prevState.Buttons.Back == ButtonState.Released && state.Buttons.Back == ButtonState.Pressed){
 			Application.LoadLevel(Application.loadedLevelName);
 		}
-
-		//REMOVE
-		if(state.Buttons.LeftShoulder == ButtonState.Pressed){
-			myRetCone.viewAngle-=Time.deltaTime*4;
-		}
-
-		if(state.Buttons.RightShoulder == ButtonState.Pressed){
-			myRetCone.viewAngle+=Time.deltaTime*4;
-		}
-
-		if(state.Buttons.Y == ButtonState.Pressed){
-			myRetCone.viewRange+=Time.deltaTime*2;
-		}
-
-		if(state.Buttons.A == ButtonState.Pressed){
-			myRetCone.viewRange-=Time.deltaTime*2;
-		}
-		//END REMOVE
 	}
 	
 	// Grappin 1 
