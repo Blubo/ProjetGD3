@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ReceptacleIdoleNormal : MonoBehaviour {
+public class ReceptacleIdoleMultipleTargets : MonoBehaviour {
 
 	//this for exterior consequence
 	[SerializeField]
@@ -51,7 +51,7 @@ public class ReceptacleIdoleNormal : MonoBehaviour {
 					activatedItem[i].SendMessage("Activated");
 					if(activatedItem[i].GetComponent<MultipleActivation>()==null){
 						Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Interrupteur activer");
-					}
+					}	
 				}
 			}
 		}
