@@ -8,7 +8,7 @@ public class BasicEnnemy : MonoBehaviour {
   public float WalkSpeed;
   public float RushSpeed;
   public int AttackValue;
-  public bool IsLeader, IsAttacking;
+  public bool IsLeader, IsAttacking, _InDanger;
   public float DistanceAllowed, ZoneDanger;
   public float RangeAttack, AtkSphereRange;
   public int _DelaiAtk, CDAtk;
@@ -34,9 +34,20 @@ public class BasicEnnemy : MonoBehaviour {
   public Vector3 _targetposition;
 
   public bool _locked;
-  //
+  //***---***
   public void Initiation()
   {
+
+    if (gameObject.GetComponent<SphereCollider>() != null)
+    {
+      SphereCollider _ZoneDanger = gameObject.GetComponent<SphereCollider>();
+      _ZoneDanger.radius = ZoneDanger;
+      if (!_ZoneDanger.isTrigger)
+      {
+        _ZoneDanger.isTrigger = true;
+      }
+    }
+
     _SpawnerCollectible = gameObject.GetComponent<Block_SpawnCollectible>();
 
     if (gameObject.GetComponent<NavMeshAgent>() == null)
@@ -136,8 +147,12 @@ public class BasicEnnemy : MonoBehaviour {
 
     if(Vector3.Distance(Bombe.transform.position, _targetposition)<1.0f){
       _Bombe = null;
-      Bombe.GetComponent<Rigidbody>().useGravity = enabled;
-      Bombe.GetComponent<Rigidbody>().isKinematic = false;
+      Bombe.GetComponent<BoxCollider>().isTrigger = false;
+      Rigidbody _BombeRigi = Bombe.GetComponent<Rigidbody>();
+      _BombeRigi.useGravity = enabled;
+      _BombeRigi.isKinematic = false;
+
+     
 
       _locked = false;
       yield return new WaitForSeconds(_DelaiAtk);

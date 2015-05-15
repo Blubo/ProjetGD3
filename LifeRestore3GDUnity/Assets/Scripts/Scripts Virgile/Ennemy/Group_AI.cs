@@ -40,9 +40,22 @@ public class Group_AI : MonoBehaviour {
     //Dans la liste des targets 
     for (int i = 0; i < _Leader._Targets.Count; i++)
     {
-      if (_Leader._Targets[i].gameObject.tag == "Idole")
+      if (_Leader._Targets[i].gameObject.tag == "Idole" && (_Leader._Targets[i].gameObject != null))
       {
-
+        for (int j = 0; j < _Composition.Count; j++)
+        {
+          _Composition[i].Target = _Leader._Targets[i].transform;
+        }
+      }
+    }
+    //Si l'Idole n'a pas été trouvée par la liste des des targets
+    {
+      for (int i = 0; i < _Composition.Count; i++)
+      {
+        if (_Composition[i].Target == null)
+        {
+          _Composition[i].Target = _Leader._Targets[0].transform;
+        }
       }
     }
   }

@@ -34,6 +34,7 @@ public class EnnemyA_AI : BasicEnnemy {
     //Si l'ennemi est un leader 
     if (IsLeader)
     {
+      //Target
       UpdateTargets();
       if (TimerCheckTarget > 0)
       {
@@ -134,5 +135,30 @@ public class EnnemyA_AI : BasicEnnemy {
 
     _Nav.SetDestination(transform.parent.GetComponent<Group_AI>()._Leader.transform.position);
     _Nav.speed = RushSpeed;
+  }
+
+  //DangerZone
+  void OnTriggerStay(Collider _colli)
+  {
+    if (IsLeader)
+    {
+      if (!_InDanger)
+      {
+        if (_colli.gameObject.tag == "Player" || _colli.gameObject.tag == "Idole")
+        {
+          Target = _colli.transform;
+          _InDanger = true;
+        }
+      }
+
+      if (_InDanger)
+      {
+        if (_colli.gameObject.tag != "Player" && _colli.gameObject.tag != "Idole")
+        {
+          UpdateTargets();
+          _InDanger = false;
+        }
+      }
+    }
   }
 }

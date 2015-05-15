@@ -6,8 +6,6 @@ public class EnnemyD_AI : BasicEnnemy
 {
   void Start()
   {
-    //On dit que la première bombe est celle déjà placée sur la tête
-    //_Bombe = transform.Find("")
 
     Health = 5;
     WalkSpeed = 2.0f;
@@ -29,7 +27,7 @@ public class EnnemyD_AI : BasicEnnemy
 
   void Update()
   {
-   // FindTarget();
+   FindTarget();
     //Tentative pour trouver une target 
     if (TimerCheckTarget > 0)
     {
