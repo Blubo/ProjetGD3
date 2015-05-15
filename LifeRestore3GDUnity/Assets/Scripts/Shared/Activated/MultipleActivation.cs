@@ -43,11 +43,26 @@ public class MultipleActivation : MonoBehaviour {
 
 			activatedItem.SendMessage("Activated");
 		}
+
+		if(hasActivatedTarget==true && gotActivatedCounter < howManyActivationForEffect){
+			activatedCounter-=1;
+			hasActivatedTarget=false;
+			//PLAY ONE SHOT FMOD ICI POUR desactiver mecanisme
+//			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Interrupteur activer");
+			
+			activatedItem.SendMessage("Deactivated");
+		}
 	}
 
 	void Activated(){
 		if((limitedUses==true && activatedCounter<numberLimitedUses)||limitedUses==false){
 			gotActivatedCounter+=1;
 		}
+	}
+
+	void Deactivated(){
+//		if((limitedUses==true && activatedCounter<numberLimitedUses)||limitedUses==false){
+			gotActivatedCounter-=1;
+//		}
 	}
 }

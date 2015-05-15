@@ -4,17 +4,15 @@ using System.Collections;
 public class ObjectStats : MonoBehaviour {
 
 	[SerializeField]
-	private float v_itemHP;
-
-	[SerializeField]
-	private float v_casernevideHP;
-
-	[SerializeField]
-	private bool caserne;
-
-	private Block_SpawnCollectible myCollecSpwnr;
+	protected float v_itemHP;
+	
+	[HideInInspector]
+	public Block_SpawnCollectible myCollecSpwnr;
 	private Sticky mySticky;
-	private Rigidbody myRB;
+	protected Rigidbody myRB;
+
+	[SerializeField]
+	private GameObject explosionVisuel;
 
 	// Use this for initialization
 	void Start () {
@@ -24,31 +22,71 @@ public class ObjectStats : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
 
 		if(v_itemHP <= 0f){
 			if(myCollecSpwnr!=null){
 				myCollecSpwnr.SpawnCollectible();
 			}
-
-			//on detruit ici les objets quand ils sont trop abimés
-			//de base un destroy
-			if(caserne == true){
-				mySticky.fronde = true;
-				gameObject.tag = "Untagged";
-//				gameObject.transform.Find("NewCaserne").gameObject.GetComponent<Renderer>().material.color = Color.grey;
-				myRB.constraints = RigidbodyConstraints.None;
-				if(v_itemHP<=-v_casernevideHP){
-					Destroy(gameObject);
-				}
-				return;
-			}else{
-				Destroy(gameObject);
+			if(explosionVisuel!=null){
+				GameObject explosion = Instantiate(explosionVisuel, gameObject.transform.position, Quaternion.identity) as GameObject;
 			}
+
+			Destroy(gameObject);
 		}
 	}
 
-	public void TakeDamage(float damage){
+	public virtual void TakeDamage(float damage){
+		VisualDamageFeedback();
+//		StartCoroutine("VisualDamage");
 		v_itemHP -= damage;
+	}
+
+//	public void VisualDamageFeedback(GameObject hitGameObject){
+//		StartCoroutine("VisualDamage", hitGameObject);
+//	}
+	
+//	public IEnumerator VisualDamage(GameObject hitGameObject){
+//		for (int i = 0; i < 2; i++){
+//			Renderer[] renderer = hitGameObject.transform.Find("Visuel").GetComponentsInChildren<MeshRenderer>();
+//			for (int j = 0; j < renderer.Length; j++) {
+//				Color[] hitColors = new Color[renderer.Length];
+//				hitColors[j] = renderer[j].material.color;
+//				
+//				foreach (Renderer rend in renderer){
+//					rend.material.color = Color.white;
+//				}
+//				yield return new WaitForSeconds(0.0f);
+//				
+//				foreach (Renderer rend in renderer){
+//					rend.material.color = hitColors[j];
+//				}
+//			}
+//		}
+//	}
+
+	public void VisualDamageFeedback(){
+		StartCoroutine("VisualDamage", gameObject);
+	}
+
+	public IEnumerator VisualDamage(){
+		Renderer[] renderer = gameObject.transform.Find("Visuel").GetComponentsInChildren<MeshRenderer>();
+		Color[] hitColors = new Color[renderer.Length];
+		for (int l = 0; l < renderer.Length; l++) {
+
+			hitColors[l] = renderer[l].material.color;
+		}
+		for (int i = 0; i < 2; i++){
+			for (int j = 0; j < renderer.Length; j++) {
+				foreach (Renderer rend in renderer){
+					rend.material.color = Color.white;
+				}
+				yield return new WaitForSeconds(0.0f);
+				
+				foreach (Renderer rend in renderer){
+					rend.material.color = hitColors[j];
+				}
+			}
+		}
 	}
 }

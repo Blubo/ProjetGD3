@@ -32,6 +32,9 @@ public class ShootF : MonoBehaviour {
 
 	private ReticuleCone myRetCone;
 
+	[SerializeField]
+	private GameObject particuleEffect;
+
 	void Awake(){
 		myRetCone = gameObject.GetComponent<ReticuleCone>();
 
@@ -123,6 +126,8 @@ public class ShootF : MonoBehaviour {
 		//ON JOUE LE SON FMOD ICI POUR LE TIR DU LIEN 
 		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Ouglou tir");
 
+		GameObject particule = Instantiate(particuleEffect, v_instantiateur.transform.position, Quaternion.identity)as GameObject;
+
 		//droite
 		_myHook = Instantiate(_HookHead, v_instantiateur.transform.position, transform.rotation) as GameObject;
 		Rigidbody rb = _myHook.GetComponent<Rigidbody>();
@@ -134,7 +139,9 @@ public class ShootF : MonoBehaviour {
 
 	void HookTarget(){
 		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Ouglou tir");
-		
+
+		GameObject particule = Instantiate(particuleEffect, v_instantiateur.transform.position, Quaternion.identity)as GameObject;
+
 		//droite
 		_myHook = Instantiate(_HookHead, v_instantiateur.transform.position, transform.rotation) as GameObject;
 		Rigidbody rb = _myHook.GetComponent<Rigidbody>();

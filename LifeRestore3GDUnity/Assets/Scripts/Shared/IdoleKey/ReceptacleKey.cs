@@ -121,7 +121,7 @@ public class ReceptacleKey : MonoBehaviour {
 					//suite dans le TriggerStay
 					idoleInitRot = col.gameObject.transform.eulerAngles;
 					idoleRotAtLastFrame = idoleInitRot;
-					idoleColor = col.gameObject.GetComponent<Renderer>().material.color;
+//					idoleColor = col.gameObject.GetComponent<Renderer>().material.color;
 				}
 			}
 		}
@@ -233,6 +233,9 @@ public class ReceptacleKey : MonoBehaviour {
 	void OnTriggerExit(Collider col){
 		if(col.gameObject.tag.Equals("Idole")){
 			idoleInRec = false;
+			col.GetComponent<Rigidbody>().mass=1;
+			col.GetComponent<Rigidbody>().drag = 1;
+			col.GetComponent<Rigidbody>().angularDrag = 35;
 		}
 	}
 
