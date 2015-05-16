@@ -27,6 +27,10 @@ public class EnnemyA_AI : BasicEnnemy {
 	}
 	
 	void Update () {
+    if (Furie)
+    {
+      Rush(_TargetFurie.transform);
+    }
     //Mort de l'ennemi
     if(Health <= 0)
     {
@@ -70,7 +74,7 @@ public class EnnemyA_AI : BasicEnnemy {
   //En attendant de trouver une target
   void Wait()
   {
-    if (IsLeader)
+    if (IsLeader && !Furie)
     {
       _Nav.ResetPath();
       //Faire anim idle

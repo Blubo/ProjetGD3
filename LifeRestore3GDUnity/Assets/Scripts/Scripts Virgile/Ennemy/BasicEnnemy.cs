@@ -19,7 +19,7 @@ public class BasicEnnemy : MonoBehaviour {
   public float timerTemp;
 
   public Block_SpawnCollectible _SpawnerCollectible;
-  public GameObject _Ragdoll;
+  public GameObject _Ragdoll, _TargetFurie;
 
   public Transform Target;
   public NavMeshAgent _Nav;

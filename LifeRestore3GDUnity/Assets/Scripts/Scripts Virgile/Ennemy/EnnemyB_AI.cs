@@ -27,13 +27,17 @@ public class EnnemyB_AI : BasicEnnemy
 
   void Update()
   {
+    if (Furie)
+    {
+      Rush(_TargetFurie.transform);
+    }
     //Mort de l'ennemi
     if (Health <= 0)
     {
       Death();
     }
     //Si l'ennemi est un leader 
-    if (IsLeader)
+    if (IsLeader )
     {
       UpdateTargets();
       if (TimerCheckTarget > 0)
@@ -49,7 +53,7 @@ public class EnnemyB_AI : BasicEnnemy
     }
 
     //Si l'ennemi n'est pas le leader
-    if (!IsLeader)
+    if (!IsLeader && !Furie)
     {
       //if (Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) >= DistanceAllowed)
       {
@@ -71,7 +75,7 @@ public class EnnemyB_AI : BasicEnnemy
   //En attendant de trouver une target
   void Wait()
   {
-    if (IsLeader)
+    if (IsLeader && !Furie)
     {
       _Nav.ResetPath();
       //Faire anim idle

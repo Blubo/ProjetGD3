@@ -100,7 +100,7 @@ public class Sticky : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collision col){
+	/*void OnCollisionEnter(Collision col){
 		if(fronde){
 			if (col.gameObject.tag == "Ennemy" && linked && gameObject.GetComponent<Rigidbody>().velocity.magnitude > 2.0f){
 				Debug.Log(gameObject.GetComponent<Rigidbody>().velocity.magnitude);
@@ -123,5 +123,5 @@ public class Sticky : MonoBehaviour {
 				}
 			}
 		}
-	}
+	}*/
 }

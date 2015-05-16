@@ -73,6 +73,30 @@ public class DamageDealer : MonoBehaviour {
 		if(col.gameObject.tag.Equals("Player")){
 			col.gameObject.GetComponent<Player_Status>().TakeDamage();
 		}
+    if (col.gameObject.tag == "Ennemy")
+    {
+      //Faiblar
+      if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI)
+      {
+        col.gameObject.GetComponent<BasicEnnemy>().Health -= 1;
+      }
+      //barak
+      if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyB_AI)
+      {
+        col.gameObject.GetComponent<BasicEnnemy>().Health -= 1;
+        col.gameObject.GetComponent<Rigidbody>().AddForce(-col.transform.forward * 1000.0f);
+      }
+      //Coloss
+      if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyC_Ai)
+      {
+        col.gameObject.GetComponent<BasicEnnemy>().Health -= 2;
+      }
+      //Ingénieur
+      if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyD_AI)
+      {
+        col.gameObject.GetComponent<BasicEnnemy>().Health -= 1;
+      }
+    }
 	}
 
 //	void VisualDamageFeedback(GameObject hitGameObject){
