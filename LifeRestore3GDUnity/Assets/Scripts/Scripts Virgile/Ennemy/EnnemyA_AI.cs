@@ -105,6 +105,9 @@ public class EnnemyA_AI : BasicEnnemy {
   public void Rush(Transform Target)
   {
      _Nav.destination = Target.position;
+    if(Furie){
+      _Nav.speed = WalkSpeed;
+    }else
      _Nav.speed = RushSpeed;
 
     if(Vector3.Distance(transform.position, Target.position)<= RangeAttack){
@@ -148,7 +151,7 @@ public class EnnemyA_AI : BasicEnnemy {
   }
 
   //DangerZone
- /* void OnTriggerStay(Collider _colli)
+ void OnTriggerStay(Collider _colli)
   {
     if (IsLeader)
     {
@@ -170,5 +173,5 @@ public class EnnemyA_AI : BasicEnnemy {
         }
       }
     }
-  }*/
+  }
 }

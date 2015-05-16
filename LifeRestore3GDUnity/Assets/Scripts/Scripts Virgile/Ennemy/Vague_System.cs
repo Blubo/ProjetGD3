@@ -12,6 +12,8 @@ public class Vague_System : MonoBehaviour {
   public float _TimerBetween;
   private float _TimerMax;
 
+  public List<GameObject> _CloseThemAll;
+
   void Activated()
   {
     this.enabled = true;
@@ -26,12 +28,16 @@ public class Vague_System : MonoBehaviour {
 	void Update () {
     _TimerMax -= 1 * Time.deltaTime;
 
+    if (_CurrentVague == 3)
+    {
+      EndSalle();
+    }
+
     if(_TimerMax <= 0.0f){
       if(_CurrentVague < 3){
         _TimerMax = _TimerBetween;
         PopNextVague();
       }
-      else { this.enabled = false; }
     }
 	}
 
@@ -65,5 +71,15 @@ public class Vague_System : MonoBehaviour {
         _CurrentVague += 1;
         break;
     }
+  }
+
+  void EndSalle()
+  {
+    for (int i = 0; i < _CloseThemAll.Count; i++)
+    {
+      _CloseThemAll[i].SendMessage("Deactivated");
+    }
+
+    this.enabled = false;
   }
 }
