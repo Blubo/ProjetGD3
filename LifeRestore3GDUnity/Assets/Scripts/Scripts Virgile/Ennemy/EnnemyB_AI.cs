@@ -13,7 +13,8 @@ public class EnnemyB_AI : BasicEnnemy
     //
     DistanceAllowed = 15.0f;
     RangeAttack = 2.0f;
-    _DelaiAtk = 4;
+    _DelaiAtk = 2;
+    AttackValue = 3;
     AtkSphereRange = 3.0f;
 
     //Animator 
@@ -23,6 +24,11 @@ public class EnnemyB_AI : BasicEnnemy
     timerTemp = 2.0f;
 
     Initiation();
+    //
+    if (Furie)
+    {
+      _TargetFurie = GameObject.Find("Idole");
+    }
   }
 
   void Update()
@@ -37,7 +43,7 @@ public class EnnemyB_AI : BasicEnnemy
       Death();
     }
     //Si l'ennemi est un leader 
-    if (IsLeader )
+    if (IsLeader && !Furie)
     {
       UpdateTargets();
       if (TimerCheckTarget > 0)

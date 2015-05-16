@@ -40,7 +40,7 @@ public class BasicEnnemy : MonoBehaviour {
   public void Initiation()
   {
 
-    if (gameObject.GetComponent<SphereCollider>() != null)
+   /* if (gameObject.GetComponent<SphereCollider>() != null)
     {
       SphereCollider _ZoneDanger = gameObject.GetComponent<SphereCollider>();
       _ZoneDanger.radius = ZoneDanger;
@@ -48,7 +48,7 @@ public class BasicEnnemy : MonoBehaviour {
       {
         _ZoneDanger.isTrigger = true;
       }
-    }
+    }*/
 
     _SpawnerCollectible = gameObject.GetComponent<Block_SpawnCollectible>();
 

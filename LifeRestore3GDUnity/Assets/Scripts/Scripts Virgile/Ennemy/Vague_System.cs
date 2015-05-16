@@ -12,6 +12,11 @@ public class Vague_System : MonoBehaviour {
   public float _TimerBetween;
   private float _TimerMax;
 
+  void Activated()
+  {
+    this.enabled = true;
+  }
+
 	void Awake () {
     _TimerMax = 0.0f;
     _CurrentVague = 0;

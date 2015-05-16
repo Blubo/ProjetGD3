@@ -13,8 +13,9 @@ public class EnnemyA_AI : BasicEnnemy {
     //Zone dans laquelle le joueur est attaqué priotairement
     ZoneDanger = 5.0f;
     RangeAttack = 2.0f;
-    _DelaiAtk = 2;
+    _DelaiAtk = 1;
     AtkSphereRange = 1.0f;
+    AttackValue = 1;
 
     //Animator 
     _Anim = transform.GetComponentInChildren<Animator>();
@@ -24,6 +25,10 @@ public class EnnemyA_AI : BasicEnnemy {
 
     Initiation();
     //
+    if (Furie)
+    {
+      _TargetFurie = GameObject.Find("Idole");
+    }
 	}
 	
 	void Update () {
@@ -37,7 +42,7 @@ public class EnnemyA_AI : BasicEnnemy {
       Death();
     }
     //Si l'ennemi est un leader 
-    if (IsLeader)
+    if (IsLeader && !Furie)
     {
       //Target
       UpdateTargets();
