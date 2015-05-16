@@ -42,7 +42,8 @@ public class TurretShooting : MonoBehaviour {
 	void Shoot(){
 		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Canon tir");
 
-		GameObject particule = Instantiate(particuleEffect, _instantiateur.transform.position, Quaternion.identity)as GameObject;
+		GameObject particule = Instantiate(particuleEffect, _instantiateur.transform.position, Quaternion.identity )as GameObject;
+		particule.transform.forward = gameObject.transform.right;
 
 //		GameObject newProj = Instantiate(_projectile, _instantiateur.transform.position, Quaternion.identity) as GameObject;
 		GameObject newProj = Instantiate(_projectile, _instantiateur.transform.position, Quaternion.identity) as GameObject;
