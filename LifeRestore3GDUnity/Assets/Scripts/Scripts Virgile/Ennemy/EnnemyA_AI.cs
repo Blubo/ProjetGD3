@@ -23,6 +23,7 @@ public class EnnemyA_AI : BasicEnnemy {
     timerTemp = 2.0f;
 
     Initiation();
+    //
 	}
 	
 	void Update () {
@@ -138,7 +139,7 @@ public class EnnemyA_AI : BasicEnnemy {
   }
 
   //DangerZone
-  void OnTriggerStay(Collider _colli)
+ /* void OnTriggerStay(Collider _colli)
   {
     if (IsLeader)
     {
@@ -160,5 +161,5 @@ public class EnnemyA_AI : BasicEnnemy {
         }
       }
     }
-  }
+  }*/
 }

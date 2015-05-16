@@ -26,7 +26,9 @@ public class BasicEnnemy : MonoBehaviour {
   [HideInInspector]
   public Animator _Anim;
 
-  //Only for ingé 
+  public bool Furie;
+
+  //**Only for ingé **
   int Progression = -1;
   public GameObject _Bombe, _Prefab;
   public Transform _BombePlacement;
