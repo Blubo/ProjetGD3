@@ -51,7 +51,7 @@ public class EnnemyB_AI : BasicEnnemy
     //Si l'ennemi n'est pas le leader
     if (!IsLeader)
     {
-      if (Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) >= DistanceAllowed)
+      //if (Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) >= DistanceAllowed)
       {
         FindLeader();
         Target = null;
@@ -136,5 +136,30 @@ public class EnnemyB_AI : BasicEnnemy
     transform.LookAt(transform.parent.GetComponent<Group_AI>()._Leader.transform);
     _Nav.SetDestination(transform.parent.GetComponent<Group_AI>()._Leader.transform.position);
     _Nav.speed = RushSpeed;
+  }
+
+  //DangerZone
+  void OnTriggerStay(Collider _colli)
+  {
+    if (IsLeader)
+    {
+      if (!_InDanger)
+      {
+        if (_colli.gameObject.tag == "Player" || _colli.gameObject.tag == "Idole")
+        {
+          Target = _colli.transform;
+          _InDanger = true;
+        }
+      }
+
+      if (_InDanger)
+      {
+        if (_colli.gameObject.tag != "Player" && _colli.gameObject.tag != "Idole")
+        {
+          UpdateTargets();
+          _InDanger = false;
+        }
+      }
+    }
   }
 }

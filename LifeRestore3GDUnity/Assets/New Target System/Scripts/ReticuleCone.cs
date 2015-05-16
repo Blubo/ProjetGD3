@@ -15,56 +15,14 @@ public class ReticuleCone : MonoBehaviour {
 	private GameObject lastSeen;
 	private AimHelperReticule HelpScript;
 
-	//REMOVE
-	private LineRenderer myLineRenderer;
-	public Material myMat;
-	//END REMOVE
-
 	// Use this for initialization
 	void Start () {
 		myShootF = gameObject.GetComponent<ShootF>();
 		HelpScript = gameObject.transform.Find("Pointillés").gameObject.GetComponent<AimHelperReticule>();
-
-		//REMOVE
-		if(numberOfThisPlayer == 1){
-			myLineRenderer = gameObject.AddComponent<LineRenderer>();
-			myLineRenderer.material = myMat;
-			myLineRenderer.SetColors(Color.green, Color.green);
-			myLineRenderer.SetWidth(0.2F, 0.2F);
-			myLineRenderer.SetVertexCount(3);
-	
-		}
-		//END REMOVE
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-		//REMOVE
-
-		if (numberOfThisPlayer == 1) {
-			Vector3 left = transform.forward * viewRange;
-			Vector3 right = transform.forward * viewRange;
-
-			left = Quaternion.Euler (0, -viewAngle * 0.5f, 0) * left;
-			right = Quaternion.Euler (0, viewAngle * 0.5f, 0) * right;
-
-			myLineRenderer.enabled = true;
-
-			Vector3 position1 = gameObject.transform.position+left;
-			Vector3 position2 = new Vector3 (transform.position.x, transform.position.y + 1, transform.position.z);
-			Vector3 position3 = gameObject.transform.position+right;
-			myLineRenderer.SetPosition (0, position1);
-			myLineRenderer.SetPosition (1, position2);
-			myLineRenderer.SetPosition (2, position3);
-
-			myMat.SetTextureScale ("_MainTex", new Vector2 (myLineRenderer.bounds.size.magnitude, 1));
-			myLineRenderer.material = myMat;
-			myLineRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-		}
-
-		//END REMOVE
-
 
 		Debug.DrawRay(transform.position, transform.forward.normalized*viewRange);
 
