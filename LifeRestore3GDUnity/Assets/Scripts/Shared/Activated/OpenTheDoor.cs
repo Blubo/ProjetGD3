@@ -51,7 +51,7 @@ public class OpenTheDoor : MonoBehaviour {
 	void PleaseOpenDoor(){
 		//SON FMOD ICI POUR L OUVERTURE DE LA PORTE
 		//LE SON FAIT N IMPORTE QUOI!!!
-		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Porte ouverture");
+//		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Porte ouverture");
 
 
 		gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, _openedLocation.transform.position, Time.deltaTime*doorSpeed);
@@ -67,7 +67,7 @@ public class OpenTheDoor : MonoBehaviour {
 		//SON FMOD ICI POUR L OUVERTURE DE LA PORTE
 		//LE SON FAIT N IMPORTE QUOI!!!
 
-		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Porte ouverture");
+//		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Porte ouverture");
 		
 		
 		gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, _closedLocation.transform.position, Time.deltaTime*doorSpeed);

@@ -45,7 +45,6 @@ public class Score_Collectible : MonoBehaviour {
 
 			_ScoreManager.Increase_score(_name, _value*_Multiplicator);
 			//Destruction du collectible après le calcul 
-			
 			//ET ON JOUE LE SON DE COLLECTE AVANT DE DETRUIRE LE COLLECTIBLE
 			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Ouglou collecte gros");
 			

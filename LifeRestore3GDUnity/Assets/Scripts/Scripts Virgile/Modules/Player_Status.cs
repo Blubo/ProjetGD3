@@ -14,11 +14,21 @@ public class Player_Status : MonoBehaviour {
 
     private bool _Desactivated;
     private GameManager _GameManager;
+	private ScoreManager _ScoreManager;
+
+	[SerializeField]
+	private int playerNumber;
+
+	[SerializeField]
+	private int damage, numberToDrop;
+
+	[SerializeField]
+	private GameObject collectibleToDrop;
 
 	void Start () {
         _Desactivated = false;
         _OriginalMoveSpeed = gameObject.GetComponent<MovementScript5Janv>().v_movementSpeed;
-
+		_ScoreManager = Camera.main.GetComponent<ScoreManager>();
         _GameManager = Camera.main.GetComponent<GameManager>();
 	}
 	
@@ -72,6 +82,22 @@ public class Player_Status : MonoBehaviour {
 
     public void TakeDamage()
     {
+		DropCollectible();
+		switch (playerNumber) {
+		case 1:
+			_ScoreManager.Score_Vert-=damage;
+			break;
+		case 2:
+			_ScoreManager.Score_Rouge-=damage;
+
+			break;
+		case 3:
+			_ScoreManager.Score_Bleu-=damage;
+			break;
+		default:
+			break;
+		}
+
       StartCoroutine("Clignotement");
     }
 
@@ -80,6 +106,7 @@ public class Player_Status : MonoBehaviour {
         gameObject.GetComponentInChildren<Renderer>().enabled = false;
         //Replacement à coté de l'idole
         gameObject.transform.position = _Idole.transform.position + new Vector3(1.0f, 0.0f, 0.0f);
+
         StartCoroutine("Clignotement");
         //Remise à niveau des stats du joueur
         _Life = _Maxlife;
@@ -125,4 +152,11 @@ public class Player_Status : MonoBehaviour {
         yield return new WaitForSeconds(_TimerInvincible);
         GetComponent<BoxCollider>().enabled = true;
     }
+
+	void DropCollectible(){
+		for (int i = 0; i < numberToDrop; i++) {
+			GameObject dropped = Instantiate(collectibleToDrop, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), gameObject.transform.position.y, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), collectibleToDrop.transform.rotation)as GameObject;
+		}
+	}
+
 }

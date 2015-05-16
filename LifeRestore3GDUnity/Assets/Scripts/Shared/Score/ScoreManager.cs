@@ -18,16 +18,19 @@ public class ScoreManager : MonoBehaviour {
 	
 
 	void Update () {
+		if(Score_Jaune<0) Score_Jaune = 0;
+		if(Score_Vert<0) Score_Vert = 0;
+		if(Score_Rouge<0) Score_Rouge = 0;
+		if(Score_Bleu<0) Score_Bleu = 0;
+
 		int maxScore = Mathf.Max(Score_Vert, Score_Rouge, Score_Bleu);
 		if(maxScore == Score_Vert){
 			gaugeHUDanimator.SetInteger("WhoIsHighest", 1);
 		}else if(maxScore == Score_Rouge){
 			gaugeHUDanimator.SetInteger("WhoIsHighest", 2);
-
 		}else if(maxScore == Score_Bleu){
 			gaugeHUDanimator.SetInteger("WhoIsHighest", 3);
 		}
-
 		if(Score_Vert== Score_Rouge && Score_Rouge == Score_Bleu){
 			gaugeHUDanimator.SetInteger("WhoIsHighest", 0);
 		}

@@ -14,6 +14,10 @@ public class ElevateFormGround : MonoBehaviour {
       gameObject.GetComponent<BoxCollider>().enabled = false;
 
     }
+
+		if(gameObject.GetComponent<Rigidbody>()!=null){
+			gameObject.GetComponent<Rigidbody>().useGravity = false;
+		}
 	}
 	
 	// Update is called once per frame
