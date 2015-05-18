@@ -78,4 +78,8 @@ public class ActivatedSpawnByRéceptacle : MonoBehaviour {
 		activatedCounter+=1;
 		spawn=true;
 	}
+
+	void Deactivated(){
+		
+	}
 }

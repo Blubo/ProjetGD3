@@ -8,23 +8,53 @@ public class Block_SpawnCollectible : MonoBehaviour {
     [SerializeField]
     private int _NumberLittle, _NumberMedium, _NumberBig;
 
+	[SerializeField]
+	private float minSpread, maxSpread, minHeight, maxHeight, explosionForce;
+
+
+	void Start(){
+
+
+	}
+
 	public void SpawnCollectible () {
-        for (int i = 0; i < _NumberLittle; i++)
-        {
-			Instantiate(_Little, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), 0.0f, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), _Little.transform.rotation);
+//		for (int i = 0; i < _NumberLittle; i++){
+//			Instantiate(_Little, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), 0.0f, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), _Little.transform.rotation);
+//		}
+//
+//		for (int i = 0; i < _NumberMedium ; i++){
+//			Instantiate(_Medium, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), 0.0f, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), _Medium.transform.rotation);
+//		}
+//
+//		for (int i = 0; i < _NumberBig; i++){
+//			Instantiate(_Big, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), 0.0f, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), _Big.transform.rotation);
+//		}
 
+		for (int i = 0; i < _NumberLittle; i++){
+			GameObject spawned = Instantiate(_Little, gameObject.transform.position, _Little.transform.rotation) as GameObject;
+			Vector3 randomDirection = new Vector3(gameObject.transform.position.x+Random.Range(minSpread, maxSpread), Random.Range(minHeight, maxHeight), gameObject.transform.position.z+Random.Range(minSpread, maxSpread));
+
+			Vector3 dir = randomDirection - spawned.transform.position;
+			Rigidbody spawnedRB = spawned.AddComponent<Rigidbody>();
+			spawnedRB.AddForce(dir * explosionForce);
 		}
-
-        for (int i = 0; i < _NumberMedium ; i++)
-        {
-			Instantiate(_Medium, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), 0.0f, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), _Medium.transform.rotation);
-
+		
+		for (int i = 0; i < _NumberMedium ; i++){
+			GameObject spawned = Instantiate(_Medium, gameObject.transform.position, _Medium.transform.rotation) as GameObject;
+			Vector3 randomDirection = new Vector3(gameObject.transform.position.x+Random.Range(minSpread, maxSpread), Random.Range(minHeight, maxHeight), gameObject.transform.position.z+Random.Range(minSpread, maxSpread));
+			
+			Vector3 dir = randomDirection - spawned.transform.position;
+			Rigidbody spawnedRB = spawned.AddComponent<Rigidbody>();
+			spawnedRB.AddForce(dir * explosionForce);
 		}
-
-        for (int i = 0; i < _NumberBig; i++)
-        {
-			Instantiate(_Big, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), 0.0f, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), _Big.transform.rotation);
-
+		
+		for (int i = 0; i < _NumberBig; i++){
+			GameObject spawned = Instantiate(_Big, gameObject.transform.position, _Big.transform.rotation) as GameObject;
+			Vector3 randomDirection = new Vector3(gameObject.transform.position.x+Random.Range(minSpread, maxSpread), Random.Range(minHeight, maxHeight), gameObject.transform.position.z+Random.Range(minSpread, maxSpread));
+			
+			Vector3 dir = randomDirection - spawned.transform.position;
+			Rigidbody spawnedRB = spawned.AddComponent<Rigidbody>();
+			spawnedRB.AddForce(dir * explosionForce);
 		}
 	}   
 }

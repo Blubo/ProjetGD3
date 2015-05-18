@@ -122,22 +122,6 @@ public class ReticuleCone : MonoBehaviour {
 			if(find.gameObject.tag.Equals("Unlinkable")==false){
 
 				if(GetComponent<Collider>()!=find){
-//					GameObject target = find.gameObject;
-//
-//					if(target!=null){
-//						float angle = Vector3.Angle(target.transform.position-transform.position, transform.forward);
-//
-//						if(angle<viewAngle*0.5f){
-//							Ray ray = new Ray(transform.position, target.transform.position -transform.position);
-//							RaycastHit info;
-//
-//							if(target.GetComponent<Collider>().Raycast(ray, out info, viewRange)){
-//								mago = target;
-//								return true;
-//							}
-//						}
-//					}
-
 					for (int i = 0; i < viewAngle*0.5f; i++) {
 						Vector3 left = transform.forward*viewRange;
 						Vector3 right = transform.forward*viewRange;

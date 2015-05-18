@@ -9,4 +9,8 @@ public class ActivatedDestroy : MonoBehaviour {
 	void Activated(){
 		Destroy(gameObject);
 	}
+
+	void Deactivated(){
+		
+	}
 }
