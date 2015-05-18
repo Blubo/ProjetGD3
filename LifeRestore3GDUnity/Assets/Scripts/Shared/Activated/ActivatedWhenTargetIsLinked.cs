@@ -21,4 +21,8 @@ public class ActivatedWhenTargetIsLinked : MonoBehaviour {
 			}
 		}
 	}
+
+	void Deactivated(){
+
+	}
 }

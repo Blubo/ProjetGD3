@@ -23,9 +23,17 @@ public class OpenTheDoor : MonoBehaviour {
 
 	[SerializeField]
 	private GameObject nuagePorte;
+	private ParticleSystem nuagePorteParticles;
+
+	private float openingTimer, closingTimer;
 
 	// Use this for initialization
 	void Start () {
+		openingTimer = 0f;
+		closingTimer = 0f;
+		nuagePorteParticles = nuagePorte.GetComponent<ParticleSystem>();
+		nuagePorteParticles.playOnAwake = true;
+		nuagePorte.GetComponent<Renderer>().enabled = false;
 		initPos = gameObject.transform.position;
 	}
 	
@@ -38,14 +46,6 @@ public class OpenTheDoor : MonoBehaviour {
 		if(receivedOrderToClose==true){
 			PleaseCloseDoor();
 		}
-
-//		if(openedAlready==true){
-//			receivedOrderToOpen=false;
-//		}
-//
-//		if(closedAlready==true){
-//			receivedOrderToClose=false;
-//		}
 	}
 
 	void PleaseOpenDoor(){
@@ -53,13 +53,22 @@ public class OpenTheDoor : MonoBehaviour {
 		//LE SON FAIT N IMPORTE QUOI!!!
 //		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Porte ouverture");
 
+//		gameObject.transform.position = Vector3.Lerp(gameObject.transform.position , _openedLocation.transform.position, Time.deltaTime*doorSpeed);
+		openingTimer+=Time.deltaTime;
+//		gameObject.transform.position = Vector3.Lerp(_closedLocation.transform.position , _openedLocation.transform.position, Time.deltaTime*doorSpeed);
+		nuagePorte.GetComponent<Renderer>().enabled = true;
+		openingTimer+=Time.deltaTime;
+		gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position,_openedLocation.transform.position, doorSpeed*Time.deltaTime);
 
-		gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, _openedLocation.transform.position, Time.deltaTime*doorSpeed);
 		if(gameObject.transform.position == _openedLocation.transform.position){
+//		if(openingTimer>=doorSpeed){
 //			openedAlready = true;
 //			closedAlready = false;
+			openingTimer = 0f;
+			nuagePorte.GetComponent<Renderer>().enabled = false;
+
 			receivedOrderToOpen=false;
-//			Debug.Log("1");
+			Debug.Log("1");
 		}
 	}
 
@@ -68,12 +77,16 @@ public class OpenTheDoor : MonoBehaviour {
 		//LE SON FAIT N IMPORTE QUOI!!!
 
 //		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Porte ouverture");
-		
-		
-		gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, _closedLocation.transform.position, Time.deltaTime*doorSpeed);
+		closingTimer+=Time.deltaTime;
+
+		nuagePorte.GetComponent<Renderer>().enabled = true;
+//		gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, _closedLocation.transform.position, Time.deltaTime*doorSpeed);
+//		gameObject.transform.position = Vector3.Lerp(_openedLocation.transform.position, _closedLocation.transform.position, Time.deltaTime*doorSpeed);
+		gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position,_closedLocation.transform.position, doorSpeed*Time.deltaTime);
 		if(gameObject.transform.position == _closedLocation.transform.position){
-//			closedAlready = true;
-//			openedAlready = false;
+//		if(closingTimer>=doorSpeed){
+			closingTimer = 0f;
+			nuagePorte.GetComponent<Renderer>().enabled = false;
 
 			receivedOrderToClose=false;
 //			Debug.Log("2");
@@ -83,13 +96,24 @@ public class OpenTheDoor : MonoBehaviour {
 	void Activated(){
 //		Debug.Log("open");
 		receivedOrderToOpen=true;
-		if(receivedOrderToClose==true) receivedOrderToClose = false;
+		receivedOrderToClose = false;
 	}
 
 	void Deactivated(){
 //		Debug.Log("close");
 		receivedOrderToClose=true;
-		if(receivedOrderToOpen==true) receivedOrderToOpen = false;
-
+		receivedOrderToOpen = false;
 	}
+
+
+	IEnumerator MoveObject (Transform thisTransform, Vector3 startPos, Vector3 endPos, float time){
+		float i = 0;
+		float rate = 1/time;
+		while (i < 1) {
+			i += Time.deltaTime * rate;
+			thisTransform.position = Vector3.Lerp(startPos, endPos, i);
+			yield return null; 
+		}
+	}
+
 }

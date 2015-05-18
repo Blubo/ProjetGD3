@@ -32,4 +32,7 @@ public class ActivatedIdoleRiseFromGround : MonoBehaviour {
 	void Activated(){
 		receivedOrder=true;
 	}
+
+	void Deactivated(){
+	}
 }

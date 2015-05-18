@@ -31,7 +31,8 @@ public class TurretProjectile : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision){
 		if(collision.gameObject != v_whoShotMe){
-			if(collision.gameObject.GetComponent<Sticky>()==null){
+//			if(collision.gameObject.GetComponent<Sticky>()==null){
+			if(collision.gameObject.tag.Equals("Static")==true){
 				Destroy(gameObject);
 			}
 		}

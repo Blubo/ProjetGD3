@@ -20,7 +20,7 @@ public class EpineBehaviour : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		if(col.gameObject.tag.Equals("Ground")){
+		if(col.gameObject.tag.Equals("Ground") || col.gameObject.tag.Equals("Static")){
 			if(gameObject.GetComponent<Rigidbody>()!=null) Destroy(gameObject.GetComponent<Rigidbody>());
 			myFader.FadeOut();
 		}

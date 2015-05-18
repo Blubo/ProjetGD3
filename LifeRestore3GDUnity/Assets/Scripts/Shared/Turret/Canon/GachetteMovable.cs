@@ -40,11 +40,21 @@ public class GachetteMovable : MonoBehaviour {
 		if(gameObject.GetComponent<Sticky>().v_numberOfLinks!=0){
 			grapped=true;
 			gameObject.GetComponent<Rigidbody>().isKinematic=false;
-			canonBody.GetComponent<Rigidbody>().isKinematic=true;
+
+			//remove
+			canonBody.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+
+			//remettre
+//			canonBody.GetComponent<Rigidbody>().isKinematic=true;
 		}else{
 			grapped=false;
-			//gameObject.GetComponent<Rigidbody>().isKinematic=true;
-			canonBody.GetComponent<Rigidbody>().isKinematic=false;
+
+			//remove
+			canonBody.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+			canonBody.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+
+			//remettre
+//			canonBody.GetComponent<Rigidbody>().isKinematic=false;
 		}
 
 		//la distance entre la gachette et son point de départ

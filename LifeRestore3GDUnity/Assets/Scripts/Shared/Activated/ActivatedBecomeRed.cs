@@ -10,4 +10,8 @@ public class ActivatedBecomeRed : MonoBehaviour {
 		gameObject.GetComponent<Renderer>().material.color = Color.red;
 
 	}
+
+	void Deactivated(){
+		
+	}
 }

@@ -33,4 +33,7 @@ public class ActivatedRisefromground : MonoBehaviour {
 		receivedOrder=true;
 	}
 
+	void Deactivated(){
+	}
+
 }
