@@ -77,7 +77,10 @@ public class BasicEnnemy : MonoBehaviour {
     //Fait droper les collectibles
     DropCollectible();
     //Fait pop l'objet Ragdoll/Cadavre
-   // Instantiate(_Ragdoll, transform.position, Quaternion.identity);
+    if (_Ragdoll != null)
+    {
+      Instantiate(_Ragdoll, transform.position, Quaternion.identity);
+    }
     //Si l'ennemy est dans un groupe alors le retire de ce groupe( par parent)
     if (gameObject.transform.parent.GetComponent<Group_AI>() != null)
     {
@@ -122,6 +125,8 @@ public class BasicEnnemy : MonoBehaviour {
 
   public IEnumerator AttackInge(GameObject Bombe)
   {
+
+    yield return new WaitForSeconds(_DelaiAtk);
     Bombe.transform.parent = null;
     //Position de la target à viser 
     Transform LandingPoint = Target;
@@ -154,10 +159,7 @@ public class BasicEnnemy : MonoBehaviour {
       _BombeRigi.useGravity = enabled;
       _BombeRigi.isKinematic = false;
 
-     
-
       _locked = false;
-      yield return new WaitForSeconds(_DelaiAtk);
       StopCoroutine("AttackInge");
     }
     

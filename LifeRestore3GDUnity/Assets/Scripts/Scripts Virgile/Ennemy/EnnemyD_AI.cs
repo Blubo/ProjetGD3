@@ -4,6 +4,8 @@ using System.Collections.Generic;
 //Ingénieur
 public class EnnemyD_AI : BasicEnnemy
 {
+  private bool Finish = false;
+
   void Start()
   {
 
@@ -13,7 +15,7 @@ public class EnnemyD_AI : BasicEnnemy
 
     DistanceAllowed = 15.0f;
     RangeAttack = 5.0f;
-    _DelaiAtk = 3;
+    _DelaiAtk = 0;
     AtkSphereRange = 1.0f;
 
     TimerCheckTarget = 2.0f;
@@ -53,8 +55,13 @@ public class EnnemyD_AI : BasicEnnemy
     if (_Bombe == null)
     {
       StartCoroutine("WaitThoseSecs", 4);
-      ReloadBomb();
-      _Anim.Play("Animation Nouvelle Bombe Ingé");
+      if (Finish)
+      {
+        ReloadBomb();
+        _Anim.Play("Animation Nouvelle Bombe Ingé");
+        Finish = false;
+      }
+
     }
 
     //Si la target a été retrouvé 
@@ -64,9 +71,13 @@ public class EnnemyD_AI : BasicEnnemy
       //Beware Below
       if (_Bombe != null)
       {
-        _Anim.Play("Animation Lancer Ingé");
-        StartCoroutine("AttackInge", _Bombe);
         StartCoroutine("WaitThoseSecs", 2);
+        if (Finish)
+        {
+          _Anim.Play("Animation Lancer Ingé");
+          StartCoroutine("AttackInge", _Bombe);
+          Finish = false;
+        }
       }
     }
     else { Wait(); }
@@ -138,6 +149,7 @@ public class EnnemyD_AI : BasicEnnemy
   IEnumerator WaitThoseSecs(int Secs)
   {
     yield return new WaitForSeconds(Secs);
+    Finish = true;
   }
 
 }
