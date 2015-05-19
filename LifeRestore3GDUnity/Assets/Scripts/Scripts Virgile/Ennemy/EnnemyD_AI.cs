@@ -18,8 +18,8 @@ public class EnnemyD_AI : BasicEnnemy
     _DelaiAtk = 0;
     AtkSphereRange = 1.0f;
 
-    TimerCheckTarget = 2.0f;
-    timerTemp = 2.0f;
+    TimerCheckTarget = 0.0f;
+    timerTemp = 5.0f;
 
     Initiation();
     //Animator 
@@ -61,15 +61,21 @@ public class EnnemyD_AI : BasicEnnemy
     //Si la target a été retrouvé 
     if (Target != null)
     {
-      _Nav.ResetPath();
-      //Beware Below
-      if (_Bombe != null && _FinishCoroutine == true)
+      if (Target.tag == "Idole" || Target.tag == "Player")
       {
+        _Nav.ResetPath();
+        //Beware Below
+        if (_Bombe != null && _FinishCoroutine == true)
+        {
           _Anim.Play("Animation Lancer Ingé");
           StartCoroutine("AttackInge", _Bombe);
+        }
       }
-    }
-    else { Wait(); }
+      else {
+        _locked = false;
+        CheckForTargets();
+        Wait(); }
+      }
   }
 
   //En attendant de trouver une target
@@ -99,7 +105,7 @@ public class EnnemyD_AI : BasicEnnemy
   //Zone de détection
   void CheckForTargets()
   {
-    _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 50.0f));
+    _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 30.0f));
     UpdateTargets();
   }
 
@@ -107,14 +113,14 @@ public class EnnemyD_AI : BasicEnnemy
   {
     for (int i = 0; i < _potentialTargets.Count; i++)
     {
-      if (_potentialTargets[i].gameObject.tag != "Player" && _potentialTargets[i].gameObject.tag != "Idole")
+      if (_potentialTargets[i] != null)
       {
-        _potentialTargets.Remove(_potentialTargets[i]);
+        if (_potentialTargets[i].gameObject.tag == "Player" || _potentialTargets[i].gameObject.tag == "Idole")
+        {
+          _Targets.Add(_potentialTargets[i]);
+        }
       }
-    }
-    if (TimerCheckTarget < 0.5f)
-    {
-      _Targets = _potentialTargets;
+ 
     }
   }
 
@@ -122,11 +128,23 @@ public class EnnemyD_AI : BasicEnnemy
   {
     if (_Targets.Count > 0 && _locked == false)
     {
-      Target = _Targets[0].transform;
-      _targetposition = _potentialTargets[0].transform.position;
-      _locked = true;
+      for (int i = 0; i < _Targets.Count; i++)
+      {
+        if (_Targets[i].gameObject.tag == "Idole")
+        {
+          Target = _Targets[i].transform;
+          _targetposition = _Targets[i].transform.position;
+          _locked = true;
+        }
+        else
+        {
+          Target = _Targets[0].transform;
+          _targetposition = _Targets[0].transform.position;
+          _locked = true;
+        }
+      }
     }
-    else if (_potentialTargets.Count == 0) { 
+    else if (_Targets.Count == 0) { 
       Target = null;
       _locked = false;
     }

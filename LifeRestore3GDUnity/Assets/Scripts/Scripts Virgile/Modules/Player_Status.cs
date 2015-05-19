@@ -9,6 +9,8 @@ public class Player_Status : MonoBehaviour {
     [SerializeField]
     private float  _TimerInvincible;
 
+    public bool _IsInvincible;
+
 	private ScoreManager _ScoreManager;
 
 	[SerializeField]
@@ -22,27 +24,34 @@ public class Player_Status : MonoBehaviour {
 
 	void Start () {
 		_ScoreManager = Camera.main.GetComponent<ScoreManager>();
+
+    _IsInvincible = false;
   }
 
     public void TakeDamage()
     {
-		DropCollectible();
-		switch (playerNumber) {
+      if (!_IsInvincible)
+      {
+        DropCollectible();
+        switch (playerNumber)
+        {
 
-		case 1:
-			_ScoreManager.Score_Vert-=damage;
-			break;
+          case 1:
+            _ScoreManager.Score_Vert -= damage;
+            break;
 
-		case 2:
-			_ScoreManager.Score_Rouge-=damage;
-			break;
+          case 2:
+            _ScoreManager.Score_Rouge -= damage;
+            break;
 
-		case 3:
-			_ScoreManager.Score_Bleu-=damage;
-			break;
-		}
-       StartCoroutine("Invincible");
-      StartCoroutine("Clignotement");
+          case 3:
+            _ScoreManager.Score_Bleu -= damage;
+            break;
+        }
+        StartCoroutine("Clignotement");
+        StartCoroutine("Invincible");
+      }
+		
     }
 
     public IEnumerator Clignotement()
@@ -66,9 +75,9 @@ public class Player_Status : MonoBehaviour {
 
     public IEnumerator Invincible()
     {
-        GetComponent<BoxCollider>().enabled = false;
+        _IsInvincible = true;
         yield return new WaitForSeconds(_TimerInvincible);
-        GetComponent<BoxCollider>().enabled = true;
+        _IsInvincible = false;
     }
 
 	void DropCollectible(){

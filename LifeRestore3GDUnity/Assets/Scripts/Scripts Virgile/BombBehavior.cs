@@ -6,12 +6,21 @@ public class BombBehavior : MonoBehaviour
 {
   public float RangeExplosion, _KnockBack, _Fuse, _DamageValue;
   private bool _ReadyToBlow;
+  public bool _IsSolo;
   private Collider[] tab;
+
+  private Sticky _MySticky;
 
   public GameObject explosionVisuel;
 
   void Start()
   {
+
+    if (_IsSolo)
+    {
+      _MySticky = gameObject.GetComponent<Sticky>();
+    }
+
     RangeExplosion = 10.0f;
     _KnockBack = 300f;
     _ReadyToBlow = false;
@@ -28,7 +37,21 @@ public class BombBehavior : MonoBehaviour
 
   void OnCollisionEnter(Collision col)
   {
-    StartCoroutine("Setup");
+    if (_IsSolo)
+    {
+      if (_MySticky.v_numberOfLinks > 0)
+      {
+        StartCoroutine("Setup");
+      }
+      if(col.gameObject.tag == "Ennemy"){
+        StartCoroutine("Setup");
+      }
+    }
+    else
+    {
+      StartCoroutine("Setup");
+    }
+
   }
 
   public IEnumerator Setup()
@@ -65,5 +88,9 @@ public class BombBehavior : MonoBehaviour
   private void DealDamages(GameObject Hit)
   {
     Hit.SendMessage("TakeDamage", _DamageValue);
+  }
+
+  public void TakeDamage(){
+    StartCoroutine("Setup");
   }
 }
