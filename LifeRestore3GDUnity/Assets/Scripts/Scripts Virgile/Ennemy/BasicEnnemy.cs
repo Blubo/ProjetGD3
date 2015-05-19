@@ -71,7 +71,6 @@ public class BasicEnnemy : MonoBehaviour {
   {
     //Désactiver ce qu'il faut
     gameObject.GetComponent<BoxCollider>().enabled = false;
-    //gameObject.GetComponent<Renderer>().enabled = false;
    //Faire les effets FX etc
 
     //Fait droper les collectibles
@@ -79,7 +78,7 @@ public class BasicEnnemy : MonoBehaviour {
     //Fait pop l'objet Ragdoll/Cadavre
     if (_Ragdoll != null)
     {
-      Instantiate(_Ragdoll, transform.position, Quaternion.identity);
+      Instantiate(_Ragdoll, transform.position+transform.up, Quaternion.identity);
     }
     //Si l'ennemy est dans un groupe alors le retire de ce groupe( par parent)
     if (gameObject.transform.parent.GetComponent<Group_AI>() != null)
@@ -126,7 +125,7 @@ public class BasicEnnemy : MonoBehaviour {
   public IEnumerator AttackInge(GameObject Bombe)
   {
 
-    yield return new WaitForSeconds(_DelaiAtk);
+    yield return new WaitForSeconds(0.3f);
     Bombe.transform.parent = null;
     //Position de la target à viser 
     Transform LandingPoint = Target;

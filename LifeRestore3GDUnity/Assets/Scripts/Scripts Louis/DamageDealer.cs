@@ -139,7 +139,7 @@ public class DamageDealer : MonoBehaviour {
 			//barak
 			if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyB_AI){
 				col.gameObject.GetComponent<BasicEnnemy>().Health -= 1;
-				col.gameObject.GetComponent<Rigidbody>().AddForce(-col.transform.forward * 3000.0f);
+				col.gameObject.GetComponent<Rigidbody>().AddForce(-col.transform.forward * 50000.0f);
 			}
 			//Coloss
 			if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyC_Ai){

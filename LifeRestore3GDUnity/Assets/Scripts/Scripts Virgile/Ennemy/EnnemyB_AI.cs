@@ -12,10 +12,10 @@ public class EnnemyB_AI : BasicEnnemy
     RushSpeed = 5.0f;
     //
     DistanceAllowed = 15.0f;
-    RangeAttack = 2.0f;
+    RangeAttack = 6.0f;
     _DelaiAtk = 2;
     AttackValue = 3;
-    AtkSphereRange = 3.0f;
+    AtkSphereRange = 4.0f;
 
     //Animator 
     _Anim = transform.GetComponentInChildren<Animator>();
@@ -106,22 +106,25 @@ public class EnnemyB_AI : BasicEnnemy
   //Fonce sur la target
   public void Rush(Transform Target)
   {
-    _Anim.Play("Animation Deplacement Barak");
-    _Nav.destination = Target.position;
-    _Nav.speed = RushSpeed;
-
     if (Vector3.Distance(transform.position, Target.position) <= RangeAttack)
     {
       _Nav.ResetPath();
       _Anim.Play("Animation Attaque Barak");
       StartCoroutine("Attack", AttackValue);
     }
+    else
+    {
+      _Anim.Play("Animation Deplacement Barak");
+      _Nav.destination = Target.position;
+      _Nav.speed = RushSpeed;
+
+    }
   }
 
   //Zone de détection
   void CheckForTargets()
   {
-    _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 20.0f));
+    _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 10.0f));
   }
 
   void UpdateTargets()

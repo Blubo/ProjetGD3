@@ -81,17 +81,20 @@ public class EnnemyA_AI : BasicEnnemy {
   {
     if (IsLeader && !Furie)
     {
-      _Nav.ResetPath();
+      if (_Nav.isOnNavMesh)
+      {
+        _Nav.ResetPath();
+      }
       //Faire anim idle
       _Anim.Play("Animation Idle Crocmagnon");
     }
-    else if (!IsLeader && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f)
+    else if (!IsLeader && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f )
     {
       if (Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > DistanceAllowed && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f)
       {
         FindLeader();
       }
-      else
+      else if(!Furie)
       {    
         //Anim idle
         _Anim.Play("Animation Idle Crocmagnon");
@@ -104,31 +107,39 @@ public class EnnemyA_AI : BasicEnnemy {
   //Fonce sur la target
   public void Rush(Transform Target)
   {
-     _Nav.destination = Target.position;
-    if(Furie){
-      _Nav.speed = WalkSpeed;
-    }else
-     _Nav.speed = RushSpeed;
-
     if(Vector3.Distance(transform.position, Target.position)<= RangeAttack){
       _Nav.ResetPath();
       //
       _Anim.Play("Animation Attaque Crocmagnon");
       StartCoroutine("Attack", AttackValue);
     }
+    else
+    {
+      _Anim.Play("Animation Deplacement Crocmagnon");
+      if (_Nav.isOnNavMesh)
+      {
+        _Nav.destination = Target.position;
+      }
+      if (Furie)
+      {
+        _Nav.speed = WalkSpeed;
+      }
+      else
+        _Nav.speed = RushSpeed;
+    }
   }
 
   //Zone de détection
   void CheckForTargets()
   {
-    _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 20.0f));
+    _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 10.0f));
   }
 
   void UpdateTargets()
   {
       for (int i = 0; i < _potentialTargets.Count; i++)
       {
-        if (_potentialTargets[i].gameObject.tag != "Player" && _potentialTargets[i].gameObject.tag != "Idole")
+        if (_potentialTargets[i].gameObject.tag != "Player" && _potentialTargets[i].gameObject.tag != "Idole" )
         {
           _potentialTargets.Remove(_potentialTargets[i]);
         }

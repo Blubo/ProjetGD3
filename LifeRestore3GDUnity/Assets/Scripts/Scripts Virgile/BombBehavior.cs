@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class BombBehavior : MonoBehaviour
 {
-  public float RangeExplosion, _KnockBack, _Fuse;
+  public float RangeExplosion, _KnockBack, _Fuse, _DamageValue;
   private bool _ReadyToBlow;
   private Collider[] tab;
 
@@ -16,7 +16,8 @@ public class BombBehavior : MonoBehaviour
     _KnockBack = 300f;
     _ReadyToBlow = false;
 
-    _Fuse = 3.0f;
+    _DamageValue = 2;
+    _Fuse = 4.0f;
   }
 
   // Update is called once per frame
@@ -63,6 +64,6 @@ public class BombBehavior : MonoBehaviour
 
   private void DealDamages(GameObject Hit)
   {
-    Hit.SendMessage("TakeDamage");
+    Hit.SendMessage("TakeDamage", _DamageValue);
   }
 }

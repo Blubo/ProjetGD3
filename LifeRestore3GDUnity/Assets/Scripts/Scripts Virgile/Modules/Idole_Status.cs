@@ -8,6 +8,9 @@ public class Idole_Status : MonoBehaviour {
 	private int maxLife;
     private Sticky _LinkOnit;
 
+    [SerializeField]
+    private float TimerInvincibility;
+
 	[SerializeField]
 	private GameObject endSplashScreen;
 
@@ -27,12 +30,6 @@ public class Idole_Status : MonoBehaviour {
 //		lifeGauge.GetComponent<Animator>().SetInteger("IdoleHP", _Life);
 		gaugeAnimator.SetInteger("IdoleHP", _Life);
 //		myAnimator.SetInteger("IdoleHP", _Life);
-
-		if(Input.GetKeyDown(KeyCode.Space)){
-			TakeDamage();
-//			Debug.Log("hp is "+_Life);
-//			Debug.Log("anim hp is "+lifeGauge.GetComponent<Animator>().GetInteger("IdoleHP"));
-		}
 
 	    if (_Life <= 0){
             Death();
@@ -76,10 +73,11 @@ public class Idole_Status : MonoBehaviour {
         }
     }
 
-    void TakeDamage()
+    void TakeDamage(int Value)
     {
-      Clignotement();
-      _Life -= 1;
+      _Life -= Value;
+      StartCoroutine("Clignotement");
+      StartCoroutine("Invincible");
     }
 
     void Death() { 
@@ -89,14 +87,50 @@ public class Idole_Status : MonoBehaviour {
 		Destroy(gameObject);
     }
 
+    public IEnumerator Invincible()
+    {
+      GetComponent<CapsuleCollider>().enabled = false;
+      yield return new WaitForSeconds(TimerInvincibility);
+      GetComponent<CapsuleCollider>().enabled = true;
+    }
+
     public IEnumerator Clignotement()
     {
-      for (int i = 0; i < 9; i++)
+      if (!switchedFromCleanToBroken){
+        for (int i = 0; i < 9; i++)
+        {
+          Renderer[] renderer = gameObject.transform.Find("Idole_Clean").GetComponentsInChildren<MeshRenderer>();
+          foreach (Renderer rend in renderer)
+          {
+            rend.enabled = false;
+          }
+          yield return new WaitForSeconds(0.1f);
+
+          foreach (Renderer rend in renderer)
+          {
+            rend.enabled = true;
+          }
+          yield return new WaitForSeconds(0.1f);
+        }
+      }else
       {
-        gameObject.GetComponentInChildren<Renderer>().enabled = !gameObject.GetComponentInChildren<Renderer>().enabled;
-        yield return new WaitForSeconds(0.1f);
-        gameObject.GetComponentInChildren<Renderer>().enabled = true;
+        for (int i = 0; i < 9; i++)
+        {
+          Renderer[] renderer = gameObject.transform.Find("Idole_Broken").GetComponentsInChildren<MeshRenderer>();
+          foreach (Renderer rend in renderer)
+          {
+            rend.enabled = false;
+          }
+          yield return new WaitForSeconds(0.1f);
+
+          foreach (Renderer rend in renderer)
+          {
+            rend.enabled = true;
+          }
+          yield return new WaitForSeconds(0.1f);
+        }
       }
+
     }
 
 }

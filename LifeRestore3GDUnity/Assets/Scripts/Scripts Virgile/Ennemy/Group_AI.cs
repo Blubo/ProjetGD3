@@ -19,7 +19,6 @@ public class Group_AI : MonoBehaviour {
     {
       Destroy(gameObject);
     }
-
     if (_Leader == null)
     {
       ChooseLeader();
@@ -44,7 +43,10 @@ public class Group_AI : MonoBehaviour {
       {
         for (int j = 0; j < _Composition.Count; j++)
         {
-          _Composition[i].Target = _Leader._Targets[i].transform;
+          if (_Composition[j] != null)
+          {
+            _Composition[i].Target = _Leader._Targets[i].transform;
+          }
         }
       }
     }
@@ -54,7 +56,10 @@ public class Group_AI : MonoBehaviour {
       {
         if (_Composition[i].Target == null)
         {
-          _Composition[i].Target = _Leader._Targets[0].transform;
+          if (_Composition[i] != null)
+          {
+            _Composition[i].Target = _Leader._Targets[0].transform;
+          }
         }
       }
     }
@@ -64,7 +69,10 @@ public class Group_AI : MonoBehaviour {
   {
     for (int i = 0; i < _Composition.Count; i++)
     {
+      if (_Composition[i] != null)
+      {
         _Composition[i].Target = null;
+      }
     }
   }
 

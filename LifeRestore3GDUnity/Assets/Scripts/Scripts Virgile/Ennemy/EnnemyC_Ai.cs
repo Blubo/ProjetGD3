@@ -21,6 +21,8 @@ public class EnnemyC_Ai : BasicEnnemy
     timerTemp = 2.0f;
 
     Initiation();
+    //Animator 
+    _Anim = transform.GetComponentInChildren<Animator>();
   }
 
   void Update()
@@ -63,18 +65,25 @@ public class EnnemyC_Ai : BasicEnnemy
     //Rester sur place
     _Nav.destination = transform.position;
     //Jouer L'animation idle
+    _Anim.Play("Idle_Coloss");
   }
 
   //Fonce sur la target
   public void Rush(Transform Target)
   {
-    _Nav.destination = Target.position;
-    _Nav.speed = WalkSpeed;
 
     if (Vector3.Distance(transform.position, Target.position) <= RangeAttack)
     {
       _Nav.destination = transform.position;
       StartCoroutine("Attack", AttackValue);
+      _Anim.Play("Deplacement_Coloss_3");
+    }
+    else
+    {
+     // _Anim.Play("Animation Deplacement Barak");
+      _Nav.destination = Target.position;
+      _Nav.speed = WalkSpeed;
+
     }
   }
 

@@ -68,7 +68,6 @@ public class OpenTheDoor : MonoBehaviour {
 			nuagePorte.GetComponent<Renderer>().enabled = false;
 
 			receivedOrderToOpen=false;
-			Debug.Log("1");
 		}
 	}
 

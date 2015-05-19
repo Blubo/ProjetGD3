@@ -57,7 +57,7 @@ public class ObjectStats : MonoBehaviour {
 	}
 
 	public IEnumerator VisualDamage(){
-		for (int j = 0; j < myChildrenRenderers.Length; j++) {
+
 //			foreach (Renderer rend in myChildrenRenderers){
 //				rend.material.color = Color.white;
 //			}
@@ -70,18 +70,19 @@ public class ObjectStats : MonoBehaviour {
 
 			foreach (Renderer rend in myChildrenRenderers){
 //				myChildrenRenderers[j].material.color = Color.white;
-				rend.material.color = Color.white;
-
+				rend.material.color = Color.red;
 			}
 			yield return new WaitForSeconds(0.1f);
-			
-//			foreach (Renderer rend in myChildrenRenderers){
-				myChildrenRenderers[j].material.color= _hitColors[j];
+      for (int j = 0; j < myChildrenRenderers.Length; j++)
+      {
+	//		foreach (Renderer rend in myChildrenRenderers){
+        myChildrenRenderers[j].material.color = _hitColors[j];
+
 //				rend.material.color = _hitColors[j];
 //				rend[j].material.color = _hitColors[j];
-
-//			}
+	//	}
 
 		}
+      yield return new WaitForSeconds(0.1f);
 	}
 }
