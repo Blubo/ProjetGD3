@@ -4,8 +4,7 @@ using System.Collections;
 public class OpenTheDoor : MonoBehaviour {
 
 	[HideInInspector]
-	public bool receivedOrderToOpen = false, receivedOrderToClose = false;
-	private bool openedAlready = false, closedAlready = false;
+	public bool receivedOrderToOpen = false, receivedOrderToClose = false, openedAlready = false, closedAlready = false;
 
 	[Tooltip("To where will the door open")]
 	[SerializeField]
@@ -29,6 +28,7 @@ public class OpenTheDoor : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		closedAlready=true;
 		openingTimer = 0f;
 		closingTimer = 0f;
 		nuagePorteParticles = nuagePorte.GetComponent<ParticleSystem>();
@@ -40,12 +40,19 @@ public class OpenTheDoor : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(receivedOrderToOpen==true){
+			closedAlready = false;
+
 			PleaseOpenDoor();
 		}
 
 		if(receivedOrderToClose==true){
+			openedAlready = false;
+
 			PleaseCloseDoor();
 		}
+		if(gameObject.transform.position != _closedLocation.transform.position) closedAlready=false;
+
+
 	}
 
 	void PleaseOpenDoor(){
@@ -62,8 +69,7 @@ public class OpenTheDoor : MonoBehaviour {
 
 		if(gameObject.transform.position == _openedLocation.transform.position){
 //		if(openingTimer>=doorSpeed){
-//			openedAlready = true;
-//			closedAlready = false;
+			openedAlready = true;
 			openingTimer = 0f;
 			nuagePorte.GetComponent<Renderer>().enabled = false;
 
@@ -84,6 +90,8 @@ public class OpenTheDoor : MonoBehaviour {
 		gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position,_closedLocation.transform.position, doorSpeed*Time.deltaTime);
 		if(gameObject.transform.position == _closedLocation.transform.position){
 //		if(closingTimer>=doorSpeed){
+			closedAlready = true;
+
 			closingTimer = 0f;
 			nuagePorte.GetComponent<Renderer>().enabled = false;
 
