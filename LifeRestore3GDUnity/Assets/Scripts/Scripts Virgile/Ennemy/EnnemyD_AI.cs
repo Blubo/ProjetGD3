@@ -4,7 +4,7 @@ using System.Collections.Generic;
 //Ingénieur
 public class EnnemyD_AI : BasicEnnemy
 {
-  private bool Finish = false;
+  private bool _FinishCoroutine = true;
 
   void Start()
   {
@@ -24,7 +24,6 @@ public class EnnemyD_AI : BasicEnnemy
     Initiation();
     //Animator 
     _Anim = transform.GetComponentInChildren<Animator>();
-
   }
 
   void Update()
@@ -54,14 +53,9 @@ public class EnnemyD_AI : BasicEnnemy
     //Est ce que j'ai la bombe
     if (_Bombe == null)
     {
-      StartCoroutine("WaitThoseSecs", 4);
-      if (Finish)
-      {
+      _Anim.Play("Animation Idle Crocmagnon");
         ReloadBomb();
-        _Anim.Play("Animation Nouvelle Bombe Ingé");
-        Finish = false;
-      }
-
+        StartCoroutine("WaitForThoseSecs", 2.0f);
     }
 
     //Si la target a été retrouvé 
@@ -69,15 +63,10 @@ public class EnnemyD_AI : BasicEnnemy
     {
       _Nav.ResetPath();
       //Beware Below
-      if (_Bombe != null)
+      if (_Bombe != null && _FinishCoroutine == true)
       {
-        StartCoroutine("WaitThoseSecs", 2);
-        if (Finish)
-        {
           _Anim.Play("Animation Lancer Ingé");
           StartCoroutine("AttackInge", _Bombe);
-          Finish = false;
-        }
       }
     }
     else { Wait(); }
@@ -95,13 +84,10 @@ public class EnnemyD_AI : BasicEnnemy
   //refaire une bombe et la faire associer au joueur
   void ReloadBomb()
   {
-
     GameObject newBomb =  Instantiate(_Prefab, _BombePlacement.position, Quaternion.identity) as GameObject;
     newBomb.transform.parent = transform.Find("Ennemis_Ingé/Tête/Placement");
     //newBomb.transform.parent = transform.find("");
     _Bombe = newBomb;
-
-
   }
 
   //Fuir les gens 
@@ -146,10 +132,10 @@ public class EnnemyD_AI : BasicEnnemy
     }
   }
 
-  IEnumerator WaitThoseSecs(int Secs)
+  private IEnumerator WaitForThoseSecs(float Secs)
   {
+    _FinishCoroutine = false;
     yield return new WaitForSeconds(Secs);
-    Finish = true;
+    _FinishCoroutine = true;
   }
-
 }

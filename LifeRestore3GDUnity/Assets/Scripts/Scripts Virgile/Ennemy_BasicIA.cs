@@ -31,7 +31,6 @@ public class Ennemy_BasicIA : MonoBehaviour {
         //Atk sur le joueur
         if (_coll.gameObject.tag == "Player")
         {
-            _coll.gameObject.GetComponent<Player_Status>()._Life -= _Status.ATK;
             _coll.gameObject.GetComponent<Player_Status>().StartCoroutine("Clignotement");
             _coll.gameObject.GetComponent<Player_Status>().StartCoroutine("Invincible");
         }

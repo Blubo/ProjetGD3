@@ -1,67 +1,68 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Spawner : MonoBehaviour {
 
+  [SerializeField]
+  private List<GameObject> _MobPack;
     [SerializeField]
-    private GameObject _ToSpawn;
-
+  private float Timer;
     [SerializeField]
-    private float _TimeToSpawn;
-    private float _Timer;
-
+  private bool _LimitedStocks;
     [SerializeField]
-    private int _NumberToSpawn;
-
+  private int _Stocks;
     [SerializeField]
-    private bool _Activated, _needAura;
+    private GameObject _visualFx;
 
-	[Tooltip("This spawner EnemiesManager")]
-	public GameObject EnemiesManager;
+  private CaserneStats _Stats;
 
-	// Use this for initialization
-	void Start () {
-        _Timer = _TimeToSpawn;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        _Timer -= 1.0f * Time.deltaTime;
+  private float TimerTemp;
+  private int StocksTemp;
 
-		if(_needAura == true){
-	        if (_Timer <= 0.0f && _Activated)
-	        {
-	            Spawn();
-	            _Timer = _TimeToSpawn;
-	            _Activated = false;
-	        }
-		}else if(_needAura == false){
-			if (_Timer <= 0.0f)
-			{
-				Spawn();
-				_Timer = _TimeToSpawn;
-			}
-		}
-	}
+  void Awake()
+  {
+    _Stats = gameObject.GetComponent<CaserneStats>();
 
-    void Spawn()
+    TimerTemp = 0.0f;
+    StocksTemp = 0;
+  }
+
+  void Update()
+  {
+    DecreaseTimer();
+    if (TimerTemp <= 0.0f)
     {
-        for (int i = 0; i < _NumberToSpawn; i++)
-        {
-            GameObject spawned = Instantiate(_ToSpawn, transform.position+ new Vector3(Random.Range(2.0f, 6.0f), 0.0f, Random.Range(-3.0f, 3.0f)), Quaternion.identity) as GameObject;
-			//on assigne à ces nouveaux ennemis le pointer d'ennemis de la salle/zone où ils se trouvent
-			if(_ToSpawn.GetComponent<EnemyPointer>()!=null){
-				spawned.GetComponent<EnemyPointer>().MyEnemiesManager = EnemiesManager;
-			}
-        }
+      Spawn();
+      TimerTemp = Timer;
     }
 
-    void InAura()
+    if (!_Stats.isProducing)
     {
-       if (!_Activated)
-       {
-             _Activated = true;
-        }
+      this.enabled = false;
     }
+  }
 
+  void DecreaseTimer(){
+    TimerTemp-= 1.0f*Time.deltaTime;
+  }
+
+  void Spawn()
+  {
+    if (_LimitedStocks)
+    {
+      if(StocksTemp <= _Stocks){
+        //Pop de la vague d'ennemi associé 
+      }
+      //On incrémente
+      StocksTemp += 1;
+    }
+    else
+    {
+      //Pop d'un élément du tableau/ random ou choisi
+      Instantiate(_MobPack[0], transform.position + transform.forward * 5.0f+transform.up *2.0f, Quaternion.identity);
+      Instantiate(_visualFx, transform.position + transform.forward * 3.0f + transform.up, Quaternion.identity);
+
+    }
+  }
 }

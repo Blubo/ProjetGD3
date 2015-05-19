@@ -12,7 +12,7 @@ public class Vague_System : MonoBehaviour {
   public float _TimerBetween;
   private float _TimerMax;
 
-  public List<GameObject> _CloseThemAll;
+  public List<GameObject> _CloseThemAll, _OpenThem;
 
   void Activated()
   {
@@ -28,7 +28,7 @@ public class Vague_System : MonoBehaviour {
 	void Update () {
     _TimerMax -= 1 * Time.deltaTime;
 
-    if (_CurrentVague == 3)
+    if (_CurrentVague >= 3)
     {
       EndSalle();
     }
@@ -80,6 +80,9 @@ public class Vague_System : MonoBehaviour {
       _CloseThemAll[i].SendMessage("Deactivated");
     }
 
-    this.enabled = false;
+    for (int i = 0; i < _OpenThem.Count; i++)
+    {
+      _OpenThem[i].SendMessage("Activated");
+    }
   }
 }

@@ -9,7 +9,7 @@ public class CaserneStats : ObjectStats {
 	private float HPcaserneProducing;
 
 	[SerializeField]
-	private bool isProducing;
+	public bool isProducing;
 
 	public List<GameObject>epines;
 
