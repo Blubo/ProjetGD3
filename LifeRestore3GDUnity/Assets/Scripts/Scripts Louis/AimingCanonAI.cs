@@ -18,8 +18,11 @@ public class AimingCanonAI : MonoBehaviour {
 
 	private bool sawSomething;
 
+	private TurretShooting myTurretShooting;
+
 	// Use this for initialization
 	void Start () {
+		myTurretShooting = transform.Find("CanonBody/CanonSystem/Canon").GetComponent<TurretShooting>();
 		sawSomething = false;
 		initForward = transform.forward;
 		lerpTime=0;
@@ -37,10 +40,13 @@ public class AimingCanonAI : MonoBehaviour {
 			float step = lookSpeed * Time.deltaTime;
 			Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
 			transform.rotation = Quaternion.LookRotation(newDir);
+			myTurretShooting.automate = true;
 
 //			Quaternion targetRotation = Quaternion.LookRotation(Vision().transform.position - transform.position);
 //			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lookSpeed * Time.deltaTime);		
 		}else{
+			myTurretShooting.automate = false;
+
 			float step = lookSpeed * Time.deltaTime;
 			Vector3 newDir = Vector3.RotateTowards(transform.forward, initForward, step, 0.0F);
 			transform.rotation = Quaternion.LookRotation(newDir);

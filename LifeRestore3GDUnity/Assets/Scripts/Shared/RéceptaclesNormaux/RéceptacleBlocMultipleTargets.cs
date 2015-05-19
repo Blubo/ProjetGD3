@@ -28,8 +28,19 @@ public class RéceptacleBlocMultipleTargets : MonoBehaviour {
 	[SerializeField]
 	private int size;
 
+	[SerializeField]
+	[Tooltip("Insert gameobjects supposed to change appearance when this is activated")]
+	private List<GameObject> myActivatedFeedbacks;
+
+	private Color[] myActivatedFeedbacksColors;
+
 	// Use this for initialization
 	void Start () {
+		myActivatedFeedbacksColors = new Color[myActivatedFeedbacks.Count];
+
+		for (int l = 0; l < myActivatedFeedbacks.Count; l++) {
+			myActivatedFeedbacksColors[l] = myActivatedFeedbacks[l].GetComponent<Renderer>().material.color;
+		}
 		activatedCounter=0;
 	}
 
@@ -54,6 +65,7 @@ public class RéceptacleBlocMultipleTargets : MonoBehaviour {
 
 					activatedCounter+=1;
 					for (int i = 0; i < activatedItem.Count; i++) {
+						MadeMyJob();
 						activatedItem[i].SendMessage("Activated");
 						if(activatedItem[i].GetComponent<MultipleActivation>()==null){
 							Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Interrupteur activer");
@@ -86,6 +98,18 @@ public class RéceptacleBlocMultipleTargets : MonoBehaviour {
 	//				}
 				}
 			}
+		}
+	}
+
+	void MadeMyJob(){
+		for (int i = 0; i < myActivatedFeedbacks.Count; i++) {
+			myActivatedFeedbacks[i].GetComponent<Renderer>().material.color = Color.green;
+		}
+	}
+
+	void UndidMyJob(){
+		for (int i = 0; i < myActivatedFeedbacks.Count; i++) {
+			myActivatedFeedbacks[i].GetComponent<Renderer>().material.color = myActivatedFeedbacksColors[i];
 		}
 	}
 }

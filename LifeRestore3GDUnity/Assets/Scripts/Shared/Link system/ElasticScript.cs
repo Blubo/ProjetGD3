@@ -81,7 +81,9 @@ public class ElasticScript : MonoBehaviour {
 //					myRB.AddForce(_direction1*v_newTractionForce*_howDeep1);
 					myRB.AddForce(_direction1*v_newTractionForce);
 
-					if(grappedTo.GetComponent<Rigidbody>()!=null && grappedTo.GetComponent<Rigidbody>().mass <= 50 || grappedTo.GetComponent<Sticky>().v_numberOfLinks>=2){
+//					if(grappedTo.GetComponent<Rigidbody>()!=null && grappedTo.GetComponent<Rigidbody>().mass <= 50 || grappedTo.GetComponent<Sticky>().v_numberOfLinks>=2){
+					if(grappedTo.GetComponent<BlocInterrupteur>()!=null && grappedTo.GetComponent<BlocInterrupteur>().size<3 || grappedTo.GetComponent<BlocInterrupteur>()!=null && grappedTo.GetComponent<Sticky>().v_numberOfLinks>=2 || grappedTo.GetComponent<BlocInterrupteur>()==null){
+
 						if (grappedToRB.velocity.magnitude >10.0f){
 							grappedToRB.AddForceAtPosition(-_direction1 * grappedToRB.velocity.magnitude*50, _hook1.gameObject.transform.position);
 							if (grappedToRB.velocity.magnitude > 20.0f){
@@ -100,7 +102,9 @@ public class ElasticScript : MonoBehaviour {
 //					myRB.AddForce(_direction1*v_newTractionForce*_howDeep1*constrictor);
 					if(altLink == false) myRB.AddForce(_direction1*v_newTractionForce*constrictor);
 					if(altLink == true)	myRB.AddForce(_direction1*v_newTractionForce);
-					if(grappedTo.GetComponent<Rigidbody>()!=null && grappedTo.GetComponent<Rigidbody>().mass <= 50 || grappedTo.GetComponent<Sticky>().v_numberOfLinks>=2){
+//					if(grappedTo.GetComponent<Rigidbody>()!=null && grappedTo.GetComponent<Rigidbody>().mass <= 50 || grappedTo.GetComponent<Sticky>().v_numberOfLinks>=2){
+					if(grappedTo.GetComponent<BlocInterrupteur>()!=null && grappedTo.GetComponent<BlocInterrupteur>().size<3 || grappedTo.GetComponent<BlocInterrupteur>()!=null && grappedTo.GetComponent<Sticky>().v_numberOfLinks>=2 || grappedTo.GetComponent<BlocInterrupteur>()==null){
+
 						//rajouter *2
 						grappedToRB.AddForceAtPosition(-_direction1 * v_newTractionForce * (v_blockAttractionForce) * (gameObject.GetComponent<LinkStrenght>()._LinkCommited + 1)*constrictor, _hook1.gameObject.transform.position);
 				

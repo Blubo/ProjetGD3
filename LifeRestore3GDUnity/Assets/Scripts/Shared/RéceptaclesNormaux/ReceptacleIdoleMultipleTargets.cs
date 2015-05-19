@@ -19,9 +19,21 @@ public class ReceptacleIdoleMultipleTargets : MonoBehaviour {
 	
 	//the number of times this has been activated
 	private int activatedCounter;
-	
+
+	[SerializeField]
+	[Tooltip("Insert gameobjects supposed to change appearance when this is activated")]
+	private List<GameObject> myActivatedFeedbacks;
+
+	private Color[] myActivatedFeedbacksColors;
+
 	// Use this for initialization
 	void Start () {
+		myActivatedFeedbacksColors = new Color[myActivatedFeedbacks.Count];
+
+		for (int l = 0; l < myActivatedFeedbacks.Count; l++) {
+			myActivatedFeedbacksColors[l] = myActivatedFeedbacks[l].GetComponent<Renderer>().material.color;
+		}
+
 		activatedCounter=0;
 	}
 	
@@ -49,11 +61,24 @@ public class ReceptacleIdoleMultipleTargets : MonoBehaviour {
 
 				for (int i = 0; i < activatedItem.Count; i++) {
 					activatedItem[i].SendMessage("Activated");
+					MadeMyJob();
 					if(activatedItem[i].GetComponent<MultipleActivation>()==null){
 						Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Interrupteur activer");
 					}	
 				}
 			}
+		}
+	}
+
+	void MadeMyJob(){
+		for (int i = 0; i < myActivatedFeedbacks.Count; i++) {
+			myActivatedFeedbacks[i].GetComponent<Renderer>().material.color = Color.green;
+		}
+	}
+
+	void UndidMyJob(){
+		for (int i = 0; i < myActivatedFeedbacks.Count; i++) {
+			myActivatedFeedbacks[i].GetComponent<Renderer>().material.color = myActivatedFeedbacksColors[i];
 		}
 	}
 }

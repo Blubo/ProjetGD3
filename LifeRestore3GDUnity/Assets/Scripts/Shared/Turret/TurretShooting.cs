@@ -24,6 +24,8 @@ public class TurretShooting : MonoBehaviour {
 	[SerializeField]
 	private GameObject particuleEffect;
 
+	public bool automate;
+
 	// Use this for initialization
 	void Start () {
 		_shootTimer=_shootCooldown;
@@ -33,8 +35,10 @@ public class TurretShooting : MonoBehaviour {
 	void Update () {
 		if(isCanon==false){
 			_shootTimer+=Time.deltaTime;
-			if(_shootTimer>=_shootCooldown){
-				Shoot();
+			if(automate==true){
+				if(_shootTimer>=_shootCooldown){
+					Shoot();
+				}
 			}
 		}
 	}
