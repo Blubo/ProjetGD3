@@ -124,7 +124,7 @@ public class EnnemyB_AI : BasicEnnemy
   //Zone de détection
   void CheckForTargets()
   {
-    _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 10.0f));
+    _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 20.0f));
   }
 
   void UpdateTargets()

@@ -29,8 +29,11 @@ public class Salle2Manager : MonoBehaviour {
     {
       _Caserne1.GetComponent<Spawner>().enabled = true;
       _Caserne2.GetComponent<Spawner>().enabled = true;
-
-      _RainingBonus.SpawnCollectible();
     }
+  }
+
+  void Activated()
+  {
+    _RainingBonus.SpawnCollectible();
   }
 }

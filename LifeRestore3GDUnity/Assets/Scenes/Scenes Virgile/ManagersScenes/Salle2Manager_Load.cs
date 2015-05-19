@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Salle1Manager : MonoBehaviour {
+public class Salle2Manager_Load : MonoBehaviour
+{
 
   private AsyncOperation async;
 
@@ -11,28 +12,31 @@ public class Salle1Manager : MonoBehaviour {
 
   public GameObject _Zone;
 
-	void Start () {
-	  CountPlayers = 0;
+  void Start()
+  {
+    CountPlayers = 0;
     CountIdole = 0;
 
     _EndLaunched = false;
     StartCoroutine("LoadAnotherLvl");
-	}
+  }
 
   IEnumerator LoadAnotherLvl()
   {
-    async = Application.LoadLevelAsync(1);
+    async = Application.LoadLevelAsync(2);
     async.allowSceneActivation = false;
     Debug.Log("Loading complete");
     yield return async;
   }
 
-	void Update () {
-	  if(CountPlayers == 3 && CountIdole == 1 && !_EndLaunched){
+  void Update()
+  {
+    if (CountPlayers == 3 && CountIdole == 1 && !_EndLaunched)
+    {
       StartCoroutine("RoomFinished");
       _EndLaunched = true;
     }
-	}
+  }
 
   public IEnumerator RoomFinished()
   {

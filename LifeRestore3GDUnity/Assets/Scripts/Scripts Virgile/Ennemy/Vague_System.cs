@@ -12,7 +12,7 @@ public class Vague_System : MonoBehaviour {
   public float _TimerBetween;
   private float _TimerMax;
 
-  public List<GameObject> _CloseThemAll;
+  public List<GameObject> _CloseThemAll, _OpenThem;
 
   void Activated()
   {
@@ -78,6 +78,11 @@ public class Vague_System : MonoBehaviour {
     for (int i = 0; i < _CloseThemAll.Count; i++)
     {
       _CloseThemAll[i].SendMessage("Deactivated");
+    }
+
+    for (int i = 0; i < _OpenThem.Count; i++)
+    {
+      _OpenThem[i].SendMessage("Activated");
     }
   }
 }
