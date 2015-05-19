@@ -18,8 +18,11 @@ public class AimingCanonAI : MonoBehaviour {
 
 	private bool sawSomething;
 
+	private TurretShooting myTurretShooting;
+
 	// Use this for initialization
 	void Start () {
+		myTurretShooting = transform.Find("CanonBody/CanonSystem/Canon").GetComponent<TurretShooting>();
 		sawSomething = false;
 		initForward = transform.forward;
 		lerpTime=0;
@@ -27,6 +30,7 @@ public class AimingCanonAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Debug.DrawRay(transform.position, transform.forward.normalized*viewRange);
 		if(Vision()!=null){
 			if(sawSomething == false){
 			}
@@ -36,10 +40,13 @@ public class AimingCanonAI : MonoBehaviour {
 			float step = lookSpeed * Time.deltaTime;
 			Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
 			transform.rotation = Quaternion.LookRotation(newDir);
+			myTurretShooting.automate = true;
 
 //			Quaternion targetRotation = Quaternion.LookRotation(Vision().transform.position - transform.position);
 //			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lookSpeed * Time.deltaTime);		
 		}else{
+			myTurretShooting.automate = false;
+
 			float step = lookSpeed * Time.deltaTime;
 			Vector3 newDir = Vector3.RotateTowards(transform.forward, initForward, step, 0.0F);
 			transform.rotation = Quaternion.LookRotation(newDir);
@@ -49,13 +56,9 @@ public class AimingCanonAI : MonoBehaviour {
 	public GameObject Vision(){
 		
 		Collider[] colliders = Physics.OverlapSphere(transform.position, viewRange, myDetectionLayer);
-		
 		foreach(Collider find in colliders){
-			
 			if(find.gameObject.tag.Equals("Idole")==true){
-				
 				if(GetComponent<Collider>()!=find){
-
 					float angle = Vector3.Angle(find.gameObject.transform.position-transform.position, initForward);
 					if(angle<viewAngle*0.5f){
 						Ray ray = new Ray(transform.position, find.gameObject.transform.position -transform.position);
@@ -68,7 +71,6 @@ public class AimingCanonAI : MonoBehaviour {
 				}
 			}else if(find.gameObject.tag.Equals("Player")==true){
 				if(GetComponent<Collider>()!=find){
-					
 					float angle = Vector3.Angle(find.gameObject.transform.position-transform.position, initForward);
 					if(angle<viewAngle*0.5f){
 						Ray ray = new Ray(transform.position, find.gameObject.transform.position -transform.position);
@@ -85,8 +87,8 @@ public class AimingCanonAI : MonoBehaviour {
 	}
 	
 	public void OnDrawGizmos(){
-		Vector3 left = transform.forward*viewRange;
-		Vector3 right = transform.forward*viewRange;
+		Vector3 left = initForward*viewRange;
+		Vector3 right = initForward*viewRange;
 		
 		left = Quaternion.Euler(0, -viewAngle*0.5f,0)*left;
 		right = Quaternion.Euler(0, viewAngle*0.5f,0)*right;

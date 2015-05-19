@@ -13,6 +13,9 @@ public class TurretProjectile : MonoBehaviour {
 	private Rigidbody myRB;
 	private Vector3 lastFrameVelocity;
 
+	[SerializeField]
+	private GameObject particuleDestruction;
+
 	void Start(){
 		if(gameObject.GetComponent<Rigidbody>()!=null) myRB=gameObject.GetComponent<Rigidbody>();
 		Physics.IgnoreCollision(gameObject.GetComponent<Collider>(), v_whoShotMe.GetComponent<Collider>());
@@ -33,6 +36,7 @@ public class TurretProjectile : MonoBehaviour {
 		if(collision.gameObject != v_whoShotMe){
 //			if(collision.gameObject.GetComponent<Sticky>()==null){
 			if(collision.gameObject.tag.Equals("Static")==true){
+				Instantiate(particuleDestruction, gameObject.transform.position, Quaternion.identity);
 				Destroy(gameObject);
 			}
 		}
