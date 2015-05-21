@@ -41,7 +41,7 @@ public class Salle1Manager : MonoBehaviour {
     //Attente courte pour montrer la couleur
     yield return new WaitForSeconds(0.5f);
     //Chargement du niveau suivant
-    async.allowSceneActivation = true;
+    //async.allowSceneActivation = true;
   }
 
   // On regarde les allers retours des objets dans la zone d'arrivée
