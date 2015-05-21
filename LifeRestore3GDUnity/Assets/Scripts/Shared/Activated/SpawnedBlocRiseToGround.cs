@@ -30,4 +30,7 @@ public class SpawnedBlocRiseToGround : MonoBehaviour {
 			gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
 		}
 	}
+
+	void Deactivated(){
+	}
 }

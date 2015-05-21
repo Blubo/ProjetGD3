@@ -14,8 +14,7 @@ public class ShootF : MonoBehaviour {
 	private LinkStrenght _LinksBehavior;
 
 	private float _timer = 1.5f;
-	//v_oldDashingForce = une variable rajoutée le 2 dévrier qui commence à 1 de base et qui détermine la force de dash du joueur via input continu
-	public float v_SpeedBullet, v_coolDown, v_sizeRatio, v_sizeGrowth;
+	public float v_SpeedBullet, v_SpeedBulletTarget, v_coolDown, v_sizeRatio, v_sizeGrowth;
 	
 	[HideInInspector]
 	public float _initSizeRatio;
@@ -23,74 +22,81 @@ public class ShootF : MonoBehaviour {
 	//tete du grappin
 	public GameObject _HookHead, v_instantiateur;
 	
-	//	[HideInInspector]
-	//	public Vector3 _instantiatePos;
-	
 	[HideInInspector]
 	public  GameObject _target, _myHook;
-	//Bool pour permettre déplacement towards
-	[HideInInspector]
-	public bool _Dashing, _DashingTest;
-	
+
 	public float _Force;
 	private float _thisForce;	
-	private float _dashingDistance;
-	
+
 	private Vector3 _ThingGrapped;
-	
-	public AudioClip v_linkShot, v_linkBroken;
-	public List<AudioClip> v_linkShotList = new List<AudioClip>();
-	private int _whatSoundToPlay;
-	
-	[Space(15)]
-	[Header("Dash")]
-	[Tooltip("Check to change dashing system")]
-	public bool _alternateDash;
-	
-	[Tooltip("change old dashing force")]
-	public float v_oldDashingForce;
-	[Tooltip("change new dashing force")]
-	public float v_NewDashingForce;
+
+	private ReticuleCone myRetCone;
+
+	[SerializeField]
+	private GameObject particuleEffect;
 
 	void Awake(){
-		_alternateDash=false;
-		_whatSoundToPlay=0;
+		myRetCone = gameObject.GetComponent<ReticuleCone>();
+
 		v_sizeRatio=0.5f;
 		_initSizeRatio = v_sizeRatio;
 		_myPlayerState = GetComponent<PlayerState>();
-		_Dashing = false;
-		_DashingTest = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		//tir droit 
+
 		_timer += Time.deltaTime;
 		if(_timer>=v_coolDown){
 			if(prevState.Triggers.Right == 0 && state.Triggers.Right != 0){
-				if(_target != null){
-					DetachLink(0);
+				if(myRetCone.Vision()!=null){
+					if(_target != null){
+						DetachLink(0);
+					}
+					HookTarget();
+				}else{
+					if(_target != null){
+						DetachLink(0);
+					}
+					Hook();
 				}
-				Hook();
 			}
 		}
-		
+
 		if (prevState.Triggers.Right != 0 && state.Triggers.Right != 0 ) {
 		} else {
 			if(_target != null){
 				DetachLink(0);
 			}
 		}
+
+		//tir droit 
+//		_timer += Time.deltaTime;
+//		if(_timer>=v_coolDown){
+//			if(prevState.Triggers.Right == 0 && state.Triggers.Right != 0){
+//				if(_target != null){
+//					DetachLink(0);
+//				}
+//				Hook();
+//			}
+//		}
+//		
+//		if (prevState.Triggers.Right != 0 && state.Triggers.Right != 0 ) {
+//		} else {
+//			if(_target != null){
+//				DetachLink(0);
+//			}
+//		}
 		
 		prevState = state;
 		state = GamePad.GetState(playerIndex);
 		_LinksBehavior = GetComponent<LinkStrenght> ();
 		
-		if(gameObject.GetComponent<Rigidbody>().velocity.magnitude <= 45f){
-			_DashingTest = false;
-		}
-		
 		_thisForce = (_LinksBehavior._LinkCommited+1) *_Force;
+
+		if(prevState.Buttons.Back == ButtonState.Released && state.Buttons.Back == ButtonState.Pressed){
+			Application.LoadLevel(Application.loadedLevelName);
+		}
 	}
 	
 	// Grappin 1 
@@ -102,6 +108,8 @@ public class ShootF : MonoBehaviour {
 		//ON JOUE LE SON FMOD ICI POUR LE TIR DU LIEN 
 		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Ouglou tir");
 
+		GameObject particule = Instantiate(particuleEffect, v_instantiateur.transform.position, Quaternion.identity)as GameObject;
+
 		//droite
 		_myHook = Instantiate(_HookHead, v_instantiateur.transform.position, transform.rotation) as GameObject;
 		Rigidbody rb = _myHook.GetComponent<Rigidbody>();
@@ -110,7 +118,21 @@ public class ShootF : MonoBehaviour {
 		_myHook.GetComponent<HookHeadF>().howWasIShot=1;
 		_timer = 0;
 	}
-	
+
+	void HookTarget(){
+		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Ouglou tir");
+
+		GameObject particule = Instantiate(particuleEffect, v_instantiateur.transform.position, Quaternion.identity)as GameObject;
+
+		//droite
+		_myHook = Instantiate(_HookHead, v_instantiateur.transform.position, transform.rotation) as GameObject;
+		Rigidbody rb = _myHook.GetComponent<Rigidbody>();
+		if (rb != null)	rb.AddForce((myRetCone.Vision().transform.position- gameObject.transform.position).normalized * v_SpeedBulletTarget * 1000);
+		_myHook.GetComponent<HookHeadF>()._myShooter=gameObject;
+		_myHook.GetComponent<HookHeadF>().howWasIShot=1;
+		_timer = 0;
+	}
+
 	//detache le(s) liens
 	public void DetachLink(int _Todestroy){
 //		GetComponent<AudioSource>().PlayOneShot(v_linkBroken);
@@ -119,12 +141,12 @@ public class ShootF : MonoBehaviour {
 		if(_Todestroy == 0){
 			
 			if(_target != null){
-			//	if(Vector3.Distance(gameObject.transform.position, _myHook.transform.position)>=gameObject.GetComponent<ElasticScript>().v_tensionLessDistanceRatio*_myHook.GetComponent<HookHeadF>().v_BreakDistance){
          		Vector3 direction = _myHook.transform.position-gameObject.transform.position;
 				direction.Normalize();
-				//gameObject.GetComponent<ElasticScript>().ElasticBreak(direction, gameObject.GetComponent<ElasticScript>()._breaking1);
-			//	}
+
 				Destroy(_myHook);
+
+				if(gameObject.GetComponent<SpringJoint>()!=null) Destroy(gameObject.GetComponent<SpringJoint>());
 
 				if(_target.gameObject.tag!="Player"){
 					if(_target.gameObject.GetComponent<Sticky>()!=null){
@@ -138,29 +160,27 @@ public class ShootF : MonoBehaviour {
 						gameObject.GetComponent<LinkStrenght>()._LinkCommited-=1;
 					}
 				}
+
+				if(playerIndex == PlayerIndex.One){
+					_target.GetComponent<ReticuleTarget>().TurnReticuleOff(_target.GetComponent<ReticuleTarget>().GRend);
+					
+				}else if(playerIndex == PlayerIndex.Two){
+					_target.GetComponent<ReticuleTarget>().TurnReticuleOff(_target.GetComponent<ReticuleTarget>().RRend);
+					
+				}else if(playerIndex == PlayerIndex.Three){
+					_target.GetComponent<ReticuleTarget>().TurnReticuleOff(_target.GetComponent<ReticuleTarget>().BRend);
+					
+				}else if(playerIndex == PlayerIndex.Four){
+					_target.GetComponent<ReticuleTarget>().TurnReticuleOff(_target.GetComponent<ReticuleTarget>().YRend);
+				}
+
 				_target=null;
 
 			}else{
 				Destroy(_myHook);
+				if(gameObject.GetComponent<SpringJoint>()!=null) Destroy(gameObject.GetComponent<SpringJoint>());
 
 			}
-		}
-	}
-	
-	//élément pour le dash 
-	void OnCollisionEnter(Collision _Collision){
-		//destruction du lien
-		if (_Collision.gameObject.transform.Find("ApparenceAvatar")!=null){
-			if (_Collision.gameObject.transform.Find("ApparenceAvatar").tag == "Player" && _Collision.gameObject != gameObject ) {
-				//Supprimer tous les liens du joueurs
-				if (_Dashing){
-					//				if (_DashingTest){
-					ShootF _PlayerTarget = _Collision.gameObject.GetComponent<ShootF>();
-					if(_PlayerTarget != null){
-						_Collision.gameObject.GetComponent<ShootF>().SendMessage("DetachLink", 2);
-					}
-				}
-			}	
 		}
 	}
 }

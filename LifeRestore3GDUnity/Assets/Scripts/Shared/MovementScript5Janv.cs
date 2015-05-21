@@ -130,15 +130,15 @@ public class MovementScript5Janv : MonoBehaviour {
 		//transform.eulerAngles=new Vector3(0,0,transform.eulerAngles.z);
 	}
 
-	void OnCollisionEnter (Collision collision){
-		if(collision.gameObject.tag.Equals("Player") || collision.gameObject.tag.Equals("Block")){
-			GetComponent<AudioSource>().PlayOneShot(v_playerCollision);
-//			Debug.Log("this fucker's name "+ gameObject.name);
-		}
-
-//		if(collision.gameObject.tag.Equals("Block")){
-//			
+//	void OnCollisionEnter (Collision collision){
+//		if(collision.gameObject.tag.Equals("Player") || collision.gameObject.tag.Equals("Block")){
+//			GetComponent<AudioSource>().PlayOneShot(v_playerCollision);
+////			Debug.Log("this fucker's name "+ gameObject.name);
 //		}
-
-	}
+//
+////		if(collision.gameObject.tag.Equals("Block")){
+////			
+////		}
+//
+//	}
 }

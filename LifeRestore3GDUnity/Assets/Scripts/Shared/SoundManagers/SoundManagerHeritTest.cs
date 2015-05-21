@@ -43,18 +43,24 @@ public class SoundManagerHeritTest : SoundManager {
 		case "Canon tir":
 			FMOD_StudioSystem.instance.PlayOneShot("event:/Tourelle et Canon/Canon tir", gameObject.transform.position);
 			break;
-		case "Ouglou collecte gros":
-			FMOD_StudioSystem.instance.PlayOneShot("event:/Ouglou/Ouglou collecte gros", gameObject.transform.position);
-			break;
+//		case "Ouglou collecte gros":
+//			FMOD_StudioSystem.instance.PlayOneShot("event:/Ouglou/Ouglou collecte gros", gameObject.transform.position);
+//			break;
 		case "Ennemi standart mort":
 			FMOD_StudioSystem.instance.PlayOneShot("event:/Ennemis/Ennemi standart mort", gameObject.transform.position);
 			break;
+		case "Bloc bois dommage":
+			FMOD_StudioSystem.instance.PlayOneShot("event:/Blocs et bombes/Bloc bois dommage", gameObject.transform.position);
+			break;
+		case "Impact bloc fronde":
+			FMOD_StudioSystem.instance.PlayOneShot("event:/Blocs et bombes/Impact bloc fronde", gameObject.transform.position);
+			break;
+
+
 				default:
 						break;
 			//Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Ouglou tir");
 
 		}
-
 	}
-
 }
