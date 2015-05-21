@@ -9,7 +9,7 @@ public class EnnemyD_AI : BasicEnnemy
   void Start()
   {
 
-    Health = 5;
+    Health = 2;
     WalkSpeed = 2.0f;
     RushSpeed = 5.0f;
 
@@ -55,7 +55,7 @@ public class EnnemyD_AI : BasicEnnemy
     {
       _Anim.Play("Animation Idle Crocmagnon");
         ReloadBomb();
-        StartCoroutine("WaitForThoseSecs", 2.0f);
+        StartCoroutine("WaitForThoseSecs", 1.0f);
     }
 
     //Si la target a été retrouvé 

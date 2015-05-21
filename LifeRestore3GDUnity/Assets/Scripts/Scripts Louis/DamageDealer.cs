@@ -130,6 +130,11 @@ public class DamageDealer : MonoBehaviour {
 			}
 		}
 
+		if(col.gameObject.tag.Equals("UnlinkableDestructible") == true){
+			col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
+		}
+
+
 		//ENEMIES
 		if (col.gameObject.tag == "Ennemy"){
 			//Faiblar

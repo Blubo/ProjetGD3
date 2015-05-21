@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
+using System.Collections.Generic;
 
 public class AimingCanonAI : MonoBehaviour {
 
@@ -56,33 +58,68 @@ public class AimingCanonAI : MonoBehaviour {
 	public GameObject Vision(){
 		
 		Collider[] colliders = Physics.OverlapSphere(transform.position, viewRange, myDetectionLayer);
+
+//		if(colliders.Contains(GameObject.Find("Idole").GetComponent<Collider>())){
+//		}
+
+//		foreach(Collider find in colliders){
+//			if(find.gameObject.tag.Equals("Idole")==true){
+//				if(GetComponent<Collider>()!=find){
+//					float angle = Vector3.Angle(find.gameObject.transform.position-transform.position, initForward);
+//					if(angle<viewAngle*0.5f){
+//						Ray ray = new Ray(transform.position, find.gameObject.transform.position -transform.position);
+//						RaycastHit info;
+//						if(find.gameObject.GetComponent<Collider>().Raycast(ray, out info, viewRange))
+//						{
+//							return info.collider.gameObject;
+//						}
+//					}
+//				}
+//			}else if(find.gameObject.tag.Equals("Player")==true){
+//				if(GetComponent<Collider>()!=find){
+//					float angle = Vector3.Angle(find.gameObject.transform.position-transform.position, initForward);
+//					if(angle<viewAngle*0.5f){
+//						Ray ray = new Ray(transform.position, find.gameObject.transform.position -transform.position);
+//						RaycastHit info;
+//						if(find.gameObject.GetComponent<Collider>().Raycast(ray, out info, viewRange))
+//						{
+//							return info.collider.gameObject;
+//						}
+//					}
+//				}
+//			}
+//		}
+		List<Collider> secondSelection = new List<Collider>();
 		foreach(Collider find in colliders){
-			if(find.gameObject.tag.Equals("Idole")==true){
-				if(GetComponent<Collider>()!=find){
-					float angle = Vector3.Angle(find.gameObject.transform.position-transform.position, initForward);
-					if(angle<viewAngle*0.5f){
-						Ray ray = new Ray(transform.position, find.gameObject.transform.position -transform.position);
-						RaycastHit info;
-						if(find.gameObject.GetComponent<Collider>().Raycast(ray, out info, viewRange))
-						{
-							return info.collider.gameObject;
-						}
-					}
+			if(GetComponent<Collider>()!=find){
+				float angle = Vector3.Angle(find.gameObject.transform.position-transform.position, initForward);
+				if(angle<viewAngle*0.5f){
+					secondSelection.Add(find);
 				}
-			}else if(find.gameObject.tag.Equals("Player")==true){
-				if(GetComponent<Collider>()!=find){
-					float angle = Vector3.Angle(find.gameObject.transform.position-transform.position, initForward);
-					if(angle<viewAngle*0.5f){
-						Ray ray = new Ray(transform.position, find.gameObject.transform.position -transform.position);
-						RaycastHit info;
-						if(find.gameObject.GetComponent<Collider>().Raycast(ray, out info, viewRange))
-						{
-							return info.collider.gameObject;
-						}
+			}
+		}
+
+		if(secondSelection.Contains(GameObject.Find("Idole").GetComponent<Collider>())){
+			GameObject idole = GameObject.Find("Idole");
+			Ray ray = new Ray(transform.position, idole.transform.position -transform.position);
+			RaycastHit info;
+			if(idole.GetComponent<Collider>().Raycast(ray, out info, viewRange))
+			{
+				return info.collider.gameObject;
+			}
+		} else {
+			foreach(Collider find in secondSelection){
+				if (find.gameObject.tag.Equals("Player")==true){
+					Ray ray = new Ray(transform.position, find.gameObject.transform.position -transform.position);
+					RaycastHit info;
+					if(find.gameObject.GetComponent<Collider>().Raycast(ray, out info, viewRange))
+					{
+						return info.collider.gameObject;
 					}
 				}
 			}
 		}
+
 		return null;
 	}
 	

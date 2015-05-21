@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Salle3Manager_Load : MonoBehaviour
 {
 
-  private AsyncOperation async;
+  //private AsyncOperation async;
 
   private int CountPlayers, CountIdole;
   private bool _EndLaunched;
@@ -21,13 +21,13 @@ public class Salle3Manager_Load : MonoBehaviour
     StartCoroutine("LoadAnotherLvl");
   }
 
-  IEnumerator LoadAnotherLvl()
+ /* IEnumerator LoadAnotherLvl()
   {
     async = Application.LoadLevelAsync(3);
     async.allowSceneActivation = false;
     Debug.Log("Loading complete");
     yield return async;
-  }
+  }*/
 
   void Update()
   {
@@ -45,7 +45,9 @@ public class Salle3Manager_Load : MonoBehaviour
     //Attente courte pour montrer la couleur
     yield return new WaitForSeconds(0.5f);
     //Chargement du niveau suivant
-    async.allowSceneActivation = true;
+    //async.allowSceneActivation = true;
+
+		Application.LoadLevel(3);
   }
 
   // On regarde les allers retours des objets dans la zone d'arrivée
