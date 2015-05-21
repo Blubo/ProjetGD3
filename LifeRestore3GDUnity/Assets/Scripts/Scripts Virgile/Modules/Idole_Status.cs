@@ -19,7 +19,10 @@ public class Idole_Status : MonoBehaviour {
 	private GameObject lifeGauge;
 	private Animator gaugeAnimator;
 
+	private IdoleCallHelp myIdoleCallHelp;
+
 	void Start () {
+		myIdoleCallHelp = GetComponent<IdoleCallHelp>();
 		lifeGauge = Camera.main.transform.Find("LifeGauge").gameObject;
 		if(lifeGauge.GetComponent<Animator>()!=null) gaugeAnimator = lifeGauge.GetComponent<Animator>();
 		maxLife = _Life;
@@ -75,6 +78,7 @@ public class Idole_Status : MonoBehaviour {
 
     void TakeDamage(int Value)
     {
+//		myIdoleCallHelp.CallHelp();
       _Life -= Value;
       StartCoroutine("Clignotement");
       StartCoroutine("Invincible");
