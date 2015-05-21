@@ -21,11 +21,11 @@ public class BombBehavior : MonoBehaviour
       _MySticky = gameObject.GetComponent<Sticky>();
     }
 
-    RangeExplosion = 10.0f;
+    RangeExplosion = 15.0f;
     _KnockBack = 300f;
     _ReadyToBlow = false;
 
-    _DamageValue = 2;
+    _DamageValue = 2.0f;
     _Fuse = 4.0f;
   }
 
@@ -44,6 +44,7 @@ public class BombBehavior : MonoBehaviour
         StartCoroutine("Setup");
       }
       if(col.gameObject.tag == "Ennemy"){
+				_Fuse = 1.0f;
         StartCoroutine("Setup");
       }
     }
@@ -65,7 +66,7 @@ public class BombBehavior : MonoBehaviour
     tab = Physics.OverlapSphere(transform.position, RangeExplosion);
     foreach (Collider c in tab)
     {
-      if (c.gameObject.tag == "Player" || c.gameObject.tag == "Idole" || c.gameObject.tag == "Arbre" || c.gameObject.tag == "Unlikable")
+			if (c.gameObject.tag == "Player" || c.gameObject.tag == "Idole" || c.gameObject.tag == "Arbre" || c.gameObject.tag == "UnlinkableDestructible"||c.gameObject.tag == "Ennemy")
       {
         DealDamages(c.gameObject);
       }

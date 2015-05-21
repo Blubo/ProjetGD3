@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Salle1Manager : MonoBehaviour {
 
-  private AsyncOperation async;
+ // private AsyncOperation async;
 
   private int CountPlayers, CountIdole;
   private bool _EndLaunched;
@@ -16,16 +16,16 @@ public class Salle1Manager : MonoBehaviour {
     CountIdole = 0;
 
     _EndLaunched = false;
-    StartCoroutine("LoadAnotherLvl");
+   // StartCoroutine("LoadAnotherLvl");
 	}
 
-  IEnumerator LoadAnotherLvl()
+ /* IEnumerator LoadAnotherLvl()
   {
     async = Application.LoadLevelAsync(1);
     async.allowSceneActivation = false;
     Debug.Log("Loading complete");
     yield return async;
-  }
+  }*/
 
 	void Update () {
 	  if(CountPlayers == 3 && CountIdole == 1 && !_EndLaunched){
@@ -41,7 +41,8 @@ public class Salle1Manager : MonoBehaviour {
     //Attente courte pour montrer la couleur
     yield return new WaitForSeconds(0.5f);
     //Chargement du niveau suivant
-    //async.allowSceneActivation = true;
+   // async.allowSceneActivation = true;
+		Application.LoadLevel(1);
   }
 
   // On regarde les allers retours des objets dans la zone d'arrivée
