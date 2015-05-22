@@ -6,25 +6,27 @@ using System.Collections.Generic;
 public class AimingCanonAI : MonoBehaviour {
 
 	[Tooltip("VIser des valeurs faibles, genre autour de 1, ptet moins, pour lookSpeed")]
-	[SerializeField]
-	private float viewRange, viewAngle, lookSpeed;
+	public float viewRange, viewAngle, lookSpeed;
 
 	private float lerpTime;
 
 	[SerializeField]
 	private LayerMask myDetectionLayer;
 
-	private Vector3 initForward;
+	[HideInInspector]
+	public Vector3 initForward;
 
 	private Quaternion rotationOfCanonWhenDetection;
 
 	private bool sawSomething;
 
 	private TurretShooting myTurretShooting;
+	private TurretConeVision myTurretConeVision;
 
 	// Use this for initialization
 	void Start () {
 		myTurretShooting = transform.Find("CanonBody/CanonSystem/Canon").GetComponent<TurretShooting>();
+		myTurretConeVision = gameObject.GetComponent<TurretConeVision>();
 		sawSomething = false;
 		initForward = transform.forward;
 		lerpTime=0;

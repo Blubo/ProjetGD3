@@ -4,13 +4,16 @@ using FMOD.Studio;
 
 public class MusicManagerFMOD : MonoBehaviour {
 
-	public FMOD_StudioEventEmitter musicTest, musicDemonstration;
+	public FMOD_StudioEventEmitter mainMusic, titleMusic, victoryMusic;
 	[HideInInspector]
 	public bool playing;
+	[HideInInspector]
+	public int step;
 
 	// Use this for initialization
 	void Start () {
-		musicDemonstration.Play();
+		step = 0;
+		mainMusic.Play();
 		playing=true;
 
 	}
@@ -26,10 +29,15 @@ public class MusicManagerFMOD : MonoBehaviour {
 //		}
 
 		if(playing==false){
-			musicDemonstration.Stop();	
-		}else if(playing == true && musicDemonstration.getPlaybackState()==PLAYBACK_STATE.STOPPED){
-			musicDemonstration.Play();
+			mainMusic.Stop();	
+		}else if(playing == true && mainMusic.getPlaybackState()==PLAYBACK_STATE.STOPPED){
+			mainMusic.Play();
 		}
+
+		if(Input.GetKeyDown(KeyCode.Space)){
+			Debug.Log("step is " + step);
+		}
+
 
 	}
 
@@ -43,8 +51,12 @@ public class MusicManagerFMOD : MonoBehaviour {
 //		music.GetComponent<FMOD_StudioEventEmitter>().Stop();
 	}
 
-	public void ChangeParam(FMOD_StudioEventEmitter music, float valeur){
-		music.getParameter("Transition").setValue(valeur);
+	public void ChangeParamMainMusic(float valeur){
+		mainMusic.getParameter("Transition").setValue(valeur);
+	}
+
+	public void ChangeParamTitleMusic(float valeur){
+//		music.getParameter("Transition").setValue(valeur);
 	}
 
 

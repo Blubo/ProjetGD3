@@ -94,9 +94,6 @@ public class ShootF : MonoBehaviour {
 		
 		_thisForce = (_LinksBehavior._LinkCommited+1) *_Force;
 
-		if(prevState.Buttons.Back == ButtonState.Released && state.Buttons.Back == ButtonState.Pressed){
-			Application.LoadLevel(Application.loadedLevelName);
-		}
 	}
 	
 	// Grappin 1 
@@ -143,6 +140,8 @@ public class ShootF : MonoBehaviour {
 			if(_target != null){
          		Vector3 direction = _myHook.transform.position-gameObject.transform.position;
 				direction.Normalize();
+
+				gameObject.GetComponent<Player_Status>().linkedObject = null;
 
 				Destroy(_myHook);
 

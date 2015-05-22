@@ -25,7 +25,7 @@ public class ZoneSon : MonoBehaviour {
 				//0>0.49
 				//calme
 //				Debug.Log("get in 1");
-				theMusicManager.ChangeParam(theMusicManager.musicDemonstration, 0.3f);
+//				theMusicManager.ChangeParam(theMusicManager.musicDemonstration, 0.3f);
 
 				break;
 			case 2:
@@ -33,7 +33,7 @@ public class ZoneSon : MonoBehaviour {
 				//rythmé
 //				Debug.Log("get in 2");
 
-				theMusicManager.ChangeParam(theMusicManager.musicDemonstration, 0.7f);
+//				theMusicManager.ChangeParam(theMusicManager.musicDemonstration, 0.7f);
 
 				break;
 			default:

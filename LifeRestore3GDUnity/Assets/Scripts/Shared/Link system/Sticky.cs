@@ -6,6 +6,7 @@ public class Sticky : MonoBehaviour {
 	//soit le mettre dans l'inspecteur de chaque objet auquel on souhaite pouvoir se connecter
 	//soit le rajouter procéduralement depuis une collision avec HookHead (ou dans shoot), à chaque collision avec chaque item de tel tag
 	//(et si le script existe déjà, alors juste v_number+1)
+	public int authorizedNumberOfLinks;
 	[HideInInspector]
 	public int v_numberOfLinks;
 	private float _myInitMass;

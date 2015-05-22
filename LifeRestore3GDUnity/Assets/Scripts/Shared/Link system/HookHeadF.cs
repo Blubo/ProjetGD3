@@ -14,6 +14,7 @@ public class HookHeadF : MonoBehaviour {
 	//information liées au tir: qui m'a tiré, et comment
 	[HideInInspector]
 	public GameObject _myShooter;
+	private Player_Status myPlayerStatus;
 	[HideInInspector]
 	public int howWasIShot;
 
@@ -66,6 +67,7 @@ public class HookHeadF : MonoBehaviour {
 	private Rigidbody myRigidbody;
 
 	void Start(){
+		if(_myShooter.GetComponent<Player_Status>()!=null) myPlayerStatus = _myShooter.GetComponent<Player_Status>();
 		if(gameObject.GetComponent<Rigidbody>()!=null) myRigidbody = gameObject.GetComponent<Rigidbody>();
 		if(_myShooter.GetComponent<ShootF>()!=null) myShooterScript = _myShooter.GetComponent<ShootF>();
 		if(_myShooter.GetComponent<ReticuleCone>()!=null) myShooterRetCone = _myShooter.GetComponent<ReticuleCone>();
@@ -93,50 +95,53 @@ public class HookHeadF : MonoBehaviour {
 	void OnTriggerEnter(Collider _Collided){
 		//si je touche qqch qui a le script Sticky
 		if(_Collided.gameObject.GetComponent<Sticky>() != null && _Collided.gameObject.tag.Equals("Unlinkable")==false){
-			if (GrappedTo == null){
-				if(_hitSmth==false){
-					_hitSmth=true;
-					//ON UTILISE PLUS LOCALPOS?
-					GrappedTo = _Collided.gameObject;
-					GrappedTo.GetComponent<Sticky>().v_numberOfLinks+=1;
+			if(_Collided.gameObject.GetComponent<Sticky>().v_numberOfLinks<_Collided.gameObject.GetComponent<Sticky>().authorizedNumberOfLinks){
+				if (GrappedTo == null){
+					if(_hitSmth==false){
+						_hitSmth=true;
+						//ON UTILISE PLUS LOCALPOS?
+						GrappedTo = _Collided.gameObject;
+						myPlayerStatus.linkedObject = GrappedTo;
+						GrappedTo.GetComponent<Sticky>().v_numberOfLinks+=1;
 
-					if(howWasIShot==1)myShooterScript._target=GrappedTo;
+						if(howWasIShot==1)myShooterScript._target=GrappedTo;
 
-					_localPos = _Collided.transform.InverseTransformPoint(gameObject.transform.position);
-//					Debug.DrawRay(GrappedTo.transform.TransformPoint(_localPos), Vector3.up*10);
-					newTensionLessDistance = Vector3.Distance(gameObject.transform.position, _myShooterPos);
-					newBreakDistance = newTensionLessDistance*100/breakDistanceRatio;
-					myRigidbody.isKinematic=true;
+						_localPos = _Collided.transform.InverseTransformPoint(gameObject.transform.position);
+	//					Debug.DrawRay(GrappedTo.transform.TransformPoint(_localPos), Vector3.up*10);
+						newTensionLessDistance = Vector3.Distance(gameObject.transform.position, _myShooterPos);
+						newBreakDistance = newTensionLessDistance*100/breakDistanceRatio;
+						myRigidbody.isKinematic=true;
 
-					//on ajoute un spring entre le joueur et grappedTo si grappedTo est une fronde, sinon on laisse juste elasticScript
-//					if(GrappedTo.gameObject.tag.Equals("Fronde")==true){
-//						_myShooter.AddComponent<SpringJoint>();
-//						spring = _myShooter.GetComponent<SpringJoint>();
-//						spring.connectedBody = GrappedTo.GetComponent<Rigidbody>();
-//						spring.autoConfigureConnectedAnchor = false;
-//	//					spring.connectedAnchor = spring.connectedBody.gameObject.transform.InverseTransformPoint(spring.connectedBody.gameObject.transform.position);
-//
-//						spring.minDistance=Vector3.Distance(GrappedTo.gameObject.transform.position, _myShooterPos);
-//						spring.enableCollision=true;
-//					spring.spring = springValue;
-//					}
-					//si on touche un autre joueur
-//					if(_Collided.gameObject.transform.Find("ApparenceAvatar")!=null){
-//						if(_Collided.gameObject.transform.Find("ApparenceAvatar").gameObject.tag == "Player"){
-//							//ET SI CE N EST PAS MOI
-//							LinkStrenght _Linkcommited = _Collided.gameObject.GetComponent<LinkStrenght>();
-//							_Linkcommited._LinkCommited += 1;
-//
-//							LinkStrenght _LinkcommitedToMe = _myShooter.GetComponent<LinkStrenght>();
-//							_LinkcommitedToMe._LinkCommited += 1;
-//
-//							//audio joué quand on connect un joueur
-//							GetComponent<AudioSource>().PlayOneShot(v_linkedToAPlayer);
-//						}	
-//					}else{
-//						//audio joué quand on connect un block
-//						GetComponent<AudioSource>().PlayOneShot(v_linkedToAnObject);
-//					}
+						//on ajoute un spring entre le joueur et grappedTo si grappedTo est une fronde, sinon on laisse juste elasticScript
+	//					if(GrappedTo.gameObject.tag.Equals("Fronde")==true){
+	//						_myShooter.AddComponent<SpringJoint>();
+	//						spring = _myShooter.GetComponent<SpringJoint>();
+	//						spring.connectedBody = GrappedTo.GetComponent<Rigidbody>();
+	//						spring.autoConfigureConnectedAnchor = false;
+	//	//					spring.connectedAnchor = spring.connectedBody.gameObject.transform.InverseTransformPoint(spring.connectedBody.gameObject.transform.position);
+	//
+	//						spring.minDistance=Vector3.Distance(GrappedTo.gameObject.transform.position, _myShooterPos);
+	//						spring.enableCollision=true;
+	//					spring.spring = springValue;
+	//					}
+						//si on touche un autre joueur
+	//					if(_Collided.gameObject.transform.Find("ApparenceAvatar")!=null){
+	//						if(_Collided.gameObject.transform.Find("ApparenceAvatar").gameObject.tag == "Player"){
+	//							//ET SI CE N EST PAS MOI
+	//							LinkStrenght _Linkcommited = _Collided.gameObject.GetComponent<LinkStrenght>();
+	//							_Linkcommited._LinkCommited += 1;
+	//
+	//							LinkStrenght _LinkcommitedToMe = _myShooter.GetComponent<LinkStrenght>();
+	//							_LinkcommitedToMe._LinkCommited += 1;
+	//
+	//							//audio joué quand on connect un joueur
+	//							GetComponent<AudioSource>().PlayOneShot(v_linkedToAPlayer);
+	//						}	
+	//					}else{
+	//						//audio joué quand on connect un block
+	//						GetComponent<AudioSource>().PlayOneShot(v_linkedToAnObject);
+	//					}
+					}
 				}
 			}
 		}

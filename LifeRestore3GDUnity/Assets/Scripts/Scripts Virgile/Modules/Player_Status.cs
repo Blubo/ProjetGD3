@@ -22,6 +22,9 @@ public class Player_Status : MonoBehaviour {
 	[SerializeField]
 	private GameObject collectibleToDrop;
 
+	[HideInInspector]
+	public GameObject linkedObject;
+
 	void Start () {
 		_ScoreManager = Camera.main.GetComponent<ScoreManager>();
 
