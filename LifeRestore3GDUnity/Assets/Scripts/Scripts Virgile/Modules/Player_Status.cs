@@ -13,8 +13,7 @@ public class Player_Status : MonoBehaviour {
 
 	private ScoreManager _ScoreManager;
 
-	[SerializeField]
-	private int playerNumber;
+	public int playerNumber;
 
 	[SerializeField]
 	private int damage, numberToDrop;
@@ -25,16 +24,37 @@ public class Player_Status : MonoBehaviour {
 	[HideInInspector]
 	public GameObject linkedObject;
 
+	[SerializeField]
+	private GameObject hitAnimation;
+
+	private AlphaPlayers myAlphaPlayer;
+	[SerializeField]
+	private float _playerSizeDecreaseOnHit;
+
 	void Start () {
+		myAlphaPlayer = GetComponent<AlphaPlayers>();
 		_ScoreManager = Camera.main.GetComponent<ScoreManager>();
 
     _IsInvincible = false;
   }
 
-    public void TakeDamage()
+    public void TakeDamage(Vector3 directionToUse)
     {
       if (!_IsInvincible)
       {
+			GetComponent<FatPlayerScript>().ChangeSize(_playerSizeDecreaseOnHit);
+
+			myAlphaPlayer.DropTheFeather(directionToUse);
+			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Ovo blessure");
+			if(playerNumber == 1){
+				hitAnimation.GetComponent<ParticleSystem>().startColor = Color.green;
+			}else if(playerNumber == 2){
+				hitAnimation.GetComponent<ParticleSystem>().startColor = Color.red;
+			}else if(playerNumber == 3){
+				hitAnimation.GetComponent<ParticleSystem>().startColor = Color.blue;
+			}
+			Instantiate(hitAnimation, gameObject.transform.position, Quaternion.identity);
+
         DropCollectible();
         switch (playerNumber)
         {

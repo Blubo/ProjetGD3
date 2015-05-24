@@ -9,8 +9,8 @@ public class ScoreManager : MonoBehaviour {
 	private Animator gaugeHUDanimator;
 
 	void Start () {
-		gaugeHUDanimator = Camera.main.transform.Find("GaugeHUD").GetComponent<Animator>();
-	  Score_Jaune = 0;
+		gaugeHUDanimator = Camera.main.transform.Find("JaugeCanvas/GaugeHUD").GetComponent<Animator>();
+		Score_Jaune = 0;
 		Score_Bleu = PlayerPrefs.GetInt("ScoreBlue");
 		Score_Rouge = PlayerPrefs.GetInt("ScoreRed");
 		Score_Vert = PlayerPrefs.GetInt("ScoreGreen");

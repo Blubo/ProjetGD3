@@ -4,6 +4,9 @@ using System.Collections;
 public class ObjectStats : MonoBehaviour {
 
 	[SerializeField]
+	private bool brasero;
+
+	[SerializeField]
 	protected float v_itemHP;
 	
 	[HideInInspector]
@@ -43,6 +46,8 @@ public class ObjectStats : MonoBehaviour {
 			if(explosionVisuel!=null){
 				GameObject explosion = Instantiate(explosionVisuel, gameObject.transform.position, Quaternion.identity) as GameObject;
 			}
+			if(gameObject.tag.Equals("Arbre") == true && brasero ==false) Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Arbre destruction");
+			if(brasero == true) Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Brasero destruction");
 			Destroy(gameObject);
 		}
 	}

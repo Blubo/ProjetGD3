@@ -11,6 +11,8 @@ public class Idole_Status : MonoBehaviour {
     [SerializeField]
     private float TimerInvincibility;
 
+	public bool _IsInvincible;
+	
 	[SerializeField]
 	private GameObject endSplashScreen;
 
@@ -22,8 +24,9 @@ public class Idole_Status : MonoBehaviour {
 	private IdoleCallHelp myIdoleCallHelp;
 
 	void Start () {
+		_IsInvincible = false;
 		myIdoleCallHelp = GetComponent<IdoleCallHelp>();
-		lifeGauge = Camera.main.transform.Find("LifeGauge").gameObject;
+		lifeGauge = Camera.main.transform.Find("JaugeCanvas/LifeGauge").gameObject;
 		if(lifeGauge.GetComponent<Animator>()!=null) gaugeAnimator = lifeGauge.GetComponent<Animator>();
 		maxLife = _Life;
 	    _LinkOnit = GetComponent<Sticky>();
@@ -76,12 +79,15 @@ public class Idole_Status : MonoBehaviour {
         }
     }
 
-    void TakeDamage(int Value)
+   public void TakeDamage(int Value)
     {
 //		myIdoleCallHelp.CallHelp();
-      _Life -= Value;
-      StartCoroutine("Clignotement");
-      StartCoroutine("Invincible");
+		if(!_IsInvincible){
+			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole blessure");
+			_Life -= Value;
+			StartCoroutine("Clignotement");
+			StartCoroutine("Invincible");
+		}
     }
 
     void Death() { 
@@ -93,12 +99,12 @@ public class Idole_Status : MonoBehaviour {
 
     public IEnumerator Invincible()
     {
-      GetComponent<CapsuleCollider>().enabled = false;
-      yield return new WaitForSeconds(TimerInvincibility);
-      GetComponent<CapsuleCollider>().enabled = true;
-    }
-
-    public IEnumerator Clignotement()
+		_IsInvincible = true;
+		yield return new WaitForSeconds(TimerInvincibility);
+		_IsInvincible = false;
+	}
+	
+	public IEnumerator Clignotement()
     {
       if (!switchedFromCleanToBroken){
         for (int i = 0; i < 9; i++)

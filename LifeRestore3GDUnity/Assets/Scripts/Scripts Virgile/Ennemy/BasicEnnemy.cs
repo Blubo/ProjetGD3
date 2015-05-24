@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class BasicEnnemy : MonoBehaviour {
 
-  public int Health;
+  public float Health;
   public float WalkSpeed;
   public float RushSpeed;
   public int AttackValue;
@@ -62,7 +62,7 @@ public class BasicEnnemy : MonoBehaviour {
   }
 
   //Lorsque l'ennemi se prend des dommages
-  public void TakeDamage(int ValueDamageTaken){
+  public void TakeDamage(float ValueDamageTaken){
     Health -= ValueDamageTaken;
   }
 
@@ -110,7 +110,9 @@ public class BasicEnnemy : MonoBehaviour {
       if (Attacked[i].gameObject.tag == "Player" && Attacked[i].gameObject!= null)
       {
         //Debug.Log("Player receive damage");
-        Attacked[i].gameObject.SendMessage("TakeDamage");
+				Vector3 directionOfCollision = new Vector3(Attacked[i].gameObject.transform.position.x, Attacked[i].gameObject.transform.position.y + 10f, Attacked[i].gameObject.transform.position.z) - gameObject.transform.position ;
+
+				Attacked[i].gameObject.SendMessage("TakeDamage", directionOfCollision);
       }
 
       if (Attacked[i].gameObject.tag == "Idole")

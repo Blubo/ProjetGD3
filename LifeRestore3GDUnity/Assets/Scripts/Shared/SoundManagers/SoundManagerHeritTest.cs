@@ -29,32 +29,54 @@ public class SoundManagerHeritTest : SoundManager {
 
 		switch (text) {
 		case "Ouglou tir":
-			FMOD_StudioSystem.instance.PlayOneShot("event:/Ouglou/Ouglou tir", gameObject.transform.position);
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODOvos/Ovo tir", gameObject.transform.position);
+			break;
+		case "Ovo collecte":
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODOvos/Ovo collecte", gameObject.transform.position);
+			break;
+		case "Ovo blessure":
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODOvos/Ovo blessure", gameObject.transform.position);
 			break;
 		case "Interrupteur snap":
-			FMOD_StudioSystem.instance.PlayOneShot("event:/Décors et interrupteur/Interrupteur snap", gameObject.transform.position);
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODDécors et interrupteur/Interrupteur snap", gameObject.transform.position);
 			break;
 		case "Porte ouverture":
-			FMOD_StudioSystem.instance.PlayOneShot("event:/Décors et interrupteur/Porte ouverture", gameObject.transform.position);
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODDécors et interrupteur/Porte ouverture", gameObject.transform.position);
 			break;
 		case "Interrupteur activer":
-			FMOD_StudioSystem.instance.PlayOneShot("event:/Décors et interrupteur/Interrupteur activer", gameObject.transform.position);
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODDécors et interrupteur/Interrupteur activer", gameObject.transform.position);
 			break;
 		case "Canon tir":
-			FMOD_StudioSystem.instance.PlayOneShot("event:/Tourelle et Canon/Canon tir", gameObject.transform.position);
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODTourelle et Canon/Canon tir", gameObject.transform.position);
 			break;
-//		case "Ouglou collecte gros":
-//			FMOD_StudioSystem.instance.PlayOneShot("event:/Ouglou/Ouglou collecte gros", gameObject.transform.position);
-//			break;
 		case "Ennemi standart mort":
-			FMOD_StudioSystem.instance.PlayOneShot("event:/Ennemis/Ennemi standart mort", gameObject.transform.position);
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi standart mort", gameObject.transform.position);
 			break;
 		case "Bloc bois dommage":
-			FMOD_StudioSystem.instance.PlayOneShot("event:/Blocs et bombes/Bloc bois dommage", gameObject.transform.position);
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODBlocs et bombes/Bloc bois dommage", gameObject.transform.position);
 			break;
 		case "Impact bloc fronde":
-			FMOD_StudioSystem.instance.PlayOneShot("event:/Blocs et bombes/Impact bloc fronde", gameObject.transform.position);
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODBlocs et bombes/Impact bloc fronde", gameObject.transform.position);
 			break;
+		case "Caserne dommage":
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODCasernes/Caserne dommage", gameObject.transform.position);
+			break;
+		case "Arbre destruction":
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODDécors et interrupteur/Arbre destruction", gameObject.transform.position);
+			break;
+		case "Barrière impact":
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODDécors et interrupteur/Barrière impact", gameObject.transform.position);
+			break;
+		case "Brasero destruction":
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODDécors et interrupteur/Brasero destruction", gameObject.transform.position);
+			break;
+		case "Idole blessure":
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODIdole/Idole blessure", gameObject.transform.position);
+			break;
+		case "Idole danger":
+			FMOD_StudioSystem.instance.PlayOneShot("event:/FMODIdole/Idole danger", gameObject.transform.position);
+			break;
+
 
 
 				default:

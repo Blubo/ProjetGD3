@@ -10,8 +10,14 @@ public class MusicManagerFMOD : MonoBehaviour {
 	[HideInInspector]
 	public int step;
 
+	[HideInInspector]
+	[Range(0,1)]
+	private float beginParamMusic;
+
 	// Use this for initialization
 	void Start () {
+		beginParamMusic = 0.41f;
+		ChangeParamMainMusic(beginParamMusic);
 		step = 0;
 		mainMusic.Play();
 		playing=true;
@@ -33,12 +39,6 @@ public class MusicManagerFMOD : MonoBehaviour {
 		}else if(playing == true && mainMusic.getPlaybackState()==PLAYBACK_STATE.STOPPED){
 			mainMusic.Play();
 		}
-
-		if(Input.GetKeyDown(KeyCode.Space)){
-			Debug.Log("step is " + step);
-		}
-
-
 	}
 
 	public void PlayMyMusic(){

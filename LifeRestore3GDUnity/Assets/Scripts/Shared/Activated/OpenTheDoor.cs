@@ -102,6 +102,7 @@ public class OpenTheDoor : MonoBehaviour {
 
 	void Activated(){
 //		Debug.Log("open");
+//		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot
 		receivedOrderToOpen=true;
 		receivedOrderToClose = false;
 	}

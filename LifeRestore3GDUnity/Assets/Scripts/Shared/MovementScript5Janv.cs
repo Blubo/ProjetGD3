@@ -109,6 +109,11 @@ public class MovementScript5Janv : MonoBehaviour {
 			float angle = Mathf.Atan2 (_rightStickY, _rightStickX) * Mathf.Rad2Deg;
 			this.transform.rotation = Quaternion.Euler (new Vector3(0, -angle+90, 0));
 		}
+
+		if(gameObject.GetComponent<Rigidbody>().velocity.sqrMagnitude == 0){
+			//idle
+
+		}
 	}
 
 	//Movement de Base avec joystick

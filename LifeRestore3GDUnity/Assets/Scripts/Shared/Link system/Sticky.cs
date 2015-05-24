@@ -24,6 +24,9 @@ public class Sticky : MonoBehaviour {
 	private CaserneStats myCaserneStats;
 	private Rigidbody myRB;
 
+	[SerializeField]
+	private float allowedFrondeAfterRelase;
+
 	private float internalTimer;
 	[HideInInspector]
 	public bool wasLinkedNotLongAgo, linked = false, linkedLastFrame = false;
@@ -69,7 +72,7 @@ public class Sticky : MonoBehaviour {
 			internalTimer += Time.deltaTime;
 			wasLinkedNotLongAgo = true;
 
-			if(internalTimer>=1){
+			if(internalTimer>=allowedFrondeAfterRelase*Time.deltaTime){
 				wasLinkedNotLongAgo=false;
 				internalTimer=0f;
 			}

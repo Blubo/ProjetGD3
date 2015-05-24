@@ -47,6 +47,7 @@ public class IdoleCallHelp : MonoBehaviour {
 		}
 
 		if(enemiesInRange.Count != 0){
+			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole danger");
 			if(myLightAnimator.GetBool("Danger") == false ){
 				CallState("Danger", true);
 				Debug.Log("once?");
