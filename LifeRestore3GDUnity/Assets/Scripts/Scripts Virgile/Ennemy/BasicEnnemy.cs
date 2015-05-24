@@ -82,7 +82,7 @@ public class BasicEnnemy : MonoBehaviour {
       Instantiate(_Ragdoll, transform.position+transform.up, Quaternion.identity);
     }
     //Si l'ennemy est dans un groupe alors le retire de ce groupe( par parent)
-    if (gameObject.transform.parent.GetComponent<Group_AI>() != null)
+    if (gameObject.transform.parent!= null && gameObject.transform.parent.GetComponent<Group_AI>() != null)
     {
       Transform Parent =  gameObject.transform.parent;
       Parent.GetComponent<Group_AI>()._Composition.Remove(this);
@@ -110,7 +110,7 @@ public class BasicEnnemy : MonoBehaviour {
     {
       if (Attacked[i] != null && Attacked[i].gameObject.tag == "Player")
       {
-        Attacked[i].gameObject.SendMessage("TakeDamage");
+        Attacked[i].gameObject.SendMessage("TakeDamage", transform.position);
       }
 
       if (Attacked[i] != null && Attacked[i].gameObject.tag == "Idole")

@@ -41,7 +41,7 @@ public class DynamicCamera : MonoBehaviour {
     {
       tempPosition = _High;
     }
-    transform.position =  Vector3.Lerp(transform.position, new Vector3( _Target.transform.position.x, (_Mini.position.y+ GetFarthestElementFrom()), _Target.transform.position.z),0.9f *Time.deltaTime);
+    transform.position =  Vector3.Lerp(transform.position, new Vector3( _Target.transform.position.x,(_Mini.position.y+ GetFarthestElementFrom()), _Target.transform.position.z),0.9f *Time.deltaTime);
   }
 
   void CalculateCenter(Transform A, Transform B, Transform C, Transform D)

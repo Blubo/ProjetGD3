@@ -50,7 +50,6 @@ public class IdoleCallHelp : MonoBehaviour {
 			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole danger");
 			if(myLightAnimator.GetBool("Danger") == false ){
 				CallState("Danger", true);
-				Debug.Log("once?");
 			}
 		}else{
 			if(myLightAnimator.GetBool("Danger") == true ){
