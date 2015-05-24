@@ -23,7 +23,6 @@ public class Salle5Manager_Load : MonoBehaviour {
   {
     async = Application.LoadLevelAsync(5);
     async.allowSceneActivation = false;
-    Debug.Log("Loading complete");
     yield return async;
   }
 

@@ -11,7 +11,7 @@ public class BombBehavior : MonoBehaviour
 
   private Sticky _MySticky;
 
-  public GameObject explosionVisuel;
+  public GameObject explosionVisuel, Launcher;
 
   void Start()
   {
@@ -32,7 +32,10 @@ public class BombBehavior : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    
+    if (Launcher == null && transform.parent == null)
+    {
+      Destroy(gameObject);
+    }
   }
 
   void OnCollisionEnter(Collision col)
@@ -44,7 +47,7 @@ public class BombBehavior : MonoBehaviour
         StartCoroutine("Setup");
       }
       if(col.gameObject.tag == "Ennemy"){
-				_Fuse = 1.0f;
+				_Fuse = 2.0f;
         StartCoroutine("Setup");
       }
     }

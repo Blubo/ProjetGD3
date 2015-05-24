@@ -83,7 +83,11 @@ public class EnnemyB_AI : BasicEnnemy
   {
     if (IsLeader && !Furie)
     {
-      _Nav.ResetPath();
+      if (gameObject.GetComponent<NavMeshAgent>().enabled)
+      {
+        _Nav.ResetPath();
+      }
+
       //Faire anim idle
       _Anim.Play("Animation Idle Barak");
     }
@@ -98,7 +102,10 @@ public class EnnemyB_AI : BasicEnnemy
         //Anim idle
         _Anim.Play("Animation Idle Barak");
         //
-        _Nav.ResetPath();
+        if (gameObject.GetComponent<NavMeshAgent>().enabled)
+        {
+          _Nav.ResetPath();
+        }
       }
     }
   }
@@ -108,16 +115,21 @@ public class EnnemyB_AI : BasicEnnemy
   {
     if (Vector3.Distance(transform.position, Target.position) <= RangeAttack)
     {
-      _Nav.ResetPath();
+      if (gameObject.GetComponent<NavMeshAgent>().enabled)
+      {
+        _Nav.ResetPath();
+      }
       _Anim.Play("Animation Attaque Barak");
       StartCoroutine("Attack", AttackValue);
     }
     else
     {
       _Anim.Play("Animation Deplacement Barak");
-      _Nav.destination = Target.position;
-      _Nav.speed = RushSpeed;
-
+      if (gameObject.GetComponent<NavMeshAgent>().enabled)
+      {
+        _Nav.destination = Target.position;
+        _Nav.speed = RushSpeed;
+      }
     }
   }
 
@@ -131,9 +143,12 @@ public class EnnemyB_AI : BasicEnnemy
   {
     for (int i = 0; i < _potentialTargets.Count; i++)
     {
-      if (_potentialTargets[i].gameObject.tag != "Player" && _potentialTargets[i].gameObject.tag != "Idole")
+      if (_potentialTargets[i] != null)
       {
-        _potentialTargets.Remove(_potentialTargets[i]);
+        if (_potentialTargets[i].gameObject.tag != "Player" && _potentialTargets[i].gameObject.tag != "Idole")
+        {
+          _potentialTargets.Remove(_potentialTargets[i]);
+        }
       }
     }
     if (TimerCheckTarget < 1.0f)

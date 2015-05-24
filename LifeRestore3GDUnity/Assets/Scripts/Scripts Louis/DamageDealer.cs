@@ -82,14 +82,11 @@ public class DamageDealer : MonoBehaviour {
 					//si je cogne un arbre
 					if(col.gameObject.tag.Equals("Arbre")){
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
-						Debug.Log("case 1");
 					}
 
 					//si je cogne une caserne ou caserne KO
 					if(col.gameObject.tag.Equals("Unlinkable") || col.gameObject.tag.Equals("CaserneKO")){
 						col.gameObject.GetComponent<CaserneStats>().TakeDamage(damageCaserne);
-						Debug.Log("case 2");
-
 					}
 				}
 			}

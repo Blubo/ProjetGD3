@@ -60,11 +60,14 @@ public class EnnemyA_AI : BasicEnnemy {
     //Si l'ennemi n'est pas le leader
     if (!IsLeader)
     {
-      if(Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) >= DistanceAllowed){
-        FindLeader();
-        Target = null;
+      if (transform.parent.GetComponent<Group_AI>()._Leader != null)
+      {
+        if (Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) >= DistanceAllowed)
+        {
+          FindLeader();
+          Target = null;
+        }
       }
-
     }
 
     //Si la target a été retrouvé 
@@ -88,7 +91,7 @@ public class EnnemyA_AI : BasicEnnemy {
       //Faire anim idle
       _Anim.Play("Animation Idle Crocmagnon");
     }
-    else if (!IsLeader && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f )
+    else if (transform.parent.GetComponent<Group_AI>()._Leader!=null && !IsLeader && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f)
     {
       if (Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > DistanceAllowed && Vector3.Distance(gameObject.transform.position, transform.parent.GetComponent<Group_AI>()._Leader.transform.position) > 1.0f)
       {
@@ -99,7 +102,10 @@ public class EnnemyA_AI : BasicEnnemy {
         //Anim idle
         _Anim.Play("Animation Idle Crocmagnon");
         //
-        _Nav.ResetPath();
+        if (gameObject.GetComponent<NavMeshAgent>().enabled)
+        {
+          _Nav.ResetPath();
+        }
       }
     }
   }
@@ -156,9 +162,12 @@ public class EnnemyA_AI : BasicEnnemy {
     //
     _Anim.Play("Animation Deplacement Crocmagnon");
     transform.LookAt(transform.parent.GetComponent<Group_AI>()._Leader.transform);
+    if (gameObject.GetComponent<NavMeshAgent>().enabled)
+    {
+      _Nav.SetDestination(transform.parent.GetComponent<Group_AI>()._Leader.transform.position);
+      _Nav.speed = RushSpeed;
+    }
 
-    _Nav.SetDestination(transform.parent.GetComponent<Group_AI>()._Leader.transform.position);
-    _Nav.speed = RushSpeed;
   }
 
   //DangerZone
