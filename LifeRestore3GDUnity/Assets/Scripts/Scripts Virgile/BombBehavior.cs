@@ -11,7 +11,7 @@ public class BombBehavior : MonoBehaviour
 
 	private Sticky _MySticky;
 
-	public GameObject explosionVisuel;
+  public GameObject explosionVisuel, Launcher;
 
 	void Start()
 	{
