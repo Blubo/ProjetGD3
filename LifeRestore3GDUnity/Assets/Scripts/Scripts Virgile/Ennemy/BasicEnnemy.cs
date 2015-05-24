@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class BasicEnnemy : MonoBehaviour {
 
-  public float Health;
+  public int Health;
   public float WalkSpeed;
   public float RushSpeed;
   public int AttackValue;
@@ -35,7 +35,7 @@ public class BasicEnnemy : MonoBehaviour {
   [HideInInspector]
   public Vector3 _targetposition;
 
-  public bool _locked;
+  public bool _locked, IsRunning;
   //***---***
   public void Initiation()
   {
@@ -62,13 +62,14 @@ public class BasicEnnemy : MonoBehaviour {
   }
 
   //Lorsque l'ennemi se prend des dommages
-  public void TakeDamage(float ValueDamageTaken){
+  public void TakeDamage(int ValueDamageTaken){
     Health -= ValueDamageTaken;
   }
 
   //A la mort de l'ennemi
   public void Death()
   {
+    gameObject.GetComponent<NavMeshAgent>().enabled = false;
     //Désactiver ce qu'il faut
     gameObject.GetComponent<BoxCollider>().enabled = false;
    //Faire les effets FX etc
@@ -107,17 +108,13 @@ public class BasicEnnemy : MonoBehaviour {
     //L'attaque se passe
     for (int i = 0; i < Attacked.Length; i++)
     {
-      if (Attacked[i].gameObject.tag == "Player" && Attacked[i].gameObject!= null)
+      if (Attacked[i] != null && Attacked[i].gameObject.tag == "Player")
       {
-        //Debug.Log("Player receive damage");
-				Vector3 directionOfCollision = new Vector3(Attacked[i].gameObject.transform.position.x, Attacked[i].gameObject.transform.position.y + 10f, Attacked[i].gameObject.transform.position.z) - gameObject.transform.position ;
-
-				Attacked[i].gameObject.SendMessage("TakeDamage", directionOfCollision);
+        Attacked[i].gameObject.SendMessage("TakeDamage");
       }
 
-      if (Attacked[i].gameObject.tag == "Idole")
+      if (Attacked[i] != null && Attacked[i].gameObject.tag == "Idole")
       {
-       // Debug.Log("Idole Receive Damage");
         Attacked[i].gameObject.SendMessage("TakeDamage", Value);
       }
     }
@@ -126,8 +123,8 @@ public class BasicEnnemy : MonoBehaviour {
 
   public IEnumerator AttackInge(GameObject Bombe)
   {
-
-    yield return new WaitForSeconds(0.3f);
+    IsRunning = true;
+    yield return new WaitForSeconds(0.0f);
     Bombe.transform.parent = null;
     //Position de la target à viser 
     Transform LandingPoint = Target;
@@ -142,7 +139,7 @@ public class BasicEnnemy : MonoBehaviour {
     if (Progression == 0)
     {
       //Point A>B 
-      Bombe.transform.position = Vector3.MoveTowards(Bombe.transform.position, MidPoint, 0.3f);
+      Bombe.transform.position = Vector3.MoveTowards(Bombe.transform.position, MidPoint, 1.0f);
       if (Vector3.Distance(Bombe.transform.position, MidPoint) < 1.0f)
       {
         Progression = 1;
@@ -150,7 +147,7 @@ public class BasicEnnemy : MonoBehaviour {
     }else if (Progression == 1)
     {
       //Point B>C
-      Bombe.transform.position = Vector3.MoveTowards(Bombe.transform.position, _targetposition, 0.3f);
+      Bombe.transform.position = Vector3.MoveTowards(Bombe.transform.position, _targetposition, 1.0f);
     }
 
     if(Vector3.Distance(Bombe.transform.position, _targetposition)<1.0f){
@@ -163,12 +160,7 @@ public class BasicEnnemy : MonoBehaviour {
       _locked = false;
       StopCoroutine("AttackInge");
     }
-    
-  }
-
-  private void OnDrawGizmos(){
-      Gizmos.color = Color.red;
-     //Use the same vars you use to draw your Overlap SPhere to draw your Wire Sphere.
-      Gizmos.DrawWireSphere(transform.position + transform.forward, AtkSphereRange);
+    //
+    IsRunning = false;
   }
 }
