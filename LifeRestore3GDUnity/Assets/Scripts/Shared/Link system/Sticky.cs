@@ -68,18 +68,32 @@ public class Sticky : MonoBehaviour {
 			linked = false;
 		}
 
-		if(linked == false && linkedLastFrame == true){
+		if((linked == false && linkedLastFrame == true)||wasLinkedNotLongAgo == true){
 			internalTimer += Time.deltaTime;
 			wasLinkedNotLongAgo = true;
 
-			if(internalTimer>=allowedFrondeAfterRelase*Time.deltaTime){
+			if(internalTimer>=allowedFrondeAfterRelase){
 				wasLinkedNotLongAgo=false;
 				internalTimer=0f;
 			}
-		}else{
-			wasLinkedNotLongAgo=false;
-			linkedLastFrame = linked;
+			////
 		}
+
+
+		linkedLastFrame = linked;
+
+//		if(linked == false && linkedLastFrame == true){
+//			internalTimer += Time.deltaTime;
+//			wasLinkedNotLongAgo = true;
+//			
+//			if(internalTimer>=allowedFrondeAfterRelase*Time.deltaTime){
+//				wasLinkedNotLongAgo=false;
+//				internalTimer=0f;
+//			}
+//		}else{
+//			wasLinkedNotLongAgo=false;
+//			linkedLastFrame = linked;
+//		}
 	}
 	
 	//si je suis lié

@@ -74,6 +74,7 @@ public class CaserneStats : ObjectStats {
 
 		if(HPcaserneProducing>0){
 			HPcaserneProducing -= damage;
+
 			LoseEpine();
 		}
 	}

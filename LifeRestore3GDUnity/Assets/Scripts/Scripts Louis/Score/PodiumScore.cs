@@ -31,14 +31,15 @@ public class PodiumScore : MonoBehaviour {
 	private Text[] texts;
 	private float accumulator;
 
-	private bool isAlphaLerping = false;
+	private bool isThereAnAlpha = false, isAlphaLerping = false, startedAlpha = false, addedAlphaBonus = false, alphaTimeSet = false;
 	private int ScoreDuJoueurAlpha, AlphaPlayerScoreBeforeBonus, AlphaPlayerScoreAfterBonus, AlphaPlayerNumber, alphaPosInArrays;
-	private float _timeStartedAlphaLerping;
+	private float _timeStartedAlphaLerping, internalWaitTimer;
 	[SerializeField]
 	private float alphaRiseTimer, maxHeightAlpha;
-	private bool decompteAlpha = false, startedAlpha = false, addedAlphaBonus = false;
 	private Vector3 startPosAlpha;
 	private MenuEnd myMenuEnd;
+	[SerializeField]
+	private float waitTimeBetweenScoreAndAlpha;
 
 	void Awake(){
 
@@ -47,8 +48,9 @@ public class PodiumScore : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		myMenuEnd = Camera.main.GetComponent<MenuEnd>();
-		Debug.Log("name of posessor is "+myMenuEnd._alphaManager.posessor.name);
-		AlphaPlayerNumber = myMenuEnd._alphaManager.posessor.GetComponent<Player_Status>().playerNumber;
+
+		if(myMenuEnd._alphaManager != null) isThereAnAlpha = true;
+		if(isThereAnAlpha) AlphaPlayerNumber = myMenuEnd._alphaManager.posessor.GetComponent<Player_Status>().playerNumber;
 
 		PlayerPrefs.SetInt("ScoreGreen", scoreG);
 		PlayerPrefs.SetInt("ScoreRed", scoreR);
@@ -72,7 +74,11 @@ public class PodiumScore : MonoBehaviour {
 		//on stocke le score max pour faire monter les jauges en fonction de la hauteur maximale, à laquelle le joueur avec le plus de score montera toujours
 		//on fera ensuite myscore/maxscore, pour obtenir le ratio par lequel on doit multiplier la hauteur max, et ca donne la hauteur à laquelle chaque joueur doit monter selon son score
 //		maxScore = scores[2];
-		maxScore = scores[2]+myMenuEnd._alphaManager.scoreBonusFlat;
+		if(isThereAnAlpha){
+			maxScore = scores[2]+myMenuEnd._alphaManager.scoreBonusFlat;
+		}else{
+			maxScore = scores[2];
+		}
 
 		float firstHeightRatio = scores[2]/maxScore;
 		float secondHeightRatio = scores[1]/maxScore;
@@ -132,54 +138,64 @@ public class PodiumScore : MonoBehaviour {
 				if(percentageComplete >= 1.0f)
 				{
 					_isLerping[i] = false;
+					if(isThereAnAlpha == false)myMenuEnd.AllowInputs();
+
 				}
 			}else{
-				if(isAlphaLerping == true){
-					if(startedAlpha == false){
-						if(addedAlphaBonus == false){
-							
-							if(AlphaPlayerNumber == 1){
-								AlphaPlayerScoreBeforeBonus = PlayerPrefs.GetInt("ScoreGreen");
-								AlphaPlayerScoreAfterBonus = PlayerPrefs.GetInt("ScoreGreen") + myMenuEnd._alphaManager.scoreBonusFlat;
-							}else if(AlphaPlayerNumber == 2){
-								AlphaPlayerScoreBeforeBonus = PlayerPrefs.GetInt("ScoreRed");
-								AlphaPlayerScoreAfterBonus = PlayerPrefs.GetInt("ScoreRed") + myMenuEnd._alphaManager.scoreBonusFlat;
+				if(isThereAnAlpha){
+					if(isAlphaLerping == true){
+						if(startedAlpha == false){
+							if(addedAlphaBonus == false){
+								
+								if(AlphaPlayerNumber == 1){
+									AlphaPlayerScoreBeforeBonus = PlayerPrefs.GetInt("ScoreGreen");
+									AlphaPlayerScoreAfterBonus = PlayerPrefs.GetInt("ScoreGreen") + myMenuEnd._alphaManager.scoreBonusFlat;
+								}else if(AlphaPlayerNumber == 2){
+									AlphaPlayerScoreBeforeBonus = PlayerPrefs.GetInt("ScoreRed");
+									AlphaPlayerScoreAfterBonus = PlayerPrefs.GetInt("ScoreRed") + myMenuEnd._alphaManager.scoreBonusFlat;
 
-							}else if(AlphaPlayerNumber == 3){
-								AlphaPlayerScoreBeforeBonus = PlayerPrefs.GetInt("ScoreBlue");
-								AlphaPlayerScoreAfterBonus = PlayerPrefs.GetInt("ScoreBlue") + myMenuEnd._alphaManager.scoreBonusFlat;
+								}else if(AlphaPlayerNumber == 3){
+									AlphaPlayerScoreBeforeBonus = PlayerPrefs.GetInt("ScoreBlue");
+									AlphaPlayerScoreAfterBonus = PlayerPrefs.GetInt("ScoreBlue") + myMenuEnd._alphaManager.scoreBonusFlat;
 
+								}
+								myMenuEnd.AlphaBonus();
+								addedAlphaBonus = true;
 							}
-							myMenuEnd.AlphaBonus();
-							addedAlphaBonus = true;
-						}
-						
-//						if(AlphaPlayerScoreBeforeBonus == scoresUsedForTexts[i]){
-						if(AlphaPlayerScoreBeforeBonus == scores[i]){
+							
+							if(AlphaPlayerScoreBeforeBonus == scores[i]){
 
-							alphaPosInArrays = i;
-							startPosAlpha = playerGauges[i].transform.position;
+								alphaPosInArrays = i;
+								startPosAlpha = playerGauges[i].transform.position;
 
-							ScoreDuJoueurAlpha = AlphaPlayerScoreBeforeBonus;
-	
-							_timeStartedAlphaLerping = Time.time;
-							startedAlpha = true;
-						}
-					}else{
+								ScoreDuJoueurAlpha = AlphaPlayerScoreBeforeBonus;
+		
+//								_timeStartedAlphaLerping = Time.time;
+								startedAlpha = true;
+							}
+						}else{
+							internalWaitTimer+=Time.deltaTime;
+							if(internalWaitTimer>waitTimeBetweenScoreAndAlpha*3){
+								if(alphaTimeSet ==false){
+									Debug.Log("internal waiter is "+internalWaitTimer);
+									alphaTimeSet = true;
+									_timeStartedAlphaLerping = Time.time;
 
-						float timeSinceStarted = Time.time - _timeStartedAlphaLerping;
-						float percentageComplete = timeSinceStarted / alphaRiseTimer;
-						if( ScoreDuJoueurAlpha < AlphaPlayerScoreAfterBonus){
-							ScoreDuJoueurAlpha  = (int)Mathf.Lerp(AlphaPlayerScoreBeforeBonus, AlphaPlayerScoreAfterBonus, percentageComplete);
-						}
-						
-//						playerGauges[alphaPosInArrays].transform.position = Vector3.Lerp(startPosAlpha, new Vector3(startPosAlpha.x, startPosAlpha.y+ maxHeightAlpha, startPosAlpha.z), percentageComplete);
-						playerGauges[alphaPosInArrays].transform.position = Vector3.Lerp(startPosAlpha, new Vector3(startPosAlpha.x, startPosAlpha.y+ maxHeight, startPosAlpha.z), percentageComplete);
+								}
+								float timeSinceStarted = Time.time - _timeStartedAlphaLerping;
+								float percentageComplete = timeSinceStarted / alphaRiseTimer;
+								if( ScoreDuJoueurAlpha < AlphaPlayerScoreAfterBonus){
+									ScoreDuJoueurAlpha  = (int)Mathf.Lerp(AlphaPlayerScoreBeforeBonus, AlphaPlayerScoreAfterBonus, percentageComplete);
+								}
+								
+								playerGauges[alphaPosInArrays].transform.position = Vector3.Lerp(startPosAlpha, new Vector3(startPosAlpha.x, startPosAlpha.y+ maxHeight, startPosAlpha.z), percentageComplete);
 
-						if(percentageComplete >= 1.0f)
-						{
-							isAlphaLerping = false;
-							myMenuEnd.AllowInputs();
+								if(percentageComplete >= 1.0f)
+								{
+									isAlphaLerping = false;
+									myMenuEnd.AllowInputs();
+								}
+							}
 						}
 					}
 				}
@@ -189,16 +205,20 @@ public class PodiumScore : MonoBehaviour {
 //				scoresUsedForTexts[i] = Mathf.Lerp(0, scores[i], 
 ////				scoresUsedForTexts[i]+=1;
 //			}
-			if(isAlphaLerping == false){
-				texts[i].text = scoresUsedForTexts[i].ToString();
-				if(startedAlpha == true){
-					texts[alphaPosInArrays].text = ScoreDuJoueurAlpha.ToString();
+			if(isThereAnAlpha){
+				if(isAlphaLerping == false){
+					texts[i].text = scoresUsedForTexts[i].ToString();
+					if(startedAlpha == true){
+						texts[alphaPosInArrays].text = ScoreDuJoueurAlpha.ToString();
 
+					}
+				}else{
+					texts[i].text = scoresUsedForTexts[i].ToString();
+
+					texts[alphaPosInArrays].text = ScoreDuJoueurAlpha.ToString();
 				}
 			}else{
 				texts[i].text = scoresUsedForTexts[i].ToString();
-
-				texts[alphaPosInArrays].text = ScoreDuJoueurAlpha.ToString();
 			}
 		}
 
@@ -212,17 +232,10 @@ public class PodiumScore : MonoBehaviour {
 		//ex: à chaque frame, scoreJoueur+=(VraiScoreJoueur/tempsDeMontéeDeLaJauge);
 	}
 
-	IEnumerator MoveObject (Transform thisTransform, Vector3 startPos, Vector3 endPos, float time){
-		float i = 0;
-		float rate = 1/time;
-		while (i < 1) {
-			i += Time.deltaTime * rate;
-			thisTransform.position = Vector3.Lerp(startPos, endPos, i);
-			yield return null; 
-		}
-	}
+	IEnumerator WaitAndAlphaEffect()
+	{
+		//La bombe attend X pour exploser
+		yield return new WaitForSeconds(waitTimeBetweenScoreAndAlpha);
 
-	public void LaunchScore(){
-		decompteAlpha = true;
 	}
 }

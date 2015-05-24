@@ -7,10 +7,6 @@ public class DamageDealer : MonoBehaviour {
 	//la vitesse nécessaire pour péter un fdp
 	[SerializeField]
 	private float _necessaryVelocity;
-	//	[SerializeField]
-	//	public int damageArbre = 1;
-	//	//	[SerializeField]
-	//	public int damageCaserne = 1;
 
 	[SerializeField]
 	private float _playerSizeMultiplicator = 0.9f;
@@ -28,8 +24,7 @@ public class DamageDealer : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		damageCaserne = 1;
-		damageArbre = 1;
+
 		if(gameObject.GetComponent<Sticky>()!=null) mySticky = gameObject.GetComponent<Sticky>();
 		if(gameObject.GetComponent<Rigidbody>() != null) myRB = gameObject.GetComponent<Rigidbody>();
 	}
@@ -38,13 +33,13 @@ public class DamageDealer : MonoBehaviour {
 	void Update () {
 		if(myRB !=null){
 			if(mySticky!=null){
-				if(Input.GetKeyDown(KeyCode.Space)){
-					Debug.Log("fdp???");
-					if(mySticky.v_numberOfLinks>0)
-					{
-						Debug.Log("my speed is "+mySticky._Velocity);
-					}
-				}
+//				if(Input.GetKeyDown(KeyCode.Space)){
+//					Debug.Log("fdp???");
+//					if(mySticky.v_numberOfLinks>0)
+//					{
+//						Debug.Log("my speed is "+mySticky._Velocity);
+//					}
+//				}
 				if(mySticky._Velocity >=_necessaryVelocity){
 					if(nuageVitesse != null){
 						GameObject nuageFeedback = Instantiate(nuageVitesse, gameObject.transform.position, Quaternion.identity) as GameObject;
@@ -86,18 +81,18 @@ public class DamageDealer : MonoBehaviour {
 		//si je suis l'idole
 		if(gameObject.tag.Equals("Idole")){
 			//si un ennemi me touche
-			if(col.gameObject.tag.Equals("Ennemy")){
-				//faiblard
-				if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI){
-					col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
-					return;
-				}
-				//Ingénieur
-				else if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyD_AI){
-					col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
-					return;
-				}
-			}
+//			if(col.gameObject.tag.Equals("Ennemy")){
+//				//faiblard
+//				if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI){
+//					col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+//					return;
+//				}
+//				//Ingénieur
+//				else if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyD_AI){
+//					col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+//					return;
+//				}
+//			}
 		}
 
 		//si je suis un joueur
@@ -113,8 +108,11 @@ public class DamageDealer : MonoBehaviour {
 						if(col.gameObject.tag.Equals("FrondeFriable")){
 							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 							return;
+						}else
+						if(col.gameObject.tag.Equals("CaserneKO")){
+							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+							return;
 						}
-						//si un décor me cogne
 						else if(col.gameObject.tag.Equals("Arbre")){
 							col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
 							return;
@@ -122,27 +120,28 @@ public class DamageDealer : MonoBehaviour {
 						//si je cogne un ennemi mort
 						else if(col.gameObject.tag.Equals("Ragdoll")){
 							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+							return;
 						}
 					}
 				}
 			}
 			//si un ennemi me touche
-			else if(col.gameObject.tag.Equals("Ennemy")){
-				//faiblard
-				if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI){
-					col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
-					return;
-				}
-				//Ingénieur
-				else if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyD_AI){
-					col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
-					return;
-				}
-			}
+//			else if(col.gameObject.tag.Equals("Ennemy")){
+//				//faiblard
+//				if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI){
+//					col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+//					return;
+//				}
+//				//Ingénieur
+//				else if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyD_AI){
+//					col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+//					return;
+//				}
+//			}
 		}
 
 		//si je suis une fronde
-		if(gameObject.tag.Equals("Fronde") || gameObject.tag.Equals("FrondeFriable")){
+		if(gameObject.tag.Equals("Fronde") || gameObject.tag.Equals("FrondeFriable") || gameObject.tag.Equals("CaserneKO")){
 			//si ma fronde est liée ou liée ya pas longtemps
 			if(mySticky!=null && mySticky.v_numberOfLinks!=0|| mySticky!=null && mySticky.wasLinkedNotLongAgo==true){
 				//si ma fronde va vite
@@ -158,8 +157,14 @@ public class DamageDealer : MonoBehaviour {
 					}else if(col.gameObject.tag.Equals("FrondeFriable")){
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 						return;
+
 						//si je cogne un décor unlinkable mais destructible
-					}else if(col.gameObject.tag.Equals("UnlinkableDestructible")){
+					}
+					else 		if(col.gameObject.tag.Equals("CaserneKO")){
+						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+						return;
+					}
+					else if(col.gameObject.tag.Equals("UnlinkableDestructible")){
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
 						Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Barrière impact");
 						return;
@@ -172,7 +177,11 @@ public class DamageDealer : MonoBehaviour {
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
 						Debug.Log("case 1");
 						return;
-					}//si je cogne un ennemi
+					}
+					else if(col.gameObject.tag.Equals("Unlinkable")){
+						col.gameObject.GetComponent<CaserneStats>().TakeDamage(damageCaserne);
+					}
+					//si je cogne un ennemi
 					else if(col.gameObject.tag.Equals("Ennemy")){
 						//Faiblar
 						if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI){
@@ -213,7 +222,12 @@ public class DamageDealer : MonoBehaviour {
 							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 							return;
 							//si un arbre me cogn
-						}else if(col.gameObject.tag.Equals("Arbre")){
+						}
+						else if(col.gameObject.tag.Equals("CaserneKO")){
+							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+							return;
+						}
+						else if(col.gameObject.tag.Equals("Arbre")){
 							col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
 							return;
 							//si un ennemi me cogne
@@ -275,7 +289,7 @@ public class DamageDealer : MonoBehaviour {
 		}
 
 		//si je suis du décor
-		if(gameObject.tag.Equals("Decor")){
+		if(gameObject.tag.Equals("Arbre")){
 			if(mySticky!=null && mySticky.v_numberOfLinks!=0|| mySticky!=null && mySticky.wasLinkedNotLongAgo==true){
 				//si mon décor va vite
 				if(myRB.velocity.magnitude>_necessaryVelocity){
@@ -284,15 +298,24 @@ public class DamageDealer : MonoBehaviour {
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 						return;
 						//si je cogne du décor
-					}else if(col.gameObject.tag.Equals("Arbre")){
+					}
+					else if(col.gameObject.tag.Equals("CaserneKO")){
+						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+						return;
+					}
+					else if(col.gameObject.tag.Equals("Arbre")){
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
 						return;
 						//si je cogne un décor unlinkable ou interrupteur friable
 					}else if(col.gameObject.tag.Equals("UnlinkableDestructible") || col.gameObject.tag.Equals("WoodBlock")){
-						col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
+						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 						return;
 						//si je cogne un ennemi
-					}else if(col.gameObject.tag.Equals("Ennemy")){
+					}
+					else if(col.gameObject.tag.Equals("Unlinkable")){
+						col.gameObject.GetComponent<CaserneStats>().TakeDamage(damageCaserne);
+					}
+					else if(col.gameObject.tag.Equals("Ennemy")){
 						//Faiblar
 						if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI){
 							col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
@@ -334,8 +357,14 @@ public class DamageDealer : MonoBehaviour {
 						if(col.gameObject.tag.Equals("FrondeFriable")){
 							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 						}
+
+						else if(col.gameObject.tag.Equals("CaserneKO")){
+							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+							return;
+						}
+
 						//si un décor me cogne
-						if(col.gameObject.tag.Equals("Arbre")){
+						else if(col.gameObject.tag.Equals("Arbre")){
 							col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
 						}
 						//si un ennemi me touche
@@ -376,7 +405,12 @@ public class DamageDealer : MonoBehaviour {
 				col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
 				return;
 				//si je touche un bloc en bois
-			}else if(col.gameObject.tag.Equals("WoodBlock")){
+			}
+			else if(col.gameObject.tag.Equals("CaserneKO")){
+				col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+				return;
+			}
+			else if(col.gameObject.tag.Equals("WoodBlock")){
 				col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
 				return;
 			}
@@ -393,7 +427,11 @@ public class DamageDealer : MonoBehaviour {
 						col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
 						return;
 						//si je touche un ennemy
-					}else if(col.gameObject.tag.Equals("Ennemy")){
+					}
+					else if(col.gameObject.tag.Equals("Unlinkable")){
+						col.gameObject.GetComponent<CaserneStats>().TakeDamage(damageCaserne);
+					}
+					else if(col.gameObject.tag.Equals("Ennemy")){
 						//Faiblar
 						if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI){
 							col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
@@ -468,7 +506,12 @@ public class DamageDealer : MonoBehaviour {
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 						return;
 						//si je cogne un interrupteur friable
-					}else if(col.gameObject.tag.Equals("WoodBlock")){
+					}
+					else if(col.gameObject.tag.Equals("CaserneKO")){
+						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+						return;
+					}
+					else if(col.gameObject.tag.Equals("WoodBlock")){
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 						return;
 						//si je cogne une barriere etc
@@ -480,7 +523,11 @@ public class DamageDealer : MonoBehaviour {
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
 						return;
 						//si je cogne un ennemi
-					}else if(col.gameObject.tag.Equals("Ennemy")){
+					}
+					else if(col.gameObject.tag.Equals("Unlinkable")){
+						col.gameObject.GetComponent<CaserneStats>().TakeDamage(damageCaserne);
+					}
+					else if(col.gameObject.tag.Equals("Ennemy")){
 						//Faiblar
 						if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI){
 							col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
@@ -522,7 +569,12 @@ public class DamageDealer : MonoBehaviour {
 						if(col.gameObject.tag.Equals("FrondeFriable")){
 							return;
 							//si un interrupteur friable s'écrase sur moi 
-						}else if(col.gameObject.tag.Equals("WoodBlock")){
+						}
+						else 		if(col.gameObject.tag.Equals("CaserneKO")){
+							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+							return;
+						}
+						else if(col.gameObject.tag.Equals("WoodBlock")){
 							return;
 							//si du décor s'écrase sur moi
 						}else if(col.gameObject.tag.Equals("Arbre")){
@@ -568,7 +620,12 @@ public class DamageDealer : MonoBehaviour {
 				col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 				return;
 				//si je touche un décor unlinkable
-			}else if(col.gameObject.tag.Equals("UnlinkableDestructible")){
+			}
+			else 		if(col.gameObject.tag.Equals("CaserneKO")){
+				col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+				return;
+			}
+			else if(col.gameObject.tag.Equals("UnlinkableDestructible")){
 				col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 				return;
 				//si je touche un interrupteur friable
@@ -581,7 +638,11 @@ public class DamageDealer : MonoBehaviour {
 				col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
 				return;
 				//si je touche un ennemi
-			}else if(col.gameObject.tag.Equals("Ennemy")){
+			}
+			else if(col.gameObject.tag.Equals("Unlinkable")){
+				col.gameObject.GetComponent<CaserneStats>().TakeDamage(damageCaserne);
+			}
+			else if(col.gameObject.tag.Equals("Ennemy")){
 				//Faiblar
 				if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI){
 					col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
@@ -612,6 +673,11 @@ public class DamageDealer : MonoBehaviour {
 				col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 				return;
 			}
+		}
+
+		//si je suis une
+		if(gameObject.tag.Equals("Unlinkable")){
+
 		}
 	}
 }
