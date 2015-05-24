@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: a8cf5916c53d18b4bb3fe102a73cc8b7
 folderAsset: yes
 timeCreated: 1432225230
+=======
+guid: 91488258ac560a2459e6552a299d67bf
+folderAsset: yes
+timeCreated: 1432481750
+>>>>>>> origin/Romagny
 licenseType: Free
 DefaultImporter:
   userData: 

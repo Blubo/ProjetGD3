@@ -145,7 +145,7 @@ public class EnnemyA_AI : BasicEnnemy {
   {
       for (int i = 0; i < _potentialTargets.Count; i++)
       {
-        if (_potentialTargets[i].gameObject.tag != "Player" && _potentialTargets[i].gameObject.tag != "Idole" )
+        if (_potentialTargets[i] != null && _potentialTargets[i].gameObject.tag != "Player" && _potentialTargets[i].gameObject.tag != "Idole" )
         {
           _potentialTargets.Remove(_potentialTargets[i]);
         }

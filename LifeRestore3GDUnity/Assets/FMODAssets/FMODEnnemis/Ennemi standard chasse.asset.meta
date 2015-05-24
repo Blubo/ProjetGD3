@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: f7860a436e10eb14e9fdc0d0b9acaa2b
 timeCreated: 1432225225
+=======
+guid: aa100364401769e46b49a2a5e9c44f70
+timeCreated: 1432481747
+>>>>>>> origin/Romagny
 licenseType: Free
 NativeFormatImporter:
   userData: 
