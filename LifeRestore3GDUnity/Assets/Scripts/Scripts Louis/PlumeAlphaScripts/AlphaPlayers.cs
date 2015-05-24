@@ -22,7 +22,9 @@ public class AlphaPlayers : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Physics.IgnoreCollision(plumeAlpha.GetComponent<Collider>(), GetComponent<Collider>(), myPlayerStatus._IsInvincible);
+		if(plumeAlpha != null){
+			Physics.IgnoreCollision(plumeAlpha.GetComponent<Collider>(), GetComponent<Collider>(), myPlayerStatus._IsInvincible);
+		}
 	}
 
 	void OnCollisionEnter(Collision col){
