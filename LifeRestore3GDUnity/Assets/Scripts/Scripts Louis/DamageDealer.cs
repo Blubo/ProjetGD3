@@ -285,6 +285,8 @@ public class DamageDealer : MonoBehaviour {
 							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 						}
 
+						//BUG
+						//SCENE 2 
 						if(gameObject.tag.Equals("Static") == false){
 							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 
@@ -358,6 +360,8 @@ public class DamageDealer : MonoBehaviour {
 				//si lié ou lié depuis peu
 				if(stickyCollided.v_numberOfLinks!=0|| stickyCollided.wasLinkedNotLongAgo==true){
 					//si cet autre objet va vite
+					//BUG
+					//SCENE 2
 					if(stickyCollided._Velocity>col.gameObject.GetComponent<DamageDealer>()._necessaryVelocity){
 						//si une fronde friable me cogne
 						if(col.gameObject.tag.Equals("FrondeFriable")){
@@ -414,7 +418,7 @@ public class DamageDealer : MonoBehaviour {
 				}
 				return;
 			}else if(col.gameObject.tag.Equals("FrondeFriable")){
-				col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
+				col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 				return;
 				//si je touche un bloc en bois
 			}
@@ -423,11 +427,11 @@ public class DamageDealer : MonoBehaviour {
 				return;
 			}
 			else if(col.gameObject.tag.Equals("WoodBlock")){
-				col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
+				col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 				return;
 			}
 			else if(col.gameObject.tag.Equals("Ragdoll")){
-				col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
+				col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 				return;
 			}
 
@@ -436,11 +440,11 @@ public class DamageDealer : MonoBehaviour {
 				if(myRB.velocity.magnitude>_necessaryVelocity){
 					//si je touche une barriere
 					if(col.gameObject.tag.Equals("UnlinkableDestructible")){
-						col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
+						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 						return;
 						//si je touche du décor
 					}else if(col.gameObject.tag.Equals("Arbre")){
-						col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
+						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 						return;
 						//si je touche un ennemy
 					}
@@ -487,7 +491,7 @@ public class DamageDealer : MonoBehaviour {
 					//s'il va vite
 					if(stickyCollided._Velocity>col.gameObject.GetComponent<DamageDealer>()._necessaryVelocity){
 						if(col.gameObject.tag.Equals("Arbre")){
-							col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
+							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 							return;
 							//si je touche un ennemy
 						}else if(col.gameObject.tag.Equals("Ennemy")){
@@ -505,7 +509,7 @@ public class DamageDealer : MonoBehaviour {
 							return;
 							//si je touche un ennemiKO
 						}else if(col.gameObject.tag.Equals("Ragdoll")){
-							col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
+							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 							return;
 						}
 					}

@@ -10,8 +10,6 @@ public class IdoleCallHelp : MonoBehaviour {
 	private float timer, dangerTimer;
 
 	[SerializeField]
-	private GameObject particlesNormales, particlesSeule, particlesDanger;
-	[SerializeField]
 	private ParticleSystem normalPart, seulePart, dangerPart;
 
 	[SerializeField]
