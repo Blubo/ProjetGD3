@@ -8,14 +8,18 @@ public class IdoleCallHelp : MonoBehaviour {
 	[SerializeField]
 	private float timeBeforeCall, dangerCallDuration, enemyRangeDetection;
 	private float timer, dangerTimer;
-	private Animator myLightAnimator;
+
 	[SerializeField]
-	private Light myLight;
-	
+	private GameObject particlesNormales, particlesSeule, particlesDanger;
+	[SerializeField]
+	private ParticleSystem normalPart, seulePart, dangerPart;
+
+	[SerializeField]
+	private LayerMask myLayerMask;
 
 	// Use this for initialization
 	void Start () {
-		myLightAnimator = myLight.GetComponent<Animator>();
+//		normalPart = particlesNormales.GetComponent<
 		timer = 0f;
 	}
 	
@@ -31,7 +35,7 @@ public class IdoleCallHelp : MonoBehaviour {
 //			CallHelp();
 //		}
 
-		Collider[] allCollidersInRange = Physics.OverlapSphere(transform.position, enemyRangeDetection);
+		Collider[] allCollidersInRange = Physics.OverlapSphere(transform.position, enemyRangeDetection, myLayerMask);
 		List<Collider> enemiesInRange = new List<Collider>();
 		List<Collider> playersInRange = new List<Collider>();
 
@@ -48,23 +52,21 @@ public class IdoleCallHelp : MonoBehaviour {
 
 		if(enemiesInRange.Count != 0){
 			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole danger");
-			if(myLightAnimator.GetBool("Danger") == false ){
-				CallState("Danger", true);
-			}
-		}else{
-			if(myLightAnimator.GetBool("Danger") == true ){
-				CallState("Danger", false);
-			}
-			if(playersInRange.Count == 0){
-				if(myLightAnimator.GetBool("Seul") == false ){
-					CallState("Seul", true);
-				}
-			}else{
-				if(myLightAnimator.GetBool("Seul") == true ){
-					CallState("Seul", false);
-				}
-			}
+			dangerPart.Play();
+			normalPart.Stop();
+			seulePart.Stop();
 
+		}else{
+			if(playersInRange.Count == 0){
+				dangerPart.Stop();
+				normalPart.Stop();
+				seulePart.Play();
+
+			}else{
+				dangerPart.Stop();
+				normalPart.Play();
+				seulePart.Stop();
+			}
 		}
 
 		//quand danger est vrai, on lance le timer de danger
@@ -79,12 +81,12 @@ public class IdoleCallHelp : MonoBehaviour {
 	}
 
 	public void CallState(string myString, bool myBool){
-		myLightAnimator.SetBool(myString, myBool);
+
 	}
 
-	void OnDrawGizmos(){
-		Gizmos.color = new Color32(232, 40, 40, 30);
-		Gizmos.DrawSphere(transform.position, enemyRangeDetection);
-	}
+//	void OnDrawGizmos(){
+//		Gizmos.color = new Color32(232, 40, 40, 30);
+//		Gizmos.DrawSphere(transform.position, enemyRangeDetection);
+//	}
 	
 }

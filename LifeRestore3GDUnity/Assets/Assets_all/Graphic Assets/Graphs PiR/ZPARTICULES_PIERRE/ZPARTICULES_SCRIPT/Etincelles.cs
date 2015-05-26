@@ -4,7 +4,7 @@ using System.Collections;
 public class Etincelles : MonoBehaviour {
 
 	public GameObject ParticlePrefab;
-	
+
 	void OnCollisionEnter(Collision coll)
 	{
 		StartCoroutine (SpawnParticle (coll.contacts [0]));

@@ -23,6 +23,8 @@ public class Player_Status : MonoBehaviour {
 
 	[HideInInspector]
 	public GameObject linkedObject;
+//	[HideInInspector]
+//	public bool linkedToIdole = false;
 
 	[SerializeField]
 	private GameObject hitAnimation;
@@ -30,18 +32,25 @@ public class Player_Status : MonoBehaviour {
 	private AlphaPlayers myAlphaPlayer;
 	[SerializeField]
 	private float _playerSizeDecreaseOnHit;
-
+	private ShootF myShootF;
+	private Animator myAvatarAnimator;
+	
 	void Start () {
+		myAvatarAnimator = transform.Find("Avatar/Body").GetComponent<Animator>();
+
+		_Idole = GameObject.Find("Idole");
+		myShootF = GetComponent<ShootF>();
 		myAlphaPlayer = GetComponent<AlphaPlayers>();
 		_ScoreManager = Camera.main.GetComponent<ScoreManager>();
-
-    _IsInvincible = false;
-  }
+		_IsInvincible = false;
+ 	 }
 
     public void TakeDamage(Vector3 directionToUse)
     {
       if (!_IsInvincible)
       {
+			myAvatarAnimator.SetBool("Damage", true);
+
 			GetComponent<FatPlayerScript>().ChangeSize(_playerSizeDecreaseOnHit);
 
 			myAlphaPlayer.DropTheFeather(directionToUse);
@@ -100,12 +109,21 @@ public class Player_Status : MonoBehaviour {
     {
         _IsInvincible = true;
         yield return new WaitForSeconds(_TimerInvincible);
+		myAvatarAnimator.SetBool("Damage", false);
         _IsInvincible = false;
     }
 
 	void DropCollectible(){
 		for (int i = 0; i < numberToDrop; i++) {
 			GameObject dropped = Instantiate(collectibleToDrop, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), gameObject.transform.position.y, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), collectibleToDrop.transform.rotation)as GameObject;
+		}
+	}
+
+	public void SeverLinkToIdole(){
+		if(myShootF._target != null){
+			if(myShootF._target == _Idole){
+				myShootF.DetachLink(0);
+			}
 		}
 	}
 

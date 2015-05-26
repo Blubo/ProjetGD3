@@ -34,6 +34,9 @@ public class Sticky : MonoBehaviour {
 	[SerializeField]
 	[Range(0,1)]
 	private float weightModifier;
+	[HideInInspector]
+	public GameObject myHolderPlayer;
+
 
 	// Use this for initialization
 	void Start () {
@@ -65,6 +68,7 @@ public class Sticky : MonoBehaviour {
 		if(v_numberOfLinks != 0){
 			linked =true;
 		}else{
+			myHolderPlayer = null;
 			linked = false;
 		}
 

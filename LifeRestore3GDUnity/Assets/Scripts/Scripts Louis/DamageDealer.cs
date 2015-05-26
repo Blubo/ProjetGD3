@@ -103,7 +103,7 @@ public class DamageDealer : MonoBehaviour {
 				//si lié ou lié depuis peu
 				if(stickyCollided.v_numberOfLinks!=0|| stickyCollided.wasLinkedNotLongAgo==true){
 					//si cette fronde va vite
-					if(stickyCollided._Velocity>col.gameObject.GetComponent<DamageDealer>()._necessaryVelocity){
+					if(col.gameObject.GetComponent<DamageDealer>()!= null && stickyCollided._Velocity>col.gameObject.GetComponent<DamageDealer>()._necessaryVelocity){
 						//si une fronde friable me cogne
 						if(col.gameObject.tag.Equals("FrondeFriable")){
 							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
@@ -147,12 +147,18 @@ public class DamageDealer : MonoBehaviour {
 				//si ma fronde va vite
 				if(myRB.velocity.magnitude>_necessaryVelocity){
 					if(col.gameObject.tag.Equals("Player")){
-						Vector3 directionOfCollision = new Vector3(col.gameObject.transform.position.x, col.gameObject.transform.position.y + 10f, col.gameObject.transform.position.z) - gameObject.transform.position ;
-						col.gameObject.GetComponent<Player_Status>().TakeDamage(directionOfCollision);
-//						Vector3 directionOfCollision = col.gameObject.transform.position - gameObject.transform.position ;
-//						if(col.gameObject.GetComponent<Player_Status>()._IsInvincible)
-//						col.gameObject.GetComponent<FatPlayerScript>().ChangeSize(_playerSizeMultiplicator);
-						return;
+//						Debug.Log(col.gameObject.name);
+//						Debug.Log(mySticky.myHolderPlayer.name);
+						if(mySticky.myHolderPlayer != col.gameObject){
+							Vector3 directionOfCollision = new Vector3(col.gameObject.transform.position.x, col.gameObject.transform.position.y + 10f, col.gameObject.transform.position.z) - gameObject.transform.position ;
+							col.gameObject.GetComponent<Player_Status>().TakeDamage(directionOfCollision);
+							col.gameObject.GetComponent<Player_Status>().SeverLinkToIdole();
+
+	//						Vector3 directionOfCollision = col.gameObject.transform.position - gameObject.transform.position ;
+	//						if(col.gameObject.GetComponent<Player_Status>()._IsInvincible)
+	//						col.gameObject.GetComponent<FatPlayerScript>().ChangeSize(_playerSizeMultiplicator);
+							return;
+						}
 						//si je cogne une fronde friable
 					}else if(col.gameObject.tag.Equals("FrondeFriable")){
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
@@ -175,7 +181,7 @@ public class DamageDealer : MonoBehaviour {
 						//si je cogne un arbre
 					}else if(col.gameObject.tag.Equals("Arbre")){
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
-						Debug.Log("case 1");
+//						Debug.Log("case 1");
 						return;
 					}
 					else if(col.gameObject.tag.Equals("Unlinkable")){
@@ -400,6 +406,12 @@ public class DamageDealer : MonoBehaviour {
 			}else if(col.gameObject.tag.Equals("Player")){
 				Vector3 directionOfCollision = new Vector3(col.gameObject.transform.position.x, col.gameObject.transform.position.y + 10f, col.gameObject.transform.position.z) - gameObject.transform.position ;
 				col.gameObject.GetComponent<Player_Status>().TakeDamage(directionOfCollision);
+				//CECI PETE LE LIEN DUN POTE SI L ENNEMI A ETE FRONDE
+				if(mySticky!=null && mySticky.v_numberOfLinks!=0|| mySticky!=null && mySticky.wasLinkedNotLongAgo==true){
+					if(myRB.velocity.magnitude>_necessaryVelocity){
+						col.gameObject.GetComponent<Player_Status>().SeverLinkToIdole();
+					}
+				}
 				return;
 			}else if(col.gameObject.tag.Equals("FrondeFriable")){
 				col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
@@ -411,6 +423,10 @@ public class DamageDealer : MonoBehaviour {
 				return;
 			}
 			else if(col.gameObject.tag.Equals("WoodBlock")){
+				col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
+				return;
+			}
+			else if(col.gameObject.tag.Equals("Ragdoll")){
 				col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
 				return;
 			}
@@ -457,10 +473,11 @@ public class DamageDealer : MonoBehaviour {
 							
 						}
 						//si je touche un ennemiKO
-					}else if(col.gameObject.tag.Equals("Ragdoll")){
-						col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
-						return;
 					}
+//					else if(col.gameObject.tag.Equals("Ragdoll")){
+//						col.gameObject.GetComponent<Idole_Status>().TakeDamage(1);
+//						return;
+//					}
 				}
 				//si l'autre est une fronde
 			}else if(col.gameObject.GetComponent<Sticky>()!=null){
@@ -612,9 +629,13 @@ public class DamageDealer : MonoBehaviour {
 			}else if(col.gameObject.tag.Equals("Player")){
 //				Vector3 directionOfCollision = col.gameObject.transform.position - gameObject.transform.position ;
 //				col.gameObject.GetComponent<FatPlayerScript>().ChangeSize(_playerSizeMultiplicator);
-				Vector3 directionOfCollision = new Vector3(col.gameObject.transform.position.x, col.gameObject.transform.position.y + 10f, col.gameObject.transform.position.z) - gameObject.transform.position ;
-				col.gameObject.GetComponent<Player_Status>().TakeDamage(directionOfCollision);
-				return;
+				//si j'ai un tireur et que ce tireur n'est pas le joueur que je touche
+				if(gameObject.GetComponent<TurretProjectile>()._playerWhoShotMe!=null && gameObject.GetComponent<TurretProjectile>()._playerWhoShotMe != col.gameObject){
+					Vector3 directionOfCollision = new Vector3(col.gameObject.transform.position.x, col.gameObject.transform.position.y + 10f, col.gameObject.transform.position.z) - gameObject.transform.position ;
+					col.gameObject.GetComponent<Player_Status>().TakeDamage(directionOfCollision);
+					col.gameObject.GetComponent<Player_Status>().SeverLinkToIdole();
+					return;
+				}
 				//si je touche une fronde friable
 			}else if(col.gameObject.tag.Equals("FrondeFriable")){
 				col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
@@ -675,9 +696,44 @@ public class DamageDealer : MonoBehaviour {
 			}
 		}
 
-		//si je suis une
+		//si je suis une caserne vivante
 		if(gameObject.tag.Equals("Unlinkable")){
-
+			if(col.gameObject.GetComponent<Sticky>()!=null){
+				Sticky stickyCollided = col.gameObject.GetComponent<Sticky>();
+				//si lié ou lié depuis peu
+				if(stickyCollided.v_numberOfLinks!=0|| stickyCollided.wasLinkedNotLongAgo==true){
+					//si cette fronde va vite
+					if(stickyCollided._Velocity>col.gameObject.GetComponent<DamageDealer>()._necessaryVelocity){
+						//si un arbre me cogne
+						if(col.gameObject.tag.Equals("Arbre")){
+							col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
+							return;
+							//si un ennemi me cogne
+						}else if(col.gameObject.tag.Equals("Ennemy")){
+							//Faiblar
+							if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI){
+								col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+								return;
+							}
+							//Ingénieur
+							if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyD_AI){
+								col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+								return;
+								
+							}
+							//si un ennemi ko me cogne
+						}
+						else if(col.gameObject.tag.Equals("Ragdoll")){
+							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+						}
+						
+						if(gameObject.tag.Equals("Static") == false){
+							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+							
+						}
+					}
+				}
+			}
 		}
 	}
 }

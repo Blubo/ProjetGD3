@@ -28,12 +28,20 @@ public class BasicEnnemy : MonoBehaviour {
 
   public bool Furie;
 
+	public GameObject attackEffect;
+	public Transform _instantiateur;
+	protected float internalTimer;
+	protected bool activatedAttack = false;
+
   //**Only for ingé **
   int Progression = -1;
   public GameObject _Bombe, _Prefab;
   public Transform _BombePlacement;
   [HideInInspector]
   public Vector3 _targetposition;
+
+	[SerializeField]
+	protected GameObject destructionAnimation;
 
   public bool _locked, IsRunning;
   //***---***
@@ -73,6 +81,8 @@ public class BasicEnnemy : MonoBehaviour {
     //Désactiver ce qu'il faut
     gameObject.GetComponent<BoxCollider>().enabled = false;
    //Faire les effets FX etc
+		if(destructionAnimation != null) Instantiate(destructionAnimation, gameObject.transform.position, Quaternion.AngleAxis(-90, Vector3.right));
+
 
     //Fait droper les collectibles
     DropCollectible();
@@ -101,6 +111,10 @@ public class BasicEnnemy : MonoBehaviour {
   //Attaque de base 
   public IEnumerator Attack(int Value)
   {
+//		if( attackEffect.GetComponent<ParticleSystem>().duration){
+//			GameObject particule = Instantiate(attackEffect, _instantiateur.transform.position, Quaternion.identity )as GameObject;
+//		}
+
     Collider[] Attacked = Physics.OverlapSphere(transform.position + transform.forward, AtkSphereRange);
     //Faire les effets et toussa
     yield return new WaitForSeconds(_DelaiAtk);
@@ -110,11 +124,15 @@ public class BasicEnnemy : MonoBehaviour {
     {
       if (Attacked[i] != null && Attacked[i].gameObject.tag == "Player")
       {
+				GameObject particule = Instantiate(attackEffect, _instantiateur.transform.position, Quaternion.identity )as GameObject;
+
         Attacked[i].gameObject.SendMessage("TakeDamage", transform.position);
       }
 
       if (Attacked[i] != null && Attacked[i].gameObject.tag == "Idole")
       {
+				GameObject particule = Instantiate(attackEffect, _instantiateur.transform.position, Quaternion.identity )as GameObject;
+
         Attacked[i].gameObject.SendMessage("TakeDamage", Value);
       }
     }

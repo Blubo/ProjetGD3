@@ -35,7 +35,11 @@ public class ShootF : MonoBehaviour {
 	[SerializeField]
 	private GameObject particuleEffect;
 
+	private Animator myAvatarAnimator;
+
 	void Awake(){
+		_timer = 0;
+		myAvatarAnimator = transform.Find("Avatar/Body").GetComponent<Animator>();
 		myRetCone = gameObject.GetComponent<ReticuleCone>();
 
 		v_sizeRatio=0.5f;
@@ -45,10 +49,10 @@ public class ShootF : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-		_timer += Time.deltaTime;
-		if(_timer>=v_coolDown){
+		_timer -= Time.deltaTime;
+		if(_timer<=0){
 			if(prevState.Triggers.Right == 0 && state.Triggers.Right != 0){
+
 				if(myRetCone.Vision()!=null){
 					if(_target != null){
 						DetachLink(0);
@@ -62,6 +66,12 @@ public class ShootF : MonoBehaviour {
 				}
 			}
 		}
+		if(_timer > 0){
+			myAvatarAnimator.SetBool("Shooting",true);
+		}else if(_timer < 0){
+			myAvatarAnimator.SetBool("Shooting",false);
+
+		}
 
 		if (prevState.Triggers.Right != 0 && state.Triggers.Right != 0 ) {
 		} else {
@@ -70,24 +80,6 @@ public class ShootF : MonoBehaviour {
 			}
 		}
 
-		//tir droit 
-//		_timer += Time.deltaTime;
-//		if(_timer>=v_coolDown){
-//			if(prevState.Triggers.Right == 0 && state.Triggers.Right != 0){
-//				if(_target != null){
-//					DetachLink(0);
-//				}
-//				Hook();
-//			}
-//		}
-//		
-//		if (prevState.Triggers.Right != 0 && state.Triggers.Right != 0 ) {
-//		} else {
-//			if(_target != null){
-//				DetachLink(0);
-//			}
-//		}
-		
 		prevState = state;
 		state = GamePad.GetState(playerIndex);
 		_LinksBehavior = GetComponent<LinkStrenght> ();
@@ -98,10 +90,6 @@ public class ShootF : MonoBehaviour {
 	
 	// Grappin 1 
 	void Hook(){
-		//ANCIEN AUDIO SANS FMOD
-//		_whatSoundToPlay = Random.Range(0, v_linkShotList.Count);
-//		GetComponent<AudioSource>().PlayOneShot(v_linkShotList[_whatSoundToPlay]);
-
 		//ON JOUE LE SON FMOD ICI POUR LE TIR DU LIEN 
 		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Ouglou tir");
 
@@ -113,7 +101,7 @@ public class ShootF : MonoBehaviour {
 		if (rb != null)	rb.AddForce(gameObject.transform.forward* v_SpeedBullet * 1000);
 		_myHook.GetComponent<HookHeadF>()._myShooter=gameObject;
 		_myHook.GetComponent<HookHeadF>().howWasIShot=1;
-		_timer = 0;
+		_timer = v_coolDown;
 	}
 
 	void HookTarget(){
@@ -132,8 +120,7 @@ public class ShootF : MonoBehaviour {
 
 	//detache le(s) liens
 	public void DetachLink(int _Todestroy){
-//		GetComponent<AudioSource>().PlayOneShot(v_linkBroken);
-		
+
 		//Grappin 1
 		if(_Todestroy == 0){
 			

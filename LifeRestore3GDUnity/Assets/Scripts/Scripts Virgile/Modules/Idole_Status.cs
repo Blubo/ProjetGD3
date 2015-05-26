@@ -23,6 +23,9 @@ public class Idole_Status : MonoBehaviour {
 
 	private IdoleCallHelp myIdoleCallHelp;
 
+	[SerializeField]
+	private GameObject damageVisuel;
+
 	void Start () {
 		_IsInvincible = false;
 		myIdoleCallHelp = GetComponent<IdoleCallHelp>();
@@ -83,6 +86,9 @@ public class Idole_Status : MonoBehaviour {
     {
 //		myIdoleCallHelp.CallHelp();
 		if(!_IsInvincible){
+			if(damageVisuel!=null){
+				GameObject explosion = Instantiate(damageVisuel, gameObject.transform.position, Quaternion.identity) as GameObject;
+			}
 			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole blessure");
 			_Life -= Value;
 			StartCoroutine("Clignotement");

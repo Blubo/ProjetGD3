@@ -11,20 +11,33 @@ public class AlphaManager : MonoBehaviour {
 
 	public int scoreBonusFlat;
 
-	void Awake(){
+	private Vector3 initScale, heldScale;
+
+	void Start(){
+		initScale = gameObject.transform.localScale;
+//		heldScale = initScale * 1f;
+
 //		DontDestroyOnLoad(gameObject);
 	}
 
-	// Use this for initialization
-	void Start () {
-	}
-	
 	// Update is called once per frame
 	void Update () {
 		if(posessor != null){
 			GetComponent<Collider>().isTrigger =true;
-			gameObject.transform.position = posessor.transform.position;
+			gameObject.transform.position = posessor.transform.Find("Avatar/Body/AlphaHolder").transform.position;
+			gameObject.transform.rotation = posessor.transform.Find("Avatar/Body/AlphaHolder").transform.rotation;
+//			gameObject.transform.localScale = heldScale;
 			gameObject.transform.parent = posessor.transform;
+
+			gameObject.transform.localScale = initScale*4;
+
+			transform.Find("plumeAlpha_rayon").GetComponent<ParticleSystem>().Stop();
+
+		}else{
+//			gameObject.transform.localScale = initScale;
+			if(transform.Find("plumeAlpha_rayon").GetComponent<ParticleSystem>().isStopped == true){
+				transform.Find("plumeAlpha_rayon").GetComponent<ParticleSystem>().Play();
+			}
 		}
 	}
 }

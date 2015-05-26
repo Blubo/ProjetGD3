@@ -9,10 +9,13 @@ public class AlphaPlayers : MonoBehaviour {
 	[SerializeField]
 	private float ejectionForce;
 	private Player_Status myPlayerStatus;
-
+	private GameObject featherToHide;
 
 	// Use this for initialization
 	void Start () {
+		featherToHide = transform.Find("Avatar/Body/Plume004").gameObject;
+//		featherToHide = transform.Find("Avatar/Box964").gameObject;
+
 		myPlayerStatus = gameObject.GetComponent<Player_Status>();
 		plumeAlpha = GameObject.Find("PlumeAlpha");
 		if(plumeAlpha != null){
@@ -25,6 +28,9 @@ public class AlphaPlayers : MonoBehaviour {
 		if(plumeAlpha != null){
 			Physics.IgnoreCollision(plumeAlpha.GetComponent<Collider>(), GetComponent<Collider>(), myPlayerStatus._IsInvincible);
 		}
+		featherToHide.GetComponent<MeshRenderer>().enabled = !imTheAlpha;
+
+
 	}
 
 	void OnCollisionEnter(Collision col){

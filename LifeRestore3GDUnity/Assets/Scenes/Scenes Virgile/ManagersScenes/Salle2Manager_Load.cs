@@ -1,25 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using XInputDotNetPure;
 
 public class Salle2Manager_Load : MonoBehaviour
 {
-
- // private AsyncOperation async;
-
-  private int CountPlayers, CountIdole;
-  private bool _EndLaunched;
-
-  public GameObject _Zone;
-
-  void Start()
-  {
-    CountPlayers = 0;
-    CountIdole = 0;
-
-    _EndLaunched = false;
-   // StartCoroutine("LoadAnotherLvl");
-  }
+	bool playerIndexSet = false;
+	public PlayerIndex playerIndex;
+	GamePadState state;
+	GamePadState prevState;
+	// private AsyncOperation async;
+	
+	private int CountPlayers, CountIdole;
+	private bool _EndLaunched;
+	
+	public GameObject _Zone;
+	
+	void Start()
+	{
+		CountPlayers = 0;
+		CountIdole = 0;
+		
+		_EndLaunched = false;
+		// StartCoroutine("LoadAnotherLvl");
+	}
 	/*
   IEnumerator LoadAnotherLvl()
   {
@@ -28,15 +32,18 @@ public class Salle2Manager_Load : MonoBehaviour
     Debug.Log("Loading complete");
     yield return async;
   }*/
-
-  void Update()
-  {
-    if (CountPlayers == 3 && CountIdole == 1 && !_EndLaunched)
-    {
-      StartCoroutine("RoomFinished");
-      _EndLaunched = true;
-    }
-  }
+	
+	void Update()
+	{
+		prevState = state;
+		state = GamePad.GetState(playerIndex);
+		
+		if ((CountPlayers == 3 && CountIdole == 1 && !_EndLaunched) || state.Buttons.Start == ButtonState.Pressed)
+		{
+			StartCoroutine("RoomFinished");
+			_EndLaunched = true;
+		}
+	}
 
   public IEnumerator RoomFinished()
   {

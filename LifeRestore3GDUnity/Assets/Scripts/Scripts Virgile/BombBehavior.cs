@@ -12,21 +12,26 @@ public class BombBehavior : MonoBehaviour
 	private Sticky _MySticky;
 
   public GameObject explosionVisuel, Launcher;
+	private GameObject myPlayerWhoDetonatedMe;
+	private bool playerDetonatorAssigned = false;
+	[SerializeField]
+	private GameObject fuseEffect;
+	private Animator myAnimator;
 
 	void Start()
 	{
+		myAnimator = GetComponent<Animator>();
 
 		if (_IsSolo)
 		{
 			_MySticky = gameObject.GetComponent<Sticky>();
 		}
 
-		RangeExplosion = 15.0f;
-		_KnockBack = 300f;
-		_ReadyToBlow = false;
-
-		_DamageValue = 2.0f;
-		_Fuse = 4.0f;
+//		RangeExplosion = 15.0f;
+//		_KnockBack = 300f;
+//		_ReadyToBlow = false;
+//		_Fuse = 4.0f;
+//		_DamageValue = 2.0f;
 	}
 
 	// Update is called once per frame
@@ -40,7 +45,12 @@ public class BombBehavior : MonoBehaviour
 		if (_IsSolo)
 		{
 			if (_MySticky.v_numberOfLinks > 0)
+//			if (_MySticky.v_numberOfLinks > 0 || _MySticky.wasLinkedNotLongAgo == true)
 			{
+				if(playerDetonatorAssigned == false){
+					playerDetonatorAssigned = true;
+					myPlayerWhoDetonatedMe = _MySticky.myHolderPlayer;
+				}
 				StartCoroutine("Setup");
 			}
 
@@ -58,6 +68,9 @@ public class BombBehavior : MonoBehaviour
 
 	public IEnumerator Setup()
 	{
+		fuseEffect.GetComponent<ParticleSystem>().Play();
+		myAnimator.SetBool("Exploding", true);
+
 		//La bombe attend X pour exploser
 		yield return new WaitForSeconds(_Fuse);
 
@@ -111,7 +124,12 @@ public class BombBehavior : MonoBehaviour
 	private void DealDamages(GameObject Hit, string type)
 	{
 		if(type == "Idole") Hit.SendMessage("TakeDamage", _DamageValue);
-		else if(type == "Player") Hit.SendMessage("TakeDamage", new Vector3(Hit.gameObject.transform.position.x, Hit.gameObject.transform.position.y + 10f, Hit.gameObject.transform.position.z) - gameObject.transform.position);
+		else if(type == "Player"){
+			if(Hit != _MySticky.myHolderPlayer){
+				Hit.SendMessage("TakeDamage", new Vector3(Hit.gameObject.transform.position.x, Hit.gameObject.transform.position.y + 10f, Hit.gameObject.transform.position.z) - gameObject.transform.position);
+				Hit.SendMessage("SeverLinkToIdole");
+			}
+		}
 		else if(type == "FrondeFriable") Hit.SendMessage("TakeDamage", _DamageValue);
 		else if(type == "WoodBlock") Hit.SendMessage("TakeDamage", _DamageValue);
 		else if(type == "Arbre") Hit.SendMessage("TakeDamage", _DamageValue);

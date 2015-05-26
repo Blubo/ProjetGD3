@@ -12,13 +12,30 @@ public class CaserneStats : ObjectStats {
 	public bool isProducing;
 
 	public List<GameObject>epines;
-
+	private List<GameObject>children;
 	public GameObject reticule;
 
 	// Use this for initialization
 	void Start () {
-//		if(gameObject.GetComponent<Block_SpawnCollectible>()!=null)	myCollecSpwnr = gameObject.GetComponent<Block_SpawnCollectible>();
+		maxHPproducing = HPcaserneProducing;
 
+		children = new List<GameObject>();
+		foreach(Transform child in gameObject.transform.Find("Visuel")){
+			children.Add(child.gameObject);
+		}
+		myChildrenRenderers = new Renderer[children.Count];
+		for (int i = 0; i < children.Count; i++) {
+			myChildrenRenderers[i] = children[i].GetComponent<MeshRenderer>();
+		}
+
+		_hitColors = new Color[myChildrenRenderers.Length];
+		for (int l = 0; l < myChildrenRenderers.Length; l++) {
+			_hitColors[l] = myChildrenRenderers[l].material.color;
+		}
+
+		if(gameObject.GetComponent<Rigidbody>()!=null) myRB = gameObject.GetComponent<Rigidbody>();
+		if(gameObject.GetComponent<Sticky>()!=null) mySticky = gameObject.GetComponent<Sticky>();
+		if(gameObject.GetComponent<Block_SpawnCollectible>()!=null)	myCollecSpwnr = gameObject.GetComponent<Block_SpawnCollectible>();
 	}
 
 	public override void Update(){
@@ -37,16 +54,23 @@ public class CaserneStats : ObjectStats {
 		//			}else{
 
 		if(HPcaserneProducing<=0 ){
-			if(isProducing=true){
+			if(isProducing==true){
 				isProducing = false;
+//				Debug.Log("huh");
 				MakeFronde();
+	
+				if(myCollecSpwnr!=null){
+					myCollecSpwnr.SpawnCollectible();
+				}
 			}
 		}
 
 		if(v_itemHP <= 0f){
-			if(myCollecSpwnr!=null){
-				myCollecSpwnr.SpawnCollectible();
+			if(explosionVisuel!=null){
+				GameObject explosion = Instantiate(explosionVisuel, gameObject.transform.position, Quaternion.identity) as GameObject;
 			}
+//			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Caserne destruction");
+
 			Destroy(gameObject);
 		}
 	}
@@ -63,19 +87,47 @@ public class CaserneStats : ObjectStats {
 	}
 
 	void MakeFronde(){
+//		gameObject.transform.Find("Visuel/Hedra012").GetComponent<MeshRenderer>().material.color = Color.grey;
+//		gameObject.transform.Find("Visuel/Box045").GetComponent<MeshRenderer>().material.color = new Color32(199, 199, 136, 255);
+//		gameObject.transform.Find("Visuel/Box046").GetComponent<MeshRenderer>().material.color = new Color32(199, 199, 136, 255);
+//		gameObject.transform.Find("Visuel/Box047").GetComponent<MeshRenderer>().material.color = new Color32(199, 199, 136, 255);
+//		gameObject.transform.Find("Visuel/Plane013").GetComponent<MeshRenderer>().material.color = Color.black;
+//
+//		foreach(Transform child in gameObject.transform.Find("Visuel")){
+//			children.Add(child.gameObject);
+//		}
+//		myChildrenRenderers = new Renderer[children.Count];
+//		for (int i = 0; i < children.Count; i++) {
+//			myChildrenRenderers[i] = children[i].GetComponent<MeshRenderer>();
+//		}
+//
+//		_hitColors = new Color[myChildrenRenderers.Length];
+//		for (int l = 0; l < myChildrenRenderers.Length; l++) {
+//			_hitColors[l] = myChildrenRenderers[l].material.color;
+//		}
+
+		//before there was this
 		gameObject.tag = "CaserneKO";
 		gameObject.GetComponent<Rigidbody>().isKinematic = false;
 	}
 
 	public override void TakeDamage(float damage){
 		if(HPcaserneProducing<=0){
+
 			base.TakeDamage(damage);
+//			v_itemHP -= damage;
+
 		}
 
 		if(HPcaserneProducing>0){
+			if(hitAnimation != null) Instantiate(hitAnimation, gameObject.transform.position, Quaternion.identity);
+
+			base.VisualDamageFeedback();
 			HPcaserneProducing -= damage;
 
-			LoseEpine();
+			for (int i = 0; i < 8*(damage/maxHPproducing); i++) {
+				LoseEpine();
+			}
 		}
 	}
 }

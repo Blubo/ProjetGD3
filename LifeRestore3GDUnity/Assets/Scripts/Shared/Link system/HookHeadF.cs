@@ -103,7 +103,7 @@ public class HookHeadF : MonoBehaviour {
 						GrappedTo = _Collided.gameObject;
 						myPlayerStatus.linkedObject = GrappedTo;
 						GrappedTo.GetComponent<Sticky>().v_numberOfLinks+=1;
-
+						GrappedTo.GetComponent<Sticky>().myHolderPlayer = _myShooter;
 						if(howWasIShot==1)myShooterScript._target=GrappedTo;
 
 						_localPos = _Collided.transform.InverseTransformPoint(gameObject.transform.position);

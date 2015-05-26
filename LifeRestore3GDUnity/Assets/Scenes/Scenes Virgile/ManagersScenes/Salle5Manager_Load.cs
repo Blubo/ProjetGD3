@@ -1,39 +1,49 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using XInputDotNetPure;
 
-public class Salle5Manager_Load : MonoBehaviour {
-
-  private AsyncOperation async;
-
-  private int CountPlayers, CountIdole;
-  private bool _EndLaunched;
-
-  public GameObject _Zone;
-
-  void Start()
-  {
-    CountPlayers = 0;
-    CountIdole = 0;
-
-    _EndLaunched = false;
-    StartCoroutine("LoadAnotherLvl");
-  }
-
+public class Salle5Manager_Load : MonoBehaviour
+{
+	bool playerIndexSet = false;
+	public PlayerIndex playerIndex;
+	GamePadState state;
+	GamePadState prevState;
+	// private AsyncOperation async;
+	
+	private int CountPlayers, CountIdole;
+	private bool _EndLaunched;
+	
+	public GameObject _Zone;
+	
+	void Start()
+	{
+		CountPlayers = 0;
+		CountIdole = 0;
+		
+		_EndLaunched = false;
+		// StartCoroutine("LoadAnotherLvl");
+	}
+	/*
   IEnumerator LoadAnotherLvl()
   {
-    async = Application.LoadLevelAsync(5);
+    async = Application.LoadLevelAsync(2);
     async.allowSceneActivation = false;
+    Debug.Log("Loading complete");
     yield return async;
-  }
-
-  void Update()
-  {
-    if (CountPlayers == 3 && CountIdole == 1 && !_EndLaunched)
-    {
-      StartCoroutine("RoomFinished");
-      _EndLaunched = true;
-    }
-  }
+  }*/
+	
+	void Update()
+	{
+		prevState = state;
+		state = GamePad.GetState(playerIndex);
+		
+		if ((CountPlayers == 3 && CountIdole == 1 && !_EndLaunched) || state.Buttons.Start == ButtonState.Pressed)
+		{
+			StartCoroutine("RoomFinished");
+			_EndLaunched = true;
+		}
+	}
 
   public IEnumerator RoomFinished()
   {
@@ -42,7 +52,9 @@ public class Salle5Manager_Load : MonoBehaviour {
     //Attente courte pour montrer la couleur
     yield return new WaitForSeconds(0.5f);
     //Chargement du niveau suivant
-    async.allowSceneActivation = true;
+//    async.allowSceneActivation = true;
+		Application.LoadLevel(5);
+
   }
 
   // On regarde les allers retours des objets dans la zone d'arrivée
