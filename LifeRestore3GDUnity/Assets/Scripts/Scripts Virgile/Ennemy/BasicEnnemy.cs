@@ -6,7 +6,7 @@ public class BasicEnnemy : MonoBehaviour {
 
   public Sticky _MySticky;
   private BasicEnnemy _MyType;
-  private SoundManagerHeritTest _Sound;
+  public SoundManagerHeritTest _Sound;
 
   public int Health;
   public float WalkSpeed;
@@ -38,6 +38,7 @@ public class BasicEnnemy : MonoBehaviour {
 	protected bool activatedAttack = false;
 
   //**Only for ingé **
+  public bool _SoundTir;
   int Progression = -1;
   public GameObject _Bombe, _Prefab;
   public Transform _BombePlacement;
@@ -77,12 +78,39 @@ public class BasicEnnemy : MonoBehaviour {
       _Nav = gameObject.GetComponent<NavMeshAgent>();
     }
 
+    if (Time.timeSinceLevelLoad > 1.0f)
+    {
+      PlaySoundOnSpawn();
+    }
+
     IsAttacking = false;
   }
 
   //Lorsque l'ennemi se prend des dommages
   public void TakeDamage(int ValueDamageTaken){
     Health -= ValueDamageTaken;
+  }
+
+  private void PlaySoundOnSpawn()
+  {
+    if (_MyType is EnnemyA_AI)
+    {
+      _Sound.PlaySoundOneShot("Ennemi standard spawn");
+    }
+    else
+    {
+      if (_MyType is EnnemyB_AI)
+      {
+        _Sound.PlaySoundOneShot("Ennemi barak spawn");
+      }
+      else
+      {
+        if (_MyType is EnnemyD_AI)
+        {
+          _Sound.PlaySoundOneShot("Ennemi ingenieur spawn");
+        }
+      }
+    }
   }
 
   private void PlaySoundOnDeath(){
@@ -94,6 +122,13 @@ public class BasicEnnemy : MonoBehaviour {
       if (_MyType is EnnemyB_AI)
       {
         _Sound.PlaySoundOneShot("Ennemi barak mort");
+      }
+      else
+      {
+        if (_MyType is EnnemyD_AI)
+        {
+          _Sound.PlaySoundOneShot("Ennemi ingenieur mort");
+        }
       }
     }
   }
@@ -195,6 +230,7 @@ public class BasicEnnemy : MonoBehaviour {
     }
 
     if(Vector3.Distance(Bombe.transform.position, _targetposition)<1.0f){
+      _SoundTir = false;
       _Bombe = null;
       Bombe.GetComponent<BoxCollider>().isTrigger = false;
       Rigidbody _BombeRigi = Bombe.GetComponent<Rigidbody>();

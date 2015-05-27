@@ -18,13 +18,14 @@ public class MusicManagerFMOD : MonoBehaviour
   private float beginParamMusic;
 
   // Use this for initialization
-  void Start()
+  void Awake()
   {
     Timer = 7.0f;
     Timertemp = 0.0f;
 
     beginParamMusic = 0.01f;
-    ChangeParamMainMusic(beginParamMusic);
+   //   ChangeParamMainMusic(beginParamMusic);
+
     step = 0;
     mainMusic.Play();
     playing = true;

@@ -15,27 +15,30 @@ public class SoundCollisions : MonoBehaviour {
 
   private void OnCollisionEnter(Collision col)
   {
-    switch (_Name)
+    if (Time.timeSinceLevelLoad > 1.0f)
     {
-      case "Impact Pierre":
-        _Sounds.PlaySoundOneShot("Impact Pierre");
-        break;
+      switch (_Name)
+      {
+        case "Impact Pierre":
+          _Sounds.PlaySoundOneShot("Impact Pierre");
+          break;
 
-      case "Barriere impact":
-        _Sounds.PlaySoundOneShot("Barriere impact");
-        break;
+        case "Barriere impact":
+          _Sounds.PlaySoundOneShot("Barriere impact");
+          break;
 
-      case "Marmite":
-        _Sounds.PlaySoundOneShot("Marmite");
-        break;
+        case "Marmite":
+          _Sounds.PlaySoundOneShot("Marmite");
+          break;
 
-      case "Cadavre impact":
-        _Sounds.PlaySoundOneShot("Cadavre impact");
-      break;
+        case "Cadavre impact":
+          _Sounds.PlaySoundOneShot("Cadavre impact");
+          break;
 
-      case "Bloc bois dommage":
-      _Sounds.PlaySoundOneShot("Bloc bois dommage");
-      break;
+        case "Bloc bois dommage":
+          _Sounds.PlaySoundOneShot("Bloc bois dommage");
+          break;
+      }
     }
   }
 }

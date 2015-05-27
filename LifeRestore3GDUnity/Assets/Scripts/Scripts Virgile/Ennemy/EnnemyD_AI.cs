@@ -72,6 +72,11 @@ public class EnnemyD_AI : BasicEnnemy
         if (_Bombe != null && _FinishCoroutine == true && !IsRunning)
         {
           _Anim.Play("Animation Lancer Ingé");
+          if (!_SoundTir)
+          {
+            _Sound.PlaySoundOneShot("Ennemi ingenieur tir");
+            _SoundTir = true;
+          }
           StartCoroutine("AttackInge", _Bombe);
         }
       }
