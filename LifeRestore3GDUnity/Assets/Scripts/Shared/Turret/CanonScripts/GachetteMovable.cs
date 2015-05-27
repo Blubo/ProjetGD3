@@ -70,6 +70,7 @@ public class GachetteMovable : MonoBehaviour {
 		//on "clamp" la gachette sur la distance max
 		if(Distance>=Vector3.Distance(maximumPlacement.position, OriginalPlacement.position)){
 			if(uncocked==false){
+        Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Clip canon");
 				myCanonTurretShooting._playerWhoShot = mySticky.myHolderPlayer;
 //				Debug.Log("myHolderPlayer is "+ mySticky.myHolderPlayer);
 			}

@@ -51,11 +51,23 @@ public class ObjectStats : MonoBehaviour {
 			if(explosionVisuel!=null){
 				GameObject explosion = Instantiate(explosionVisuel, gameObject.transform.position, Quaternion.identity) as GameObject;
 			}
-			if(gameObject.tag.Equals("Arbre") == true && brasero ==false) Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Arbre destruction");
-			if(brasero == true) Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Brasero destruction");
+      PlaySoundDestruction();
 			Destroy(gameObject);
 		}
 	}
+
+  private void PlaySoundDestruction()
+  {
+    if (gameObject.tag.Equals("WoodBlock")) { Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Bloc bois dommage"); }
+
+    if(gameObject.tag.Equals("Arbre") == true && brasero ==false) Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Arbre destruction");
+			if(brasero == true) Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Brasero destruction");
+  }
+
+  private void PlaySounDDamage()
+  {
+    
+  }
 
 	public virtual void TakeDamage(float damage){
 		if(hitAnimation != null) Instantiate(hitAnimation, gameObject.transform.position, Quaternion.identity);

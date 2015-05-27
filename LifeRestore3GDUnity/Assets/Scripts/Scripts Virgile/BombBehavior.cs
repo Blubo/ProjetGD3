@@ -18,8 +18,11 @@ public class BombBehavior : MonoBehaviour
 	private GameObject fuseEffect;
 	private Animator myAnimator;
 
+  private SoundManagerHeritTest _Sound;
+
 	void Start()
 	{
+    _Sound = Camera.main.GetComponent<SoundManagerHeritTest>();
 		myAnimator = GetComponent<Animator>();
 
 		if (_IsSolo)
@@ -70,6 +73,8 @@ public class BombBehavior : MonoBehaviour
 	{
 		fuseEffect.GetComponent<ParticleSystem>().Play();
 		myAnimator.SetBool("Exploding", true);
+
+    _Sound.PlaySoundOneShot("Bombe explosion");
 
 		//La bombe attend X pour exploser
 		yield return new WaitForSeconds(_Fuse);
