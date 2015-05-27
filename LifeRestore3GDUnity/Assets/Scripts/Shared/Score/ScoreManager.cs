@@ -9,11 +9,11 @@ public class ScoreManager : MonoBehaviour {
 	private Animator gaugeHUDanimator;
 
 	void Start () {
-		gaugeHUDanimator = Camera.main.transform.Find("GaugeHUD").GetComponent<Animator>();
-	  Score_Jaune = 0;
-      Score_Bleu = 0;
-      Score_Rouge = 0;
-      Score_Vert = 0;
+		gaugeHUDanimator = Camera.main.transform.Find("JaugeCanvas/GaugeHUD").GetComponent<Animator>();
+		Score_Jaune = 0;
+		Score_Bleu = PlayerPrefs.GetInt("ScoreBlue");
+		Score_Rouge = PlayerPrefs.GetInt("ScoreRed");
+		Score_Vert = PlayerPrefs.GetInt("ScoreGreen");
 	}
 	
 
@@ -40,21 +40,20 @@ public class ScoreManager : MonoBehaviour {
     public void Increase_score(string _Player, int _value){
         switch (_Player)
         {
-            case "Jaune":
-                Score_Jaune += _value;
-                break;
-
 			case "Rouge":
 				Score_Rouge += _value;
+			PlayerPrefs.SetInt("ScoreRed", Score_Rouge);
 				break;
 
 
 			case "Vert":
 				Score_Vert += _value;
+			PlayerPrefs.SetInt("ScoreGreen", Score_Vert);
 				break;
 
             case "Bleu":
                 Score_Bleu += _value;
+			PlayerPrefs.SetInt("ScoreBlue", Score_Bleu);
                 break;
         }
     }

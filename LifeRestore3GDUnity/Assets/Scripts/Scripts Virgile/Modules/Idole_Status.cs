@@ -8,6 +8,11 @@ public class Idole_Status : MonoBehaviour {
 	private int maxLife;
     private Sticky _LinkOnit;
 
+    [SerializeField]
+    private float TimerInvincibility;
+
+	public bool _IsInvincible;
+	
 	[SerializeField]
 	private GameObject endSplashScreen;
 
@@ -16,8 +21,15 @@ public class Idole_Status : MonoBehaviour {
 	private GameObject lifeGauge;
 	private Animator gaugeAnimator;
 
+	private IdoleCallHelp myIdoleCallHelp;
+
+	[SerializeField]
+	private GameObject damageVisuel;
+
 	void Start () {
-		lifeGauge = Camera.main.transform.Find("LifeGauge").gameObject;
+		_IsInvincible = false;
+		myIdoleCallHelp = GetComponent<IdoleCallHelp>();
+		lifeGauge = Camera.main.transform.Find("JaugeCanvas/LifeGauge").gameObject;
 		if(lifeGauge.GetComponent<Animator>()!=null) gaugeAnimator = lifeGauge.GetComponent<Animator>();
 		maxLife = _Life;
 	    _LinkOnit = GetComponent<Sticky>();
@@ -27,12 +39,6 @@ public class Idole_Status : MonoBehaviour {
 //		lifeGauge.GetComponent<Animator>().SetInteger("IdoleHP", _Life);
 		gaugeAnimator.SetInteger("IdoleHP", _Life);
 //		myAnimator.SetInteger("IdoleHP", _Life);
-
-		if(Input.GetKeyDown(KeyCode.Space)){
-			TakeDamage();
-//			Debug.Log("hp is "+_Life);
-//			Debug.Log("anim hp is "+lifeGauge.GetComponent<Animator>().GetInteger("IdoleHP"));
-		}
 
 	    if (_Life <= 0){
             Death();
@@ -76,10 +82,18 @@ public class Idole_Status : MonoBehaviour {
         }
     }
 
-    void TakeDamage()
+   public void TakeDamage(int Value)
     {
-      Clignotement();
-      _Life -= 1;
+//		myIdoleCallHelp.CallHelp();
+		if(!_IsInvincible){
+			if(damageVisuel!=null){
+				GameObject explosion = Instantiate(damageVisuel, gameObject.transform.position, Quaternion.identity) as GameObject;
+			}
+			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole blessure");
+			_Life -= Value;
+			StartCoroutine("Clignotement");
+			StartCoroutine("Invincible");
+		}
     }
 
     void Death() { 
@@ -89,14 +103,50 @@ public class Idole_Status : MonoBehaviour {
 		Destroy(gameObject);
     }
 
-    public IEnumerator Clignotement()
+    public IEnumerator Invincible()
     {
-      for (int i = 0; i < 9; i++)
+		_IsInvincible = true;
+		yield return new WaitForSeconds(TimerInvincibility);
+		_IsInvincible = false;
+	}
+	
+	public IEnumerator Clignotement()
+    {
+      if (!switchedFromCleanToBroken){
+        for (int i = 0; i < 9; i++)
+        {
+          Renderer[] renderer = gameObject.transform.Find("Idole_Clean").GetComponentsInChildren<MeshRenderer>();
+          foreach (Renderer rend in renderer)
+          {
+            rend.enabled = false;
+          }
+          yield return new WaitForSeconds(0.1f);
+
+          foreach (Renderer rend in renderer)
+          {
+            rend.enabled = true;
+          }
+          yield return new WaitForSeconds(0.1f);
+        }
+      }else
       {
-        gameObject.GetComponentInChildren<Renderer>().enabled = !gameObject.GetComponentInChildren<Renderer>().enabled;
-        yield return new WaitForSeconds(0.1f);
-        gameObject.GetComponentInChildren<Renderer>().enabled = true;
+        for (int i = 0; i < 9; i++)
+        {
+          Renderer[] renderer = gameObject.transform.Find("Idole_Broken").GetComponentsInChildren<MeshRenderer>();
+          foreach (Renderer rend in renderer)
+          {
+            rend.enabled = false;
+          }
+          yield return new WaitForSeconds(0.1f);
+
+          foreach (Renderer rend in renderer)
+          {
+            rend.enabled = true;
+          }
+          yield return new WaitForSeconds(0.1f);
+        }
       }
+
     }
 
 }

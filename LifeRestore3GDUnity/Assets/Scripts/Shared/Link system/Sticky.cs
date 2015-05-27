@@ -6,6 +6,7 @@ public class Sticky : MonoBehaviour {
 	//soit le mettre dans l'inspecteur de chaque objet auquel on souhaite pouvoir se connecter
 	//soit le rajouter procéduralement depuis une collision avec HookHead (ou dans shoot), à chaque collision avec chaque item de tel tag
 	//(et si le script existe déjà, alors juste v_number+1)
+	public int authorizedNumberOfLinks;
 	[HideInInspector]
 	public int v_numberOfLinks;
 	private float _myInitMass;
@@ -23,6 +24,9 @@ public class Sticky : MonoBehaviour {
 	private CaserneStats myCaserneStats;
 	private Rigidbody myRB;
 
+	[SerializeField]
+	private float allowedFrondeAfterRelase;
+
 	private float internalTimer;
 	[HideInInspector]
 	public bool wasLinkedNotLongAgo, linked = false, linkedLastFrame = false;
@@ -30,6 +34,9 @@ public class Sticky : MonoBehaviour {
 	[SerializeField]
 	[Range(0,1)]
 	private float weightModifier;
+	[HideInInspector]
+	public GameObject myHolderPlayer;
+
 
 	// Use this for initialization
 	void Start () {
@@ -61,21 +68,36 @@ public class Sticky : MonoBehaviour {
 		if(v_numberOfLinks != 0){
 			linked =true;
 		}else{
+			myHolderPlayer = null;
 			linked = false;
 		}
 
-		if(linked == false && linkedLastFrame == true){
+		if((linked == false && linkedLastFrame == true)||wasLinkedNotLongAgo == true){
 			internalTimer += Time.deltaTime;
 			wasLinkedNotLongAgo = true;
 
-			if(internalTimer>=1){
+			if(internalTimer>=allowedFrondeAfterRelase){
 				wasLinkedNotLongAgo=false;
 				internalTimer=0f;
 			}
-		}else{
-			wasLinkedNotLongAgo=false;
-			linkedLastFrame = linked;
+			////
 		}
+
+
+		linkedLastFrame = linked;
+
+//		if(linked == false && linkedLastFrame == true){
+//			internalTimer += Time.deltaTime;
+//			wasLinkedNotLongAgo = true;
+//			
+//			if(internalTimer>=allowedFrondeAfterRelase*Time.deltaTime){
+//				wasLinkedNotLongAgo=false;
+//				internalTimer=0f;
+//			}
+//		}else{
+//			wasLinkedNotLongAgo=false;
+//			linkedLastFrame = linked;
+//		}
 	}
 	
 	//si je suis lié

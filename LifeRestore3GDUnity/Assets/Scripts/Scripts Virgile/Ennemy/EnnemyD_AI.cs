@@ -4,12 +4,12 @@ using System.Collections.Generic;
 //Ingénieur
 public class EnnemyD_AI : BasicEnnemy
 {
-  private bool Finish = false;
+  private bool _FinishCoroutine = true;
 
   void Start()
   {
 
-    Health = 5;
+    Health = 2;
     WalkSpeed = 2.0f;
     RushSpeed = 5.0f;
 
@@ -18,13 +18,12 @@ public class EnnemyD_AI : BasicEnnemy
     _DelaiAtk = 0;
     AtkSphereRange = 1.0f;
 
-    TimerCheckTarget = 2.0f;
-    timerTemp = 2.0f;
+    TimerCheckTarget = 0.0f;
+    timerTemp = 5.0f;
 
     Initiation();
     //Animator 
     _Anim = transform.GetComponentInChildren<Animator>();
-
   }
 
   void Update()
@@ -54,33 +53,33 @@ public class EnnemyD_AI : BasicEnnemy
     //Est ce que j'ai la bombe
     if (_Bombe == null)
     {
-      StartCoroutine("WaitThoseSecs", 4);
-      if (Finish)
-      {
+      _Anim.Play("Animation Idle Crocmagnon");
         ReloadBomb();
-        _Anim.Play("Animation Nouvelle Bombe Ingé");
-        Finish = false;
-      }
-
+        StartCoroutine("WaitForThoseSecs", 1.0f);
     }
 
     //Si la target a été retrouvé 
     if (Target != null)
     {
-      _Nav.ResetPath();
-      //Beware Below
-      if (_Bombe != null)
+      if (Target.tag == "Idole" || Target.tag == "Player")
       {
-        StartCoroutine("WaitThoseSecs", 2);
-        if (Finish)
+        if (gameObject.GetComponent<NavMeshAgent>().enabled)
+        {
+          _Nav.ResetPath();
+        }
+
+        //Beware Below
+        if (_Bombe != null && _FinishCoroutine == true && !IsRunning)
         {
           _Anim.Play("Animation Lancer Ingé");
           StartCoroutine("AttackInge", _Bombe);
-          Finish = false;
         }
       }
-    }
-    else { Wait(); }
+      else {
+        _locked = false;
+        CheckForTargets();
+        Wait(); }
+      }
   }
 
   //En attendant de trouver une target
@@ -95,13 +94,11 @@ public class EnnemyD_AI : BasicEnnemy
   //refaire une bombe et la faire associer au joueur
   void ReloadBomb()
   {
-
     GameObject newBomb =  Instantiate(_Prefab, _BombePlacement.position, Quaternion.identity) as GameObject;
     newBomb.transform.parent = transform.Find("Ennemis_Ingé/Tête/Placement");
+//    newBomb.GetComponent<BombBehavior>().Launcher = gameObject;
     //newBomb.transform.parent = transform.find("");
     _Bombe = newBomb;
-
-
   }
 
   //Fuir les gens 
@@ -113,7 +110,7 @@ public class EnnemyD_AI : BasicEnnemy
   //Zone de détection
   void CheckForTargets()
   {
-    _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 50.0f));
+    _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 30.0f));
     UpdateTargets();
   }
 
@@ -121,14 +118,14 @@ public class EnnemyD_AI : BasicEnnemy
   {
     for (int i = 0; i < _potentialTargets.Count; i++)
     {
-      if (_potentialTargets[i].gameObject.tag != "Player" && _potentialTargets[i].gameObject.tag != "Idole")
+      if (_potentialTargets[i] != null)
       {
-        _potentialTargets.Remove(_potentialTargets[i]);
+        if (_potentialTargets[i].gameObject.tag == "Player" || _potentialTargets[i].gameObject.tag == "Idole")
+        {
+          _Targets.Add(_potentialTargets[i]);
+        }
       }
-    }
-    if (TimerCheckTarget < 0.5f)
-    {
-      _Targets = _potentialTargets;
+ 
     }
   }
 
@@ -136,20 +133,32 @@ public class EnnemyD_AI : BasicEnnemy
   {
     if (_Targets.Count > 0 && _locked == false)
     {
-      Target = _Targets[0].transform;
-      _targetposition = _potentialTargets[0].transform.position;
-      _locked = true;
+      for (int i = 0; i < _Targets.Count; i++)
+      {
+        if (_Targets[i].gameObject.tag == "Idole")
+        {
+          Target = _Targets[i].transform;
+          _targetposition = _Targets[i].transform.position;
+          _locked = true;
+        }
+        else
+        {
+          Target = _Targets[0].transform;
+          _targetposition = _Targets[0].transform.position;
+          _locked = true;
+        }
+      }
     }
-    else if (_potentialTargets.Count == 0) { 
+    else if (_Targets.Count == 0) { 
       Target = null;
       _locked = false;
     }
   }
 
-  IEnumerator WaitThoseSecs(int Secs)
+  private IEnumerator WaitForThoseSecs(float Secs)
   {
+    _FinishCoroutine = false;
     yield return new WaitForSeconds(Secs);
-    Finish = true;
+    _FinishCoroutine = true;
   }
-
 }

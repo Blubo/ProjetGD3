@@ -1,67 +1,80 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour {
 
-    [SerializeField]
-    private GameObject _ToSpawn;
+	[SerializeField]
+	private List<GameObject> _MobPack;
+	[SerializeField]
+	private float Timer;
+	[SerializeField]
+	private bool _LimitedStocks;
+	[SerializeField]
+	private int _Stocks;
+	[SerializeField]
+	private GameObject _visualFx;
 
-    [SerializeField]
-    private float _TimeToSpawn;
-    private float _Timer;
+	private CaserneStats _Stats;
 
-    [SerializeField]
-    private int _NumberToSpawn;
+	private float TimerTemp;
+	private int StocksTemp;
 
-    [SerializeField]
-    private bool _Activated, _needAura;
+	[SerializeField]
+	private GameObject countDownObject;
+	private Text countDownText;
+	private Vector3 TextInitScale;
+	private float textTimer;
 
-	[Tooltip("This spawner EnemiesManager")]
-	public GameObject EnemiesManager;
-
-	// Use this for initialization
-	void Start () {
-        _Timer = _TimeToSpawn;
+	void Awake(){
+		countDownText = countDownObject.GetComponent<Text>();
+		TextInitScale = countDownObject.transform.localScale;
+		_Stats = gameObject.GetComponent<CaserneStats>();
+//		TimerTemp = 0.0f;
+		TimerTemp = Timer;
+		textTimer = 0;
+		StocksTemp = 0;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        _Timer -= 1.0f * Time.deltaTime;
 
-		if(_needAura == true){
-	        if (_Timer <= 0.0f && _Activated)
-	        {
-	            Spawn();
-	            _Timer = _TimeToSpawn;
-	            _Activated = false;
-	        }
-		}else if(_needAura == false){
-			if (_Timer <= 0.0f)
-			{
-				Spawn();
-				_Timer = _TimeToSpawn;
-			}
+	void Update(){
+		textTimer+= Time.deltaTime;
+		if(textTimer>=1){
+			textTimer = 0;
+//			countDownObject.transform.localScale  = TextInitScale;
+		}
+
+		countDownText.text = ((int)TimerTemp).ToString();
+//		countDownObject.transform.localScale *= textTimer*Time.deltaTime;
+		DecreaseTimer();
+		if (TimerTemp <= 0.0f){
+			Spawn();
+			TimerTemp = Timer;
+		}
+
+		if (!_Stats.isProducing){
+			this.enabled = false;
+			countDownText.enabled = false;
 		}
 	}
 
-    void Spawn()
-    {
-        for (int i = 0; i < _NumberToSpawn; i++)
-        {
-            GameObject spawned = Instantiate(_ToSpawn, transform.position+ new Vector3(Random.Range(2.0f, 6.0f), 0.0f, Random.Range(-3.0f, 3.0f)), Quaternion.identity) as GameObject;
-			//on assigne à ces nouveaux ennemis le pointer d'ennemis de la salle/zone où ils se trouvent
-			if(_ToSpawn.GetComponent<EnemyPointer>()!=null){
-				spawned.GetComponent<EnemyPointer>().MyEnemiesManager = EnemiesManager;
+	void DecreaseTimer(){
+		TimerTemp-= 1.0f*Time.deltaTime;
+	}
+
+	void Spawn(){
+		if (_LimitedStocks){
+			if(StocksTemp <= _Stocks){
+			//Pop de la vague d'ennemi associé 
 			}
-        }
-    }
-
-    void InAura()
-    {
-       if (!_Activated)
-       {
-             _Activated = true;
-        }
-    }
-
+			//On incrémente
+			StocksTemp += 1;
+		}
+		else
+		{
+			//Pop d'un élément du tableau/ random ou choisi
+			Instantiate(_MobPack[0], transform.position + transform.forward * 5.0f+transform.up *2.0f, Quaternion.identity);
+			Instantiate(_visualFx, transform.position + transform.forward * 3.0f + transform.up, Quaternion.identity);
+		}
+	}
 }

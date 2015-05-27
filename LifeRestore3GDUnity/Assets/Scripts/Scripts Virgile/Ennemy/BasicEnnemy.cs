@@ -28,6 +28,11 @@ public class BasicEnnemy : MonoBehaviour {
 
   public bool Furie;
 
+	public GameObject attackEffect;
+	public Transform _instantiateur;
+	protected float internalTimer;
+	protected bool activatedAttack = false;
+
   //**Only for ingé **
   int Progression = -1;
   public GameObject _Bombe, _Prefab;
@@ -35,7 +40,10 @@ public class BasicEnnemy : MonoBehaviour {
   [HideInInspector]
   public Vector3 _targetposition;
 
-  public bool _locked;
+	[SerializeField]
+	protected GameObject destructionAnimation;
+
+  public bool _locked, IsRunning;
   //***---***
   public void Initiation()
   {
@@ -69,20 +77,22 @@ public class BasicEnnemy : MonoBehaviour {
   //A la mort de l'ennemi
   public void Death()
   {
+    gameObject.GetComponent<NavMeshAgent>().enabled = false;
     //Désactiver ce qu'il faut
     gameObject.GetComponent<BoxCollider>().enabled = false;
-    //gameObject.GetComponent<Renderer>().enabled = false;
    //Faire les effets FX etc
+		if(destructionAnimation != null) Instantiate(destructionAnimation, gameObject.transform.position, Quaternion.AngleAxis(-90, Vector3.right));
+
 
     //Fait droper les collectibles
     DropCollectible();
     //Fait pop l'objet Ragdoll/Cadavre
     if (_Ragdoll != null)
     {
-      Instantiate(_Ragdoll, transform.position, Quaternion.identity);
+      Instantiate(_Ragdoll, transform.position+transform.up, Quaternion.identity);
     }
     //Si l'ennemy est dans un groupe alors le retire de ce groupe( par parent)
-    if (gameObject.transform.parent.GetComponent<Group_AI>() != null)
+    if (gameObject.transform.parent!= null && gameObject.transform.parent.GetComponent<Group_AI>() != null)
     {
       Transform Parent =  gameObject.transform.parent;
       Parent.GetComponent<Group_AI>()._Composition.Remove(this);
@@ -101,6 +111,10 @@ public class BasicEnnemy : MonoBehaviour {
   //Attaque de base 
   public IEnumerator Attack(int Value)
   {
+//		if( attackEffect.GetComponent<ParticleSystem>().duration){
+//			GameObject particule = Instantiate(attackEffect, _instantiateur.transform.position, Quaternion.identity )as GameObject;
+//		}
+
     Collider[] Attacked = Physics.OverlapSphere(transform.position + transform.forward, AtkSphereRange);
     //Faire les effets et toussa
     yield return new WaitForSeconds(_DelaiAtk);
@@ -108,15 +122,17 @@ public class BasicEnnemy : MonoBehaviour {
     //L'attaque se passe
     for (int i = 0; i < Attacked.Length; i++)
     {
-      if (Attacked[i].gameObject.tag == "Player" && Attacked[i].gameObject!= null)
+      if (Attacked[i] != null && Attacked[i].gameObject.tag == "Player")
       {
-        //Debug.Log("Player receive damage");
-        Attacked[i].gameObject.SendMessage("TakeDamage");
+				GameObject particule = Instantiate(attackEffect, _instantiateur.transform.position, Quaternion.identity )as GameObject;
+
+        Attacked[i].gameObject.SendMessage("TakeDamage", transform.position);
       }
 
-      if (Attacked[i].gameObject.tag == "Idole")
+      if (Attacked[i] != null && Attacked[i].gameObject.tag == "Idole")
       {
-       // Debug.Log("Idole Receive Damage");
+				GameObject particule = Instantiate(attackEffect, _instantiateur.transform.position, Quaternion.identity )as GameObject;
+
         Attacked[i].gameObject.SendMessage("TakeDamage", Value);
       }
     }
@@ -125,8 +141,8 @@ public class BasicEnnemy : MonoBehaviour {
 
   public IEnumerator AttackInge(GameObject Bombe)
   {
-
-    yield return new WaitForSeconds(_DelaiAtk);
+    IsRunning = true;
+    yield return new WaitForSeconds(0.0f);
     Bombe.transform.parent = null;
     //Position de la target à viser 
     Transform LandingPoint = Target;
@@ -141,7 +157,7 @@ public class BasicEnnemy : MonoBehaviour {
     if (Progression == 0)
     {
       //Point A>B 
-      Bombe.transform.position = Vector3.MoveTowards(Bombe.transform.position, MidPoint, 0.3f);
+      Bombe.transform.position = Vector3.MoveTowards(Bombe.transform.position, MidPoint, 1.0f);
       if (Vector3.Distance(Bombe.transform.position, MidPoint) < 1.0f)
       {
         Progression = 1;
@@ -149,7 +165,7 @@ public class BasicEnnemy : MonoBehaviour {
     }else if (Progression == 1)
     {
       //Point B>C
-      Bombe.transform.position = Vector3.MoveTowards(Bombe.transform.position, _targetposition, 0.3f);
+      Bombe.transform.position = Vector3.MoveTowards(Bombe.transform.position, _targetposition, 1.0f);
     }
 
     if(Vector3.Distance(Bombe.transform.position, _targetposition)<1.0f){
@@ -162,12 +178,7 @@ public class BasicEnnemy : MonoBehaviour {
       _locked = false;
       StopCoroutine("AttackInge");
     }
-    
-  }
-
-  private void OnDrawGizmos(){
-      Gizmos.color = Color.red;
-     //Use the same vars you use to draw your Overlap SPhere to draw your Wire Sphere.
-      Gizmos.DrawWireSphere(transform.position + transform.forward, AtkSphereRange);
+    //
+    IsRunning = false;
   }
 }

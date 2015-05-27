@@ -8,14 +8,18 @@ public class TurretProjectile : MonoBehaviour {
 	private float _lifeTime;
 
 	[HideInInspector]
-	public GameObject v_whoShotMe;
-
+	public GameObject v_CanonWhoShotMe;
+	[HideInInspector]
+	public GameObject _playerWhoShotMe;
 	private Rigidbody myRB;
 	private Vector3 lastFrameVelocity;
 
+	[SerializeField]
+	private GameObject particuleDestruction;
+
 	void Start(){
 		if(gameObject.GetComponent<Rigidbody>()!=null) myRB=gameObject.GetComponent<Rigidbody>();
-		Physics.IgnoreCollision(gameObject.GetComponent<Collider>(), v_whoShotMe.GetComponent<Collider>());
+		Physics.IgnoreCollision(gameObject.GetComponent<Collider>(), v_CanonWhoShotMe.GetComponent<Collider>());
 	}
 
 	// Update is called once per frame
@@ -30,9 +34,15 @@ public class TurretProjectile : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision){
-		if(collision.gameObject != v_whoShotMe){
+		if(collision.gameObject != v_CanonWhoShotMe){
 //			if(collision.gameObject.GetComponent<Sticky>()==null){
-			if(collision.gameObject.tag.Equals("Static")==true){
+			if(collision.gameObject.tag.Equals("Static")==true
+			   || collision.gameObject.tag.Equals("UnlinkableDestructible")
+			   || collision.gameObject.tag.Equals("Canon")
+			   || collision.gameObject.tag.Equals("Weapon")
+			   || collision.gameObject.tag.Equals("Idole")
+			   || collision.gameObject.tag.Equals("Player")){
+				Instantiate(particuleDestruction, gameObject.transform.position, Quaternion.identity);
 				Destroy(gameObject);
 			}
 		}

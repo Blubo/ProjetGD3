@@ -24,6 +24,10 @@ public class TurretShooting : MonoBehaviour {
 	[SerializeField]
 	private GameObject particuleEffect;
 
+	public bool automate;
+	[HideInInspector]
+	public GameObject _playerWhoShot;
+
 	// Use this for initialization
 	void Start () {
 		_shootTimer=_shootCooldown;
@@ -33,8 +37,10 @@ public class TurretShooting : MonoBehaviour {
 	void Update () {
 		if(isCanon==false){
 			_shootTimer+=Time.deltaTime;
-			if(_shootTimer>=_shootCooldown){
-				Shoot();
+			if(automate==true){
+				if(_shootTimer>=_shootCooldown){
+					Shoot();
+				}
 			}
 		}
 	}
@@ -49,8 +55,19 @@ public class TurretShooting : MonoBehaviour {
 		GameObject newProj = Instantiate(_projectile, _instantiateur.transform.position, Quaternion.identity) as GameObject;
 		newProj.GetComponent<Rigidbody>().AddForce(_instantiateur.transform.forward*_shootForce);
 		newProj.GetComponent<Rigidbody>().AddTorque(new Vector3(Random.Range(-1000,1000), Random.Range(-1000,1000), Random.Range(-1000,1000)));
+//		Debug.Log("player who shot "+_playerWhoShot.name);
+//		if(newProj.GetComponent<TurretProjectile>() != null) newProj.GetComponent<TurretProjectile>().v_CanonWhoShotMe = machine;
+//		if(newProj.GetComponent<TurretProjectile>() != null) newProj.GetComponent<TurretProjectile>()._playerWhoShotMe = _playerWhoShot;
+		newProj.GetComponent<TurretProjectile>().v_CanonWhoShotMe = machine;
+		if(isCanon == true){
+			newProj.GetComponent<TurretProjectile>()._playerWhoShotMe = _playerWhoShot;
+		}else{
+			if(gameObject.transform.parent.transform.parent.GetComponent<Sticky>().myHolderPlayer != null){
+				Debug.Log("gnnnnééé "+gameObject.transform.parent.transform.parent.GetComponent<Sticky>().myHolderPlayer.name);
 
-		if(newProj.GetComponent<TurretProjectile>() != null) newProj.GetComponent<TurretProjectile>().v_whoShotMe = machine;
+				newProj.GetComponent<TurretProjectile>()._playerWhoShotMe = gameObject.transform.parent.transform.parent.GetComponent<Sticky>().myHolderPlayer;
+			}
+		}
 		_shootTimer=0f;
 	}
 }

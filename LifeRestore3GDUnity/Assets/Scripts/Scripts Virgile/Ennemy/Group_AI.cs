@@ -19,7 +19,6 @@ public class Group_AI : MonoBehaviour {
     {
       Destroy(gameObject);
     }
-
     if (_Leader == null)
     {
       ChooseLeader();
@@ -40,11 +39,17 @@ public class Group_AI : MonoBehaviour {
     //Dans la liste des targets 
     for (int i = 0; i < _Leader._Targets.Count; i++)
     {
-      if (_Leader._Targets[i].gameObject.tag == "Idole" && (_Leader._Targets[i].gameObject != null))
+      if (_Leader._Targets[i] != null)
       {
-        for (int j = 0; j < _Composition.Count; j++)
+        if (_Leader._Targets[i].gameObject.tag == "Idole" && (_Leader._Targets[i].gameObject != null))
         {
-          _Composition[i].Target = _Leader._Targets[i].transform;
+          for (int j = 0; j < _Composition.Count; j++)
+          {
+            if (_Composition[j] != null)
+            {
+              _Composition[i].Target = _Leader._Targets[i].transform;
+            }
+          }
         }
       }
     }
@@ -54,7 +59,13 @@ public class Group_AI : MonoBehaviour {
       {
         if (_Composition[i].Target == null)
         {
-          _Composition[i].Target = _Leader._Targets[0].transform;
+          if (_Composition[i] != null)
+          {
+            if (_Leader !=null && _Leader._Targets[0].transform != null)
+            {
+              _Composition[i].Target = _Leader._Targets[0].transform;
+            }
+          }
         }
       }
     }
@@ -64,7 +75,10 @@ public class Group_AI : MonoBehaviour {
   {
     for (int i = 0; i < _Composition.Count; i++)
     {
+      if (_Composition[i] != null)
+      {
         _Composition[i].Target = null;
+      }
     }
   }
 

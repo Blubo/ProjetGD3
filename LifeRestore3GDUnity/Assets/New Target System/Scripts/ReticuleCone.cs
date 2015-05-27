@@ -24,10 +24,10 @@ public class ReticuleCone : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		Debug.DrawRay(transform.position, transform.forward.normalized*viewRange);
+//		Debug.DrawRay(transform.position, transform.forward.normalized*viewRange);
 
 		if(lastSeen!=null){
-			Debug.DrawRay(lastSeen.transform.position, Vector3.up*100);
+//			Debug.DrawRay(lastSeen.transform.position, Vector3.up*100);
 			if(lastSeen != Vision() || Vision()==null){
 				if(lastSeen.GetComponent<ReticuleTarget>()!=null){
 //					if(myShootF._myHook == null || myShootF._myHook.GetComponent<HookHeadF>().GrappedTo==null){

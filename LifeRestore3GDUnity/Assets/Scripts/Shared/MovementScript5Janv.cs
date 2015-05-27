@@ -30,11 +30,16 @@ public class MovementScript5Janv : MonoBehaviour {
 	[HideInInspector]
 	public Vector3 _inputDirectionNormalized;
 
+	private Animator myAvatarAnimator;
+
 	// Use this for initialization
 	void Start () {
 //		_alternateAiming=false;
 //		_strafe=false;
 		//_movementSpeed=10f;
+
+		myAvatarAnimator = transform.Find("Avatar/Body").GetComponent<Animator>();
+
 	}
 
 	// Update is called once per frame
@@ -72,6 +77,8 @@ public class MovementScript5Janv : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		myAvatarAnimator.SetFloat("Speed", GetComponent<Rigidbody>().velocity.magnitude);
+
 		prevState = state;
 		state = GamePad.GetState(playerIndex);
 		
@@ -108,6 +115,11 @@ public class MovementScript5Janv : MonoBehaviour {
 			//Vector3 player_pos = Camera.main.WorldToScreenPoint(this.transform.position);
 			float angle = Mathf.Atan2 (_rightStickY, _rightStickX) * Mathf.Rad2Deg;
 			this.transform.rotation = Quaternion.Euler (new Vector3(0, -angle+90, 0));
+		}
+
+		if(gameObject.GetComponent<Rigidbody>().velocity.sqrMagnitude == 0){
+			//idle
+
 		}
 	}
 
