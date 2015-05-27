@@ -49,7 +49,12 @@ public class ObjectStats : MonoBehaviour {
 				myCollecSpwnr.SpawnCollectible();
 			}
 			if(explosionVisuel!=null){
-				GameObject explosion = Instantiate(explosionVisuel, gameObject.transform.position, Quaternion.identity) as GameObject;
+				if(gameObject.tag.Equals("Ragdoll")){
+					GameObject explosion = Instantiate(explosionVisuel, gameObject.transform.position, Quaternion.AngleAxis(-90, Vector3.right)) as GameObject;
+
+				}else{
+					GameObject explosion = Instantiate(explosionVisuel, gameObject.transform.position, Quaternion.identity) as GameObject;
+				}
 			}
       PlaySoundDestruction();
 			Destroy(gameObject);

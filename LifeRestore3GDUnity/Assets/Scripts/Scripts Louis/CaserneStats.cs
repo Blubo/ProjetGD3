@@ -108,6 +108,8 @@ public class CaserneStats : ObjectStats {
 
 		//before there was this
 		gameObject.tag = "CaserneKO";
+		gameObject.layer = LayerMask.NameToLayer( "Link");
+
 		gameObject.GetComponent<Rigidbody>().isKinematic = false;
 	}
 

@@ -33,12 +33,12 @@ public class ReticuleCone : MonoBehaviour {
 //					if(myShootF._myHook == null || myShootF._myHook.GetComponent<HookHeadF>().GrappedTo==null){
 						ReticuleTarget lastSeenTargetScript = lastSeen.GetComponent<ReticuleTarget>();
 						
-						if(lastSeen.tag.Equals("Unlinkable")){
-							lastSeenTargetScript.TurnReticuleOff(lastSeenTargetScript.GREYRend);
-							HelpScript.HideHelper();
-							lastSeen = null;
-							return;
-						}
+//						if(lastSeen.tag.Equals("Unlinkable")){
+//							lastSeenTargetScript.TurnReticuleOff(lastSeenTargetScript.GREYRend);
+//							HelpScript.HideHelper();
+//							lastSeen = null;
+//							return;
+//						}
 
 						switch (numberOfThisPlayer) {
 						case 1:
@@ -78,11 +78,11 @@ public class ReticuleCone : MonoBehaviour {
 				ReticuleTarget reticuleTarget = target.GetComponent<ReticuleTarget>();
 //				Debug.Log(Vision().name);
 
-				if(Vision().tag.Equals("Unlinkable")){
-					reticuleTarget.LightReticuleUp(reticuleTarget.GREYRend);
-					HelpScript.AimAtTarget(Vision());
-					return;
-				}
+//				if(Vision().tag.Equals("Unlinkable")){
+//					reticuleTarget.LightReticuleUp(reticuleTarget.GREYRend);
+//					HelpScript.AimAtTarget(Vision());
+//					return;
+//				}
 
 				switch (numberOfThisPlayer) {
 				case 1:
