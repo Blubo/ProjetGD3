@@ -71,7 +71,7 @@ public class TurretShooting : MonoBehaviour {
 			newProj.GetComponent<TurretProjectile>()._playerWhoShotMe = _playerWhoShot;
 		}else{
 			if(gameObject.transform.parent.transform.parent.GetComponent<Sticky>().myHolderPlayer != null){
-				Debug.Log("gnnnnééé "+gameObject.transform.parent.transform.parent.GetComponent<Sticky>().myHolderPlayer.name);
+//				Debug.Log("gnnnnééé "+gameObject.transform.parent.transform.parent.GetComponent<Sticky>().myHolderPlayer.name);
 
 				newProj.GetComponent<TurretProjectile>()._playerWhoShotMe = gameObject.transform.parent.transform.parent.GetComponent<Sticky>().myHolderPlayer;
 			}

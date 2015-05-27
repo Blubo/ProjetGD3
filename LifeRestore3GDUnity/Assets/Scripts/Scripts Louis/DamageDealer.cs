@@ -288,8 +288,9 @@ public class DamageDealer : MonoBehaviour {
 						//BUG
 						//SCENE 2 
 						if(gameObject.tag.Equals("Static") == false){
-							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
-
+							if(col.gameObject.GetComponent<ObjectStats>() != null){
+								col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+							}
 						}
 					}
 				}

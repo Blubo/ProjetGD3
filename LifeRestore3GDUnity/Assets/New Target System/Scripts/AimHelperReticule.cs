@@ -117,7 +117,7 @@ public class AimHelperReticule : MonoBehaviour {
 	}
 
 	public void HideHelper(){
-		myLineRenderer.enabled=false;
+		if(myLineRenderer!=null) myLineRenderer.enabled=false;
 
 //		Renderer[] childrenRenderers = gameObject.transform.GetComponentsInChildren<Renderer>();
 //		
