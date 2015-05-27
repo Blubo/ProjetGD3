@@ -1,18 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//ce script est posé sur la caméra et gère sa position
+
 public class TitleScreenCameraManager : MonoBehaviour {
 
-	public float v_cameraSpeedTranslate;
+	public float v_cameraSpeedTranslate, specialCameraSpeedTranslate;
 	[SerializeField]
 	private Transform[] wayPoints;
 	[SerializeField]
 	private Transform currentWaypoint;
+	public int currentWayPointNumber;
+	private int lastWPnumber;
 	private bool lerping = false;
 
 	private GameObject[] colliderInterieurs, colliderExterieurs;
 
 	private float _timeStartedLerping;
+	public bool simpleLook = true;
+	[SerializeField]
+	private float rotationSpeed, specialRotationSpeed;
 
 	// Use this for initialization
 	void Start () {
@@ -21,24 +28,23 @@ public class TitleScreenCameraManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(simpleLook == true){
+//			if(lastWPnumber==0 && currentWayPointNumber != 1){
+			if(currentWayPointNumber != 1){
 
-		if(Input.GetKeyDown(KeyCode.Space)){
-			Debug.Log("urrent wp is "+currentWaypoint.name + "" + currentWaypoint.transform.position);
+				Camera.main.transform.position = Vector3.Lerp (Camera.main.transform.position, wayPoints[currentWayPointNumber].position, Time.deltaTime*v_cameraSpeedTranslate*0.9f);
+				Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, wayPoints[currentWayPointNumber].rotation, Time.time * rotationSpeed);
+
+			}
+			else{
+				Camera.main.transform.position = Vector3.Lerp (Camera.main.transform.position, wayPoints[currentWayPointNumber].position, Time.deltaTime);
+				Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, wayPoints[currentWayPointNumber].rotation, Time.time * specialRotationSpeed);
+
+			}
+//			Camera.main.transform.rotation = Quaternion.LookRotation(wayPoints[currentWayPointNumber].forward);	
+
 		}
-
-//		if(lerping == false){
-//			_timeStartedLerping=0;
-//			float _timeLerping = Time.time;
-//		
-//			float timeSinceStarted = Time.time - _timeLerping;
-//			float percentageComplete = timeSinceStarted / v_cameraSpeedTranslate;
-//			
-//			transform.position = Vector3.Lerp(transform.position, currentWaypoint.position, percentageComplete);
-////			if(percentageComplete >= 1.0f){
-////				lerping = false;
-////				currentWaypoint = targetWP;
-////			}
-//		}				
+//		lastWPnumber = currentWayPointNumber;
 	}
 
 	public void MoveCamera(int targetWP){
@@ -59,11 +65,19 @@ public class TitleScreenCameraManager : MonoBehaviour {
 		}
 	}
 
-	public void RemoveCamera(){
-		lerping = false;
+	IEnumerator CameraAngle(Transform target){
+		currentWayPointNumber = 1;
+		Camera.main.transform.position = Vector3.Lerp (Camera.main.transform.position, target.position, Time.deltaTime * specialCameraSpeedTranslate);
+		Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, target.rotation, Time.time * specialRotationSpeed);
+
+		yield return null;
 	}
 
-	public void PleaseMoveCamera(int targetWP){
+	public void PleaseCameraAngle(Transform target){
+		StartCoroutine(CameraAngle(target));
+	}
 
+	public void RemoveCamera(){
+		lerping = false;
 	}
 }

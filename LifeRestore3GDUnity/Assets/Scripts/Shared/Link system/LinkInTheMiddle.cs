@@ -17,11 +17,13 @@ public class LinkInTheMiddle : MonoBehaviour {
 		v_A=v_C.GetComponent<HookHeadF>()._myShooter.GetComponent<ShootF>().v_instantiateur;
 		_myColor = gameObject.GetComponent<Renderer>().material.color;
 		_blinkTimer=0f;
-
+		gameObject.GetComponent<Renderer>().enabled = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if(		gameObject.GetComponent<Renderer>().enabled == false) 		gameObject.GetComponent<Renderer>().enabled = true;
+
 		//anchorOnCircle est l'intersection du cercle de l'avatar (le rayon 5) et du vecteur v_A;v_C
 		Vector3 anchorOnCircle = v_C.transform.position-v_A.transform.position;
 		anchorOnCircle.Normalize();

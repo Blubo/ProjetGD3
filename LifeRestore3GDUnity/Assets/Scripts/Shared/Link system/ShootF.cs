@@ -115,7 +115,7 @@ public class ShootF : MonoBehaviour {
 		if (rb != null)	rb.AddForce((myRetCone.Vision().transform.position- gameObject.transform.position).normalized * v_SpeedBulletTarget * 1000);
 		_myHook.GetComponent<HookHeadF>()._myShooter=gameObject;
 		_myHook.GetComponent<HookHeadF>().howWasIShot=1;
-		_timer = 0;
+		_timer = v_coolDown;
 	}
 
 	//detache le(s) liens
