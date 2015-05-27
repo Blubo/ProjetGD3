@@ -58,10 +58,15 @@ public class BombBehavior : MonoBehaviour
 			}
 
 			if(col.gameObject.tag == "Ennemy"){
-				_Fuse = 1.0f;
+				_Fuse = 0.75f;
+				StartCoroutine("Setup");
+			}
+
+			if(col.gameObject.tag == "CaserneKO" || col.gameObject.tag == "Fronde" || col.gameObject.tag == "FrondeFriable" || col.gameObject.tag == "Bombe"){
 				StartCoroutine("Setup");
 			}
 		}
+
 		else
 		{
 			StartCoroutine("Setup");
@@ -74,12 +79,13 @@ public class BombBehavior : MonoBehaviour
 		fuseEffect.GetComponent<ParticleSystem>().Play();
 		myAnimator.SetBool("Exploding", true);
 
-    _Sound.PlaySoundOneShot("Bombe explosion");
 
 		//La bombe attend X pour exploser
 		yield return new WaitForSeconds(_Fuse);
 
 		//Effet FX 
+		_Sound.PlaySoundOneShot("Bombe explosion");
+
 
 		//La bombe provoque une explosion
 		tab = Physics.OverlapSphere(transform.position, RangeExplosion);
@@ -128,23 +134,27 @@ public class BombBehavior : MonoBehaviour
 
 	private void DealDamages(GameObject Hit, string type)
 	{
-		if(type == "Idole") Hit.SendMessage("TakeDamage", _DamageValue);
-		else if(type == "Player"){
-			if(Hit != _MySticky.myHolderPlayer){
-				Hit.SendMessage("TakeDamage", new Vector3(Hit.gameObject.transform.position.x, Hit.gameObject.transform.position.y + 10f, Hit.gameObject.transform.position.z) - gameObject.transform.position);
-				Hit.SendMessage("SeverLinkToIdole");
+		if(Hit!=null){
+			if(type == "Idole") Hit.SendMessage("TakeDamage", _DamageValue);
+			else if(type == "Player"){
+				if(Hit != _MySticky.myHolderPlayer){
+					Hit.SendMessage("TakeDamage", new Vector3(Hit.gameObject.transform.position.x, Hit.gameObject.transform.position.y + 10f, Hit.gameObject.transform.position.z) - gameObject.transform.position);
+					Hit.SendMessage("SeverLinkToIdole");
+				}
 			}
+			else if(type == "FrondeFriable") Hit.SendMessage("TakeDamage", _DamageValue);
+			else if(type == "WoodBlock") Hit.SendMessage("TakeDamage", _DamageValue);
+			else if(type == "Arbre") Hit.SendMessage("TakeDamage", _DamageValue);
+			else if(type == "UnlinkableDestructible") Hit.SendMessage("TakeDamage", _DamageValue);
+			else if(type == "Ennemy") Hit.SendMessage("TakeDamage", _DamageValue);
+			else if(type == "Ragdoll") Hit.SendMessage("TakeDamage", _DamageValue);
+			else if(type == "Bombe"){
+				Hit.SendMessage("TakeDamage");
+				Hit.GetComponent<BombBehavior>()._Fuse = 0.75f;
+			}
+			else if(type == "Unlinkable") Hit.SendMessage("TakeDamage", _DamageValue);
+			else if(type == "CaserneKO") Hit.SendMessage("TakeDamage", _DamageValue);
 		}
-		else if(type == "FrondeFriable") Hit.SendMessage("TakeDamage", _DamageValue);
-		else if(type == "WoodBlock") Hit.SendMessage("TakeDamage", _DamageValue);
-		else if(type == "Arbre") Hit.SendMessage("TakeDamage", _DamageValue);
-		else if(type == "UnlinkableDestructible") Hit.SendMessage("TakeDamage", _DamageValue);
-		else if(type == "Ennemy") Hit.SendMessage("TakeDamage", _DamageValue);
-		else if(type == "Ragdoll") Hit.SendMessage("TakeDamage", _DamageValue);
-		else if(type == "Bombe") Hit.SendMessage("TakeDamage");
-		else if(type == "Unlinkable") Hit.SendMessage("TakeDamage", _DamageValue);
-		else if(type == "CaserneKO") Hit.SendMessage("TakeDamage", _DamageValue);
-
 
 //		Hit.SendMessage("TakeDamage", _DamageValue);
 	}

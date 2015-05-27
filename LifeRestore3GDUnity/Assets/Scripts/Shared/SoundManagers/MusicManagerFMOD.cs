@@ -59,6 +59,8 @@ public class MusicManagerFMOD : MonoBehaviour
       mainMusic.Stop();
     }
     else if (playing == true && mainMusic.getPlaybackState() == PLAYBACK_STATE.STOPPED)
+//	else if (playing == true)
+
     {
       mainMusic.Play();
     }

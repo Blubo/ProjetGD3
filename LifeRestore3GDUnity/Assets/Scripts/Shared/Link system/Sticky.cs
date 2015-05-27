@@ -68,7 +68,7 @@ public class Sticky : MonoBehaviour {
 		if(v_numberOfLinks != 0){
 			linked =true;
 		}else{
-			myHolderPlayer = null;
+//			myHolderPlayer = null;
 			linked = false;
 		}
 
@@ -78,6 +78,8 @@ public class Sticky : MonoBehaviour {
 
 			if(internalTimer>=allowedFrondeAfterRelase){
 				wasLinkedNotLongAgo=false;
+				myHolderPlayer = null;
+
 				internalTimer=0f;
 			}
 			////
