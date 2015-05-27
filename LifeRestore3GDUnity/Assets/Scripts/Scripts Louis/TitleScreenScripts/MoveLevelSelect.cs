@@ -49,9 +49,9 @@ public class MoveLevelSelect : MonoBehaviour {
 
 
 		if(gameObject.transform.position != nodes[0]
-		   && gameObject.transform.position != nodes[1]
-		   && gameObject.transform.position != nodes[2]
-		   && gameObject.transform.position != nodes[3]){
+		   && gameObject.transform.position != nodes[8]
+		   && gameObject.transform.position != nodes[12]
+		   && gameObject.transform.position != nodes[15]){
 			inputsAllowed = false;
 			Debug.Log("NOPE");
 		}else{
@@ -65,12 +65,15 @@ public class MoveLevelSelect : MonoBehaviour {
 		if(inputsAllowed == true){
 			//SI JE SUIS AU WAYPOINT 0 
 			if(gameObject.transform.position == nodes[0]){
-				if(prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X>0){
-					ChoosePath(0, 1);
+				if(prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X<0){
+					ChoosePath(0, 8);
 					iTween.MoveTo(gameObject, iTween.Hash("path", path, "orienttopath", true, "lookahead", 0.5f, "time", 1.5f, "easetype", iTween.EaseType.easeInOutSine));
 //					ChooseCameraPath(0, 1);
 //					iTween.MoveTo(Camera.main.gameObject, iTween.Hash("path", cameraPath, "time", 1.5f, "easetype", iTween.EaseType.easeInOutSine));
-				}else if(prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X<0){
+				}else if(prevState.ThumbSticks.Left.Y==0 && state.ThumbSticks.Left.Y<0){
+
+					gameObject.GetComponent<SmallCouloirMove>().CouloirMove(1);
+
 					Debug.Log("well?");
 					playersInSight = false;
 
@@ -94,14 +97,14 @@ public class MoveLevelSelect : MonoBehaviour {
 
 			}else
 				//SI JE SUIS AU WAYPOINT 1
-			if(gameObject.transform.position == nodes[1]){
+			if(gameObject.transform.position == nodes[8]){
 				if(prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X>0){
-					ChoosePath(1, 2);
+					ChoosePath(8, 12);
 					iTween.MoveTo(gameObject, iTween.Hash("path", path, "orienttopath", true, "lookahead", 0.5f,"time", 1.5f, "easetype", iTween.EaseType.easeInOutSine));
 //					ChooseCameraPath(1, 2);
 //					iTween.MoveTo(Camera.main.gameObject, iTween.Hash("path", cameraPath, "time", 1.5f, "easetype", iTween.EaseType.easeInOutSine));
 				}else if(prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X<0){
-					ChoosePath(1, 0);
+					ChoosePath(8, 0);
 					iTween.MoveTo(gameObject, iTween.Hash("path", path, "orienttopath", true, "lookahead", 0.5f,"time", 1.5f, "easetype", iTween.EaseType.easeInOutSine));
 //					ChooseCameraPath(1, 0);
 //					iTween.MoveTo(Camera.main.gameObject, iTween.Hash("path", cameraPath, "time", 1.5f, "easetype", iTween.EaseType.easeInOutSine));
@@ -113,14 +116,14 @@ public class MoveLevelSelect : MonoBehaviour {
 
 			}else
 				//SI JE SUIS AU WAYPOINT 2
-			if(gameObject.transform.position == nodes[2]){
+			if(gameObject.transform.position == nodes[12]){
 				if(prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X>0){
-					ChoosePath(2, 3);
+					ChoosePath(12, 15);
 					iTween.MoveTo(gameObject, iTween.Hash("path", path, "orienttopath", true, "lookahead", 0.5f,"time", 1.5f, "easetype", iTween.EaseType.easeInOutSine));
 //					ChooseCameraPath(2, 3);
 //					iTween.MoveTo(Camera.main.gameObject, iTween.Hash("path", cameraPath, "time", 1.5f, "easetype", iTween.EaseType.easeInOutSine));
 				}else if(prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X<0){
-					ChoosePath(2, 1);
+					ChoosePath(12, 8);
 					iTween.MoveTo(gameObject, iTween.Hash("path", path, "orienttopath", true, "lookahead", 0.5f,"time", 1.5f, "easetype", iTween.EaseType.easeInOutSine));
 //					ChooseCameraPath(2, 1);
 //					iTween.MoveTo(Camera.main.gameObject, iTween.Hash("path", cameraPath, "time", 1.5f, "easetype", iTween.EaseType.easeInOutSine));
@@ -132,13 +135,13 @@ public class MoveLevelSelect : MonoBehaviour {
 
 			}else
 				//SI JE SUIS AU WAYPOINT 3
-			if(gameObject.transform.position == nodes[3]){
+			if(gameObject.transform.position == nodes[15]){
 				if(prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X>0){
 //					ChoosePath(3, 4);
 //					iTween.MoveTo(gameObject, iTween.Hash("path", path, "time", 5, "easetype", iTween.EaseType.easeInOutSine));
 					//
 				}else if(prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X<0){
-					ChoosePath(3, 2);
+					ChoosePath(15, 12);
 					iTween.MoveTo(gameObject, iTween.Hash("path", path, "orienttopath", true, "lookahead", 0.5f,"time", 1.5f, "easetype", iTween.EaseType.easeInOutSine));
 //					ChooseCameraPath(3, 2);
 //					iTween.MoveTo(Camera.main.gameObject, iTween.Hash("path", cameraPath, "time", 1.5f, "easetype", iTween.EaseType.easeInOutSine));

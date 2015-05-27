@@ -30,6 +30,7 @@ public class Idole_Status : MonoBehaviour {
 		_IsInvincible = false;
 		myIdoleCallHelp = GetComponent<IdoleCallHelp>();
 		lifeGauge = Camera.main.transform.Find("JaugeCanvas/LifeGauge").gameObject;
+		Debug.Log("lifegauge is "+lifeGauge.name);
 		if(lifeGauge.GetComponent<Animator>()!=null) gaugeAnimator = lifeGauge.GetComponent<Animator>();
 		maxLife = _Life;
 	    _LinkOnit = GetComponent<Sticky>();

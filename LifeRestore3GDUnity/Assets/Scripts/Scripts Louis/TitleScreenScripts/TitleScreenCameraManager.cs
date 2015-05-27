@@ -20,7 +20,7 @@ public class TitleScreenCameraManager : MonoBehaviour {
 	public bool simpleLook = true;
 	[SerializeField]
 	private float rotationSpeed, specialRotationSpeed;
-
+	public float cameraFOVspeed;
 	// Use this for initialization
 	void Start () {
 		gameObject.transform.position = currentWaypoint.position;
@@ -31,15 +31,15 @@ public class TitleScreenCameraManager : MonoBehaviour {
 		if(simpleLook == true){
 //			if(lastWPnumber==0 && currentWayPointNumber != 1){
 			if(currentWayPointNumber != 1){
-
 				Camera.main.transform.position = Vector3.Lerp (Camera.main.transform.position, wayPoints[currentWayPointNumber].position, Time.deltaTime*v_cameraSpeedTranslate*0.9f);
 				Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, wayPoints[currentWayPointNumber].rotation, Time.time * rotationSpeed);
+				Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 60, Time.deltaTime*cameraFOVspeed);;
 
 			}
 			else{
 				Camera.main.transform.position = Vector3.Lerp (Camera.main.transform.position, wayPoints[currentWayPointNumber].position, Time.deltaTime);
 				Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, wayPoints[currentWayPointNumber].rotation, Time.time * specialRotationSpeed);
-
+				Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 30, Time.deltaTime*cameraFOVspeed);;
 			}
 //			Camera.main.transform.rotation = Quaternion.LookRotation(wayPoints[currentWayPointNumber].forward);	
 

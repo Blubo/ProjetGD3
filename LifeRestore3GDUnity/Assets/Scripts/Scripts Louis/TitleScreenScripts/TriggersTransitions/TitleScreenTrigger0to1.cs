@@ -38,6 +38,7 @@ public class TitleScreenTrigger0to1 : MonoBehaviour {
 						PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().ChangePlayerState(false);
 //						Camera.main.GetComponent<TitleScreenCameraManager>().MoveCamera(1);
 						Camera.main.GetComponent<TitleScreenCameraManager>().currentWayPointNumber = 1;
+						playersGroupe.GetComponent<SmallCouloirMove>().CouloirMove(0);
 //						Camera.main.GetComponent<TitleScreenCameraManager>().simpleLook = false;
 //						Camera.main.GetComponent<TitleScreenCameraManager>().PleaseCameraAngle(cameraTarget);
 
