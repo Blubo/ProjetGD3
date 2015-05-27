@@ -38,6 +38,7 @@ public class IdoleCallHelp : MonoBehaviour {
 		List<Collider> playersInRange = new List<Collider>();
 
 		foreach (Collider col in allCollidersInRange) {
+
 			if(col.gameObject.tag.Equals("Ennemy")){
 				enemiesInRange.Add(col);
 			}
@@ -49,7 +50,11 @@ public class IdoleCallHelp : MonoBehaviour {
 		}
 
 		if(enemiesInRange.Count != 0){
-			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole danger");
+      if (timer > timeBeforeCall)
+      {
+        Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole danger");
+        timer = 0.0f;
+      }
 			dangerPart.Play();
 			normalPart.Stop();
 			seulePart.Stop();
@@ -82,9 +87,9 @@ public class IdoleCallHelp : MonoBehaviour {
 
 	}
 
-//	void OnDrawGizmos(){
-//		Gizmos.color = new Color32(232, 40, 40, 30);
-//		Gizmos.DrawSphere(transform.position, enemyRangeDetection);
-//	}
+	void OnDrawGizmos(){
+		Gizmos.color = new Color32(232, 40, 40, 30);
+		Gizmos.DrawSphere(transform.position, enemyRangeDetection);
+	}
 	
 }

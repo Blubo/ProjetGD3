@@ -172,7 +172,7 @@ public class DamageDealer : MonoBehaviour {
 					}
 					else if(col.gameObject.tag.Equals("UnlinkableDestructible")){
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
-						Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Barrière impact");
+						//w_Sounds.PlaySoundOneShot("Barrière impact");
 						return;
 					}else if(col.gameObject.tag.Equals("WoodBlock")){
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);

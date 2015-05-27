@@ -96,6 +96,7 @@ public class EnnemyD_AI : BasicEnnemy
   {
     GameObject newBomb =  Instantiate(_Prefab, _BombePlacement.position, Quaternion.identity) as GameObject;
     newBomb.transform.parent = transform.Find("Ennemis_Ingé/Tête/Placement");
+    newBomb.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 //    newBomb.GetComponent<BombBehavior>().Launcher = gameObject;
     //newBomb.transform.parent = transform.find("");
     _Bombe = newBomb;

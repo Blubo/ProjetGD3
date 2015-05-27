@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class BasicEnnemy : MonoBehaviour {
 
+  public Sticky _MySticky;
+  private BasicEnnemy _MyType;
+  private SoundManagerHeritTest _Sound;
+
   public int Health;
   public float WalkSpeed;
   public float RushSpeed;
@@ -47,7 +51,14 @@ public class BasicEnnemy : MonoBehaviour {
   //***---***
   public void Initiation()
   {
+    _Sound = Camera.main.GetComponent<SoundManagerHeritTest>();
+    _MyType = gameObject.GetComponent<BasicEnnemy>();
 
+    if (gameObject.GetComponent<Sticky>() != null)
+    {
+      _MySticky = gameObject.GetComponent<Sticky>();
+    }
+    
     if (gameObject.GetComponent<SphereCollider>() != null)
     {
       SphereCollider _ZoneDanger = gameObject.GetComponent<SphereCollider>();
@@ -74,9 +85,23 @@ public class BasicEnnemy : MonoBehaviour {
     Health -= ValueDamageTaken;
   }
 
+  private void PlaySoundOnDeath(){
+    if (_MyType is EnnemyA_AI)
+    {
+      _Sound.PlaySoundOneShot("Ennemi standart mort");
+    }else
+    {
+      if (_MyType is EnnemyB_AI)
+      {
+        _Sound.PlaySoundOneShot("Ennemi barak mort");
+      }
+    }
+  }
+
   //A la mort de l'ennemi
   public void Death()
   {
+    PlaySoundOnDeath();
     gameObject.GetComponent<NavMeshAgent>().enabled = false;
     //Désactiver ce qu'il faut
     gameObject.GetComponent<BoxCollider>().enabled = false;
@@ -131,7 +156,7 @@ public class BasicEnnemy : MonoBehaviour {
 
       if (Attacked[i] != null && Attacked[i].gameObject.tag == "Idole")
       {
-				GameObject particule = Instantiate(attackEffect, _instantiateur.transform.position, Quaternion.identity )as GameObject;
+				//GameObject particule = Instantiate(attackEffect, _instantiateur.transform.position, Quaternion.identity )as GameObject;
 
         Attacked[i].gameObject.SendMessage("TakeDamage", Value);
       }
@@ -142,6 +167,7 @@ public class BasicEnnemy : MonoBehaviour {
   public IEnumerator AttackInge(GameObject Bombe)
   {
     IsRunning = true;
+    Bombe.transform.localScale = Vector3.Lerp(Bombe.transform.localScale, new Vector3(1f, 1f, 1f), 0.9f);
     yield return new WaitForSeconds(0.0f);
     Bombe.transform.parent = null;
     //Position de la target à viser 

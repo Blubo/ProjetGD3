@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using FMOD.Studio;
 
 public class Idole_Status : MonoBehaviour {
 
     [SerializeField]
     public int _Life;
-	private int maxLife;
+	  private int maxLife;
     private Sticky _LinkOnit;
+
+    private FMOD.Studio.EventInstance _Blessure;
+    private FMOD.Studio.ParameterInstance _BlessurePara;
 
     [SerializeField]
     private float TimerInvincibility;
@@ -26,16 +30,25 @@ public class Idole_Status : MonoBehaviour {
 	[SerializeField]
 	private GameObject damageVisuel;
 
+  public float testingstuff;
+
 	void Start () {
+
+   // _Blessure = FMOD_StudioSystem.instance.GetEvent("event:/FMODIdole/Idole blessure");
+   // _Blessure.getParameter("Mort", out _BlessurePara);
+
 		_IsInvincible = false;
 		myIdoleCallHelp = GetComponent<IdoleCallHelp>();
 		lifeGauge = Camera.main.transform.Find("JaugeCanvas/LifeGauge").gameObject;
 		if(lifeGauge.GetComponent<Animator>()!=null) gaugeAnimator = lifeGauge.GetComponent<Animator>();
 		maxLife = _Life;
 	    _LinkOnit = GetComponent<Sticky>();
+
 	}
 	
 	void Update () {
+    //_BlessurePara.setValue(testingstuff);
+
 //		lifeGauge.GetComponent<Animator>().SetInteger("IdoleHP", _Life);
 		gaugeAnimator.SetInteger("IdoleHP", _Life);
 //		myAnimator.SetInteger("IdoleHP", _Life);
@@ -89,7 +102,7 @@ public class Idole_Status : MonoBehaviour {
 			if(damageVisuel!=null){
 				GameObject explosion = Instantiate(damageVisuel, gameObject.transform.position, Quaternion.identity) as GameObject;
 			}
-			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole blessure");
+      Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole blessure");
 			_Life -= Value;
 			StartCoroutine("Clignotement");
 			StartCoroutine("Invincible");
@@ -98,9 +111,9 @@ public class Idole_Status : MonoBehaviour {
 
     void Death() { 
         //si les points de vies de l'aura tombent à zero on lance le game Over
+      Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole blessure");
 		if(endSplashScreen!= null)endSplashScreen.GetComponent<Renderer>().enabled = true;
-
-		Destroy(gameObject);
+		//Destroy(gameObject);
     }
 
     public IEnumerator Invincible()

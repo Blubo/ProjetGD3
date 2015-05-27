@@ -32,6 +32,11 @@ public class EnnemyA_AI : BasicEnnemy {
 	}
 	
 	void Update () {
+    if (_MySticky.v_numberOfLinks > 0)
+    {
+      Wait();
+    }
+
     if (Furie)
     {
       Rush(_TargetFurie.transform);

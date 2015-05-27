@@ -19,7 +19,7 @@ public class TurretProjectile : MonoBehaviour {
 
 	void Start(){
 		if(gameObject.GetComponent<Rigidbody>()!=null) myRB=gameObject.GetComponent<Rigidbody>();
-		Physics.IgnoreCollision(gameObject.GetComponent<Collider>(), v_CanonWhoShotMe.GetComponent<Collider>());
+    if (gameObject.GetComponent<Rigidbody>() != null && v_CanonWhoShotMe.GetComponent<Rigidbody>() != null) Physics.IgnoreCollision(gameObject.GetComponent<Collider>(), v_CanonWhoShotMe.GetComponent<Collider>());
 	}
 
 	// Update is called once per frame
