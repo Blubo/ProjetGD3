@@ -23,7 +23,7 @@ public class Group_AI : MonoBehaviour {
     {
       Destroy(gameObject);
     }
-    if (_Leader == null)
+    if (_Leader == null && _Composition.Count> 0)
     {
       ChooseLeader();
     }
