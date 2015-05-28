@@ -18,7 +18,7 @@ public class MusicManagerFMOD : MonoBehaviour
   private float beginParamMusic;
 
   // Use this for initialization
-  void Awake()
+  void Start()
   {
     Timer = 7.0f;
     Timertemp = 0.0f;
@@ -59,8 +59,6 @@ public class MusicManagerFMOD : MonoBehaviour
       mainMusic.Stop();
     }
     else if (playing == true && mainMusic.getPlaybackState() == PLAYBACK_STATE.STOPPED)
-//	else if (playing == true)
-
     {
       mainMusic.Play();
     }
