@@ -89,6 +89,7 @@ public class MoveLevelSelect : MonoBehaviour {
 
 					Camera.main.GetComponent<TitleScreenCameraManager>().MoveCamera(0);
 					Camera.main.GetComponent<TitleScreenCameraManager>().currentWayPointNumber = 0;
+					Camera.main.transform.Find("GeneralScoreUI").gameObject.SetActive(false);
 				}
 
 				if(prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed){

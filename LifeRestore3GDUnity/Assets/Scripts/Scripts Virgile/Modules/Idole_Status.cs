@@ -58,7 +58,9 @@ public class Idole_Status : MonoBehaviour {
             Death();
         }
 
-		if(_Life <= maxLife*0.5f && switchedFromCleanToBroken == false){
+//		if(_Life <= maxLife*0.5f && switchedFromCleanToBroken == false){
+		if(_Life <= maxLife*0.5f){
+
 			switchedFromCleanToBroken = true;
 			Renderer[] rendererClean = gameObject.transform.Find("Idole_Clean").GetComponentsInChildren<Renderer>() ;
 			foreach (Renderer rend in rendererClean){

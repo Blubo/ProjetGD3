@@ -29,10 +29,12 @@ public class TitleScreenTrigger0to1 : MonoBehaviour {
 
 	void OnCollisionEnter(Collision col){
 		if(col.gameObject.tag.Equals("Player")){
+//			Debug.Log("fdp");
 			PlayersInTrigger.Add(col.gameObject);
 			playerCount+=1;
 			if(playerCount>=3){
 				for (int i = 0; i < PlayersInTrigger.Count; i++) {
+//					Debug.Log("whyyy");
 					if(PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().whichRoomImIn == 0){
 						PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().TeleportPlayer(new Vector3(0,0,1));
 						PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().ChangePlayerState(false);
@@ -43,6 +45,9 @@ public class TitleScreenTrigger0to1 : MonoBehaviour {
 //						Camera.main.GetComponent<TitleScreenCameraManager>().PleaseCameraAngle(cameraTarget);
 
 						playersGroupe.GetComponent<MoveLevelSelect>().playersInSight = true;
+						Camera.main.transform.Find("GeneralScoreUI").gameObject.SetActive(true);
+
+
 					}else if(PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().whichRoomImIn == 1){
 //						PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().TeleportPlayer(new Vector3(0,0,-3));
 ////						Camera.main.GetComponent<TitleScreenCameraManager>().MoveCamera(0);

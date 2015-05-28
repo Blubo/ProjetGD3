@@ -17,7 +17,7 @@ public class TitleScreenCameraManager : MonoBehaviour {
 	private GameObject[] colliderInterieurs, colliderExterieurs;
 
 	private float _timeStartedLerping;
-	public bool simpleLook = true;
+	public bool locked = true;
 	[SerializeField]
 	private float rotationSpeed, specialRotationSpeed;
 	public float cameraFOVspeed;
@@ -28,7 +28,7 @@ public class TitleScreenCameraManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(simpleLook == true){
+		if(locked == false){
 //			if(lastWPnumber==0 && currentWayPointNumber != 1){
 			if(currentWayPointNumber != 1){
 				Camera.main.transform.position = Vector3.Lerp (Camera.main.transform.position, wayPoints[currentWayPointNumber].position, Time.deltaTime*v_cameraSpeedTranslate*0.9f);

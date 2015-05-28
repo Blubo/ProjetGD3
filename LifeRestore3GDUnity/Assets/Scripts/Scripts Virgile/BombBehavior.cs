@@ -25,10 +25,10 @@ public class BombBehavior : MonoBehaviour
     _Sound = Camera.main.GetComponent<SoundManagerHeritTest>();
 		myAnimator = GetComponent<Animator>();
 
-		if (_IsSolo)
-		{
+//		if (_IsSolo)
+//		{
 			_MySticky = gameObject.GetComponent<Sticky>();
-		}
+//		}
 
 //		RangeExplosion = 15.0f;
 //		_KnockBack = 300f;
@@ -62,7 +62,12 @@ public class BombBehavior : MonoBehaviour
 				StartCoroutine("Setup", true);
 			}
 
-			if(col.gameObject.tag == "CaserneKO" || col.gameObject.tag == "Fronde" || col.gameObject.tag == "FrondeFriable" || col.gameObject.tag == "Bombe"){
+			if(col.gameObject.tag == "CaserneKO"
+			   || col.gameObject.tag == "Fronde"
+			   || col.gameObject.tag == "FrondeFriable"
+			   || col.gameObject.tag == "Bombe"
+			   || col.gameObject.tag == "Weapon"
+			   || col.gameObject.tag == "Ragdoll"){
 				StartCoroutine("Setup", false);
 			}
 		}
@@ -140,7 +145,12 @@ public class BombBehavior : MonoBehaviour
 		if(Hit!=null){
 			if(type == "Idole") Hit.SendMessage("TakeDamage", _DamageValue);
 			else if(type == "Player"){
-				if(Hit != _MySticky.myHolderPlayer){
+				if(_MySticky.myHolderPlayer != null){
+					if(Hit != _MySticky.myHolderPlayer){
+						Hit.SendMessage("TakeDamage", new Vector3(Hit.gameObject.transform.position.x, Hit.gameObject.transform.position.y + 10f, Hit.gameObject.transform.position.z) - gameObject.transform.position);
+						Hit.SendMessage("SeverLinkToIdole");
+					}
+				}else{
 					Hit.SendMessage("TakeDamage", new Vector3(Hit.gameObject.transform.position.x, Hit.gameObject.transform.position.y + 10f, Hit.gameObject.transform.position.z) - gameObject.transform.position);
 					Hit.SendMessage("SeverLinkToIdole");
 				}
@@ -164,5 +174,10 @@ public class BombBehavior : MonoBehaviour
 
 	public void TakeDamage(bool now){
 		StartCoroutine("Setup", now);
+	}
+
+	void OnDrawGizmos(){
+		Gizmos.color = new Color32(255,0,0,50);
+		Gizmos.DrawSphere(transform.position, RangeExplosion);
 	}
 }

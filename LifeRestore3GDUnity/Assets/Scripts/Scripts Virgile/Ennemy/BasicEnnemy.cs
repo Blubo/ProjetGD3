@@ -208,7 +208,11 @@ public class BasicEnnemy : MonoBehaviour {
     IsRunning = true;
     Bombe.transform.localScale = Vector3.Lerp(Bombe.transform.localScale, new Vector3(1f, 1f, 1f), 0.9f);
     yield return new WaitForSeconds(0.0f);
-    Bombe.transform.parent = null;
+		if(Bombe!=null){
+			if(Bombe.transform.parent!=null){
+				Bombe.transform.parent = null;
+			}
+		}
     //Position de la target à viser 
     Transform LandingPoint = Target;
     //Position du point entre les deux 
@@ -236,7 +240,7 @@ public class BasicEnnemy : MonoBehaviour {
     if(Vector3.Distance(Bombe.transform.position, _targetposition)<1.0f){
       _SoundTir = false;
       _Bombe = null;
-      Bombe.GetComponent<BoxCollider>().isTrigger = false;
+      Bombe.GetComponent<SphereCollider>().isTrigger = false;
       Rigidbody _BombeRigi = Bombe.GetComponent<Rigidbody>();
       _BombeRigi.useGravity = enabled;
       _BombeRigi.isKinematic = false;
