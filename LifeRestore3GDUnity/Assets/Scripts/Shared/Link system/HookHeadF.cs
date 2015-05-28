@@ -109,6 +109,7 @@ public class HookHeadF : MonoBehaviour {
 						_localPos = _Collided.transform.InverseTransformPoint(gameObject.transform.position);
 	//					Debug.DrawRay(GrappedTo.transform.TransformPoint(_localPos), Vector3.up*10);
 						newTensionLessDistance = Vector3.Distance(gameObject.transform.position, _myShooterPos);
+            Debug.Log("TensionLessDistance  " + newTensionLessDistance);
 						newBreakDistance = newTensionLessDistance*100/breakDistanceRatio;
 						myRigidbody.isKinematic=true;
 
@@ -148,6 +149,7 @@ public class HookHeadF : MonoBehaviour {
 	}
 
 	void Update (){
+    Debug.Log("HookheadFpos   " + gameObject.transform.position);
 		//si le grappin est attaché à un objet, il suit ses mvts
 		if(GrappedTo != null){
 

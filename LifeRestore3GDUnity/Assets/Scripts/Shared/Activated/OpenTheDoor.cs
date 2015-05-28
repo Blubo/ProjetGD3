@@ -6,6 +6,8 @@ public class OpenTheDoor : MonoBehaviour {
 	[HideInInspector]
 	public bool receivedOrderToOpen = false, receivedOrderToClose = false, openedAlready = false, closedAlready = false;
 
+  public bool _PlayASound;
+
 	[Tooltip("To where will the door open")]
 	[SerializeField]
 	private GameObject _openedLocation;
@@ -61,7 +63,7 @@ public class OpenTheDoor : MonoBehaviour {
 	void PleaseOpenDoor(){
 		//SON FMOD ICI POUR L OUVERTURE DE LA PORTE
 		//LE SON FAIT N IMPORTE QUOI!!!
-    if (!_SoundOntime)
+    if (!_SoundOntime && _PlayASound)
     {
       Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Porte ouverture");
     }
@@ -86,7 +88,7 @@ public class OpenTheDoor : MonoBehaviour {
 	void PleaseCloseDoor(){
 		//SON FMOD ICI POUR L OUVERTURE DE LA PORTE
 		//LE SON FAIT N IMPORTE QUOI!!!
-    if (!_SoundOntime)
+    if (!_SoundOntime && _PlayASound)
     {
       Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Porte ouverture");
     }

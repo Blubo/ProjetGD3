@@ -8,10 +8,14 @@ public class Group_AI : MonoBehaviour {
   public List<BasicEnnemy> _Composition;
   //Leader du groupe (le centre)
   public BasicEnnemy _Leader;
+  private SoundManagerHeritTest _Sound;
+  private bool _SoundChase;
 
   void Start()
   {
+    _SoundChase = false;
     ChooseLeader();
+    _Sound = Camera.main.GetComponent<SoundManagerHeritTest>();
   }
 
 	void Update () {
@@ -69,10 +73,24 @@ public class Group_AI : MonoBehaviour {
         }
       }
     }
+    if (!_SoundChase)
+    {
+      if (_Leader is EnnemyB_AI)
+      {
+        _Sound.PlaySoundOneShot("Ennemi barak chasse");
+      }
+      else
+      {
+        _Sound.PlaySoundOneShot("Ennemi standard chasse");
+      }
+      _SoundChase = true;
+    }
+
   }
 
   void ForgetTarget()
   {
+    _SoundChase = false;
     for (int i = 0; i < _Composition.Count; i++)
     {
       if (_Composition[i] != null)

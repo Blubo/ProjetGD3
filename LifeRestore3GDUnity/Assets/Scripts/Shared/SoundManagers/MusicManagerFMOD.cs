@@ -24,7 +24,8 @@ public class MusicManagerFMOD : MonoBehaviour
     Timertemp = 0.0f;
 
     beginParamMusic = 0.01f;
-    ChangeParamMainMusic(beginParamMusic);
+   //   ChangeParamMainMusic(beginParamMusic);
+
     step = 0;
     mainMusic.Play();
     playing = true;

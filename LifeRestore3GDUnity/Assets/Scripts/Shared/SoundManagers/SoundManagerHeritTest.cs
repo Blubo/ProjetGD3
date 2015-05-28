@@ -95,11 +95,36 @@ public class SoundManagerHeritTest : SoundManager {
     case "Ennemi standart mort":
       FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi standart mort", gameObject.transform.position);
       break;
-
     case "Ennemi barak mort":
       FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi barak mort", gameObject.transform.position);
       break;
-
+    case "Ennemi ingenieur mort":
+      FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi ingenieur mort", gameObject.transform.position);
+      break;
+        //
+    case "Ennemi standard spawn":
+      FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi standard spawn", gameObject.transform.position);
+      break;
+    case "Ennemi barak spawn":
+      FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi barak spawn", gameObject.transform.position);
+      break;
+    case "Ennemi ingenieur spawn":
+      FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi ingenieur spawn", gameObject.transform.position);
+      break;
+        //
+    case "Ennemi ingenieur tir":
+      FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi ingenieur tir", gameObject.transform.position);
+      break;
+    case "Ennemi standard chasse":
+      FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi standard chasse", gameObject.transform.position);
+      break;
+    case "Ennemi barak chasse":
+      FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi barak chasse", gameObject.transform.position);
+      break;
+        //
+    case "Ennemi barak blessure":
+      FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi barak blessure", gameObject.transform.position);
+      break;
 
 
 				default:
