@@ -28,7 +28,7 @@ public class Vague_System : MonoBehaviour {
 	void Update () {
     _TimerMax -= 1 * Time.deltaTime;
 
-    if (_CurrentVague >= 3)
+    if (_CurrentVague >= 4)
     {
       EndSalle();
     }

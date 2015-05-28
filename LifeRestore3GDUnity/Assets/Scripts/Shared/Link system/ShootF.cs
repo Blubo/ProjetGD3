@@ -20,7 +20,7 @@ public class ShootF : MonoBehaviour {
 	public float _initSizeRatio;
 	
 	//tete du grappin
-	public GameObject _HookHead, v_instantiateur;
+	public GameObject _HookHead, v_instantiateur, v_visuelBouche;
 	
 	[HideInInspector]
 	public  GameObject _target, _myHook;

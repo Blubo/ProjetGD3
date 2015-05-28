@@ -14,7 +14,7 @@ public class LinkInTheMiddle : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		v_A=v_C.GetComponent<HookHeadF>()._myShooter.GetComponent<ShootF>().v_instantiateur;
+		v_A=v_C.GetComponent<HookHeadF>()._myShooter.GetComponent<ShootF>().v_visuelBouche;
 		_myColor = gameObject.GetComponent<Renderer>().material.color;
 		_blinkTimer=0f;
 		gameObject.GetComponent<Renderer>().enabled = false;
