@@ -54,31 +54,34 @@ public class BombBehavior : MonoBehaviour
 					playerDetonatorAssigned = true;
 					myPlayerWhoDetonatedMe = _MySticky.myHolderPlayer;
 				}
-				StartCoroutine("Setup");
+				StartCoroutine("Setup", false);
 			}
 
 			if(col.gameObject.tag == "Ennemy"){
 				_Fuse = 0.75f;
-				StartCoroutine("Setup");
+				StartCoroutine("Setup", true);
 			}
 
 			if(col.gameObject.tag == "CaserneKO" || col.gameObject.tag == "Fronde" || col.gameObject.tag == "FrondeFriable" || col.gameObject.tag == "Bombe"){
-				StartCoroutine("Setup");
+				StartCoroutine("Setup", false);
 			}
 		}
 
 		else
 		{
-			StartCoroutine("Setup");
+			StartCoroutine("Setup", false);
 		}
 
 	}
 
-	public IEnumerator Setup()
+	public IEnumerator Setup(bool now)
 	{
 		fuseEffect.GetComponent<ParticleSystem>().Play();
-		myAnimator.SetBool("Exploding", true);
-
+		if(now == false){
+			myAnimator.SetBool("Exploding", true);
+		}else{
+			myAnimator.SetBool("ExplodingNOW", true);
+		}
 
 		//La bombe attend X pour exploser
 		yield return new WaitForSeconds(_Fuse);
@@ -149,8 +152,8 @@ public class BombBehavior : MonoBehaviour
 			else if(type == "Ennemy") Hit.SendMessage("TakeDamage", _DamageValue);
 			else if(type == "Ragdoll") Hit.SendMessage("TakeDamage", _DamageValue);
 			else if(type == "Bombe"){
-				Hit.SendMessage("TakeDamage");
 				Hit.GetComponent<BombBehavior>()._Fuse = 0.75f;
+				Hit.SendMessage("TakeDamage", true);
 			}
 			else if(type == "Unlinkable") Hit.SendMessage("TakeDamage", _DamageValue);
 			else if(type == "CaserneKO") Hit.SendMessage("TakeDamage", _DamageValue);
@@ -159,7 +162,7 @@ public class BombBehavior : MonoBehaviour
 //		Hit.SendMessage("TakeDamage", _DamageValue);
 	}
 
-	public void TakeDamage(){
-		StartCoroutine("Setup");
+	public void TakeDamage(bool now){
+		StartCoroutine("Setup", now);
 	}
 }

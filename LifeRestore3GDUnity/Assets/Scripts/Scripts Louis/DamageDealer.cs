@@ -640,7 +640,8 @@ public class DamageDealer : MonoBehaviour {
 //				Vector3 directionOfCollision = col.gameObject.transform.position - gameObject.transform.position ;
 //				col.gameObject.GetComponent<FatPlayerScript>().ChangeSize(_playerSizeMultiplicator);
 				//si j'ai un tireur et que ce tireur n'est pas le joueur que je touche
-				if(gameObject.GetComponent<TurretProjectile>()._playerWhoShotMe!=null && gameObject.GetComponent<TurretProjectile>()._playerWhoShotMe != col.gameObject){
+//				Debug.Log(gameObject.GetComponent<TurretProjectile>()._playerWhoShotMe);
+				if((gameObject.GetComponent<TurretProjectile>()._playerWhoShotMe!=null && gameObject.GetComponent<TurretProjectile>()._playerWhoShotMe != col.gameObject) || gameObject.GetComponent<TurretProjectile>()._playerWhoShotMe==null){
 					Vector3 directionOfCollision = new Vector3(col.gameObject.transform.position.x, col.gameObject.transform.position.y + 10f, col.gameObject.transform.position.z) - gameObject.transform.position ;
 					col.gameObject.GetComponent<Player_Status>().TakeDamage(directionOfCollision);
 					col.gameObject.GetComponent<Player_Status>().SeverLinkToIdole();

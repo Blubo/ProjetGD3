@@ -75,6 +75,7 @@ public class Sticky : MonoBehaviour {
 		if((linked == false && linkedLastFrame == true)||wasLinkedNotLongAgo == true){
 			internalTimer += Time.deltaTime;
 			wasLinkedNotLongAgo = true;
+//			if(Input.GetKeyUp(KeyCode.Space))Debug.Log("my holder sticky "+myHolderPlayer.name);
 
 			if(internalTimer>=allowedFrondeAfterRelase){
 				wasLinkedNotLongAgo=false;
