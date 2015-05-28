@@ -115,14 +115,16 @@ public class SoundManagerHeritTest : SoundManager {
     case "Ennemi ingenieur tir":
       FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi ingenieur tir", gameObject.transform.position);
       break;
-
     case "Ennemi standard chasse":
       FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi standard chasse", gameObject.transform.position);
       break;
     case "Ennemi barak chasse":
       FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi barak chasse", gameObject.transform.position);
       break;
-
+        //
+    case "Ennemi barak blessure":
+      FMOD_StudioSystem.instance.PlayOneShot("event:/FMODEnnemis/Ennemi barak blessure", gameObject.transform.position);
+      break;
 
 
 				default:

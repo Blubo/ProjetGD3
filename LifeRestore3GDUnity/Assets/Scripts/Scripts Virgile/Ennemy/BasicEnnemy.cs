@@ -89,6 +89,10 @@ public class BasicEnnemy : MonoBehaviour {
   //Lorsque l'ennemi se prend des dommages
   public void TakeDamage(int ValueDamageTaken){
     Health -= ValueDamageTaken;
+    if (_MyType is EnnemyB_AI)
+    {
+      _Sound.PlaySoundOneShot("Ennemi barak blessure");
+    }
   }
 
   private void PlaySoundOnSpawn()
