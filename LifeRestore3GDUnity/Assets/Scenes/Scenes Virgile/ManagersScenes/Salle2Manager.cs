@@ -7,6 +7,8 @@ public class Salle2Manager : MonoBehaviour {
   public GameObject _Caserne1, _Caserne2;
   public List<GameObject> _Doors;
 
+  private bool ItsMyFirstTime = false;
+
 	private int Casernes;
 
   public Block_SpawnCollectible _RainingBonus;
@@ -16,14 +18,20 @@ public class Salle2Manager : MonoBehaviour {
 		if (_Caserne1 == null || _Caserne1.tag == "CaserneKO")
     {
 			if(_Caserne2 == null || _Caserne2.tag == "CaserneKO" ){
-				EndSalle();
+        if (ItsMyFirstTime == false)
+        {
+          EndSalle();
+        }
 			}
     }
 
 		if ( _Caserne2 == null || _Caserne2.tag == "CaserneKO")
 		{
 			if( _Caserne1 == null || _Caserne1.tag == "CaserneKO" ){
-				EndSalle();
+        if (ItsMyFirstTime == false)
+        {
+          EndSalle();
+        }
 			}
 		}
 	}
@@ -34,6 +42,7 @@ public class Salle2Manager : MonoBehaviour {
     {
       _Doors[i].SendMessage("Activated");
     }
+    ItsMyFirstTime = true;
   }
 
   void OnTriggerEnter(Collider Col) {

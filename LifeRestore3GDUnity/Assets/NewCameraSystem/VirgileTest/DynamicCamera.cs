@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class DynamicCamera : MonoBehaviour {
 
   private Camera MainCamera;
+  private bool _NeedReposition;
 
   //Players
   private GameObject[] _Players; 
@@ -16,6 +17,7 @@ public class DynamicCamera : MonoBehaviour {
   private float _Distance;
 
 	void Start () {
+    _NeedReposition = false;
     MainCamera = Camera.main;
     _Idole = GameObject.FindGameObjectWithTag("Idole");
     _Players = GameObject.FindGameObjectsWithTag("Player");
@@ -25,8 +27,22 @@ public class DynamicCamera : MonoBehaviour {
 	void Update () {
     CalculateCenter(_Idole.transform, _Players[0].transform, _Players[1].transform, _Players[2].transform);
     FieldOfVision();
-    CameraPosition();
+    if (!_NeedReposition)
+    {
+      CameraPosition();
+    }
+    CameraClamp();
 	}
+
+  void CameraClamp()
+  {
+    if (MainCamera.transform.position.y > _High.position.y)
+    {
+      _NeedReposition = true;
+      transform.position = Vector3.Lerp(transform.position, _High.position, 2.0f * Time.deltaTime);
+    }
+    else { _NeedReposition = false; }
+  }
 
   void CameraPosition()
   {

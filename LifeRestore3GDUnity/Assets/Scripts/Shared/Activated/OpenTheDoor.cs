@@ -28,11 +28,11 @@ public class OpenTheDoor : MonoBehaviour {
 
 	private float openingTimer, closingTimer;
 
-  private bool _SoundOntime = false;
+  private bool _SoundOntime;
 
 	// Use this for initialization
 	void Start () {
-
+    _SoundOntime = false;
 		closedAlready=true;
 		openingTimer = 0f;
 		closingTimer = 0f;
@@ -63,11 +63,11 @@ public class OpenTheDoor : MonoBehaviour {
 	void PleaseOpenDoor(){
 		//SON FMOD ICI POUR L OUVERTURE DE LA PORTE
 		//LE SON FAIT N IMPORTE QUOI!!!
-    if (!_SoundOntime && _PlayASound)
+    if (_SoundOntime == false && _PlayASound == true)
     {
       Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Porte ouverture");
+      _SoundOntime = true;
     }
-    _SoundOntime = true;
 //		gameObject.transform.position = Vector3.Lerp(gameObject.transform.position , _openedLocation.transform.position, Time.deltaTime*doorSpeed);
 		openingTimer+=Time.deltaTime;
 //		gameObject.transform.position = Vector3.Lerp(_closedLocation.transform.position , _openedLocation.transform.position, Time.deltaTime*doorSpeed);
@@ -88,11 +88,12 @@ public class OpenTheDoor : MonoBehaviour {
 	void PleaseCloseDoor(){
 		//SON FMOD ICI POUR L OUVERTURE DE LA PORTE
 		//LE SON FAIT N IMPORTE QUOI!!!
-    if (!_SoundOntime && _PlayASound)
-    {
-      Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Porte ouverture");
-    }
-    _SoundOntime = true;
+    //if (!_SoundOntime && _PlayASound == true)
+   // {
+   //   Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Porte ouverture");
+   //   _SoundOntime = true;
+   // }
+
 //		Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Porte ouverture");
 		closingTimer+=Time.deltaTime;
 
@@ -108,7 +109,7 @@ public class OpenTheDoor : MonoBehaviour {
 			nuagePorte.GetComponent<Renderer>().enabled = false;
 
 			receivedOrderToClose=false;
-      _SoundOntime = false;
+      //_SoundOntime = false;
 //			Debug.Log("2");
 		}
 	}

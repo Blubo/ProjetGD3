@@ -55,7 +55,7 @@ public class EnnemyD_AI : BasicEnnemy
     {
       _Anim.Play("Animation Idle Crocmagnon");
         ReloadBomb();
-        StartCoroutine("WaitForThoseSecs", 1.0f);
+        StartCoroutine("WaitForThoseSecs", 3.0f);
     }
 
     //Si la target a été retrouvé 
