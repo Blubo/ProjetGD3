@@ -39,7 +39,7 @@ public class DynamicCamera : MonoBehaviour {
     if (MainCamera.transform.position.y > _High.position.y)
     {
       _NeedReposition = true;
-      transform.position = Vector3.Lerp(transform.position, _High.position, 1.0f * Time.deltaTime);
+      transform.position = Vector3.Lerp(transform.position, _High.position, 2.0f * Time.deltaTime);
     }
     else { _NeedReposition = false; }
   }
