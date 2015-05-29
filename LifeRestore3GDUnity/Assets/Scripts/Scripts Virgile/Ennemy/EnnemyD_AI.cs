@@ -71,13 +71,14 @@ public class EnnemyD_AI : BasicEnnemy
         //Beware Below
         if (_Bombe != null && _FinishCoroutine == true && !IsRunning)
         {
+          StartCoroutine("AttackInge", _Bombe);
           _Anim.Play("Animation Lancer Ingé");
+
           if (!_SoundTir)
           {
             _Sound.PlaySoundOneShot("Ennemi ingenieur tir");
             _SoundTir = true;
           }
-          StartCoroutine("AttackInge", _Bombe);
         }
       }
       else {
@@ -101,8 +102,8 @@ public class EnnemyD_AI : BasicEnnemy
   {
     GameObject newBomb =  Instantiate(_Prefab, _BombePlacement.position, Quaternion.identity) as GameObject;
     newBomb.transform.parent = transform.Find("Ennemis_Ingé/Tête/Placement");
-    newBomb.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-//    newBomb.GetComponent<BombBehavior>().Launcher = gameObject;
+   // newBomb.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+    newBomb.GetComponent<BombBehavior>().Launcher = gameObject;
     //newBomb.transform.parent = transform.find("");
     _Bombe = newBomb;
   }

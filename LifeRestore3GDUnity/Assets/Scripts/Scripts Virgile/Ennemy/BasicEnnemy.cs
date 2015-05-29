@@ -206,7 +206,7 @@ public class BasicEnnemy : MonoBehaviour {
   public IEnumerator AttackInge(GameObject Bombe)
   {
     IsRunning = true;
-    Bombe.transform.localScale = Vector3.Lerp(Bombe.transform.localScale, new Vector3(1f, 1f, 1f), 0.9f);
+   // Bombe.transform.localScale = Vector3.Lerp(Bombe.transform.localScale, new Vector3(1f, 1f, 1f), 0.9f);
     yield return new WaitForSeconds(0.0f);
 		if(Bombe!=null){
 			if(Bombe.transform.parent!=null){
@@ -219,7 +219,7 @@ public class BasicEnnemy : MonoBehaviour {
     Vector3 MidPoint = new Vector3((_targetposition.x + transform.position.x) / 2.0f, (_targetposition.y + transform.position.y) / 2.0f, (_targetposition.z + transform.position.z) / 2.0f);
     MidPoint += Vector3.up * 8.0f;
     //Lancement de la Bombe entre les points
-    if (Vector3.Distance(Bombe.transform.position, transform.position) < 3.0f)
+    if (Vector3.Distance(Bombe.transform.position, transform.position) < 10.0f)
     {
       Progression = 0;
     }
