@@ -92,9 +92,9 @@ public class MoveLevelSelect : MonoBehaviour {
 					Camera.main.transform.Find("GeneralScoreUI").gameObject.SetActive(false);
 				}
 
-				if(prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed){
-					Application.LoadLevel(0);
-				}
+//				if(prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed){
+//					Application.LoadLevel(1);
+//				}
 
 			}else
 				//SI JE SUIS AU WAYPOINT 1

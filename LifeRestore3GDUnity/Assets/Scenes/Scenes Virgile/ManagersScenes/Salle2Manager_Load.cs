@@ -53,7 +53,7 @@ public class Salle2Manager_Load : MonoBehaviour
     yield return new WaitForSeconds(0.5f);
     //Chargement du niveau suivant
    // async.allowSceneActivation = true;
-		Application.LoadLevel(2);
+		Application.LoadLevel(3);
   }
 
   // On regarde les allers retours des objets dans la zone d'arrivée

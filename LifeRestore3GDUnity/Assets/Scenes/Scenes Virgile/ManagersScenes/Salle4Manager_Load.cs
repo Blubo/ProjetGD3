@@ -40,6 +40,7 @@ public class Salle4Manager_Load : MonoBehaviour
 		
 		if ((CountPlayers == 3 && CountIdole == 1 && !_EndLaunched) || state.Buttons.Start == ButtonState.Pressed)
 		{
+			Debug.Log("wzll");
 			StartCoroutine("RoomFinished");
 			_EndLaunched = true;
 		}
@@ -54,7 +55,7 @@ public class Salle4Manager_Load : MonoBehaviour
     //Chargement du niveau suivant
    // async.allowSceneActivation = true;
 
-		Application.LoadLevel(4);
+		Application.LoadLevel(5);
   }
 
   // On regarde les allers retours des objets dans la zone d'arrivée
@@ -62,11 +63,14 @@ public class Salle4Manager_Load : MonoBehaviour
   {
     if (Col.gameObject.tag == "Player")
     {
+			Debug.Log("joueur");
       CountPlayers += 1;
     }
 
     if (Col.gameObject.tag == "Idole")
     {
+			Debug.Log("idol");
+
       CountIdole += 1;
     }
   }
