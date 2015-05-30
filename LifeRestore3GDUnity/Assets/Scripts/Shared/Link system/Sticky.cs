@@ -107,23 +107,23 @@ public class Sticky : MonoBehaviour {
 	//tous les éléments possèdant sticky qui se trouvent dans mon trigger
 	//voient leur poids changer (2nd test: divisé par 10)
 	//selon leur type?
-	void OnTriggerEnter(Collider col){
-		//si lien!=0
-		//tester si le block a une force
-   		if (v_numberOfLinks != 0){
-	  		if(col.gameObject.GetComponent<Sticky>()!=null){
-				col.gameObject.GetComponent<Rigidbody>().mass = col.gameObject.GetComponent<Sticky>()._myInitMass*weightModifier;
-			}
-		}
-	}
-	
-	void OnTriggerExit(Collider col) {
-		if (v_numberOfLinks != 0){
-			if (col.gameObject.GetComponent<Sticky>() != null){
-				col.gameObject.GetComponent<Rigidbody>().mass = col.gameObject.GetComponent<Sticky>()._myInitMass;
-		    }
-		}
-	}
+//	void OnTriggerEnter(Collider col){
+//		//si lien!=0
+//		//tester si le block a une force
+//   		if (v_numberOfLinks != 0){
+//	  		if(col.gameObject.GetComponent<Sticky>()!=null){
+//				col.gameObject.GetComponent<Rigidbody>().mass = col.gameObject.GetComponent<Sticky>()._myInitMass*weightModifier;
+//			}
+//		}
+//	}
+//	
+//	void OnTriggerExit(Collider col) {
+//		if (v_numberOfLinks != 0){
+//			if (col.gameObject.GetComponent<Sticky>() != null){
+//				col.gameObject.GetComponent<Rigidbody>().mass = col.gameObject.GetComponent<Sticky>()._myInitMass;
+//		    }
+//		}
+//	}
 
 	/*void OnCollisionEnter(Collision col){
 		if(fronde){

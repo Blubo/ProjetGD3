@@ -1,0 +1,132 @@
+fileFormatVersion: 2
+guid: 32241cfaeeac7eb4bb2a25198f6c9f3c
+timeCreated: 1432921149
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: "Spritemap lames invers\xE9es (1)-01_0"
+    21300002: "Spritemap lames invers\xE9es (1)-01_1"
+    21300004: "Spritemap lames invers\xE9es (1)-01_2"
+    21300006: "Spritemap lames invers\xE9es (1)-01_3"
+    21300008: "Spritemap lames invers\xE9es (1)-01_4"
+    21300010: "Spritemap lames invers\xE9es (1)-01_5"
+    21300012: "Spritemap lames invers\xE9es (1)-01_6"
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: "Spritemap lames invers\xE9es (1)-01_0"
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: "Spritemap lames invers\xE9es (1)-01_1"
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 1
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: "Spritemap lames invers\xE9es (1)-01_2"
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 1
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: "Spritemap lames invers\xE9es (1)-01_3"
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 1
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: "Spritemap lames invers\xE9es (1)-01_4"
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 1
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: "Spritemap lames invers\xE9es (1)-01_5"
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 1
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: "Spritemap lames invers\xE9es (1)-01_6"
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 1
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
