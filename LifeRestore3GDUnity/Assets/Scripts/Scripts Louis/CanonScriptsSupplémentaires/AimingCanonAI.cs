@@ -34,7 +34,7 @@ public class AimingCanonAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.DrawRay(transform.position, transform.forward.normalized*viewRange);
+//		Debug.DrawRay(transform.position, transform.forward.normalized*viewRange);
 		if(Vision()!=null){
 			if(sawSomething == false){
 			}

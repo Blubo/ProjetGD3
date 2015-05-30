@@ -5,16 +5,18 @@ public class Block_SpawnCollectible : MonoBehaviour {
     [SerializeField]
     private GameObject _Little, _Medium, _Big;
 
+    private bool spawn;
+
     [SerializeField]
     private int _NumberLittle, _NumberMedium, _NumberBig;
 
 	[SerializeField]
 	private float minSpread, maxSpread, minHeight, maxHeight, explosionForce;
 
+  private ManagerLvl _LevelManager;
 
 	void Start(){
-
-
+    _LevelManager = GameObject.Find("Manager").GetComponent<ManagerLvl>();
 	}
 
 	public void SpawnCollectible () {
@@ -56,5 +58,13 @@ public class Block_SpawnCollectible : MonoBehaviour {
 			Rigidbody spawnedRB = spawned.AddComponent<Rigidbody>();
 			spawnedRB.AddForce(dir * explosionForce);
 		}
-	}   
+
+    _LevelManager.CheckForThings();
+	}
+
+  void Activated()
+  {
+    SpawnCollectible();
+    spawn = true;
+  }
 }

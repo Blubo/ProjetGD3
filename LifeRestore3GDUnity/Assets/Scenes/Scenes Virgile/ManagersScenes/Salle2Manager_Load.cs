@@ -9,29 +9,32 @@ public class Salle2Manager_Load : MonoBehaviour
 	public PlayerIndex playerIndex;
 	GamePadState state;
 	GamePadState prevState;
-	// private AsyncOperation async;
+	 private AsyncOperation async;
 	
 	private int CountPlayers, CountIdole;
 	private bool _EndLaunched;
 	
 	public GameObject _Zone;
-	
-	void Start()
-	{
+  private ManagerLvl _LevelManager;
+
+  void Start()
+  {
+    _LevelManager = GameObject.Find("Manager").GetComponent<ManagerLvl>();
+
 		CountPlayers = 0;
 		CountIdole = 0;
 		
 		_EndLaunched = false;
-		// StartCoroutine("LoadAnotherLvl");
+		 StartCoroutine("LoadAnotherLvl");
 	}
-	/*
+
   IEnumerator LoadAnotherLvl()
   {
-    async = Application.LoadLevelAsync(2);
+    async = Application.LoadLevelAdditiveAsync(2);
     async.allowSceneActivation = false;
     Debug.Log("Loading complete");
     yield return async;
-  }*/
+  }
 	
 	void Update()
 	{
@@ -50,10 +53,11 @@ public class Salle2Manager_Load : MonoBehaviour
     //Changement de couleur de la zone 
     _Zone.GetComponent<Renderer>().material.color = Color.green;
     //Attente courte pour montrer la couleur
-    yield return new WaitForSeconds(0.5f);
     //Chargement du niveau suivant
-   // async.allowSceneActivation = true;
-		Application.LoadLevel(2);
+    async.allowSceneActivation = true;
+		//Application.LoadLevel(3);
+    yield return new WaitForSeconds(5.0f);
+    _LevelManager.CheckForThings();
   }
 
   // On regarde les allers retours des objets dans la zone d'arrivée

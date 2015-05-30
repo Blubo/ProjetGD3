@@ -53,7 +53,7 @@ public class Salle5Manager_Load : MonoBehaviour
     yield return new WaitForSeconds(0.5f);
     //Chargement du niveau suivant
 //    async.allowSceneActivation = true;
-		Application.LoadLevel(5);
+		Application.LoadLevel(6);
 
   }
 

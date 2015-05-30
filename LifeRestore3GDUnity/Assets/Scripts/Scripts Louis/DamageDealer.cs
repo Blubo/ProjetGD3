@@ -504,6 +504,7 @@ public class DamageDealer : MonoBehaviour {
 				//si lié ou lié depuis peu
 				if(stickyCollided.v_numberOfLinks!=0|| stickyCollided.wasLinkedNotLongAgo==true){
 					//s'il va vite
+					//BUG SALLE 3
 					if(stickyCollided._Velocity>col.gameObject.GetComponent<DamageDealer>()._necessaryVelocity){
 						if(col.gameObject.tag.Equals("Arbre")){
 							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);

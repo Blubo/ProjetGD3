@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AlphaPlayers : MonoBehaviour {
 
-	private GameObject plumeAlpha;
+	public GameObject plumeAlpha;
 	private AlphaManager _alphaManager;
 	private bool imTheAlpha;
 	[SerializeField]
@@ -17,12 +17,18 @@ public class AlphaPlayers : MonoBehaviour {
 //		featherToHide = transform.Find("Avatar/Box964").gameObject;
 
 		myPlayerStatus = gameObject.GetComponent<Player_Status>();
-		plumeAlpha = GameObject.Find("PlumeAlpha");
-		if(plumeAlpha != null){
-			_alphaManager = plumeAlpha.GetComponent<AlphaManager>();
-		}
+    FindPlume();
 	}
-	
+
+  public void FindPlume()
+  {
+    plumeAlpha = GameObject.Find("PlumeAlpha");
+    if (plumeAlpha != null)
+    {
+      _alphaManager = plumeAlpha.GetComponent<AlphaManager>();
+    }
+  }
+
 	// Update is called once per frame
 	void Update () {
 		if(plumeAlpha != null){

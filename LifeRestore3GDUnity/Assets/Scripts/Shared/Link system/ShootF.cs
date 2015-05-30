@@ -52,7 +52,6 @@ public class ShootF : MonoBehaviour {
 		_timer -= Time.deltaTime;
 		if(_timer<=0){
 			if(prevState.Triggers.Right == 0 && state.Triggers.Right != 0){
-
 				if(myRetCone.Vision()!=null){
 					if(_target != null){
 						DetachLink(0);
