@@ -16,7 +16,7 @@ public class EnnemyD_AI : BasicEnnemy
     DistanceAllowed = 15.0f;
     RangeAttack = 5.0f;
     _DelaiAtk = 0;
-    AtkSphereRange = 1.0f;
+    AtkSphereRange = 20.0f;
 
     TimerCheckTarget = 0.0f;
     timerTemp = 5.0f;
@@ -117,7 +117,7 @@ public class EnnemyD_AI : BasicEnnemy
   //Zone de détection
   void CheckForTargets()
   {
-    _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, 30.0f));
+    _potentialTargets = new List<Collider>(Physics.OverlapSphere(transform.position, AtkSphereRange));
     UpdateTargets();
   }
 

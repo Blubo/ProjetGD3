@@ -25,16 +25,16 @@ public class Salle1Manager : MonoBehaviour {
 		CountIdole = 0;
 		
 		_EndLaunched = false;
-		 StartCoroutine("LoadAnotherLvl");
+		// StartCoroutine("LoadAnotherLvl");
 	}
 	
-	 IEnumerator LoadAnotherLvl()
+	/* IEnumerator LoadAnotherLvl()
   {
     async = Application.LoadLevelAdditiveAsync(1);
     async.allowSceneActivation = false;
     Debug.Log("Loading complete");
     yield return async;
-  }
+  }*/
 	
 	void Update () {
 		prevState = state;
@@ -54,9 +54,9 @@ public class Salle1Manager : MonoBehaviour {
     //Attente courte pour montrer la couleur
     //Chargement du niveau suivant
     async.allowSceneActivation = true;
-		//Application.LoadLevel(2);
+		Application.LoadLevel(2);
     yield return new WaitForSeconds(5.0f);
-    _LevelManager.CheckForThings();
+   // _LevelManager.CheckForThings();
   }
 
   // On regarde les allers retours des objets dans la zone d'arrivée

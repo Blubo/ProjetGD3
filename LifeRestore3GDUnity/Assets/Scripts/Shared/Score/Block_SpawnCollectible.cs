@@ -16,7 +16,10 @@ public class Block_SpawnCollectible : MonoBehaviour {
   private ManagerLvl _LevelManager;
 
 	void Start(){
-    _LevelManager = GameObject.Find("Manager").GetComponent<ManagerLvl>();
+    if (GameObject.Find("Manager") != null)
+    {
+      _LevelManager = GameObject.Find("Manager").GetComponent<ManagerLvl>();
+    }
 	}
 
 	public void SpawnCollectible () {
@@ -58,8 +61,11 @@ public class Block_SpawnCollectible : MonoBehaviour {
 			Rigidbody spawnedRB = spawned.AddComponent<Rigidbody>();
 			spawnedRB.AddForce(dir * explosionForce);
 		}
+    if (_LevelManager != null)
+    {
+      _LevelManager.CheckForThings();
+    }
 
-    _LevelManager.CheckForThings();
 	}
 
   void Activated()
