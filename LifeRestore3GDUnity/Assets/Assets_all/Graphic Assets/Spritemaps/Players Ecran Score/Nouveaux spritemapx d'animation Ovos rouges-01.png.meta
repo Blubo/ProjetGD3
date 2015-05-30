@@ -1,0 +1,297 @@
+fileFormatVersion: 2
+guid: 38042c8348515714897d3ba6286a140d
+timeCreated: 1432921047
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Nouveaux spritemapx d'animation Ovos rouges-01_0
+    21300002: Nouveaux spritemapx d'animation Ovos rouges-01_1
+    21300004: Nouveaux spritemapx d'animation Ovos rouges-01_2
+    21300006: Nouveaux spritemapx d'animation Ovos rouges-01_3
+    21300008: Nouveaux spritemapx d'animation Ovos rouges-01_4
+    21300010: Nouveaux spritemapx d'animation Ovos rouges-01_5
+    21300012: Nouveaux spritemapx d'animation Ovos rouges-01_6
+    21300014: Nouveaux spritemapx d'animation Ovos rouges-01_7
+    21300016: Nouveaux spritemapx d'animation Ovos rouges-01_8
+    21300018: Nouveaux spritemapx d'animation Ovos rouges-01_9
+    21300020: Nouveaux spritemapx d'animation Ovos rouges-01_10
+    21300022: Nouveaux spritemapx d'animation Ovos rouges-01_11
+    21300024: Nouveaux spritemapx d'animation Ovos rouges-01_12
+    21300026: Nouveaux spritemapx d'animation Ovos rouges-01_13
+    21300028: Nouveaux spritemapx d'animation Ovos rouges-01_14
+    21300030: Nouveaux spritemapx d'animation Ovos rouges-01_15
+    21300032: Nouveaux spritemapx d'animation Ovos rouges-01_16
+    21300034: Nouveaux spritemapx d'animation Ovos rouges-01_17
+    21300036: Nouveaux spritemapx d'animation Ovos rouges-01_18
+    21300038: Nouveaux spritemapx d'animation Ovos rouges-01_19
+    21300040: Nouveaux spritemapx d'animation Ovos rouges-01_20
+    21300042: Nouveaux spritemapx d'animation Ovos rouges-01_21
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_1
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_2
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_3
+      rect:
+        serializedVersion: 2
+        x: 846
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_4
+      rect:
+        serializedVersion: 2
+        x: 1128
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_5
+      rect:
+        serializedVersion: 2
+        x: 1410
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_6
+      rect:
+        serializedVersion: 2
+        x: 1692
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_7
+      rect:
+        serializedVersion: 2
+        x: 1974
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_8
+      rect:
+        serializedVersion: 2
+        x: 2256
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_9
+      rect:
+        serializedVersion: 2
+        x: 2538
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_10
+      rect:
+        serializedVersion: 2
+        x: 2820
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_11
+      rect:
+        serializedVersion: 2
+        x: 3102
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_12
+      rect:
+        serializedVersion: 2
+        x: 3384
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_13
+      rect:
+        serializedVersion: 2
+        x: 3666
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_14
+      rect:
+        serializedVersion: 2
+        x: 3948
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_15
+      rect:
+        serializedVersion: 2
+        x: 4230
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_16
+      rect:
+        serializedVersion: 2
+        x: 4512
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_17
+      rect:
+        serializedVersion: 2
+        x: 4794
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_18
+      rect:
+        serializedVersion: 2
+        x: 5076
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_19
+      rect:
+        serializedVersion: 2
+        x: 5358
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_20
+      rect:
+        serializedVersion: 2
+        x: 5640
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Nouveaux spritemapx d'animation Ovos rouges-01_21
+      rect:
+        serializedVersion: 2
+        x: 5922
+        y: 1
+        width: 282
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
