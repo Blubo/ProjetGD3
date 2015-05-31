@@ -6,7 +6,7 @@ public class DynamicCamera : MonoBehaviour {
 
   private Camera MainCamera;
   private bool _NeedReposition;
-  public bool _LockedCamera;
+  public bool _LockedCamera, _VeryLockedCamera;
   public Transform _LockTransform;
 
   //Players
@@ -67,9 +67,7 @@ public class DynamicCamera : MonoBehaviour {
     if (!_LockedCamera)
     {
       transform.position = Vector3.Lerp(transform.position, new Vector3(_Target.transform.position.x, (_Mini.position.y + GetFarthestElementFrom()) * 1.3f, _Target.transform.position.z - 10.0f), 0.9f * Time.deltaTime);
-
-    }
-    else
+    }else if (_LockedCamera)
     {
       transform.position = Vector3.Lerp(transform.position, new Vector3(_LockTransform.position.x, (_Mini.position.y + GetFarthestElementFrom()) * 1.3f, _Target.transform.position.z - 10.0f), 0.9f * Time.deltaTime);
     }
