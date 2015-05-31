@@ -6,6 +6,8 @@ public class DynamicCamera : MonoBehaviour {
 
   private Camera MainCamera;
   private bool _NeedReposition;
+  public bool _LockedCamera;
+  public Transform _LockTransform;
 
   //Players
   private GameObject[] _Players; 
@@ -18,6 +20,7 @@ public class DynamicCamera : MonoBehaviour {
 
 	void Start () {
     _NeedReposition = false;
+    _LockedCamera = false;
     MainCamera = Camera.main;
     _Idole = GameObject.FindGameObjectWithTag("Idole");
     _Players = GameObject.FindGameObjectsWithTag("Player");
@@ -61,8 +64,15 @@ public class DynamicCamera : MonoBehaviour {
       tempPosition = _High;
       MainCamera.fieldOfView = 90;
     }*/
+    if (!_LockedCamera)
+    {
+      transform.position = Vector3.Lerp(transform.position, new Vector3(_Target.transform.position.x, (_Mini.position.y + GetFarthestElementFrom()) * 1.3f, _Target.transform.position.z - 10.0f), 0.9f * Time.deltaTime);
 
-    transform.position =  Vector3.Lerp(transform.position, new Vector3( _Target.transform.position.x,(_Mini.position.y+ GetFarthestElementFrom())* 1.3f, _Target.transform.position.z-10.0f),0.9f *Time.deltaTime);
+    }
+    else
+    {
+      transform.position = Vector3.Lerp(transform.position, new Vector3(_LockTransform.position.x, (_Mini.position.y + GetFarthestElementFrom()) * 1.3f, _Target.transform.position.z - 10.0f), 0.9f * Time.deltaTime);
+    }
   }
 
   void CalculateCenter(Transform A, Transform B, Transform C, Transform D)

@@ -49,6 +49,7 @@ public class Vague_System : MonoBehaviour {
         for (int i = 0; i < _Emplacement.Count; i++)
 			{
         Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
+        Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
 			}
         _CurrentVague += 1;
         break;
@@ -57,6 +58,7 @@ public class Vague_System : MonoBehaviour {
         for (int i = 0; i < _Emplacement.Count-1; i++)
         {
           Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
+          Instantiate(_Prefab2, _Emplacement[2].position, Quaternion.identity);
         }
         //
         Instantiate(_Prefab2, _Emplacement[2].position, Quaternion.identity);
@@ -67,6 +69,10 @@ public class Vague_System : MonoBehaviour {
         for (int i = 0; i < _Emplacement.Count; i++)
         {
           Instantiate(_Prefab2, _Emplacement[i].position, Quaternion.identity);
+          Instantiate(_Prefab2, _Emplacement[i].position, Quaternion.identity);
+
+          Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
+          Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
         }
         _CurrentVague += 1;
         break;

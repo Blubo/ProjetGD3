@@ -29,7 +29,7 @@ public class Salle2Manager_Load : MonoBehaviour
 		CountIdole = 0;
 		
 		_EndLaunched = false;
-		 StartCoroutine("LoadAnotherLvl");
+		 //StartCoroutine("LoadAnotherLvl");
 	}
 
  /* IEnumerator LoadAnotherLvl()

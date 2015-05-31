@@ -3,9 +3,10 @@ using System.Collections;
 
 public class Block_SpawnCollectible : MonoBehaviour {
     [SerializeField]
-    private GameObject _Little, _Medium, _Big;
+    private GameObject _Little, _Medium, _Big, _PlumeAlpha;
 
     private bool spawn;
+    public bool _PopPlumeAlpha;
 
     [SerializeField]
     private int _NumberLittle, _NumberMedium, _NumberBig;
@@ -61,6 +62,10 @@ public class Block_SpawnCollectible : MonoBehaviour {
 			Rigidbody spawnedRB = spawned.AddComponent<Rigidbody>();
 			spawnedRB.AddForce(dir * explosionForce);
 		}
+    if (_PopPlumeAlpha)
+    {
+      GameObject spawned = Instantiate(_PlumeAlpha, new Vector3(transform.position.x, _PlumeAlpha.transform.position.y, transform.position.z), _PlumeAlpha.transform.rotation) as GameObject;
+    }
     if (_LevelManager != null)
     {
       _LevelManager.CheckForThings();
