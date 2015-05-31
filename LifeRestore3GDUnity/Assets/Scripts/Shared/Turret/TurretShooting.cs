@@ -32,7 +32,12 @@ public class TurretShooting : MonoBehaviour {
 	void Start () {
 		_shootTimer=_shootCooldown;
 	}
-	
+
+  void Activated()
+  {
+    this.enabled = true;
+  }
+
 	// Update is called once per frame
 	void Update () {
 		if(isCanon==false){

@@ -65,6 +65,7 @@ public class Block_SpawnCollectible : MonoBehaviour {
     if (_PopPlumeAlpha)
     {
       GameObject spawned = Instantiate(_PlumeAlpha, new Vector3(transform.position.x, _PlumeAlpha.transform.position.y, transform.position.z), _PlumeAlpha.transform.rotation) as GameObject;
+      spawned.gameObject.name = "PlumeAlpha";
     }
     if (_LevelManager != null)
     {

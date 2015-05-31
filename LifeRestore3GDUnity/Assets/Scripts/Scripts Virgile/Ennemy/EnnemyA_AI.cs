@@ -9,7 +9,7 @@ public class EnnemyA_AI : BasicEnnemy {
     WalkSpeed = 4.0f;
     RushSpeed = 6.0f;
     //distance max que à laquelle les ennemis peuvent aller depuis le leader
-    DistanceAllowed = 5.0f;
+    DistanceAllowed = 10.0f;
     //Zone dans laquelle le joueur est attaqué priotairement
     ZoneDanger = 5.0f;
     RangeAttack = 2.0f;
