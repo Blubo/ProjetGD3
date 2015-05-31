@@ -5,7 +5,7 @@ public class TurretShooting : MonoBehaviour {
 
 	[Header("Standard turret system")]
 	[SerializeField]
-	private float _shootCooldown,_shootForce;
+	private float _shootCooldown,_shootForce, _shootBombForce;
 	private float _shootTimer;
 
 	[SerializeField]
@@ -61,14 +61,23 @@ public class TurretShooting : MonoBehaviour {
 
 //		GameObject newProj = Instantiate(_projectile, _instantiateur.transform.position, Quaternion.identity) as GameObject;
 		GameObject newProj = Instantiate(_projectile, _instantiateur.transform.position, Quaternion.identity) as GameObject;
-		newProj.GetComponent<Rigidbody>().AddForce(_instantiateur.transform.forward*_shootForce);
 		newProj.GetComponent<Rigidbody>().AddTorque(new Vector3(Random.Range(-1000,1000), Random.Range(-1000,1000), Random.Range(-1000,1000)));
 //		Debug.Log("player who shot "+_playerWhoShot.name);
 //		if(newProj.GetComponent<TurretProjectile>() != null) newProj.GetComponent<TurretProjectile>().v_CanonWhoShotMe = machine;
 //		if(newProj.GetComponent<TurretProjectile>() != null) newProj.GetComponent<TurretProjectile>()._playerWhoShotMe = _playerWhoShot;
 		_shootTimer=0f;
 
-		if(newProj.GetComponent<TurretProjectile>()== null) return;
+		if(newProj.GetComponent<TurretProjectile>()== null){
+			newProj.GetComponent<DontCollideBombeWCanon>().v_CanonWhoShotMe = machine;
+			newProj.GetComponent<Rigidbody>().AddForce(_instantiateur.transform.forward*_shootBombForce);
+			newProj.GetComponent<BombBehavior>().TakeDamage(false);
+
+			return;
+		}
+		newProj.GetComponent<Rigidbody>().AddForce(_instantiateur.transform.forward*_shootForce);
+
+
+
 		newProj.GetComponent<TurretProjectile>().v_CanonWhoShotMe = machine;
 		if(isCanon == true){
 			newProj.GetComponent<TurretProjectile>()._playerWhoShotMe = _playerWhoShot;

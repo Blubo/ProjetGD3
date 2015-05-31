@@ -14,12 +14,12 @@ public class Player_Status : MonoBehaviour {
 	private ScoreManager _ScoreManager;
 
 	public int playerNumber;
+//
+//	[SerializeField]
+//	private int numberToDrop;
 
 	[SerializeField]
-	private int numberToDrop;
-
-	[SerializeField]
-	private GameObject collectibleToDrop;
+	private GameObject collectibleToDrop, enormColl, bigColl, midColl, smallColl;
 
 	[HideInInspector]
 	public GameObject linkedObject;
@@ -37,6 +37,9 @@ public class Player_Status : MonoBehaviour {
 
 	[HideInInspector]
 	public int myScore;
+
+	[SerializeField]
+	private int pointsDividerToSpawn;
 
 	void Start () {
 		myAvatarAnimator = transform.Find("Avatar/Body").GetComponent<Animator>();
@@ -77,20 +80,21 @@ public class Player_Status : MonoBehaviour {
 			}
 			Instantiate(hitAnimation, gameObject.transform.position, Quaternion.identity);
 
-        DropCollectible();
+//			(damageTaken);
         switch (playerNumber)
         {
 
           case 1:
 				_ScoreManager.Score_Vert -= _ScoreManager.Score_Vert * damage/100;
+				DropCollectible(_ScoreManager.Score_Vert * damage/100);
             break;
-
           case 2:
 				_ScoreManager.Score_Rouge -= _ScoreManager.Score_Rouge * damage/100;
-            break;
-
+				DropCollectible(_ScoreManager.Score_Rouge * damage/100);
+				break;
           case 3:
 				_ScoreManager.Score_Bleu -= _ScoreManager.Score_Bleu * damage/100;
+				DropCollectible(_ScoreManager.Score_Bleu * damage/100);
             break;
         }
         StartCoroutine("Clignotement");
@@ -126,14 +130,41 @@ public class Player_Status : MonoBehaviour {
         _IsInvincible = false;
     }
 
-	void DropCollectible(){
+	void DropCollectible(int PointsToLose){
 
-		/*int totalSeconds = 453;
-int minutes = totalSeconds / 60;
-int remainingSeconds = totalSeconds % 60;
-*/
-		for (int i = 0; i < numberToDrop; i++) {
-			GameObject dropped = Instantiate(collectibleToDrop, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), gameObject.transform.position.y, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), collectibleToDrop.transform.rotation)as GameObject;
+		/*
+		 * int totalSeconds = 453;
+		int minutes = totalSeconds / 60;
+		int remainingSeconds = totalSeconds % 60;
+		*/
+
+		PointsToLose /= pointsDividerToSpawn;
+
+		int remainingPoints = new int();
+
+		int EnormousToDrop = new int();
+		int BigToDrop = new int();
+		int MidToDrop = new int();
+		int SmallToDrop = new int();
+
+		BigToDrop = PointsToLose / 10;
+		remainingPoints = PointsToLose % 10;
+
+		for (int i = 0; i < BigToDrop; i++) {
+			GameObject dropped = Instantiate(bigColl, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), gameObject.transform.position.y, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), bigColl.transform.rotation)as GameObject;
+		}
+
+		MidToDrop = remainingPoints / 5;
+		remainingPoints = remainingPoints %5;
+
+		for (int i = 0; i < MidToDrop; i++) {
+			GameObject dropped = Instantiate(midColl, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), gameObject.transform.position.y, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), midColl.transform.rotation)as GameObject;
+		}
+
+		SmallToDrop = remainingPoints;
+		Debug.Log("small to drop "+ SmallToDrop);
+		for (int i = 0; i < SmallToDrop; i++) {
+			GameObject dropped = Instantiate(smallColl, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), gameObject.transform.position.y, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), smallColl.transform.rotation)as GameObject;
 		}
 	}
 

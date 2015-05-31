@@ -725,33 +725,36 @@ public class DamageDealer : MonoBehaviour {
 				//si lié ou lié depuis peu
 				if(stickyCollided.v_numberOfLinks!=0|| stickyCollided.wasLinkedNotLongAgo==true){
 					//si cette fronde va vite
-					if(stickyCollided._Velocity>col.gameObject.GetComponent<DamageDealer>()._necessaryVelocity){
-						//si un arbre me cogne
-						if(col.gameObject.tag.Equals("Arbre")){
-							col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
-							return;
-							//si un ennemi me cogne
-						}else if(col.gameObject.tag.Equals("Ennemy")){
-							//Faiblar
-							if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI){
-								col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+					if(col.gameObject.GetComponent<DamageDealer>() != null){
+
+						if(stickyCollided._Velocity>col.gameObject.GetComponent<DamageDealer>()._necessaryVelocity){
+							//si un arbre me cogne
+							if(col.gameObject.tag.Equals("Arbre")){
+								col.gameObject.GetComponent<ObjectStats>().TakeDamage(damageArbre);
 								return;
+								//si un ennemi me cogne
+							}else if(col.gameObject.tag.Equals("Ennemy")){
+								//Faiblar
+								if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyA_AI){
+									col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+									return;
+								}
+								//Ingénieur
+								if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyD_AI){
+									col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+									return;
+									
+								}
+								//si un ennemi ko me cogne
 							}
-							//Ingénieur
-							if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyD_AI){
-								col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
-								return;
-								
-							}
-							//si un ennemi ko me cogne
-						}
-						else if(col.gameObject.tag.Equals("Ragdoll")){
-							col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
-						}
-						
-						if(gameObject.tag.Equals("Static") == false){
-							if(col.gameObject.GetComponent<ObjectStats>() != null){
+							else if(col.gameObject.tag.Equals("Ragdoll")){
 								col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+							}
+							
+							if(gameObject.tag.Equals("Static") == false){
+								if(col.gameObject.GetComponent<ObjectStats>() != null){
+									col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
+								}
 							}
 						}
 					}

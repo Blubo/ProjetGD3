@@ -21,7 +21,7 @@ public class BombBehavior : MonoBehaviour
 
   private SoundManagerHeritTest _Sound;
 
-	void Start()
+	void Awake()
 	{
     _Sound = Camera.main.GetComponent<SoundManagerHeritTest>();
 		myAnimator = GetComponent<Animator>();

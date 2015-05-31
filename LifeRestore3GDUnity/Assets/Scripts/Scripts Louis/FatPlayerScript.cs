@@ -33,9 +33,9 @@ public class FatPlayerScript : MonoBehaviour {
 //		sizeRatioPercent = sizeRatio * 100;
 //		Debug.Log(myPlayerStatus.myScore);
 //		Debug.Log(sizeRatio);
-				Debug.Log("localscale "+gameObject.transform.localScale);
+//				Debug.Log("localscale "+gameObject.transform.localScale);
 
-		Debug.Log("localscale mag "+gameObject.transform.localScale.magnitude);
+//		Debug.Log("localscale mag "+gameObject.transform.localScale.magnitude);
 //		Debug.Log("initscale "+initScale.magnitude);
 
 //		gameObject.transform.localScale = maxScale * sizeRatioPercent/100;
