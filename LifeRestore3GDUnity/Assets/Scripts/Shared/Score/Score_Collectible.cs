@@ -10,7 +10,7 @@ public class Score_Collectible : MonoBehaviour {
 	private float _playerSizeMultiplicator;
     private ScoreManager _ScoreManager;
 	[SerializeField]
-	private GameObject destructionParticle, linkedDestructionParticle;
+	private GameObject destructionParticleVert, destructionParticleRouge, destructionParticleBleu, linkedDestructionParticleVert, linkedDestructionParticleRouge, linkedDestructionParticleBleu;
 	private GameObject idole;
 
     void Awake()
@@ -26,15 +26,32 @@ public class Score_Collectible : MonoBehaviour {
 		if (_collision.gameObject.tag == "Player"){
 			Player_Status hisPlayerStatus = _collision.gameObject.GetComponent<Player_Status>();
 			if (!hisPlayerStatus._IsInvincible){
-				if(hisPlayerStatus.linkedObject!=null && hisPlayerStatus.linkedObject.tag.Equals("Idole") == true){
-					_Multiplicator = 2;
-					Instantiate(linkedDestructionParticle, transform.position, Quaternion.identity);
-					
-				}else{
-					Instantiate(destructionParticle, transform.position, Quaternion.identity);
+				if(hisPlayerStatus.playerNumber == 1){
+					if(hisPlayerStatus.linkedObject!=null && hisPlayerStatus.linkedObject.tag.Equals("Idole") == true){
+						_Multiplicator = 2;
+						Instantiate(linkedDestructionParticleVert, transform.position, Quaternion.identity);
+						
+					}else{
+						Instantiate(destructionParticleVert, transform.position, Quaternion.identity);
+					}
+				}else if(hisPlayerStatus.playerNumber == 2){
+					if(hisPlayerStatus.linkedObject!=null && hisPlayerStatus.linkedObject.tag.Equals("Idole") == true){
+						_Multiplicator = 2;
+						Instantiate(linkedDestructionParticleRouge, transform.position, Quaternion.identity);
+						
+					}else{
+						Instantiate(destructionParticleRouge, transform.position, Quaternion.identity);
+					}
+				}else if(hisPlayerStatus.playerNumber == 3){
+					if(hisPlayerStatus.linkedObject!=null && hisPlayerStatus.linkedObject.tag.Equals("Idole") == true){
+						_Multiplicator = 2;
+						Instantiate(linkedDestructionParticleBleu, transform.position, Quaternion.identity);
+						
+					}else{
+						Instantiate(destructionParticleBleu, transform.position, Quaternion.identity);
+					}
 				}
-				
-				_collision.gameObject.GetComponent<FatPlayerScript>().ChangeSize(_playerSizeMultiplicator);
+//				_collision.gameObject.GetComponent<FatPlayerScript>().ChangeSize(_playerSizeMultiplicator);
 				
 				//ALORS ON AUGMENTE LE SCORE DU JOUEUR DE "VALUE"
 				string _name = _collision.gameObject.name;
