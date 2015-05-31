@@ -162,7 +162,7 @@ public class Player_Status : MonoBehaviour {
 		}
 
 		SmallToDrop = remainingPoints;
-		Debug.Log("small to drop "+ SmallToDrop);
+//		Debug.Log("small to drop "+ SmallToDrop);
 		for (int i = 0; i < SmallToDrop; i++) {
 			GameObject dropped = Instantiate(smallColl, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), gameObject.transform.position.y, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), smallColl.transform.rotation)as GameObject;
 		}

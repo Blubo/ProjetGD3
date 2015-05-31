@@ -73,7 +73,7 @@ public class TurretShooting : MonoBehaviour {
 		_shootTimer=0f;
 
 		if(newProj.GetComponent<TurretProjectile>()== null){
-			newProj.GetComponent<DontCollideBombeWCanon>().v_CanonWhoShotMe = machine;
+			newProj.GetComponent<BombCanonColManager>().v_CanonWhoShotMe = machine;
 			newProj.GetComponent<Rigidbody>().AddForce(_instantiateur.transform.forward*_shootBombForce);
 			newProj.GetComponent<BombBehavior>().TakeDamage(false);
 

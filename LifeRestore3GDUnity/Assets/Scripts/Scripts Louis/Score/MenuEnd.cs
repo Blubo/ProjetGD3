@@ -6,8 +6,6 @@ using XInputDotNetPure;
 public class MenuEnd : MonoBehaviour {
 	
 	public GameObject rejouer, quitter;
-	//public GameObject howTo;
-	
 	private List<GameObject> cases;
 	private GameObject selected, unselected;
 	private int selectedNumber, unselectedNumber;
