@@ -14,6 +14,7 @@ public class DamageDealer : MonoBehaviour {
 	public int damageCaserne;
 	public int damageArbre;
 	public int damageEnnemy;
+	public int damagePlayer;
 	
 	private Color hitObjectColor;
 	
@@ -151,7 +152,7 @@ public class DamageDealer : MonoBehaviour {
 //						Debug.Log(mySticky.myHolderPlayer.name);
 						if(mySticky.myHolderPlayer != col.gameObject){
 							Vector3 directionOfCollision = new Vector3(col.gameObject.transform.position.x, col.gameObject.transform.position.y + 10f, col.gameObject.transform.position.z) - gameObject.transform.position ;
-							col.gameObject.GetComponent<Player_Status>().TakeDamage(directionOfCollision);
+							col.gameObject.GetComponent<Player_Status>().TakeDamage(directionOfCollision, damagePlayer);
 							col.gameObject.GetComponent<Player_Status>().SeverLinkToIdole();
 
 	//						Vector3 directionOfCollision = col.gameObject.transform.position - gameObject.transform.position ;
@@ -424,7 +425,7 @@ public class DamageDealer : MonoBehaviour {
 				//si je touche un joueur
 			}else if(col.gameObject.tag.Equals("Player")){
 				Vector3 directionOfCollision = new Vector3(col.gameObject.transform.position.x, col.gameObject.transform.position.y + 10f, col.gameObject.transform.position.z) - gameObject.transform.position ;
-				col.gameObject.GetComponent<Player_Status>().TakeDamage(directionOfCollision);
+				col.gameObject.GetComponent<Player_Status>().TakeDamage(directionOfCollision, damagePlayer);
 				//CECI PETE LE LIEN DUN POTE SI L ENNEMI A ETE FRONDE
 				if(mySticky!=null && mySticky.v_numberOfLinks!=0|| mySticky!=null && mySticky.wasLinkedNotLongAgo==true){
 					if(myRB.velocity.magnitude>_necessaryVelocity){
@@ -653,7 +654,7 @@ public class DamageDealer : MonoBehaviour {
 //				Debug.Log(gameObject.GetComponent<TurretProjectile>()._playerWhoShotMe);
 				if((gameObject.GetComponent<TurretProjectile>()._playerWhoShotMe!=null && gameObject.GetComponent<TurretProjectile>()._playerWhoShotMe != col.gameObject) || gameObject.GetComponent<TurretProjectile>()._playerWhoShotMe==null){
 					Vector3 directionOfCollision = new Vector3(col.gameObject.transform.position.x, col.gameObject.transform.position.y + 10f, col.gameObject.transform.position.z) - gameObject.transform.position ;
-					col.gameObject.GetComponent<Player_Status>().TakeDamage(directionOfCollision);
+					col.gameObject.GetComponent<Player_Status>().TakeDamage(directionOfCollision, damagePlayer);
 					col.gameObject.GetComponent<Player_Status>().SeverLinkToIdole();
 					return;
 				}

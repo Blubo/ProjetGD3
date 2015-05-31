@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class BombBehavior : MonoBehaviour
 {
 	public float RangeExplosion, _KnockBack, _Fuse, _DamageValue;
+	public int damagePlayer;
 	private bool _ReadyToBlow;
 	public bool _IsSolo;
 	private Collider[] tab;
@@ -147,11 +148,14 @@ public class BombBehavior : MonoBehaviour
 			else if(type == "Player"){
 				if(_MySticky.myHolderPlayer != null){
 					if(Hit != _MySticky.myHolderPlayer){
-						Hit.SendMessage("TakeDamage", new Vector3(Hit.gameObject.transform.position.x, Hit.gameObject.transform.position.y + 10f, Hit.gameObject.transform.position.z) - gameObject.transform.position);
+						Hit.GetComponent<Player_Status>().TakeDamage(new Vector3(Hit.gameObject.transform.position.x, Hit.gameObject.transform.position.y + 10f, Hit.gameObject.transform.position.z) - gameObject.transform.position, damagePlayer);
+//						Hit.SendMessage("TakeDamage", new Vector3(Hit.gameObject.transform.position.x, Hit.gameObject.transform.position.y + 10f, Hit.gameObject.transform.position.z) - gameObject.transform.position);
 						Hit.SendMessage("SeverLinkToIdole");
 					}
 				}else{
-					Hit.SendMessage("TakeDamage", new Vector3(Hit.gameObject.transform.position.x, Hit.gameObject.transform.position.y + 10f, Hit.gameObject.transform.position.z) - gameObject.transform.position);
+					Hit.GetComponent<Player_Status>().TakeDamage(new Vector3(Hit.gameObject.transform.position.x, Hit.gameObject.transform.position.y + 10f, Hit.gameObject.transform.position.z) - gameObject.transform.position, damagePlayer);
+
+//					Hit.SendMessage("TakeDamage", new Vector3(Hit.gameObject.transform.position.x, Hit.gameObject.transform.position.y + 10f, Hit.gameObject.transform.position.z) - gameObject.transform.position);
 					Hit.SendMessage("SeverLinkToIdole");
 				}
 			}

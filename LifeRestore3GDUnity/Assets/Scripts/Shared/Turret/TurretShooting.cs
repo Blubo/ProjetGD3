@@ -66,6 +66,9 @@ public class TurretShooting : MonoBehaviour {
 //		Debug.Log("player who shot "+_playerWhoShot.name);
 //		if(newProj.GetComponent<TurretProjectile>() != null) newProj.GetComponent<TurretProjectile>().v_CanonWhoShotMe = machine;
 //		if(newProj.GetComponent<TurretProjectile>() != null) newProj.GetComponent<TurretProjectile>()._playerWhoShotMe = _playerWhoShot;
+		_shootTimer=0f;
+
+		if(newProj.GetComponent<TurretProjectile>()== null) return;
 		newProj.GetComponent<TurretProjectile>().v_CanonWhoShotMe = machine;
 		if(isCanon == true){
 			newProj.GetComponent<TurretProjectile>()._playerWhoShotMe = _playerWhoShot;
@@ -76,6 +79,5 @@ public class TurretShooting : MonoBehaviour {
 				newProj.GetComponent<TurretProjectile>()._playerWhoShotMe = gameObject.transform.parent.transform.parent.GetComponent<Sticky>().myHolderPlayer;
 			}
 		}
-		_shootTimer=0f;
 	}
 }

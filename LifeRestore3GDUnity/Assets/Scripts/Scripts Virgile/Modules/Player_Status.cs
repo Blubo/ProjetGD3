@@ -16,7 +16,7 @@ public class Player_Status : MonoBehaviour {
 	public int playerNumber;
 
 	[SerializeField]
-	private int damage, numberToDrop;
+	private int numberToDrop;
 
 	[SerializeField]
 	private GameObject collectibleToDrop;
@@ -34,7 +34,10 @@ public class Player_Status : MonoBehaviour {
 	private float _playerSizeDecreaseOnHit;
 	private ShootF myShootF;
 	private Animator myAvatarAnimator;
-	
+
+	[HideInInspector]
+	public int myScore;
+
 	void Start () {
 		myAvatarAnimator = transform.Find("Avatar/Body").GetComponent<Animator>();
 
@@ -45,13 +48,23 @@ public class Player_Status : MonoBehaviour {
 		_IsInvincible = false;
  	 }
 
-    public void TakeDamage(Vector3 directionToUse)
+	void Update(){
+		if(playerNumber == 1){
+			myScore = PlayerPrefs.GetInt("ScoreGreen");
+		}else if(playerNumber == 2){
+			myScore = PlayerPrefs.GetInt("ScoreRed");
+		}else if(playerNumber == 3){
+			myScore = PlayerPrefs.GetInt("ScoreBlue");
+		}
+	}
+
+	public void TakeDamage(Vector3 directionToUse, int damage)
     {
       if (!_IsInvincible)
       {
 			myAvatarAnimator.SetBool("Damage", true);
 
-			GetComponent<FatPlayerScript>().ChangeSize(_playerSizeDecreaseOnHit);
+//			GetComponent<FatPlayerScript>().ChangeSize(_playerSizeDecreaseOnHit);
 
 			myAlphaPlayer.DropTheFeather(directionToUse);
 			Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Ovo blessure");
@@ -69,15 +82,15 @@ public class Player_Status : MonoBehaviour {
         {
 
           case 1:
-            _ScoreManager.Score_Vert -= damage;
+				_ScoreManager.Score_Vert -= _ScoreManager.Score_Vert * damage/100;
             break;
 
           case 2:
-            _ScoreManager.Score_Rouge -= damage;
+				_ScoreManager.Score_Rouge -= _ScoreManager.Score_Rouge * damage/100;
             break;
 
           case 3:
-            _ScoreManager.Score_Bleu -= damage;
+				_ScoreManager.Score_Bleu -= _ScoreManager.Score_Bleu * damage/100;
             break;
         }
         StartCoroutine("Clignotement");
@@ -114,6 +127,11 @@ public class Player_Status : MonoBehaviour {
     }
 
 	void DropCollectible(){
+
+		/*int totalSeconds = 453;
+int minutes = totalSeconds / 60;
+int remainingSeconds = totalSeconds % 60;
+*/
 		for (int i = 0; i < numberToDrop; i++) {
 			GameObject dropped = Instantiate(collectibleToDrop, new Vector3(gameObject.transform.position.x+Random.Range(-2.0f, 2.0f), gameObject.transform.position.y, gameObject.transform.position.z+Random.Range(-2.0f, 2.0f)), collectibleToDrop.transform.rotation)as GameObject;
 		}
