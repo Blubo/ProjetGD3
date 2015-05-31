@@ -6,8 +6,9 @@ public class Vague_System : MonoBehaviour {
 
   private int _CurrentVague;
   public List<Transform> _Emplacement;
+  public Transform _BossPlacement;
 
-  public GameObject _Prefab1, _Prefab2;
+  public GameObject _Prefab1, _Prefab2, _Prefab3;
 
   public float _TimerBetween;
   private float _TimerMax;
@@ -28,13 +29,13 @@ public class Vague_System : MonoBehaviour {
 	void Update () {
     _TimerMax -= 1 * Time.deltaTime;
 
-    if (_CurrentVague >= 3 && GameObject.FindWithTag("Ennemy") == null)
+    if (_CurrentVague >= 4 && GameObject.FindWithTag("Ennemy") == null)
     {
       EndSalle();
     }
 
     if(_TimerMax <= 0.0f){
-      if(_CurrentVague < 3){
+      if(_CurrentVague < 4){
         _TimerMax = _TimerBetween;
         PopNextVague();
       }
@@ -55,13 +56,11 @@ public class Vague_System : MonoBehaviour {
         break;
 
       case 1:
-        for (int i = 0; i < _Emplacement.Count-1; i++)
+        for (int i = 0; i < _Emplacement.Count; i++)
         {
-          Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
-          Instantiate(_Prefab2, _Emplacement[2].position, Quaternion.identity);
+          Instantiate(_Prefab2, _Emplacement[i].position, Quaternion.identity);
+          Instantiate(_Prefab2, _Emplacement[i].position, Quaternion.identity);
         }
-        //
-        Instantiate(_Prefab2, _Emplacement[2].position, Quaternion.identity);
         _CurrentVague += 1;
         break;
 
@@ -74,7 +73,15 @@ public class Vague_System : MonoBehaviour {
           Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
           Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
         }
+          Instantiate(_Prefab2, _Emplacement[3].position, Quaternion.identity);
+          Instantiate(_Prefab2, _Emplacement[5].position, Quaternion.identity);
         _CurrentVague += 1;
+        break;
+
+      case 3:
+        Debug.Log("456");
+        Instantiate(_Prefab3, _BossPlacement.position, Quaternion.identity);
+          _CurrentVague += 1;
         break;
     }
   }

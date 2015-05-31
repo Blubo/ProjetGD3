@@ -15,7 +15,8 @@ public class Idole_Status : MonoBehaviour {
     [SerializeField]
     private float TimerInvincibility;
 
-	public bool _IsInvincible;
+    private bool PlayedSound;
+	  public bool _IsInvincible;
 	
 	[SerializeField]
 	private GameObject endSplashScreen;
@@ -114,7 +115,12 @@ public class Idole_Status : MonoBehaviour {
 
     void Death() { 
         //si les points de vies de l'aura tombent à zero on lance le game Over
-      Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole blessure");
+      if (PlayedSound == false)
+      {
+        Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole blessure");
+        PlayedSound = true;
+      }
+
 		if(endSplashScreen!= null)endSplashScreen.GetComponent<Renderer>().enabled = true;
 		//Destroy(gameObject);
     }

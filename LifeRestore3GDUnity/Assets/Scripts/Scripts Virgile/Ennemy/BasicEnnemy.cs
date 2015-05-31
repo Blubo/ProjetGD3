@@ -93,6 +93,11 @@ public class BasicEnnemy : MonoBehaviour {
     {
       _Sound.PlaySoundOneShot("Ennemi barak blessure");
     }
+    if (_MyType is EnnemyD_AI)
+    {
+      _Sound.PlaySoundOneShot("Ennemi barak blessure");
+      _Nav.speed = 1.0f;
+    }
   }
 
   private void PlaySoundOnSpawn()
@@ -186,7 +191,7 @@ public class BasicEnnemy : MonoBehaviour {
     //L'attaque se passe
     for (int i = 0; i < Attacked.Length; i++)
     {
-      if (Attacked[i] != null && Attacked[i].gameObject.tag == "Player")
+      if (Attacked[i] != null && Attacked[i].gameObject.tag == "Player" && _instantiateur != null)
       {
 				GameObject particule = Instantiate(attackEffect, _instantiateur.transform.position, Quaternion.identity )as GameObject;
 
