@@ -52,9 +52,9 @@ public class PodiumScore : MonoBehaviour {
 		if(myMenuEnd._alphaManager != null) isThereAnAlpha = true;
 		if(isThereAnAlpha) AlphaPlayerNumber = myMenuEnd._alphaManager.posessor.GetComponent<Player_Status>().playerNumber;
 
-		PlayerPrefs.SetInt("ScoreGreen", scoreG);
-		PlayerPrefs.SetInt("ScoreRed", scoreR);
-		PlayerPrefs.SetInt("ScoreBlue", scoreB);
+//		PlayerPrefs.SetInt("ScoreGreen", scoreG);
+//		PlayerPrefs.SetInt("ScoreRed", scoreR);
+//		PlayerPrefs.SetInt("ScoreBlue", scoreB);
 
 		//REMOVE
 		//on remplit scores avec les scores

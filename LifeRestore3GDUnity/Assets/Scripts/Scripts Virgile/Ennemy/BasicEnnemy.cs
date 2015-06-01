@@ -11,7 +11,7 @@ public class BasicEnnemy : MonoBehaviour {
   public int Health;
   public float WalkSpeed;
   public float RushSpeed;
-  public int AttackValue;
+	public int AttackValue, playerDamage;
   public bool IsLeader, IsAttacking, _InDanger;
   public float DistanceAllowed, ZoneDanger;
   public float RangeAttack, AtkSphereRange;
@@ -194,8 +194,9 @@ public class BasicEnnemy : MonoBehaviour {
       if (Attacked[i] != null && Attacked[i].gameObject.tag == "Player" && _instantiateur != null)
       {
 				GameObject particule = Instantiate(attackEffect, _instantiateur.transform.position, Quaternion.identity )as GameObject;
+				Attacked[i].gameObject.GetComponent<Player_Status>().TakeDamage(transform.position, playerDamage);
 
-        Attacked[i].gameObject.SendMessage("TakeDamage", transform.position);
+//				Attacked[i].gameObject.SendMessage("TakeDamage", transform.position, playerDamage);
       }
 
       if (Attacked[i] != null && Attacked[i].gameObject.tag == "Idole")

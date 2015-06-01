@@ -41,7 +41,8 @@ public class TurretProjectile : MonoBehaviour {
 			   || collision.gameObject.tag.Equals("Canon")
 			   || collision.gameObject.tag.Equals("Weapon")
 			   || collision.gameObject.tag.Equals("Idole")
-			   || collision.gameObject.tag.Equals("Player")){
+			   || collision.gameObject.tag.Equals("Player")
+			   || collision.gameObject.name.Equals("Enemy_Boss")){
 				Instantiate(particuleDestruction, gameObject.transform.position, Quaternion.identity);
 				Destroy(gameObject);
 			}

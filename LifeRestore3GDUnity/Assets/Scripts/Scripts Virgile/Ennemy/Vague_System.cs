@@ -50,7 +50,7 @@ public class Vague_System : MonoBehaviour {
         for (int i = 0; i < _Emplacement.Count; i++)
 			{
         Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
-        Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
+//        Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
 			}
         _CurrentVague += 1;
         break;
@@ -58,7 +58,7 @@ public class Vague_System : MonoBehaviour {
       case 1:
         for (int i = 0; i < _Emplacement.Count; i++)
         {
-          Instantiate(_Prefab2, _Emplacement[i].position, Quaternion.identity);
+//          Instantiate(_Prefab2, _Emplacement[i].position, Quaternion.identity);
           Instantiate(_Prefab2, _Emplacement[i].position, Quaternion.identity);
         }
         _CurrentVague += 1;
@@ -67,19 +67,19 @@ public class Vague_System : MonoBehaviour {
       case  2 :
         for (int i = 0; i < _Emplacement.Count; i++)
         {
-          Instantiate(_Prefab2, _Emplacement[i].position, Quaternion.identity);
-          Instantiate(_Prefab2, _Emplacement[i].position, Quaternion.identity);
+//          Instantiate(_Prefab2, _Emplacement[i].position, Quaternion.identity);
+//          Instantiate(_Prefab2, _Emplacement[i].position, Quaternion.identity);
 
-          Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
+//          Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
           Instantiate(_Prefab1, _Emplacement[i].position, Quaternion.identity);
         }
-          Instantiate(_Prefab2, _Emplacement[3].position, Quaternion.identity);
+//          Instantiate(_Prefab2, _Emplacement[3].position, Quaternion.identity);
           Instantiate(_Prefab2, _Emplacement[5].position, Quaternion.identity);
         _CurrentVague += 1;
         break;
 
       case 3:
-        Debug.Log("456");
+//        Debug.Log("456");
         Instantiate(_Prefab3, _BossPlacement.position, Quaternion.identity);
           _CurrentVague += 1;
         break;
