@@ -13,6 +13,8 @@ public class TitleScreenTrigger0to2 : MonoBehaviour {
 //	private int targetIndex1, targetIndex2;
 	private List<GameObject> PlayersInTrigger;
 
+	[SerializeField]
+	private GameObject directionFleche, doublage;
 
 	void Start () {
 		PlayersInTrigger = new List<GameObject>();
@@ -20,14 +22,20 @@ public class TitleScreenTrigger0to2 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-
+		if(playerCount!=0){
+			directionFleche.SetActive(true);
+			doublage.SetActive(true);
+		}else{
+			directionFleche.SetActive(false);
+			doublage.SetActive(false);
+		}
 	}
 
 	void OnCollisionEnter(Collision col){
 		if(col.gameObject.tag.Equals("Player")){
 			PlayersInTrigger.Add(col.gameObject);
 			playerCount+=1;
+
 			if(playerCount>=3){
 				Debug.Log("well");
 				for (int i = 0; i < PlayersInTrigger.Count; i++) {
@@ -35,11 +43,9 @@ public class TitleScreenTrigger0to2 : MonoBehaviour {
 						PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().TeleportPlayer(new Vector3(-5,0,0));
 						Camera.main.GetComponent<TitleScreenCameraManager>().currentWayPointNumber = 2;
 
-
 					}else if(PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().whichRoomImIn == 2){
 						PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().TeleportPlayer(new Vector3(5,0,0));
 						Camera.main.GetComponent<TitleScreenCameraManager>().currentWayPointNumber = 0;
-
 					}
 				}
 			}

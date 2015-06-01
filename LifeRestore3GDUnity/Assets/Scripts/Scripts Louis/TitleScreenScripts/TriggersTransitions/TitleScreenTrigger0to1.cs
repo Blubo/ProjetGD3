@@ -17,14 +17,23 @@ public class TitleScreenTrigger0to1 : MonoBehaviour {
 	private GameObject playersGroupe;
 	[SerializeField]
 	private Transform cameraTarget;
+
+	[SerializeField]
+	private GameObject directionFleche, doublage;
+
 	void Start () {
 		PlayersInTrigger = new List<GameObject>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-
+		if(playerCount!=0){
+			directionFleche.SetActive(true);
+			doublage.SetActive(true);
+		}else{
+			directionFleche.SetActive(false);
+			doublage.SetActive(false);
+		}
 	}
 
 	void OnCollisionEnter(Collision col){

@@ -5,8 +5,11 @@ using XInputDotNetPure;
 
 public class MenuEnd : MonoBehaviour {
 	
-	public GameObject rejouer, quitter;
+	public GameObject niveauSuivant, selectionNiveaux, recommencer;
+	public GameObject PROFniveauSuivant, PROFselectionNiveaux, PROFrecommencer;
+
 	private List<GameObject> cases;
+	private List<GameObject> PROFcases;
 	private GameObject selected, unselected;
 	private int selectedNumber, unselectedNumber;
 
@@ -25,7 +28,6 @@ public class MenuEnd : MonoBehaviour {
 		alphaFeather =  GameObject.Find("PlumeAlpha");
 		if(alphaFeather!=null){
 			_alphaManager = alphaFeather.GetComponent<AlphaManager>();
-//			Debug.Log("well");
 		}
 	}
 
@@ -35,8 +37,14 @@ public class MenuEnd : MonoBehaviour {
 		unselectedNumber = 1;
 
 		cases = new List<GameObject>();
-		cases.Add(rejouer);
-		cases.Add(quitter);
+		cases.Add(niveauSuivant);
+		cases.Add(selectionNiveaux);
+		cases.Add(recommencer);
+
+		PROFcases = new List<GameObject>();
+		PROFcases.Add(PROFniveauSuivant);
+		PROFcases.Add(PROFselectionNiveaux);
+		PROFcases.Add(PROFrecommencer);
 	}
 	
 	// Update is called once per frame
@@ -50,22 +58,41 @@ public class MenuEnd : MonoBehaviour {
 
 		if(selected!=null && unselected != null){
 			OnOff(selected, unselected);
+			OnOff(PROFcases[selectedNumber], PROFcases[unselectedNumber]);
+
+			PROFcases[selectedNumber].SetActive(true);
+			PROFcases[unselectedNumber].SetActive(false);
 		}		
 			
 		if(inputsAllowed == true){
-			if(prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X>0 || prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X<0){
+			if(prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X>0){
 				if(selectedNumber==0){
 					selectedNumber = 1;
 					unselectedNumber = 0;
 				}else if(selectedNumber==1){
+					selectedNumber = 2;
+					unselectedNumber = 1;
+				}else if(selectedNumber == 2){
+					selectedNumber = 0;
+					unselectedNumber = 2;
+				}
+			}else if(prevState.ThumbSticks.Left.X==0 && state.ThumbSticks.Left.X<0){
+				if(selectedNumber==0){
+					selectedNumber = 2;
+					unselectedNumber = 0;
+				}else if(selectedNumber==1){
 					selectedNumber = 0;
 					unselectedNumber = 1;
+				}else if(selectedNumber == 2){
+					selectedNumber = 1;
+					unselectedNumber = 2;
 				}
 			}
 
 			if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed){
-				if(selectedNumber==0)Application.LoadLevel(0);
-				if(selectedNumber==1)Application.Quit();
+//				if(selectedNumber==0)Application.LoadLevel(0);
+				if(selectedNumber==1)Application.LoadLevel(0);
+				if(selectedNumber==2)Application.LoadLevel(1);
 			}
 		}
 	}
