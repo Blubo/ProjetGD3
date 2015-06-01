@@ -17,6 +17,8 @@ public class Salle2Manager_Load : MonoBehaviour
 	public GameObject _Zone;
   private ManagerLvl _LevelManager;
 
+  private GameObject[] _Players;
+
   void Start()
   {
     if (GameObject.Find("Manager"))
@@ -24,6 +26,7 @@ public class Salle2Manager_Load : MonoBehaviour
       _LevelManager = GameObject.Find("Manager").GetComponent<ManagerLvl>();
     }
 
+    _Players = GameObject.FindGameObjectsWithTag("Player");
 
 		CountPlayers = 0;
 		CountIdole = 0;
@@ -59,8 +62,16 @@ public class Salle2Manager_Load : MonoBehaviour
     //Attente courte pour montrer la couleur
     //Chargement du niveau suivant
     //async.allowSceneActivation = true;
-		Application.LoadLevel(3);
+
+    for (int i = 0; i < _Players.Length; i++)
+    {
+      if (_Players[i].transform.FindChild("PlumeAlpha"))
+      {
+        _Players[i].transform.FindChild("PlumeAlpha").gameObject.GetComponent<AlphaManager>().OnEndLevel();
+      }
+    }
     yield return new WaitForSeconds(5.0f);
+    Application.LoadLevel(3);
     _LevelManager.CheckForThings();
   }
 
