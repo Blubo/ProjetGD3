@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Salle2Manager : MonoBehaviour {
 
-  public GameObject _Caserne1, _Caserne2;
+  public GameObject _Caserne1, _Caserne2, _triggerSon;
   public List<GameObject> _Doors;
 
   public Transform _Highview;
@@ -47,11 +47,13 @@ public class Salle2Manager : MonoBehaviour {
 
   void EndSalle()
   {
+    _triggerSon.SendMessage("Activated");
     for (int i = 0; i < _Doors.Count; i++)
     {
       _Doors[i].SendMessage("Activated");
     }
     ItsMyFirstTime = true;
+
   }
 
   void OnTriggerEnter(Collider Col) {

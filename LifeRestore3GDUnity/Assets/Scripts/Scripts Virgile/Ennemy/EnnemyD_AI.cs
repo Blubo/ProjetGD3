@@ -28,19 +28,34 @@ public class EnnemyD_AI : BasicEnnemy
 
   void Update()
   {
-   FindTarget();
-    //Tentative pour trouver une target 
-    if (TimerCheckTarget > 0)
+
+    if (Furie && _Bombe != null && _FinishCoroutine == true)
     {
-      TimerCheckTarget -= 1.0f * Time.deltaTime;
+      _targetposition = _TargetFurie.transform.position;
+      StartCoroutine("AttackInge", _Bombe);
+      _Anim.Play("Animation Lancer Ingé");
     }
-    else if (TimerCheckTarget <= 0)
+    else
     {
-      CheckForTargets();
-      TimerCheckTarget = timerTemp;
+      _Anim.Play("Animation Idle Crocmagnon");
     }
 
-    UpdateTargets();
+    if (!Furie)
+    {
+      FindTarget();
+      //Tentative pour trouver une target 
+      if (TimerCheckTarget > 0)
+      {
+        TimerCheckTarget -= 1.0f * Time.deltaTime;
+      }
+      else if (TimerCheckTarget <= 0)
+      {
+        CheckForTargets();
+        TimerCheckTarget = timerTemp;
+      }
+
+      UpdateTargets();
+    }
     //Mort de l'ennemi
     if (Health <= 0)
     {
@@ -55,37 +70,50 @@ public class EnnemyD_AI : BasicEnnemy
     {
       _Anim.Play("Animation Idle Crocmagnon");
         ReloadBomb();
-        StartCoroutine("WaitForThoseSecs", 3.0f);
+        if (Furie)
+        {
+          StartCoroutine("WaitForThoseSecs", 6.0f);
+        }
+        else
+        {
+          StartCoroutine("WaitForThoseSecs", 3.0f);
+        }
     }
 
     //Si la target a été retrouvé 
-    if (Target != null)
+    if (!Furie)
     {
-      if (Target.tag == "Idole" || Target.tag == "Player")
+      if (Target != null)
       {
-        if (gameObject.GetComponent<NavMeshAgent>().enabled)
+        if (Target.tag == "Idole" || Target.tag == "Player")
         {
-          _Nav.ResetPath();
-        }
-
-        //Beware Below
-        if (_Bombe != null && _FinishCoroutine == true && !IsRunning)
-        {
-          StartCoroutine("AttackInge", _Bombe);
-          _Anim.Play("Animation Lancer Ingé");
-
-          if (!_SoundTir)
+          if (gameObject.GetComponent<NavMeshAgent>().enabled)
           {
-            _Sound.PlaySoundOneShot("Ennemi ingenieur tir");
-            _SoundTir = true;
+            _Nav.ResetPath();
+          }
+
+          //Beware Below
+          if (_Bombe != null && _FinishCoroutine == true && !IsRunning)
+          {
+            StartCoroutine("AttackInge", _Bombe);
+            _Anim.Play("Animation Lancer Ingé");
+
+            if (!_SoundTir)
+            {
+              _Sound.PlaySoundOneShot("Ennemi ingenieur tir");
+              _SoundTir = true;
+            }
           }
         }
+        else
+        {
+          _locked = false;
+          CheckForTargets();
+          Wait();
+        }
       }
-      else {
-        _locked = false;
-        CheckForTargets();
-        Wait(); }
-      }
+    }
+  
   }
 
   //En attendant de trouver une target

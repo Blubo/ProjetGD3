@@ -218,8 +218,7 @@ public class BasicEnnemy : MonoBehaviour {
 				Bombe.transform.parent = null;
 			}
 		}
-    //Position de la target à viser 
-    Transform LandingPoint = Target;
+
     //Position du point entre les deux 
     Vector3 MidPoint = new Vector3((_targetposition.x + transform.position.x) / 2.0f, (_targetposition.y + transform.position.y) / 2.0f, (_targetposition.z + transform.position.z) / 2.0f);
     MidPoint += Vector3.up * 8.0f;
