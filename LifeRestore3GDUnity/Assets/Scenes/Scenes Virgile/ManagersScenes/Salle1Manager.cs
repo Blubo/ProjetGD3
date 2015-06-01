@@ -53,9 +53,9 @@ public class Salle1Manager : MonoBehaviour {
     _Zone.GetComponent<Renderer>().material.color = Color.green;
     //Attente courte pour montrer la couleur
     //Chargement du niveau suivant
-    async.allowSceneActivation = true;
+   // async.allowSceneActivation = true;
 		Application.LoadLevel(2);
-    yield return new WaitForSeconds(5.0f);
+    yield return new WaitForSeconds(2.0f);
    // _LevelManager.CheckForThings();
   }
 

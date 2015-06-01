@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public class TitleScreenTrigger0to4 : MonoBehaviour {
 
-	private int playerCount;
+  private int playerCount, whichRoomImIn;
 	private int whereWereThey;
 //	[SerializeField]
 //	private int targetIndex1, targetIndex2;
@@ -37,11 +37,14 @@ public class TitleScreenTrigger0to4 : MonoBehaviour {
 			playerCount+=1;
 			if(playerCount>=3){
 				for (int i = 0; i < PlayersInTrigger.Count; i++) {
-					if(PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().whichRoomImIn == 0){
+          if (whichRoomImIn == 0)
+          {
 						PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().TeleportPlayer(new Vector3(0,0,-3));
 						Camera.main.GetComponent<TitleScreenCameraManager>().currentWayPointNumber = 4;
 
-					}else if(PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().whichRoomImIn == 4){
+          }
+          else if (whichRoomImIn == 1)
+          {
 						PlayersInTrigger[i].GetComponent<TitleScreenPlayerPosition>().TeleportPlayer(new Vector3(0,0,3));
 						Camera.main.GetComponent<TitleScreenCameraManager>().currentWayPointNumber = 0;
 					}

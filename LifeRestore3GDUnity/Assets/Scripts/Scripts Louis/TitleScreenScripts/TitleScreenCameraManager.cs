@@ -5,6 +5,9 @@ using System.Collections;
 
 public class TitleScreenCameraManager : MonoBehaviour {
 
+  public bool Slides;
+  public GameObject Player;
+
 	public float v_cameraSpeedTranslate, specialCameraSpeedTranslate;
 	[SerializeField]
 	private Transform[] wayPoints;
@@ -28,6 +31,12 @@ public class TitleScreenCameraManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+    if (Slides)
+    {
+      Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, wayPoints[Player.GetComponent<TitleScreenPlayerPosition>().whichRoomImIn].position, Time.deltaTime * v_cameraSpeedTranslate * 0.9f);
+      return;
+    }
+
 		if(locked == false){
 //			if(lastWPnumber==0 && currentWayPointNumber != 1){
 			if(currentWayPointNumber != 1){
@@ -39,7 +48,7 @@ public class TitleScreenCameraManager : MonoBehaviour {
 			else{
 				Camera.main.transform.position = Vector3.Lerp (Camera.main.transform.position, wayPoints[currentWayPointNumber].position, Time.deltaTime);
 				Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, wayPoints[currentWayPointNumber].rotation, Time.time * specialRotationSpeed);
-				Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 30, Time.deltaTime*cameraFOVspeed);;
+				Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, 60, Time.deltaTime*cameraFOVspeed);;
 			}
 //			Camera.main.transform.rotation = Quaternion.LookRotation(wayPoints[currentWayPointNumber].forward);	
 

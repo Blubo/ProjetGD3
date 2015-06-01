@@ -11,6 +11,7 @@ public class TitleScreenRoomTriggers : MonoBehaviour {
 	private int TriggerCount;
 
 	private int playerCount;
+  public bool Slides;
 
 	// Use this for initialization
 	void Start () {
@@ -25,7 +26,7 @@ public class TitleScreenRoomTriggers : MonoBehaviour {
 	void OnTriggerStay(Collider col){
 		if(col.gameObject.tag.Equals("Player")){
 			col.GetComponent<TitleScreenPlayerPosition>().whichRoomImIn = TriggerCount;
-			if(TriggerCount == 1){
+			if(TriggerCount == 1 && Slides == false){
 				col.GetComponent<TitleScreenPlayerPosition>().ChangePlayerState(false);
 			}
 		}
