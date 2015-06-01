@@ -5,6 +5,9 @@ public class ActivatedMusicChange : MonoBehaviour {
 
 	[SerializeField]
 	private float paramFMODmusic;
+  [SerializeField]
+  private float paramFMODTypeMusic;
+
 	[SerializeField]
 	private int myStep;
 	private MusicManagerFMOD myMusicManager;
@@ -20,9 +23,10 @@ public class ActivatedMusicChange : MonoBehaviour {
 	}
 
 	void Activated(){
-		if(myStep>myMusicManager.step){
-			myMusicManager.step = myStep;
+    if(myStep>myMusicManager.step){
 			myMusicManager.ChangeParamMainMusic(paramFMODmusic);
+      myMusicManager.ChangeParamMusic(paramFMODTypeMusic);
+      myMusicManager.step = myStep;
 		}
 	}
 

@@ -22,7 +22,6 @@ public class ActivateTriggerSon : MonoBehaviour {
 		if(col.gameObject.tag.Equals("Player") == true){
 			for (int i = 0; i < activatedItem.Count; i++) {
 				activatedItem[i].SendMessage("Activated");
-
 			}
 		}
 	}
