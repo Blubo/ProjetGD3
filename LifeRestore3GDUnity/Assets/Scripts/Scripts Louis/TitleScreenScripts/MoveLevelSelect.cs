@@ -47,7 +47,6 @@ public class MoveLevelSelect : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
 		if(gameObject.transform.position != nodes[0]
 		   && gameObject.transform.position != nodes[8]
 		   && gameObject.transform.position != nodes[12]
@@ -59,7 +58,6 @@ public class MoveLevelSelect : MonoBehaviour {
 		}
 
 		if(playersInSight == false) inputsAllowed = false;
-
 
 		//si on permet de bouger (si on est sur cet partie de l'écran de début)
 		if(inputsAllowed == true){
@@ -74,7 +72,7 @@ public class MoveLevelSelect : MonoBehaviour {
 
 					gameObject.GetComponent<SmallCouloirMove>().CouloirMove(1);
 
-					Debug.Log("well?");
+//					Debug.Log("well?");
 					playersInSight = false;
 
 					trigger0to1.GetComponent<TitleScreenTrigger0to1>().playerCount = 0;
@@ -151,7 +149,6 @@ public class MoveLevelSelect : MonoBehaviour {
 				if(prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed){
 					Application.LoadLevel(3);
 				}
-
 			}
 		}
 

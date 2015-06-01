@@ -14,6 +14,9 @@ public class UnlockStartScreen : MonoBehaviour {
 	[SerializeField]
 	private GameObject[] players;
 
+	[SerializeField]
+	private GameObject pressStartImage;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -21,11 +24,10 @@ public class UnlockStartScreen : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 		if(locked == true){
 			if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed ) {
+				pressStartImage.SetActive(false);
 				locked = false;
-
 				UnlockScreen();
 			}
 		}
@@ -40,6 +42,5 @@ public class UnlockStartScreen : MonoBehaviour {
 		}
 
 		Camera.main.GetComponent<TitleScreenCameraManager>().locked = false;
-
 	}
 }

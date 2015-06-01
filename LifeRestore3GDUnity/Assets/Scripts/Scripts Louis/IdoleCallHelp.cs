@@ -50,21 +50,18 @@ public class IdoleCallHelp : MonoBehaviour {
 		}
 
 		if(enemiesInRange.Count != 0){
-      if (timer > timeBeforeCall)
-      {
-        Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole danger");
-        timer = 0.0f;
-      }
+			if (timer > timeBeforeCall){
+				Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Idole danger");
+				timer = 0.0f;
+			}
 			dangerPart.Play();
 			normalPart.Stop();
 			seulePart.Stop();
-
 		}else{
 			if(playersInRange.Count == 0){
 				dangerPart.Stop();
 				normalPart.Stop();
 				seulePart.Play();
-
 			}else{
 				dangerPart.Stop();
 				normalPart.Play();
