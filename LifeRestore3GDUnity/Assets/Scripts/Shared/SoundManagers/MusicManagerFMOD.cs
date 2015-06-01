@@ -33,10 +33,6 @@ public class MusicManagerFMOD : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    //Ingame
-
-    //NotIngame
-
     //ChangeParamMainMusic(beginParamMusic);
     //  if(playing == true && musicDemonstration.getPlaybackState()==PLAYBACK_STATE.STOPPED){
     //   musicDemonstration.Stop();

@@ -61,7 +61,11 @@ public class ReceptacleIdoleNormal : MonoBehaviour {
 				MadeMyJob();
 
 				for (int i = 0; i < activatedItem.Count; i++) {
-          activatedItem[i].BroadcastMessage("Activated");
+          if (activatedItem[i] != null)
+          {
+            activatedItem[i].BroadcastMessage("Activated");
+          }
+
 					if(activatedItem[i].GetComponent<MultipleActivation>()==null){
 						Camera.main.GetComponent<SoundManagerHeritTest>().PlaySoundOneShot("Interrupteur activer");
 					}
