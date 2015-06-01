@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using XInputDotNetPure;
 
-public class Salle6Manager_Load : MonoBehaviour
+public class Salle6ManagerLoad : MonoBehaviour
 {
   bool playerIndexSet = false;
   public PlayerIndex playerIndex;
@@ -38,12 +38,13 @@ public class Salle6Manager_Load : MonoBehaviour
     prevState = state;
     state = GamePad.GetState(playerIndex);
 
-    if ((CountPlayers == 3 && CountIdole == 1 && !_EndLaunched) || state.Buttons.Start == ButtonState.Pressed)
-    {
+		if (CountPlayers == 3 && CountIdole == 1 && !_EndLaunched){
+
+			//    if ((CountPlayers == 3 && CountIdole == 1 && !_EndLaunched) || state.Buttons.Start == ButtonState.Pressed){
       StartCoroutine("RoomFinished");
       _EndLaunched = true;
-    }
-  }
+		}
+	}
 
   public IEnumerator RoomFinished()
   {
