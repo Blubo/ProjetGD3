@@ -15,7 +15,10 @@ public class Salle4Manager_Load : MonoBehaviour
 	private bool _EndLaunched;
 	
 	public GameObject _Zone;
-	
+
+	private GameObject[] _Players;
+
+
 	void Start()
 	{
 		CountPlayers = 0;
@@ -23,6 +26,9 @@ public class Salle4Manager_Load : MonoBehaviour
 		
 		_EndLaunched = false;
 		// StartCoroutine("LoadAnotherLvl");
+		_Players = GameObject.FindGameObjectsWithTag("Player");
+
+
 	}
 	/*
   IEnumerator LoadAnotherLvl()
@@ -52,6 +58,14 @@ public class Salle4Manager_Load : MonoBehaviour
     //Changement de couleur de la zone 
     _Zone.GetComponent<Renderer>().material.color = Color.green;
     //Attente courte pour montrer la couleur
+		for (int i = 0; i < _Players.Length; i++)
+		{
+			if (_Players[i].transform.FindChild("PlumeAlpha"))
+			{
+				_Players[i].transform.FindChild("PlumeAlpha").gameObject.GetComponent<AlphaManager>().OnEndLevel();
+			}
+		}
+
     yield return new WaitForSeconds(0.5f);
     //Chargement du niveau suivant
    // async.allowSceneActivation = true;

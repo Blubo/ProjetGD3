@@ -72,7 +72,7 @@ public class Salle2Manager_Load : MonoBehaviour
         _Players[i].transform.FindChild("PlumeAlpha").gameObject.GetComponent<AlphaManager>().OnEndLevel();
       }
     }
-    yield return new WaitForSeconds(5.0f);
+    yield return new WaitForSeconds(0.5f);
     Application.LoadLevel(3);
     _LevelManager.CheckForThings();
   }
