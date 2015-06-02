@@ -4,24 +4,24 @@ using System.Collections.Generic;
 using XInputDotNetPure;
 
 public class PauseManager : MonoBehaviour {
-
+	
 	public GameObject continuer, recommencer, option, retourLevels, quitter;
 	private List<GameObject> cases;
 	private GameObject selected, unselected;
 	private int selectedNumber, unselectedNumber;
-
+	
 	private bool inputsAllowed;
-
+	
 	bool playerIndexSet = false;
 	public PlayerIndex playerIndex;
 	GamePadState state;
 	GamePadState prevState;
-
+	
 	private bool InPause;
-
+	
 	[SerializeField]
 	private GameObject pauseScreen;
-
+	
 	// Use this for initialization
 	void Start () {
 		inputsAllowed = false;
@@ -36,11 +36,11 @@ public class PauseManager : MonoBehaviour {
 		cases.Add(retourLevels);
 		cases.Add(quitter);
 	}
-
-
+	
+	
 	// Update is called once per frame
 	void Update () {
-    	prevState = state;
+		prevState = state;
 		state = GamePad.GetState(playerIndex);
 		//PAUSE SYSTEM
 		if(prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed && InPause == false){
@@ -49,13 +49,13 @@ public class PauseManager : MonoBehaviour {
 		if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed && InPause == true){
 			UnPause();
 		}
-
+		
 		//PAUSE INPUTS
 		selected = cases[selectedNumber];
 		unselected = cases[unselectedNumber];
-
-
-
+		
+		
+		
 		if(inputsAllowed == true){
 			if(prevState.ThumbSticks.Left.Y==0 && state.ThumbSticks.Left.Y>0){
 				if(selectedNumber==0){
@@ -92,30 +92,30 @@ public class PauseManager : MonoBehaviour {
 					unselectedNumber = 4;
 				}
 			}
-
+			
 			if(selected!=null && unselected != null){
 				//			OnOff(selected, unselected);
 				selected.SetActive(true);
 				unselected.SetActive(false);
 			}
-
+			
 			if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed){
 				//continuer
 				if(selectedNumber==0){
 					UnPause();
 					return;
 				}
-
-//				recommencer
+				
+				//				recommencer
 				if(selectedNumber==1){
 					UnPause();
 					Application.LoadLevel(Application.loadedLevelName);
 					return;
 				}
 				//option
-//				if(selectedNumber==2)Application.LoadLevel(1);
+				//				if(selectedNumber==2)Application.LoadLevel(1);
 				//ecran titre
-
+				
 				if(selectedNumber==3){
 					UnPause();
 					Application.LoadLevel(0);
@@ -130,28 +130,28 @@ public class PauseManager : MonoBehaviour {
 			}
 		}
 	}
-
+	
 	//PAUSE SYSTEM
 	void Pause(){
 		inputsAllowed = true;
-    	InPause = true;
+		InPause = true;
 		pauseScreen.SetActive(true);
 		Time.timeScale = 0.0f;
-
-//		Debug.Log("pause");
-//		Camera.main.GetComponent<MusicManagerFMOD>().PlayMyMusic();
+		
+		//		Debug.Log("pause");
+		//		Camera.main.GetComponent<MusicManagerFMOD>().PlayMyMusic();
 	}
-
+	
 	void UnPause(){
 		inputsAllowed = false;
 		InPause = false;
 		pauseScreen.SetActive(false);
 		Time.timeScale = 1.0f;
-
-//		Debug.Log("unpause");
-//		Camera.main.GetComponent<MusicManagerFMOD>().PlayMyMusic();
+		
+		//		Debug.Log("unpause");
+		//		Camera.main.GetComponent<MusicManagerFMOD>().PlayMyMusic();
 	}
-
+	
 	//PAUSE INPUTS
 	void OnOff(GameObject selectedItem, GameObject unselectedItem){
 		selectedItem.GetComponent<Pulsing>().enabled = true;
