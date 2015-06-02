@@ -7,6 +7,7 @@ public class TitleScreenCameraManager : MonoBehaviour {
 
   public bool Slides;
   public GameObject Player;
+  public Transform Pitch;
 
 	public float v_cameraSpeedTranslate, specialCameraSpeedTranslate;
 	[SerializeField]
@@ -33,8 +34,18 @@ public class TitleScreenCameraManager : MonoBehaviour {
 	void Update () {
     if (Slides)
     {
-      Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, wayPoints[Player.GetComponent<TitleScreenPlayerPosition>().whichRoomImIn].position, Time.deltaTime * v_cameraSpeedTranslate * 0.9f);
-      return;
+      if (locked == false) {
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, wayPoints[Player.GetComponent<TitleScreenPlayerPosition>().whichRoomImIn].position, Time.deltaTime * v_cameraSpeedTranslate * 0.9f);
+        Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, wayPoints[currentWayPointNumber].rotation, Time.time * rotationSpeed);
+        return;
+      }
+      else
+      {
+        Camera.main.transform.position = Pitch.transform.position;
+        Camera.main.transform.rotation = Pitch.transform.rotation;
+        return;
+      }
+
     }
 
 		if(locked == false){

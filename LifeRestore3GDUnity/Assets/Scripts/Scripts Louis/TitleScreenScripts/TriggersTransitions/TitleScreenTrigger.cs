@@ -35,6 +35,11 @@ public class TitleScreenTrigger : MonoBehaviour
       playerCount += 1;
       if (playerCount >= 3)
       {
+        if (ColliderIndex == 5)
+        {
+          Application.LoadLevel(1);
+        }
+
         for (int i = 0; i < PlayersInTrigger.Count; i++)
         {
           if (col.gameObject.GetComponent<TitleScreenPlayerPosition>().whichRoomImIn > ColliderIndex)
