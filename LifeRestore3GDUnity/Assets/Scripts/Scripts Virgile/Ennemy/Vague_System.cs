@@ -15,6 +15,8 @@ public class Vague_System : MonoBehaviour {
 
   public List<GameObject> _CloseThemAll, _OpenThem;
 
+  public GameObject _SoundBossComing, _SoundBossDeath;
+
   void Activated()
   {
     this.enabled = true;
@@ -80,6 +82,7 @@ public class Vague_System : MonoBehaviour {
 
       case 3:
 //        Debug.Log("456");
+        _SoundBossComing.SendMessage("Activated");
         Instantiate(_Prefab3, _BossPlacement.position, Quaternion.identity);
           _CurrentVague += 1;
         break;
@@ -88,6 +91,7 @@ public class Vague_System : MonoBehaviour {
 
   void EndSalle()
   {
+    _SoundBossDeath.SendMessage("Activated");
     for (int i = 0; i < _CloseThemAll.Count; i++)
     {
       _CloseThemAll[i].SendMessage("Deactivated");
