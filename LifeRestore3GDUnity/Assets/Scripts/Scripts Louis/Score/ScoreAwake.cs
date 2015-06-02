@@ -3,12 +3,12 @@ using System.Collections;
 
 public class ScoreAwake : MonoBehaviour {
 
-	public int scoreToSet;
+	public int scoreToSetGreen, scoreToSetRed, scoreToSetBlue;
 
 	void Awake(){
-		PlayerPrefs.SetInt("ScoreGreen", scoreToSet);
-		PlayerPrefs.SetInt("ScoreRed", scoreToSet);
-		PlayerPrefs.SetInt("ScoreBlue", scoreToSet);
+		PlayerPrefs.SetInt("ScoreGreen", scoreToSetGreen);
+		PlayerPrefs.SetInt("ScoreRed", scoreToSetRed);
+		PlayerPrefs.SetInt("ScoreBlue", scoreToSetBlue);
 
 	}
 

@@ -37,8 +37,9 @@ public class Salle5Manager_Load : MonoBehaviour
 	{
 		prevState = state;
 		state = GamePad.GetState(playerIndex);
-		
-		if ((CountPlayers == 3 && CountIdole == 1 && !_EndLaunched) || state.Buttons.Start == ButtonState.Pressed)
+		if (CountPlayers == 3 && CountIdole == 1 && !_EndLaunched)
+
+//		if ((CountPlayers == 3 && CountIdole == 1 && !_EndLaunched) || state.Buttons.Start == ButtonState.Pressed)
 		{
 			StartCoroutine("RoomFinished");
 			_EndLaunched = true;
