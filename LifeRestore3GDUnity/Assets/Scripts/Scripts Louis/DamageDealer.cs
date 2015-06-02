@@ -211,6 +211,11 @@ public class DamageDealer : MonoBehaviour {
 							col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
 							return;
 						}
+            if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyE_AI)
+            {
+              col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+              return;
+            }
 					}
 					//si je cogne un ennemi mort
 					else if(col.gameObject.tag.Equals("Ragdoll")){
@@ -251,6 +256,11 @@ public class DamageDealer : MonoBehaviour {
 									col.gameObject.GetComponent<BasicEnnemy>().Health -= 1;
 									return;
 								}
+                else if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyE_AI)
+                {
+                  col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+                  return;
+                }
 							}else if(col.gameObject.tag.Equals("Ragdoll")){
 								col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
 								return;
@@ -289,6 +299,11 @@ public class DamageDealer : MonoBehaviour {
 									return;
 									
 								}
+                if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyE_AI)
+                {
+                  col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+                  return;
+                }
 								//si un ennemi ko me cogne
 							}
 							else if(col.gameObject.tag.Equals("Ragdoll")){
@@ -360,6 +375,11 @@ public class DamageDealer : MonoBehaviour {
 							return;
 							
 						}
+            if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyE_AI)
+            {
+              col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+              return;
+            }
 					}		//si je cogne un ennemi mort
 					else if(col.gameObject.tag.Equals("Ragdoll")){
 						col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
@@ -404,6 +424,11 @@ public class DamageDealer : MonoBehaviour {
 									return;
 									
 								}
+                if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyE_AI)
+                {
+                  col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+                  return;
+                }
 							}		//si je cogne un ennemi mort
 							else if(col.gameObject.tag.Equals("Ragdoll")){
 								col.gameObject.GetComponent<ObjectStats>().TakeDamage(1);
@@ -490,8 +515,12 @@ public class DamageDealer : MonoBehaviour {
 						if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyD_AI){
 							col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
 							return;
-							
-						}
+
+            } if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyE_AI)
+            {
+              col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+              return;
+            }
 						//si je touche un ennemiKO
 					}
 //					else if(col.gameObject.tag.Equals("Ragdoll")){
@@ -523,6 +552,11 @@ public class DamageDealer : MonoBehaviour {
 								return;
 								
 							}
+              if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyE_AI)
+              {
+                col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+                return;
+              }
 							return;
 							//si je touche un ennemiKO
 						}else if(col.gameObject.tag.Equals("Ragdoll")){
@@ -709,7 +743,13 @@ public class DamageDealer : MonoBehaviour {
 					col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
 					return;
 					
+
 				}
+        if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyE_AI)
+        {
+          col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+          return;
+        }
 				return;
 				//si je touche un ragdoll
 			}else if(col.gameObject.tag.Equals("Ragdoll")){
@@ -745,6 +785,11 @@ public class DamageDealer : MonoBehaviour {
 									return;
 									
 								}
+                if (col.gameObject.GetComponent<BasicEnnemy>() is EnnemyE_AI)
+                {
+                  col.gameObject.GetComponent<BasicEnnemy>().TakeDamage(damageEnnemy);
+                  return;
+                }
 								//si un ennemi ko me cogne
 							}
 							else if(col.gameObject.tag.Equals("Ragdoll")){

@@ -37,7 +37,7 @@ public class EnnemyD_AI : BasicEnnemy
     }
     else
     {
-      _Anim.Play("Animation Idle Crocmagnon");
+     // _Anim.Play("Animation Idle Crocmagnon");
     }
 
     if (!Furie)
@@ -72,11 +72,11 @@ public class EnnemyD_AI : BasicEnnemy
         ReloadBomb();
         if (Furie)
         {
-          StartCoroutine("WaitForThoseSecs", 6.0f);
+          StartCoroutine("WaitForThoseSecs", 5.0f);
         }
         else
         {
-          StartCoroutine("WaitForThoseSecs", 3.0f);
+          StartCoroutine("WaitForThoseSecs", 2.0f);
         }
     }
 
@@ -93,13 +93,14 @@ public class EnnemyD_AI : BasicEnnemy
           }
 
           //Beware Below
-          if (_Bombe != null && _FinishCoroutine == true && !IsRunning)
+          if (_Bombe != null && _FinishCoroutine == true)
           {
             StartCoroutine("AttackInge", _Bombe);
-            _Anim.Play("Animation Lancer Ingé");
+           
 
             if (!_SoundTir)
             {
+              _Anim.Play("Animation Lancer Ingé");
               _Sound.PlaySoundOneShot("Ennemi ingenieur tir");
               _SoundTir = true;
             }
