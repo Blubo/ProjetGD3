@@ -91,8 +91,8 @@ public class MenuEnd : MonoBehaviour {
 
 			if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed){
 //				if(selectedNumber==0)Application.LoadLevel(0);
-				if(selectedNumber==1)Application.LoadLevel(0);
-				if(selectedNumber==2)Application.LoadLevel(1);
+				if(selectedNumber==1)Application.LoadLevel(1);
+				if(selectedNumber==2)Application.LoadLevel(2);
 			}
 		}
 	}

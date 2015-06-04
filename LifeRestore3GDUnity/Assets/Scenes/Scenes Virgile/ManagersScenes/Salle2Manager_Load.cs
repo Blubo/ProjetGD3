@@ -73,7 +73,7 @@ public class Salle2Manager_Load : MonoBehaviour
       }
     }
     yield return new WaitForSeconds(0.5f);
-    Application.LoadLevel(3);
+    Application.LoadLevel(4);
     _LevelManager.CheckForThings();
   }
 

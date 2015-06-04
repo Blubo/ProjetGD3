@@ -110,7 +110,7 @@ public class MoveLevelSelect : MonoBehaviour {
 				}
 
 				if(prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed){
-					Application.LoadLevel(1);
+					Application.LoadLevel(2);
 				}
 
 			}else
@@ -129,7 +129,7 @@ public class MoveLevelSelect : MonoBehaviour {
 				}
 
 				if(prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed){
-					Application.LoadLevel(2);
+					Application.LoadLevel(9);
 				}
 
 			}else
@@ -147,7 +147,7 @@ public class MoveLevelSelect : MonoBehaviour {
 				}
 
 				if(prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed){
-					Application.LoadLevel(3);
+					Application.LoadLevel(9);
 				}
 			}
 		}

@@ -70,7 +70,7 @@ public class Salle3Manager_Load : MonoBehaviour
     //Chargement du niveau suivant
     //async.allowSceneActivation = true;
 
-		Application.LoadLevel(4);
+		Application.LoadLevel(5);
   }
 
   // On regarde les allers retours des objets dans la zone d'arrivée

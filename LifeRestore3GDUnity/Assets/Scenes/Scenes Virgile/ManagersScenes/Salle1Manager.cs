@@ -56,7 +56,7 @@ public class Salle1Manager : MonoBehaviour {
     //Attente courte pour montrer la couleur
     //Chargement du niveau suivant
    // async.allowSceneActivation = true;
-		Application.LoadLevel(2);
+		Application.LoadLevel(3);
     yield return new WaitForSeconds(2.0f);
    // _LevelManager.CheckForThings();
   }

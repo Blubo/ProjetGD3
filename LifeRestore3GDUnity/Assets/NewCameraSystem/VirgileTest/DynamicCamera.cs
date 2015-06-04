@@ -44,7 +44,7 @@ public class DynamicCamera : MonoBehaviour {
       _NeedReposition = true;
       transform.position = Vector3.Lerp(transform.position, _High.position, 2.0f * Time.deltaTime);
     }
-    //else { _NeedReposition = false; }
+    else { _NeedReposition = false; }
   }
 
   void CameraPosition()
